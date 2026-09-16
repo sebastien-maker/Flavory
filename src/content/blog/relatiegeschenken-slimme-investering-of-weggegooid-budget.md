@@ -48,7 +48,7 @@ Er zijn bedrijven die bewust kiezen voor kwaliteitswijn als relatiegeschenk, nie
 
 Een concreet voorbeeld? **[De Wijnmuze](https://www.wijnmuze.be/)** van Geert De Baere uit West-Vlaanderen. Geert verdeelt Zuid-Afrikaanse pareltjes – dat kan ik je verzekeren. Ook voor hem is dit een belangrijk kwartaal, want een goede wijn doet wat een goed relatiegeschenk moet doen: indruk maken én blijven hangen.
 
-Uit zijn selectie kozen wij de wijnen van **Muratie** voor onze **[Premium Wijnspelboxen](/shop/merlot-of-cabernet-sauvignon-premium/)**. Muratie is een historisch domein uit Stellenbosch. Op de achterkant van de fles staat geen droge productinfo, maar een verhaal. Een soort sprookje, gesitueerd in de 18de eeuw, waarin vader Marin en dochter Anne-Marie het domein oprichten. Een plek zo mooi dat de wijn haast vanzelf heerlijk moest worden.
+Uit zijn selectie kozen wij de wijnen van **Muratie** voor onze **Premium Wijnspelboxen**. Muratie is een historisch domein uit Stellenbosch. Op de achterkant van de fles staat geen droge productinfo, maar een verhaal. Een soort sprookje, gesitueerd in de 18de eeuw, waarin vader Marin en dochter Anne-Marie het domein oprichten. Een plek zo mooi dat de wijn haast vanzelf heerlijk moest worden.
 
 Ik weet het: het is en blijft marketing. Maar wel goeie. _Storytelling op etiketniveau._ En dat maakt het verschil. Wij geloven in de kracht van het verhaal. En in het moment.
 

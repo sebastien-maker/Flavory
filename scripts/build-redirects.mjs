@@ -12,7 +12,9 @@ const RED = '/shop/wijnproeverij-thuis-rood/';
 const WHITE = '/shop/wijnproeverij-thuis-wit/';
 const WHITE_WINE = '/shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/';
 const IT_ES = '/shop/italie-of-spanje/';
-const BUBBLES = '/shop/bubbelbox/';
+// The bubbles box is out of the range (draft); its URLs go to the shop until it returns.
+// Netlify only applies these non-forced rules when no page exists, so re-enabling the product needs no change here.
+const BUBBLES = '/shop/';
 
 // [from, to]. Order matters only for readability; Netlify uses the first match.
 const RULES = [
@@ -73,6 +75,8 @@ const RULES = [
   ['/shop/chardonnay-of-sauvignon-blanc-premium/', WHITE_WINE],
   ['/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-premium-editie/', WHITE_WINE],
   ['/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-proef-jij-het-verschil/', WHITE_WINE],
+  ['/shop/bubbelbox/', BUBBLES],
+  ['/shop/bubbels/', BUBBLES],
   ['/shop/cava-prosecco-box/', BUBBLES],
   ['/shop/bubbelspel-cava-vs-prosecco-proef-jij-het-verschil/', BUBBLES],
   ['/shop/rose-wijn-box/', '/shop/'],
@@ -90,7 +94,7 @@ const RULES = [
   // Categories and tags
   ['/shop/productcategorie/rode-wijn/', '/shop/rode-wijn/'],
   ['/shop/productcategorie/witte-wijn/', '/shop/witte-wijn/'],
-  ['/shop/productcategorie/bubbels/', '/shop/bubbels/'],
+  ['/shop/productcategorie/bubbels/', BUBBLES],
   ['/shop/productcategorie/bundels/', '/shop/'],
   ['/shop/productcategorie/geen-categorie/', '/shop/'],
   ['/shop/producttag/box/', '/shop/'],
@@ -164,7 +168,7 @@ const RULES = [
   ].map((s) => [`/de/shop/merlot-oder-cabernet-sauvignon${s}/`, RED]),
   ['/de/shop/productcategorie/rotwein/', '/shop/rode-wijn/'],
   ['/de/shop/productcategorie/weiswein/', '/shop/witte-wijn/'],
-  ['/de/shop/productcategorie/schaumwein/', '/shop/bubbels/'],
+  ['/de/shop/productcategorie/schaumwein/', BUBBLES],
   ['/de/shop/productcategorie/geen-categorie/', '/shop/'],
   ['/de/shop/producttag/box-de/', '/shop/'],
   ['/de/*', HOME],

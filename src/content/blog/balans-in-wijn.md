@@ -35,6 +35,6 @@ Jawel, zelfs goedkope wijn kan in balans zijn. Neem Jacob’s Creek, die spotgoe
 
 Wat goedkope wijn vaak mist, is gelaagdheid. Diepgang. Dat moment waarop je ruikt aan een glas en denkt: huh, paprika? Witte perzik? Versgemaaid gras op een regenachtige dag? (voor de gevorderden). Dat is waar balans overgaat in diepgang. En dat is kunst. De kunst van het wijnproeven. Maar dat is voor een volgende blog.
 
-Wat wij met [Flavory](/) doen, is mensen die balans en diepgang laten ontdekken. In een blindproef. Neem een [merlot en een cabernet sauvignon](/shop/merlot-of-cabernet-sauvignon/), van hetzelfde domein. Zet ze naast elkaar. Kijk. Ruik. Proef. Ervaar hoe de ene wijn licht en transparant is, en de andere donker en krachtig. Totaal verschillend, maar beiden balans.
+Wat wij met [Flavory](/) doen, is mensen die balans en diepgang laten ontdekken. In een blindproef. Neem een [merlot en een cabernet sauvignon](/shop/wijnproeverij-thuis-rood/), van hetzelfde domein. Zet ze naast elkaar. Kijk. Ruik. Proef. Ervaar hoe de ene wijn licht en transparant is, en de andere donker en krachtig. Totaal verschillend, maar beiden balans.
 
 En nu ga ik mijn mails beantwoorden. En de vaatwas uitladen.

@@ -41,6 +41,27 @@ if (mode === 'content') {
 } else {
   const BUDGET_HTML = 60 * 1024;
   const files = await walk('dist', ['.html']);
+  const redirectSources = new Set(
+    (await readFile('public/_redirects', 'utf8'))
+      .split('\n')
+      .filter((l) => l.startsWith('/') && !l.includes('=') && !l.includes('*'))
+      .map((l) => l.split(/\s+/)[0]),
+  );
+  const exists = (p) =>
+    stat(p)
+      .then(() => true)
+      .catch(() => false);
+  const checked = new Map();
+  const linkTargetExists = async (href) => {
+    if (!checked.has(href)) {
+      const path = decodeURIComponent(href);
+      checked.set(
+        href,
+        path.endsWith('/') ? await exists(join('dist', path, 'index.html')) : await exists(join('dist', path)),
+      );
+    }
+    return checked.get(href);
+  };
   const titles = new Map();
   for (const file of files) {
     const rel =
@@ -77,6 +98,11 @@ if (mode === 'content') {
     for (const img of html.match(/<img\b[^>]*>/g) ?? []) {
       if (!/\balt=/.test(img)) warn(rel, `img without alt: ${img.slice(0, 80)}`);
       if (!/\bwidth=/.test(img) || !/\bheight=/.test(img)) warn(rel, `img without width/height: ${img.slice(0, 80)}`);
+    }
+    // Internal links must point straight at a built page or file, never through a redirect (rule 6).
+    for (const [, href] of html.matchAll(/<a\b[^>]*\bhref="(\/[^"#?]*)/g)) {
+      if (redirectSources.has(href)) warn(rel, `internal link via redirect: ${href}`);
+      else if (!(await linkTargetExists(href))) warn(rel, `broken internal link: ${href}`);
     }
     for (const json of html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g) ?? []) {
       try {

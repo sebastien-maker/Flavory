@@ -19,7 +19,7 @@ Niks tegen sokken, boeken of cadeaubonnen, maar die heb je vorig jaar ook al geg
 
 ## Je leert alles over de fascinerende wereld van de wijn
 
-Van dit cadeau leer je ook echt iets. Wijnproeven, hoe doe je dat eigenlijk? Welke geuren kan je ruiken? Welke wijn drink je zelf het liefste? Wat is het verschil tussen een glas [merlot](https://nl.wikipedia.org/wiki/Merlot) en een glas [cabernet sauvignon](https://nl.wikipedia.org/wiki/Cabernet_Sauvignon)? Wedden dat je na het spelen mango kan ruiken in je glas chardonnay? En dat je nooit meer ‘cava’ tegen ‘prosecco’ zegt? Educatie én plezier maken dit tot het leukste kerstcadeau van het jaar.
+Van dit cadeau leer je ook echt iets. Wijnproeven, hoe doe je dat eigenlijk? Welke geuren kan je ruiken? Welke wijn drink je zelf het liefste? Wat is het verschil tussen een glas [merlot](https://nl.wikipedia.org/wiki/Merlot) en een glas [cabernet sauvignon](https://nl.wikipedia.org/wiki/Cabernet_Sauvignon)? Wedden dat je na het spelen mango kan ruiken in je glas chardonnay? Educatie én plezier maken dit tot het leukste kerstcadeau van het jaar.
 
 ## Een garantie op een gezellige avond
 
@@ -34,6 +34,6 @@ Je moet leuke quizvragen beantwoorden (hoeveel druiven zitten er in een glas wij
 Spelen is leuk, maar winnen is nog veel leuker. Je hoeft niet de grootste kenner te zijn om uitgeroepen te worden tot wijnkenner van de avond. Met een goed ontwikkeld reukorgaan, frisse smaakpapillen en een beetje geluk kom je al een heel eind. En als je wint, waar ga je jouw diploma dan laten pronken?
 
   
-Benieuwd welk wijngeschenk het beste past bij jouw gelegenheid? Bij Flavory hebben we voor ieder wat wils: van de populaire [rode wijn box](/shop/rode-wijn-box/) tot de frisse [witte wijn box](/shop/witte-wijn-box/), de zomerse [rosé wijn box](/shop/rose-wijn-box/) of de feestelijke [cava & prosecco box](/shop/cava-prosecco-box/). Elke box bevat niet alleen twee topwijnen, maar ook een uniek wijnspel dat zorgt voor een gezellige én leerrijke avond. Ideaal als cadeau, of om zelf van te genieten.
+Benieuwd welk wijngeschenk het beste past bij jouw gelegenheid? Bij Flavory kies je tussen een [rode wijnbox](/shop/rode-wijn/) en een [witte wijnbox](/shop/witte-wijn/), met of zonder wijn. Elke box bevat een uniek wijnspel dat zorgt voor een gezellige én leerrijke avond. Ideaal als cadeau, of om zelf van te genieten.
 
 ![Flavory wijnspel het leukste kerstcadeau](../../assets/images/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/image-2025-10-16t145557.571.webp)

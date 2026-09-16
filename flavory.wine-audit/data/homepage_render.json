@@ -1,0 +1,61 @@
+{
+  "url": "https://flavory.wine/",
+  "status_code": 200,
+  "content": "<!doctype html>\n<html lang=\"nl-NL\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https://gmpg.org/xfn/11\">\n\t<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />\n\n\t<!-- This site is optimized with the Yoast SEO plugin v28.4 - https://yoast.com/product/yoast-seo-wordpress/ -->\n\t<title>Home - Flavory</title>\n\t<meta name=\"description\" content=\"Een wijn box die s...",
+  "raw_content": "<!doctype html>\n<html lang=\"nl-NL\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https://gmpg.org/xfn/11\">\n\t<meta nam...",
+  "is_spa": false,
+  "extracted_text": "Natuurwijn kopen roept vragen op. Troebel, zuur, of verrassend goed? Bart duikt in de wereld van wijn zonder trucjes, en ontdekt onderweg een verrassend veganistisch geheim.\nWaarom chocolade-eieren geven als je ook een fles kunt meebrengen uit een land waar Pasen het allerbelangrijkste feest is? Een wijn cadeau met Pasen dat \u00e9cht indruk maakt.\nSta je in de supermarkt en twijfel je welke fles je moet meenemen? Met ons handige foodpairing spiekbriefje weet je voortaan precies welke wijn bij welk g...",
+  "publication_date": "2026-02-19",
+  "accessibility_tree": null,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Wed, 16 Sep 2026 05:43:42 GMT",
+    "Content-Type": "text/html; charset=UTF-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "Link": "<https://flavory.wine/wp-json/>; rel=\"https://api.w.org/\", <https://flavory.wine/wp-json/wp/v2/pages/15766>; rel=\"alternate\"; title=\"JSON\"; type=\"application/json\"",
+    "Set-Cookie": "wp_woocommerce_session_c859264a4c3bfa63a98a98a7ec75826f=t_9feda73f6ef7f28397265564aaf570%7C1789710218%7C1789623818%7C3839c2976bf693399ec374cc621ae087; expires=Fri, 18 Sep 2026 05:43:38 GMT; Max-Age=172799; path=/; secure; HttpOnly, __cvg_1p_uid=f5b7afee33f5fe3761b266a60ea7bf43; expires=Wed, 20 Oct 2027 05:43:39 GMT; Max-Age=34473600; path=/",
+    "Cache-Control": "max-age=0",
+    "Expires": "Wed, 16 Sep 2026 05:43:38 GMT",
+    "Vary": "Accept-Encoding",
+    "Content-Encoding": "gzip"
+  },
+  "redirect_chain": [
+    {
+      "url": "https://www.flavory.wine/",
+      "status_code": 301
+    }
+  ],
+  "console_errors": [],
+  "render_diagnostics": [],
+  "render_engine": null,
+  "render_ms": null,
+  "mode_used": "raw",
+  "error": null,
+  "structured_data": {
+    "block_count": 1,
+    "processed_count": 1,
+    "total_bytes": 2408,
+    "truncated": false,
+    "blocks": [
+      {
+        "index": 1,
+        "size_bytes": 2408,
+        "valid": true,
+        "types": [
+          "BreadcrumbList",
+          "EntryPoint",
+          "ImageObject",
+          "ListItem",
+          "Organization",
+          "PropertyValueSpecification",
+          "ReadAction",
+          "SearchAction",
+          "WebPage",
+          "WebSite"
+        ],
+        "types_truncated": false
+      }
+    ]
+  }
+}

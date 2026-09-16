@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page {
+    size: A4;
+    margin: 22mm 18mm 25mm 18mm;
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 9pt;
+      color: #6b7280;
+      font-family: 'DejaVu Serif', 'Times New Roman', Georgia, serif;
+    }
+    @bottom-left {
+      content: "Confidential";
+      font-size: 7pt;
+      color: #d6d3cc;
+      font-family: 'DejaVu Serif', 'Times New Roman', Georgia, serif;
+    }
+    @bottom-right {
+      content: "flavory.wine Google SEO Report";
+      font-size: 8pt;
+      color: #cbd5e1;
+      font-family: 'DejaVu Serif', 'Times New Roman', Georgia, serif;
+    }
+  }
+
+  @page :first {
+    margin: 0;
+    @bottom-left { content: none; }
+    @bottom-center { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  @page toc {
+    @bottom-center {
+      content: counter(page);
+      font-size: 9pt;
+      color: #6b7280;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Times New Roman', 'DejaVu Serif', Georgia, serif;
+    font-size: 10pt;
+    line-height: 1.55;
+    color: #1e293b;
+    background: white;
+  }
+
+  /* ─── Title Page (Clean White) ─── */
+  .title-page {
+    page: first;
+    width: 210mm;
+    height: 297mm;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #1a1a2e;
+    position: relative;
+    padding: 50mm 30mm 40mm 30mm;
+    border-top: 6mm solid #1e3a5f;
+  }
+
+  .title-page .badge {
+    background: #f7f6f3;
+    border: 1px solid #d6d3cc;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 9pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 15mm;
+    color: #1e3a5f;
+  }
+
+  .title-page h1 {
+    font-size: 28pt;
+    font-weight: bold;
+    margin-bottom: 5mm;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: #1a1a2e;
+  }
+
+  .title-page .subtitle {
+    font-size: 13pt;
+    color: #6b7280;
+    margin-bottom: 12mm;
+    font-weight: 300;
+  }
+
+  .title-page .url {
+    font-size: 12pt;
+    color: #1e3a5f;
+    margin-bottom: 15mm;
+    padding: 4mm 8mm;
+    border: 1px solid #d6d3cc;
+    border-radius: 6px;
+    background: #faf9f7;
+  }
+
+  .title-page .score-box {
+    background: #faf9f7;
+    border: 2px solid #d6d3cc;
+    border-radius: 12px;
+    padding: 6mm 12mm;
+    margin-bottom: 15mm;
+  }
+
+  .title-page .score-number {
+    font-size: 42pt;
+    font-weight: bold;
+    color: #1e3a5f;
+    line-height: 1;
+  }
+
+  .title-page .score-label {
+    font-size: 10pt;
+    color: #6b7280;
+    margin-top: 2mm;
+  }
+
+  .title-page .meta {
+    font-size: 9pt;
+    color: #6b7280;
+    margin-top: 8mm;
+    padding-top: 5mm;
+    border-top: 1px solid #d6d3cc;
+  }
+
+  .title-page .meta span {
+    margin: 0 8px;
+  }
+
+  /* ─── Table of Contents ─── */
+  .toc-page {
+    page: toc;
+    page-break-before: always;
+  }
+
+  .toc-page h2 {
+    font-size: 18pt;
+    color: #1e3a5f;
+    margin-bottom: 8mm;
+    padding-bottom: 3mm;
+    border-bottom: 2px solid #1e3a5f;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .toc-list li {
+    padding: 2mm 0;
+    border-bottom: 1px solid #f1f5f9;
+    overflow: hidden;
+  }
+
+  .toc-list li.toc-section {
+    font-weight: bold;
+    font-size: 11pt;
+    padding-top: 4mm;
+    color: #0f172a;
+  }
+
+  .toc-list li.toc-sub {
+    padding-left: 8mm;
+    font-size: 9.5pt;
+    color: #475569;
+  }
+
+  .toc-score {
+    display: inline-block;
+    float: right;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 9pt;
+    font-weight: bold;
+    color: white;
+  }
+
+  .score-good { background: #2d6a4f; }
+  .score-warn { background: #d4740e; }
+  .score-bad { background: #c53030; }
+
+  /* ─── Section Styles ─── */
+  div.section {
+    page-break-before: always;
+  }
+
+  .section-header {
+    background: #faf9f7;
+    border-left: 4px solid #1e3a5f;
+    padding: 5mm 6mm;
+    margin-bottom: 6mm;
+    page-break-after: avoid;
+  }
+
+  .section-header h2 {
+    font-size: 16pt;
+    color: #0f172a;
+    margin-bottom: 1mm;
+  }
+
+  .section-header .section-score {
+    font-size: 12pt;
+    font-weight: bold;
+    float: right;
+    margin-top: -6mm;
+  }
+
+  h3 {
+    font-size: 12pt;
+    color: #1e3a5f;
+    margin-top: 6mm;
+    margin-bottom: 3mm;
+    padding-bottom: 1.5mm;
+    border-bottom: 1px solid #d6d3cc;
+    page-break-after: avoid;
+  }
+
+  h4 {
+    font-size: 10.5pt;
+    color: #334155;
+    margin-top: 4mm;
+    margin-bottom: 2mm;
+    page-break-after: avoid;
+  }
+
+  p {
+    margin-bottom: 3mm;
+    color: #334155;
+  }
+
+  .highlight {
+    background: #fef3c7;
+    border-left: 3px solid #d4740e;
+    padding: 3mm 4mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .critical-box {
+    background: #fef2f2;
+    border-left: 3px solid #c53030;
+    padding: 3mm 4mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .success-box {
+    background: #f0fdf4;
+    border-left: 3px solid #2d6a4f;
+    padding: 3mm 4mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  /* ─── Tables ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4mm 0 6mm 0;
+    font-size: 9pt;
+  }
+
+  thead th {
+    background: #f7f6f3;
+    color: #0f172a;
+    font-weight: bold;
+    padding: 3mm 4mm;
+    text-align: left;
+    border-bottom: 2px solid #d6d3cc;
+    font-size: 9pt;
+  }
+
+  tbody td {
+    padding: 2.5mm 3mm;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #fdfcfa;
+  }
+
+  .status-pass {
+    color: #2d6a4f;
+    font-weight: bold;
+  }
+
+  .status-fail {
+    color: #c53030;
+    font-weight: bold;
+  }
+
+  .status-warn {
+    color: #d4740e;
+    font-weight: bold;
+  }
+
+  .status-partial {
+    color: #4a5568;
+    font-weight: bold;
+  }
+
+  /* ─── Charts ─── */
+  .chart-container {
+    text-align: center;
+    margin: 4mm 0;
+  }
+
+  .chart-container img {
+    max-width: 100%;
+    max-height: 120mm;
+    height: auto;
+  }
+
+  .chart-caption {
+    font-size: 8.5pt;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 2mm;
+    text-align: center;
+  }
+
+  .chart-half {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+    text-align: center;
+    margin: 2mm 0;
+  }
+
+  .chart-half img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* ─── Two column layout ─── */
+  .two-col {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin: 3mm 0;
+  }
+
+  .two-col .col {
+    display: table-cell;
+    vertical-align: top;
+    padding: 0 2mm;
+  }
+
+  .four-col {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin: 3mm 0;
+  }
+
+  .four-col .col {
+    display: table-cell;
+    vertical-align: top;
+    padding: 0 1.5mm;
+  }
+
+  /* ─── Metric Cards ─── */
+  .metric-card {
+    background: #faf9f7;
+    border: 1px solid #d6d3cc;
+    border-radius: 6px;
+    padding: 2.5mm 3mm;
+    text-align: center;
+    margin: 2mm 0;
+  }
+
+  .metric-card .value {
+    font-size: 14pt;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .metric-card .label {
+    font-size: 7.5pt;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1mm;
+  }
+
+  /* ─── Action Plan ─── */
+  .action-item {
+    background: #faf9f7;
+    border-radius: 4px;
+    padding: 3mm 4mm;
+    margin: 3mm 0;
+    border-left: 3px solid #cbd5e1;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .action-item.critical {
+    border-left-color: #c53030;
+    background: #fdf2f2;
+  }
+
+  .action-item.high {
+    border-left-color: #d4740e;
+    background: #fdf8ef;
+  }
+
+  .action-item.medium {
+    border-left-color: #1e3a5f;
+    background: #f0f4f8;
+  }
+
+  .action-item.low {
+    border-left-color: #94a3b8;
+  }
+
+  .action-item h4 {
+    margin-top: 0;
+    margin-bottom: 1.5mm;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .action-item .effort {
+    font-size: 8.5pt;
+    color: #64748b;
+    float: right;
+  }
+
+  .priority-tag {
+    display: inline-block;
+    padding: 0.5mm 3mm;
+    border-radius: 3px;
+    font-size: 8pt;
+    font-weight: bold;
+    color: white;
+    margin-right: 2mm;
+    vertical-align: middle;
+  }
+
+  .priority-critical { background: #c53030; }
+  .priority-high { background: #d4740e; }
+  .priority-medium { background: #1e3a5f; }
+  .priority-low { background: #94a3b8; }
+
+  /* ─── Code blocks ─── */
+  .code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 3mm 4mm;
+    border-radius: 4px;
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8pt;
+    line-height: 1.6;
+    margin: 3mm 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  /* ─── Divider ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid #d6d3cc;
+    margin: 5mm 0;
+  }
+
+  /* ─── Roadmap ─── */
+  .roadmap-phase {
+    background: #faf9f7;
+    border-radius: 6px;
+    padding: 4mm 5mm;
+    margin: 4mm 0;
+    border: 1px solid #d6d3cc;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .roadmap-phase h4 {
+    margin-top: 0;
+    border-bottom: none;
+    color: #1e3a5f;
+  }
+
+  .roadmap-phase ul {
+    margin: 2mm 0 0 5mm;
+    padding: 0;
+  }
+
+  .roadmap-phase li {
+    margin-bottom: 1.5mm;
+    font-size: 9.5pt;
+    color: #334155;
+  }
+
+  /* ─── Lists ─── */
+  ul {
+    margin-left: 5mm;
+    margin-bottom: 3mm;
+  }
+
+  li {
+    margin-bottom: 1.5mm;
+  }
+
+  /* ─── Data freshness ─── */
+  .data-freshness {
+    font-size: 8pt;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 4mm;
+    padding-top: 2mm;
+    border-top: 1px solid #d6d3cc;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ======================================================= TITLE PAGE === -->
+<div class="title-page">
+  <div class="badge">Full SEO Audit Report</div>
+  <h1>flavory.wine</h1>
+  <div class="subtitle">Prepared by Claude SEO</div>
+  <div class="score-box">
+    <div class="score-number">37<span style="font-size: 20pt; color: #94a3b8;">/100</span></div>
+    <div class="score-label">SEO Health Score</div>
+  </div>
+  <div class="meta">
+    <span>September 16, 2026</span>
+    <span>Full Audit</span>
+  </div>
+</div>
+
+
+<!-- ======================================================= TABLE OF CONTENTS === -->
+<div class="toc-page">
+  <h2>Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-section"><span>1. Executive Summary</span></li>
+    <li class="toc-sub"><span>Key Metrics, Critical Issues &amp; Quick Wins</span></li>
+    <li class="toc-section"><span>2. Audit Categories</span></li>
+    <li class="toc-sub"><span>What Works</span></li>
+    <li class="toc-sub"><span>Findings by Severity</span></li>
+    <li class="toc-section"><span>3. Action Plan</span></li>
+    <li class="toc-sub"><span>Phased Roadmap</span></li>
+    <li class="toc-section"><span>4. Data Sources &amp; Methodology</span></li>
+  </ul>
+</div>
+
+
+<!-- ======================================================= 1. EXECUTIVE SUMMARY === -->
+<div class="section">
+  <div class="section-header">
+    <h2>1. Executive Summary</h2>
+  </div>
+
+  <p>This report presents a comprehensive SEO audit of <strong>flavory.wine</strong> for a <strong>D2C e-commerce (WooCommerce): wine tasting game boxes, B2B gifts, on-location tastings; nl-NL primary with partial /de/ section</strong> site, generated on September 16, 2026. Findings combine technical, content, schema, performance, visual, and search-readiness evidence as available.</p>
+
+  <div class="two-col">
+    <div class="col">
+      <div class="metric-card">
+        <div class="value" style="color: #c53030;">37/100</div>
+        <div class="label">SEO Health Score</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="critical-box">
+    <strong>Critical Issues Found:</strong>
+    <ol>
+      <li><strong>Info:</strong> Server response time of 3 to 7 seconds on every page; lab LCP 5.0 s on the mobile homepage. Cache-Control max-age=0 plus WooCommerce session and __cvg_1p_uid cookies on anonymous requests defeat page caching.</li>
+      <li><strong>Info:</strong> No Product, Offer, AggregateRating or Review schema on any product page, so Merchant listings and star ratings are unreachable despite a 4.5-star Trustpilot rating shown on page.</li>
+      <li><strong>Info:</strong> Every unknown URL 301-redirects to the homepage; 26 legacy product URLs linked 287 times from 114 pages and the privacy policy URL all land on the homepage.</li>
+      <li><strong>Info:</strong> No hreflang on 208 pages; /de/, /en/ and /nl redirect to the Dutch homepage; 60 of 96 German URLs resolve to Dutch pages; /en/shop/ declares en-US but serves Dutch.</li>
+      <li><strong>Info:</strong> Index bloat: 9 homepage test clones, 14 German -kopie product clones, 7 kerstcadeau landing variants, duplicated posts, 22 thin ?reviews=/?store= pages; 46 of 120 sitemap URLs are junk and the author sitemap has an invalid &lt;loc&gt;#&lt;/loc&gt;.</li>
+    </ol>
+  </div>
+
+  <div class="success-box">
+    <strong>Quick Wins:</strong>
+    <ol>
+      <li>Enable full-page caching with the WooCommerce session cookie excluded from the cache key outside cart/checkout; fix Cache-Control and Expires headers.</li>
+      <li>Switch on WooCommerce/Yoast Product structured data and add AggregateRating from Trustpilot (JSON-LD provided in findings/schema.md).</li>
+      <li>Restore /privacybeleid/ and retarget the 26 legacy URLs to their real products, then fix the 287 internal links.</li>
+      <li>Trash or 301 the test pages, German clones and kerstcadeau variants; noindex ?reviews=/?store= and geen-categorie; disable the author sitemap.</li>
+      <li>Add H1s and meta descriptions to /shop/, the product pages, /flavory-gameplay/, /wijnkiezer/, the B2B page and /proeverij/; add &#x27;wijnbox&#x27; and &#x27;wijnproeverij thuis&#x27; to titles.</li>
+    </ol>
+  </div>
+
+</div>
+
+<!-- ======================================================= 2. AUDIT CATEGORIES === -->
+<div class="section">
+  <div class="section-header">
+    <h2>2. Audit Categories</h2>
+  </div>
+
+  <h3>2.1 Technical SEO</h3>
+  <p><strong>Score:</strong> <span class="status-fail">34/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Server-rendered HTML, no JavaScript rendering dependency</li>
+    <li>www and http correctly 301 to https://flavory.wine</li>
+    <li>Valid robots.txt and valid sitemap index with 8 child sitemaps</li>
+    <li>Viewport meta present on all pages; cart pages noindexed</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Catch-all 301 to homepage instead of 404 (soft-404 pattern) <span class="status-warn">Critical</span></h4>
+    <p>Any unknown path returns 301 to https://flavory.wine/. 26 legacy product/landing URLs still linked 287 times from 114 pages land on the homepage; /privacybeleid/ is swallowed too.</p>
+    <p><strong>Recommendation:</strong> Serve real 404s with a helpful template; retarget each legacy URL to its live product (map in findings/ecommerce.md); update internal links.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>No hreflang and broken language roots <span class="status-warn">Critical</span></h4>
+    <p>0 of 208 pages carry hreflang. /de/, /en/, /nl 301 to the Dutch homepage; the German home is /de/start/. 60 of 96 German URLs resolve to Dutch pages via redirect or canonical. /en/shop/ and /en/blog/ declare en-US but serve Dutch.</p>
+    <p><strong>Recommendation:</strong> Point /de/ to /de/start/; add hreflang nl/de/x-default only for translated pairs; noindex or remove the /en/ pages unless an English site is planned.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Index bloat: about 40% of crawled URLs should not be indexable <span class="status-warn">High</span></h4>
+    <p>9 builder test pages duplicating the homepage, 14 German -kopie/-copy product clones (99.4% identical), 7 kerstcadeau landing variants, duplicated blog posts, 22 thin ?reviews=/?store= pages, indexable geen-categorie archive. 46 of 120 sitemap URLs affected.</p>
+    <p><strong>Recommendation:</strong> Trash or 301 duplicates, noindex CPT parameter pages and uncategorised archives, exclude them from the sitemap.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>No security headers <span class="status-warn">High</span></h4>
+    <p>HSTS, CSP, X-Frame-Options, X-Content-Type-Options and Referrer-Policy are all absent.</p>
+    <p><strong>Recommendation:</strong> Add the headers in the nginx server block; start CSP in report-only mode.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Page caching defeated by cookies and headers <span class="status-warn">High</span></h4>
+    <p>Cache-Control: max-age=0, Expires now, wp_woocommerce_session and __cvg_1p_uid cookies set on first anonymous request. TTFB 3.4 to 3.9 s with curl.</p>
+    <p><strong>Recommendation:</strong> Full-page cache with cookie exclusions limited to cart/checkout/account; set proper cache headers.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Heavy HTML and flat internal linking <span class="status-warn">Medium</span></h4>
+    <p>Average HTML 314 KB (max 503 KB), 27 to 35 stylesheets and 28 to 32 blocking scripts per page; every blog post links to every other post and to the cart page; 14 sitemap URLs have no inbound links.</p>
+    <p><strong>Recommendation:</strong> Remove unused builder CSS/JS; replace the all-posts related block with curated cluster links.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.2 Content Quality</h3>
+  <p><strong>Score:</strong> <span class="status-fail">38/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Product pages carry 1,000+ words of unique copy; top blog posts exceed 2,000 words</li>
+    <li>Conversational, readable Dutch; Article + Person schema on posts</li>
+    <li>Blog post on blind wine tasting already ranks and matches the SERP page type</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Privacy policy unreachable <span class="status-warn">Critical</span></h4>
+    <p>/privacybeleid/ 301s to the homepage while checkout still references it.</p>
+    <p><strong>Recommendation:</strong> Restore the page immediately.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Duplicate and near-duplicate content <span class="status-warn">High</span></h4>
+    <p>9 homepage clones, 14 German product clones, 7 kerstcadeau variants (two are 60-word stubs), a -dupliceren post, two republished post pairs, 3 DE and 2 NL Valentine horoscope variants; 30 pages reuse the homepage meta description.</p>
+    <p><strong>Recommendation:</strong> Consolidate to one URL per topic/occasion with 301s; unique descriptions.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Weak E-E-A-T signals <span class="status-warn">High</span></h4>
+    <p>Person.url is &#x27;#&#x27; on 56 posts, no author bio; Organization schema has only an Instagram link; address, VAT, Trustpilot and LinkedIn not linked; trust claims not marked up.</p>
+    <p><strong>Recommendation:</strong> Author page for Bart, enriched Organization schema, on-page reviews with Review schema.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Thin commercial pages <span class="status-warn">High</span></h4>
+    <p>B2B page /eindejaars-en-relatiegeschenken/ is 183 words behind a form despite 151 inbound links; 50 pages under 300 words; category archives are template boilerplate.</p>
+    <p><strong>Recommendation:</strong> Add tier pricing, contents, process and trust signals to the B2B page; write category intros.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Vocabulary mismatch with search demand <span class="status-warn">High</span></h4>
+    <p>Site uses &#x27;wijnspel&#x27; and &#x27;het ultieme duel&#x27;; buyers search &#x27;wijnproeverij thuis&#x27;, &#x27;wijnbox cadeau&#x27;, &#x27;relatiegeschenk wijn&#x27;, &#x27;teambuilding wijnproeverij&#x27;. Flavory absent from 6 of 8 target SERPs; &#x27;wijnbox&#x27; appears in no title.</p>
+    <p><strong>Recommendation:</strong> Rewrite titles/H1s per findings/sxo.md; publish gift-guide and beginner content.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>No hub-and-spoke architecture <span class="status-warn">Medium</span></h4>
+    <p>No pillar pages; blog posts link to legacy product URLs that redirect to the homepage while live products receive zero blog links.</p>
+    <p><strong>Recommendation:</strong> Six pillars and a 40-row link matrix in findings/cluster.md.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.3 On-Page SEO</h3>
+  <p><strong>Score:</strong> <span class="status-fail">33/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>No page is missing a title tag</li>
+    <li>Breadcrumbs present sitewide</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>86 pages without H1, 41 with multiple H1 <span class="status-warn">High</span></h4>
+    <p>Includes /shop/, both product pages, /shop/bubbelbox/, /flavory-gameplay/, /wijnkiezer/.</p>
+    <p><strong>Recommendation:</strong> Add a single H1 to the product and shop templates.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>71 pages without meta description; 30 copy the homepage description <span class="status-warn">High</span></h4>
+    <p>Includes the B2B page (blank) and /proeverij/ (copied).</p>
+    <p><strong>Recommendation:</strong> Unique, intent-matching descriptions starting with commercial pages.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Titles carry no search intent <span class="status-warn">High</span></h4>
+    <p>Homepage title is &#x27;Home - Flavory&#x27;; product titles use &#x27;Het ultieme duel&#x27;; &#x27;wijnbox&#x27; and &#x27;wijnproeverij thuis&#x27; absent from titles.</p>
+    <p><strong>Recommendation:</strong> Rewrites in findings/sxo.md.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>287 internal links point to redirecting legacy URLs <span class="status-warn">High</span></h4>
+    <p>From 114 pages, mostly blog related blocks and buttons.</p>
+    <p><strong>Recommendation:</strong> Repoint to live product URLs.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>1,019 of 5,207 images lack alt text <span class="status-warn">Medium</span></h4>
+    <p>About 40% on product images.</p>
+    <p><strong>Recommendation:</strong> Descriptive alt text with product name and grape pairing.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.4 Schema / Structured Data</h3>
+  <p><strong>Score:</strong> <span class="status-fail">42/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Valid Yoast graph on all pages: WebSite, Organization, BreadcrumbList, WebPage, ImageObject</li>
+    <li>Article + Person on 56 posts; FAQPage on 7 pages with matching visible content</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>No Product/Offer/AggregateRating/Review schema <span class="status-warn">Critical</span></h4>
+    <p>25 ItemPage URLs have no Product markup; Elementor rating widget emits an orphan Rating node; GTIN buried in SKU string.</p>
+    <p><strong>Recommendation:</strong> Enable WooCommerce/Yoast product schema; JSON-LD in findings/schema.md; add gtin13.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Organization entity incomplete <span class="status-warn">High</span></h4>
+    <p>Name, logo and Instagram only; no address, VAT, contactPoint, founder, LinkedIn or Trustpilot sameAs.</p>
+    <p><strong>Recommendation:</strong> Enrich the sitewide Organization node.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>No LocalBusiness or Review schema on partner-store and customer-review pages <span class="status-warn">Medium</span></h4>
+    <p>10 ?store= and 12 ?reviews= pages carry only WebPage.</p>
+    <p><strong>Recommendation:</strong> Add LocalBusiness and Review types if the pages are kept.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Person.url set to &#x27;#&#x27; <span class="status-warn">Medium</span></h4>
+    <p>56 author nodes.</p>
+    <p><strong>Recommendation:</strong> Set a real author URL in Yoast.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Inconsistent Article vs BlogPosting <span class="status-warn">Low</span></h4>
+    <p>54 Article, 2 BlogPosting.</p>
+    <p><strong>Recommendation:</strong> Standardise on one type.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.5 Performance</h3>
+  <p><strong>Score:</strong> <span class="status-fail">28/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>CLS is 0.000 to 0.002 on every page tested</li>
+    <li>Hero image has fetchpriority=high, eager loading and explicit dimensions</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Server response 2.9 to 7.3 s on every page <span class="status-warn">Critical</span></h4>
+    <p>TTFB is 4 to 9 times the 800 ms budget and accounts for almost all of LCP; caching bypassed by cookies and headers.</p>
+    <p><strong>Recommendation:</strong> Page cache with cookie exclusions, correct headers, OPcache, object cache, CDN.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Render-blocking builder CSS/JS <span class="status-warn">High</span></h4>
+    <p>27 to 35 stylesheets and 28 to 32 blocking scripts per page on 314 KB HTML.</p>
+    <p><strong>Recommendation:</strong> Remove unused builder assets, defer non-critical JS, inline critical CSS.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Third-party tag overload <span class="status-warn">High</span></h4>
+    <p>GTM, Meta Pixel, GA4, Microsoft Clarity and an A/B-test tool; 433 to 683 ms blocking time under 4x CPU throttle.</p>
+    <p><strong>Recommendation:</strong> Delay non-essential tags until interaction; consolidate through GTM.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Heavy page weight and inconsistent lazy loading <span class="status-warn">Medium</span></h4>
+    <p>Homepage and blog transfer 9.4 to 9.7 MB cold; /shop/ lazy-loads 0 of 20 images.</p>
+    <p><strong>Recommendation:</strong> Lazy-load below-fold images, compress media, audit videos.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>INP not measured <span class="status-warn">Info</span></h4>
+    <p>No synthetic interaction fired; TBT used as proxy.</p>
+    <p><strong>Recommendation:</strong> Re-measure with field data once GSC/CrUX is connected.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.6 AI Search Readiness</h3>
+  <p><strong>Score:</strong> <span class="status-warn">51/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>All AI crawlers allowed (appropriate for commerce)</li>
+    <li>llms.txt exists; site is server-rendered; max-snippet unrestricted</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Homepage definition invisible to main-content extraction <span class="status-warn">Critical</span></h4>
+    <p>Extracted main text is 503 characters of blog teasers; &#x27;Wat is Flavory&#x27;, &#x27;Hoe werkt het&#x27; and price are not captured.</p>
+    <p><strong>Recommendation:</strong> Add a 2-sentence definition block near the top of homepage, product pages and FAQ (Dutch examples in findings/geo.md).</p>
+  </div>
+  <div class="action-item medium">
+    <h4>No Product schema for AI shopping surfaces <span class="status-warn">High</span></h4>
+    <p>No structured price or availability to cite.</p>
+    <p><strong>Recommendation:</strong> Same fix as schema finding 1.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Weak entity signals <span class="status-warn">High</span></h4>
+    <p>No Wikidata entry; Organization schema minimal; Trustpilot and LinkedIn not linked; brand-name collision risk.</p>
+    <p><strong>Recommendation:</strong> Enrich Organization schema, consistent brand description, consider Wikidata.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>German section inconsistently localised <span class="status-warn">High</span></h4>
+    <p>Untranslated German URLs redirect to Dutch; no hreflang.</p>
+    <p><strong>Recommendation:</strong> Translate or remove from German navigation.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>llms.txt is auto-generated junk <span class="status-warn">Medium</span></h4>
+    <p>Lists test pages and untitled entries; no llms-full.txt. Google ignores llms.txt.</p>
+    <p><strong>Recommendation:</strong> Curate it; low priority.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.7 Images</h3>
+  <p><strong>Score:</strong> <span class="status-fail">45/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>WebP used for hero and OG images</li>
+    <li>LCP image correctly prioritised</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>1,019 images without alt text <span class="status-warn">Medium</span></h4>
+    <p>20% of 5,207 image tags; about 40% on product images.</p>
+    <p><strong>Recommendation:</strong> Add descriptive alt text, product galleries first.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>139 images without width/height <span class="status-warn">Low</span></h4>
+    <p>Potential layout shift if lazy-loaded later.</p>
+    <p><strong>Recommendation:</strong> Add dimensions in the template.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Inconsistent lazy loading and heavy media <span class="status-warn">Medium</span></h4>
+    <p>/shop/ lazy-loads 0 of 20 images; homepage cold load 9.4 MB.</p>
+    <p><strong>Recommendation:</strong> loading=lazy below the fold; compress and resize media.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.8 Sitemap</h3>
+  <p><strong>Score:</strong> <span class="status-fail">42/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>8 valid child sitemaps, correct XML, declared in robots.txt</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>46 of 120 sitemap URLs are junk <span class="status-warn">High</span></h4>
+    <p>Test pages, German clones, kerstcadeau variants, ?reviews=/?store= query URLs, geen-categorie; /de/shop-2/ listed twice; invalid &lt;loc&gt;#&lt;/loc&gt; in author-sitemap.xml.</p>
+    <p><strong>Recommendation:</strong> Yoast: disable author sitemap, exclude Reviews/Store CPTs, trash test pages; target about 76 URLs.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.9 Visual / Mobile UX</h3>
+  <p><strong>Score:</strong> <span class="status-warn">63/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Homepage above the fold on mobile shows H1, rating and CTA; no visible layout shift</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Announcement bar messages overlap on mobile <span class="status-warn">High</span></h4>
+    <p>Carousel transition renders two texts at once (blogpost_mobile.png).</p>
+    <p><strong>Recommendation:</strong> Crossfade with aria-hidden on the inactive slide.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Add-to-cart below the fold on mobile product pages <span class="status-warn">High</span></h4>
+    <p>Requires a full scroll past the gallery (product_mobile_full.png).</p>
+    <p><strong>Recommendation:</strong> Sticky mobile add-to-cart bar.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Oversized mobile header <span class="status-warn">Medium</span></h4>
+    <p>Logo and header take about 30% of the first viewport.</p>
+    <p><strong>Recommendation:</strong> Drop tagline and shrink logo on small screens.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>/de/start/ never reaches network idle <span class="status-warn">Medium</span></h4>
+    <p>Three Playwright captures timed out at 45 s.</p>
+    <p><strong>Recommendation:</strong> Find the hanging request or script on the German template.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>No cookie-consent banner observed <span class="status-warn">Medium</span></h4>
+    <p>GTM, Meta Pixel and Clarity load without a visible consent prompt in 19 captures.</p>
+    <p><strong>Recommendation:</strong> Verify consent mode for BE/NL visitors.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.10 E-commerce</h3>
+  <p><strong>Score:</strong> <span class="status-fail">34/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Server-rendered price and add-to-cart; unique product copy; cart noindexed; add-to-cart parameters blocked</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>German shop is 74% duplicate <span class="status-warn">Critical</span></h4>
+    <p>14 of 19 DE product URLs are -kopie/-copy clones, indexable and in the sitemap.</p>
+    <p><strong>Recommendation:</strong> 301 to originals, remove from sitemap, fix internal links.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Legacy product URLs redirect to homepage <span class="status-warn">High</span></h4>
+    <p>26 URLs, 287 internal links.</p>
+    <p><strong>Recommendation:</strong> Redirect map in findings/ecommerce.md.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Seasonal pages fragmented <span class="status-warn">High</span></h4>
+    <p>7 kerstcadeau pages plus 3 posts; Valentine variants in NL and DE; Valentine product slug still carries -10-korting.</p>
+    <p><strong>Recommendation:</strong> One evergreen URL per occasion per locale.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Merchant Center not possible <span class="status-warn">High</span></h4>
+    <p>No Product schema, GTIN field, shipping or returns markup.</p>
+    <p><strong>Recommendation:</strong> Product schema with gtin13, shippingDetails and MerchantReturnPolicy; feed via WooCommerce.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>B2B page hides pricing <span class="status-warn">High</span></h4>
+    <p>183 words, quote form only, no meta description, title &#x27;Offerte aanvraag - Flavory&#x27;.</p>
+    <p><strong>Recommendation:</strong> Show tier pricing, MOQ, personalisation, client logos.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.11 Backlinks</h3>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Insufficient data; thin profile signal <span class="status-warn">Medium</span></h4>
+    <p>Absent from the Common Crawl web graph while comparable Belgian retailers appear; none of 4 checked partner stores link to flavory.wine; Moz/Bing not configured.</p>
+    <p><strong>Recommendation:</strong> Stockist links, Belgian gift guides, team-building directories, press, bloggers; add a Moz key for monitoring.</p>
+  </div>
+  <hr class="divider">
+</div>
+
+<!-- ======================================================= 3. ACTION PLAN === -->
+<div class="section">
+  <div class="section-header">
+    <h2>3. Action Plan</h2>
+  </div>
+
+  <div class="roadmap-phase">
+    <h4>Phase 1: Critical Fixes <span class="effort">Week 1</span></h4>
+    <ul>
+      <li>Enable full-page caching with WooCommerce session cookie excluded outside cart/checkout; fix Cache-Control/Expires; verify OPcache and PHP 8.x</li>
+      <li>Enable Product/Offer/AggregateRating schema (WooCommerce core or Yoast WooCommerce SEO); add gtin13 05430004293071</li>
+      <li>Restore /privacybeleid/</li>
+      <li>Replace catch-all 301-to-homepage with real 404s</li>
+      <li>Retarget 26 legacy URLs to live products and fix 287 internal links</li>
+      <li>Trash or 301 the 9 test pages, 14 German clones, -dupliceren post and 6 kerstcadeau variants</li>
+      <li>Make /de/ serve or redirect to /de/start/; noindex or remove /en/ pages</li>
+    </ul>
+  </div>
+  <div class="roadmap-phase">
+    <h4>Phase 2: High-Impact Improvements <span class="effort">Weeks 2-3</span></h4>
+    <ul>
+      <li>Add hreflang nl/de/x-default for translated pairs</li>
+      <li>Yoast sitemap hygiene: disable author sitemap, exclude Reviews/Store CPTs, noindex geen-categorie (target ~76 URLs)</li>
+      <li>Rewrite titles, meta descriptions and H1s for homepage, product pages, B2B page and /proeverij/ using &#x27;wijnproeverij thuis&#x27;, &#x27;wijnbox&#x27;, &#x27;relatiegeschenk wijn&#x27;, &#x27;teambuilding wijnproeverij&#x27;</li>
+      <li>Add H1s to product/shop templates; write the 71 missing meta descriptions</li>
+      <li>Add HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, report-only CSP in nginx</li>
+      <li>Defer third-party tags, lazy-load below-fold images, add dimensions and alt text</li>
+      <li>Fix announcement-bar overlap, sticky mobile add-to-cart, smaller mobile header, debug /de/start/ hang</li>
+      <li>Enrich Organization schema (address, VAT, contactPoint, founder, LinkedIn, Trustpilot); fix Person.url; author page</li>
+    </ul>
+  </div>
+  <div class="roadmap-phase">
+    <h4>Phase 3: Content &amp; Authority <span class="effort">Month 2</span></h4>
+    <ul>
+      <li>Build 6 pillar pages and re-slot 28 posts as spokes; curated related links (matrix in findings/cluster.md)</li>
+      <li>Merge duplicate post pairs and seasonal variants; one evergreen URL per occasion per locale; rename Valentine product slug</li>
+      <li>Publish gift-guide listicle and beginner guide; add 2-sentence definition blocks for AI citability</li>
+      <li>Pull Trustpilot reviews on-page with Review schema; LocalBusiness schema and outbound links on partner pages</li>
+      <li>Link building: stockists, Belgian gift guides, team-building directories, bloggers, press, Unizo</li>
+      <li>Finish or prune the German section so no German URL redirects to Dutch</li>
+      <li>Curate llms.txt</li>
+    </ul>
+  </div>
+  <div class="roadmap-phase">
+    <h4>Phase 4: Monitoring &amp; Iteration <span class="effort">Ongoing</span></h4>
+    <ul>
+      <li>Connect GSC, GA4 and a PageSpeed API key for field data</li>
+      <li>Capture a drift baseline after Phase 1; re-run monthly</li>
+      <li>Re-measure LCP/TTFB after caching; target LCP under 2.5 s mobile</li>
+      <li>Track rankings for wijnproeverij thuis, wijnspel, wijnbox cadeau, blind wijn proeven, relatiegeschenk wijn, teambuilding wijnproeverij, origineel cadeau wijnliefhebber</li>
+      <li>Bing Webmaster Tools + IndexNow; Moz or Ahrefs key for backlinks</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================================================= DATA SOURCES & METHODOLOGY === -->
+<div class="section" style="text-align: center; padding-top: 15mm;">
+  <hr class="divider">
+  <h3 style="text-align: left;">Data Sources &amp; Methodology</h3>
+  <table>
+    <thead>
+      <tr><th>Source</th><th>Description</th><th>Update Frequency</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>PageSpeed Insights API</td>
+          <td>Lighthouse lab audit (mobile emulation, Moto G Power, slow 4G)</td>
+          <td>Real-time</td></tr>
+      <tr><td>Chrome UX Report (CrUX)</td>
+          <td>28-day rolling field data from real Chrome users</td>
+          <td>Daily ~04:00 UTC</td></tr>
+      <tr><td>CrUX History API</td>
+          <td>25-week p75 trend data per metric</td>
+          <td>Weekly</td></tr>
+      <tr><td>Google Search Console</td>
+          <td>Search Analytics (clicks, impressions, CTR, position)</td>
+          <td>2-3 day lag</td></tr>
+      <tr><td>URL Inspection API</td>
+          <td>Per-URL index status, coverage state, crawl info</td>
+          <td>Real-time (2,000/day)</td></tr>
+    </tbody>
+  </table>
+  <p style="color: #94a3b8; font-size: 9pt; margin-top: 5mm;">
+    Report generated by Claude SEO &mdash; Google SEO Intelligence Skill &mdash; September 16, 2026<br>
+    Methodology based on Google Web Vitals thresholds, Search Console documentation, and Lighthouse scoring algorithms.
+  </p>
+</div>
+
+</body>
+</html>

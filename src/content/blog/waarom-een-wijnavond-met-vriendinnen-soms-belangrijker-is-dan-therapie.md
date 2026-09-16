@@ -45,6 +45,6 @@ Blijf dat dus doen. Blijf afspreken, blijven praten, blijven lachen. Laat “we 
 
 En ergens later, veel later, zijn jullie nog altijd diezelfde wittewijnwijven, maar dan in een ander decor. Dan claimen jullie samen een volledige afdeling van een rusthuis. Nog altijd dezelfde mopjes, nog altijd dezelfde blikken waarmee je aan een half woord genoeg hebt.
 
-Het zal dan misschien geen witte wijn meer uit een kartonnetje zijn, maar een glaasje frisse Chablis bij de vaste wijnavond met vriendinnen. Hopelijk ken je tegen dan écht iets van wijn (een beetje dankzij al die wijnproeverijen thuis en misschien ook dankzij de [witte wijnbox van Flavory](/shop/legendarische-druiven-wit/).
+Het zal dan misschien geen witte wijn meer uit een kartonnetje zijn, maar een glaasje frisse Chablis bij de vaste wijnavond met vriendinnen. Hopelijk ken je tegen dan écht iets van wijn (een beetje dankzij al die wijnproeverijen thuis en misschien ook dankzij de [witte wijnbox van Flavory](/shop/wijnproeverij-thuis-wit/).
 
 En voor iedereen die nu denkt: “Chablis, wat is dat eigenlijk?” Kijk gerust even hier voor wat extra uitleg over [Chablis](https://www.charlotteplansatrip.com/frankrijk/chablis-2/), of doe het op de leukste manier: probeer het gewoon zelf tijdens je volgende wijnavond met vriendinnen. Een witte wijn die de moeite waard is. Net zoals die avonden met je wittewijnwijven.

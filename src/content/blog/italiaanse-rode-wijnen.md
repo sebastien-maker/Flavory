@@ -38,7 +38,7 @@ We sluiten af op het eiland Sicilië, rechtstreeks van de flanken van een actiev
 
 ## Genieten zonder keuzestress
 
-Zin gekregen om nieuwe smaken te ontdekken, maar weet je niet waar je moet beginnen of wil je de supermarktstress vermijden? Je hoeft echt geen dure cursussen te volgen. Haal gewoon een [Flavory wijnbox Italië vs. Spanje](/shop/valentijn-wine-tasting-game-italie-of-spanje-10-korting/) in huis. Trek ongecompliceerd de flessen open, speel ons blinde proefspel en ontdek samen met je date of je vrienden welke **Italiaanse rode wijnen** (of andere beroemde wijnlanden) nu eigenlijk écht jullie favoriet zijn. Proost!
+Zin gekregen om nieuwe smaken te ontdekken, maar weet je niet waar je moet beginnen of wil je de supermarktstress vermijden? Je hoeft echt geen dure cursussen te volgen. Haal gewoon een [Flavory wijnbox Italië vs. Spanje](/shop/italie-of-spanje/) in huis. Trek ongecompliceerd de flessen open, speel ons blinde proefspel en ontdek samen met je date of je vrienden welke **Italiaanse rode wijnen** (of andere beroemde wijnlanden) nu eigenlijk écht jullie favoriet zijn. Proost!
 
 ![Spiekbriefje voor welke wijn bij welk gerecht past
 ](../../assets/images/blog/italiaanse-rode-wijnen/image-95-1.webp)

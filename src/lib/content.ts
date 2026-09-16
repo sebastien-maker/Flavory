@@ -23,8 +23,10 @@ export async function getPosts(): Promise<Post[]> {
   return all.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
 
+// Only categories with at least one visible product get a page (no empty, thin pages).
 export async function getCategories(): Promise<Category[]> {
-  const all = await getCollection('categories');
+  const products = await getProducts();
+  const all = await getCollection('categories', (c) => products.some((p) => p.data.category.id === c.id));
   return all.sort((a, b) => a.data.order - b.data.order);
 }
 

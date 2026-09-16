@@ -53,4 +53,4 @@ Saint-Émilion is een bekende wijnstreek in Bordeaux. Wijnen uit die streek zijn
 -   Een goede fles kan top zijn. Een goedkope kan… wel wat lastig doordrinken zijn
 
   
-Wat begon als een speelse passie in 2017, groeide uit tot een compleet assortiment wijnboxen die je eenvoudig online kan bestellen. Zin in een gezellige avond vol smaak en spel? Ontdek dan onze [rode wijn box](/shop/rode-wijn-box/), [witte wijn box](/shop/witte-wijn-box/) of de feestelijke [cava & prosecco box](/shop/cava-prosecco-box/). Elk pakket is zorgvuldig samengesteld en bevat twee topwijnen én het unieke Flavory wijnspel. Leuk om te geven, nog leuker om samen te beleven. Bekijk het volledige aanbod in onze [shop](/shop/).
+Wat begon als een speelse passie in 2017, groeide uit tot een compleet assortiment wijnboxen die je eenvoudig online kan bestellen. Zin in een gezellige avond vol smaak en spel? Ontdek dan onze [rode wijnboxen](/shop/rode-wijn/) en [witte wijnboxen](/shop/witte-wijn/). Elk pakket is zorgvuldig samengesteld en bevat het unieke Flavory-wijnspel, met of zonder wijn. Leuk om te geven, nog leuker om samen te beleven. Bekijk het volledige aanbod in onze [shop](/shop/).

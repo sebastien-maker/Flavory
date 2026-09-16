@@ -34,7 +34,7 @@ Secret Santa klinkt leuk, maar het leidt vaak tot lijstjes vol bonnen, sokken e
 
 **Een cadeau voor mensen die alles hebben.** Het wijnspel is geen klassieke wijnkist; het is een blind proeverij met twee wijnen en een spel Ideaal voor de persoon die zegt niks nodig te hebben.
 
-**Rust dankzij vroeg bestellen.** Wie begin december bestelt, profiteert van de hoogste korting en volledige keuze. Wacht niet tot de populaire box ([Italië – Spanje](/shop/legendarische-wijnlanden-rood/) bijvoorbeeld) uitverkocht is. Want dat is pas een luxe wijnpakket als geschenk.
+**Rust dankzij vroeg bestellen.** Wie begin december bestelt, profiteert van de hoogste korting en volledige keuze. Wacht niet tot de populaire box ([Italië – Spanje](/shop/italie-of-spanje/) bijvoorbeeld) uitverkocht is. Want dat is pas een luxe wijnpakket als geschenk.
 
 ## Antwoorden op vaak gestelde Flavory vragen
 

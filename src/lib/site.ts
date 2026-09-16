@@ -47,7 +47,6 @@ export const FOOTER_NAV = [
       { href: '/shop/', label: 'Alle boxen' },
       { href: '/shop/rode-wijn/', label: 'Rode wijn' },
       { href: '/shop/witte-wijn/', label: 'Witte wijn' },
-      { href: '/shop/bubbels/', label: 'Bubbels' },
       { href: '/wijnkiezer/', label: 'Wijnkiezer' },
     ],
   },

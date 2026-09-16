@@ -14,6 +14,7 @@ category: bubbels
 playersMin: 2
 playersMax: 6
 order: 3
+draft: true
 images:
   - src: "../../assets/images/products/bubbelbox/01-box.jpg"
     alt: "Flavory bubbelbox cava versus prosecco met twee glazen schuimwijn"

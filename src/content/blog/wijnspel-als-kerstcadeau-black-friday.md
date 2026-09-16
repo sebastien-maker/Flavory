@@ -31,7 +31,7 @@ Daarom vinden wij het eerlijk gezegd aangenamer dat mensen nu al bestellen. Niet
 
 ## Keuze genoeg, zolang de voorraad strekt.
 
-Als je nu bestelt, heb je nog volledige keuze. Onze [Italië vs. Spanje-box](/shop/legendarische-wijnlanden-rood/) is elk jaar weer de populairste en richting kerst durft die wel eens uitverkocht raken. Importeren duurt nu eenmaal even, dus op is op.
+Als je nu bestelt, heb je nog volledige keuze. Onze [Italië vs. Spanje-box](/shop/italie-of-spanje/) is elk jaar weer de populairste en richting kerst durft die wel eens uitverkocht raken. Importeren duurt nu eenmaal even, dus op is op.
 
 Daarnaast is er de rust. Wie ooit op 24 december in een supermarkt heeft gestaan voor een rek vol willekeurige flessen, kent het gevoel: Error 404. Je hersenen crashen gewoon. Wat moet je kiezen? Wat is “een goeie” wijn? Hoeveel moet je uitgeven? Waarom staat heel Vlaanderen tegelijk in dezelfde rayon?
 

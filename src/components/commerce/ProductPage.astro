@@ -1,0 +1,342 @@
+---
+import { getImage } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Stars from '@/components/ui/Stars.astro';
+import Faq from '@/components/ui/Faq.astro';
+import AddToCart from './AddToCart.astro';
+import PaymentIcons from './PaymentIcons.astro';
+import ProductCard from './ProductCard.astro';
+import PostCard from '@/components/blog/PostCard.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Reviews from '@/components/sections/Reviews.astro';
+import { getProducts, getReviews, productPath, categoryPath, resolvePosts, type Product } from '@/lib/content';
+import { SITE, absoluteUrl, formatPrice } from '@/lib/site';
+import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
+import stillImage from '@/assets/images/site/rode-box-still.jpeg';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const { data } = product;
+const path = productPath(product.id);
+const category = await getEntry(data.category);
+const available = data.availability !== 'out_of_stock';
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Shop', path: '/shop/' },
+  ...(category ? [{ name: category.data.name, path: categoryPath(category.id) }] : []),
+  { name: data.name, path },
+];
+
+// Images: first one is the LCP element.
+const gallery = await Promise.all(
+  data.images.map(async (img) => ({
+    alt: img.alt,
+    main: await getImage({
+      src: img.src,
+      width: 720,
+      height: 720,
+      fit: 'cover',
+      widths: [360, 720, 1080],
+      format: 'webp',
+    }),
+    thumb: await getImage({ src: img.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
+  })),
+);
+const gallerySizes = '(min-width: 1024px) 36rem, (min-width: 768px) 50vw, 100vw';
+const cover = gallery[0]!;
+
+const others = (await getProducts()).filter((p) => p.id !== product.id).slice(0, 2);
+const relatedPosts = await resolvePosts(data.relatedPosts);
+const reviews = (await getReviews()).map((r) => r.data);
+
+const schemaImages = await Promise.all(
+  data.images
+    .slice(0, 3)
+    .map(async (img) => absoluteUrl((await getImage({ src: img.src, width: 1200, format: 'jpg' })).src)),
+);
+---
+
+<BaseLayout
+  title={data.seoTitle}
+  description={data.seoDescription}
+  path={path}
+  type="product"
+  image={data.images[0]!.src}
+  imageAlt={cover.alt}
+  preloadImage={{ src: cover.main.src, srcset: cover.main.srcSet.attribute, sizes: gallerySizes }}
+  schema={[
+    webPage({ path, title: data.h1, description: data.seoDescription, type: 'ItemPage' }),
+    productSchema({
+      path,
+      name: data.name,
+      description: data.definition,
+      sku: data.sku,
+      gtin13: data.gtin13,
+      price: data.price,
+      availability: data.availability,
+      images: schemaImages,
+      category: category?.data.name ?? 'Wijnspel',
+      reviews,
+    }),
+    breadcrumbs(crumbs),
+    faqPage(path, data.faq),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+
+  <section class="container-site grid gap-8 py-6 md:grid-cols-2 md:py-10 lg:gap-12">
+    <!-- Gallery: CSS scroll-snap, thumbnails scroll the track (no JS required to view images) -->
+    <div class="min-w-0" data-gallery>
+      <ul
+        class="flex snap-x snap-mandatory overflow-x-auto rounded-[var(--radius-card)] bg-white [scrollbar-width:none]"
+        data-gallery-track
+        aria-label="Productfoto's"
+      >
+        {gallery.map((img, i) => (
+          <li class="w-full shrink-0 snap-center" id={`foto-${i + 1}`}>
+            <img
+              src={img.main.src}
+              srcset={img.main.srcSet.attribute}
+              sizes={gallerySizes}
+              width="720"
+              height="720"
+              alt={img.alt}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : undefined}
+              decoding="async"
+              class="aspect-square w-full object-cover"
+            />
+          </li>
+        ))}
+      </ul>
+      {gallery.length > 1 && (
+        <ul class="mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="Kies een foto">
+          {gallery.map((img, i) => (
+            <li class="shrink-0">
+              <a href={`#foto-${i + 1}`} data-gallery-thumb={i} class="thumb" aria-current={i === 0 ? 'true' : 'false'}>
+                <img
+                  src={img.thumb.src}
+                  width="64"
+                  height="64"
+                  alt={`Foto ${i + 1}`}
+                  loading="lazy"
+                  decoding="async"
+                  class="size-16 object-cover"
+                />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <!-- Buy box -->
+    <div>
+      <a href="#reviews-title" class="inline-flex items-center gap-2 text-sm hover:underline">
+        <Stars rating={SITE.rating.value} />
+        <span>
+          {String(SITE.rating.value).replace('.', ',')}/5 · {SITE.rating.count} reviews
+        </span>
+      </a>
+      <h1 class="h3 mt-2 text-brand">{data.h1}</h1>
+      <p class="mt-1 font-bold">{data.duel}</p>
+      <p class="mt-4 text-3xl font-bold">{formatPrice(data.price)}</p>
+      <p class="mt-1 text-sm text-muted">
+        Inclusief btw · {data.includesWine ? 'inclusief 2 flessen wijn' : 'zonder wijn'}
+      </p>
+
+      <p class="mt-5 border-l-4 border-brand pl-4">{data.definition}</p>
+
+      <ul class="mt-5 space-y-2">
+        {data.usps.map((usp) => (
+          <li class="flex gap-2">
+            <svg class="check" viewBox="0 0 20 20" aria-hidden="true">
+              <path
+                d="M4 10.5l4 4 8-9"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>{usp}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mt-6" id="bestellen">
+        <AddToCart
+          handle={product.id}
+          name={data.name}
+          price={data.price}
+          image={cover.thumb.src}
+          url={path}
+          available={available}
+        />
+        <p class="mt-3 text-center text-sm">
+          {available
+            ? `Levering in ${SITE.shipping.minDays} tot ${SITE.shipping.maxDays} werkdagen in België en Nederland`
+            : ''}
+        </p>
+      </div>
+      <PaymentIcons class="mt-4 justify-center" />
+    </div>
+  </section>
+
+  <!-- Mobile sticky buy bar (audit 2.7) -->
+  {available && (
+    <div
+      class="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-cream/95 p-3 backdrop-blur md:hidden"
+      data-sticky-buy
+      hidden
+    >
+      <div class="flex items-center gap-3">
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-sm font-bold">{data.name}</p>
+          <p class="text-sm">{formatPrice(data.price)}</p>
+        </div>
+        <a href="#bestellen" class="btn-primary min-h-11 py-2">
+          Bestellen
+        </a>
+      </div>
+    </div>
+  )}
+
+  <!-- Details -->
+  <section class="container-site grid items-start gap-8 py-10 md:grid-cols-2 md:py-16" aria-labelledby="over-title">
+    <div>
+      <h2 id="over-title" class="h3">
+        Over dit wijnspel
+      </h2>
+      {data.highlights.length > 0 && (
+        <ul class="mt-4 space-y-3">
+          {data.highlights.map((h) => (
+            <li class="flex gap-3">
+              <span class="mt-2 size-2 shrink-0 rounded-full bg-brand" aria-hidden="true" />
+              <span>
+                <strong>{h.title}</strong> {h.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div class="prose-flavory mt-6">
+        <slot />
+      </div>
+    </div>
+    <div class="space-y-6">
+      <video
+        class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
+        width="1280"
+        height="720"
+        controls
+        muted
+        playsinline
+        preload="none"
+        poster={(await getImage({ src: stillImage, width: 960, format: 'webp' })).src}
+        aria-label="Sfeervideo: vrienden spelen Flavory"
+      >
+        <source src="/media/flavory-sfeer.mp4" type="video/mp4" />
+      </video>
+      <div class="rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
+        <h2 class="h4">Wat zit er in de box?</h2>
+        <ul class="mt-3 list-disc space-y-1 pl-5">
+          {data.boxContents.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site py-10" aria-labelledby="faq-title">
+    <h2 id="faq-title" class="h3">
+      Veelgestelde vragen over deze box
+    </h2>
+    <div class="mt-4">
+      <Faq items={data.faq} />
+    </div>
+    <p class="mt-4 text-sm">
+      Nog een vraag? Bekijk alle{' '}
+      <a href="/faq/" class="text-brand underline">
+        veelgestelde vragen
+      </a>{' '}
+      of lees
+      <a href="/verzending-en-retour/" class="text-brand underline">
+        verzending en retour
+      </a>
+      .
+    </p>
+  </section>
+
+  <HowItWorks heading="Zo speel je Flavory" />
+
+  {relatedPosts.length > 0 && (
+    <section class="container-site py-10" aria-labelledby="lees-title">
+      <h2 id="lees-title" class="h3">
+        Lees meer voor je begint
+      </h2>
+      <ul class="mt-6 grid gap-4 md:grid-cols-3">
+        {relatedPosts.map((post) => (
+          <li>
+            <PostCard post={post} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="container-site py-10" aria-labelledby="andere-title">
+    <h2 id="andere-title" class="h3">
+      Ontdek onze andere boxen
+    </h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {others.map((p) => (
+        <li>
+          <ProductCard product={p} />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <Reviews />
+</BaseLayout>
+
+<script>
+  // Gallery thumbnails scroll the track instead of jumping the page.
+  const root = document.querySelector<HTMLElement>('[data-gallery]');
+  const track = root?.querySelector<HTMLElement>('[data-gallery-track]');
+  const thumbs = [...(root?.querySelectorAll<HTMLAnchorElement>('[data-gallery-thumb]') ?? [])];
+  if (track) {
+    thumbs.forEach((thumb, i) =>
+      thumb.addEventListener('click', (e) => {
+        e.preventDefault();
+        track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+      }),
+    );
+    track.addEventListener(
+      'scroll',
+      () => {
+        const index = Math.round(track.scrollLeft / track.clientWidth);
+        thumbs.forEach((t, i) => t.setAttribute('aria-current', String(i === index)));
+      },
+      { passive: true },
+    );
+  }
+
+  // Show the sticky buy bar once the main button scrolls out of view.
+  const bar = document.querySelector<HTMLElement>('[data-sticky-buy]');
+  const buy = document.getElementById('bestellen');
+  if (bar && buy) {
+    new IntersectionObserver(([entry]) => {
+      bar.hidden = !!entry && (entry.isIntersecting || entry.boundingClientRect.top > 0);
+    }).observe(buy);
+  }
+</script>

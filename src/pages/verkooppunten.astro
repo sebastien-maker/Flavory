@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { breadcrumbs, localBusiness, webPage } from '@/components/seo/schema';
+
+const path = '/verkooppunten/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Verkooppunten', path },
+];
+const title = 'Verkooppunten: koop Flavory bij jou in de buurt';
+const description =
+  'Koop een Flavory-wijnspel bij een wijnhandelaar in je buurt. Bekijk onze verkooppunten in Bornem, Schoten, Temse, Merelbeke en Geel.';
+const stores = (await getCollection('stores')).sort((a, b) => a.data.city.localeCompare(b.data.city));
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[
+    webPage({ path, title, description }),
+    ...stores.map((s) => localBusiness({ id: s.id, ...s.data })),
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site py-8 md:py-12">
+    <h1 class="h1">Vind Flavory bij jou in de buurt</h1>
+    <p class="lead mt-4 max-w-3xl">
+      Liever in de winkel kopen? Deze wijnhandelaars verkopen onze boxen. De voorraad kan per winkel verschillen: vraag
+      het gerust na voor je langsgaat.
+    </p>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {stores.map(({ data }) => (
+        <li class="rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
+          <h2 class="h4">
+            {data.url ? (
+              <a href={data.url} rel="noopener" class="hover:text-brand hover:underline">
+                {data.name}
+              </a>
+            ) : (
+              data.name
+            )}
+          </h2>
+          <address class="mt-2 not-italic">
+            {data.street}
+            <br />
+            {data.postalCode} {data.city}
+          </address>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${data.name}, ${data.street}, ${data.postalCode} ${data.city}`)}`}
+            rel="noopener"
+            class="mt-3 inline-block text-sm font-bold text-brand hover:underline"
+          >
+            Route plannen →
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-10 rounded-[var(--radius-card)] bg-blush p-6">
+      <h2 class="h4">Wil je Flavory ook in jouw winkel verkopen?</h2>
+      <p class="mt-2">
+        We werken graag samen met wijnhandelaars en drankenhandels.{' '}
+        <a href="/contact/" class="font-bold text-brand underline">
+          Neem contact op
+        </a>
+        . Of bestel meteen{' '}
+        <a href="/shop/" class="font-bold text-brand underline">
+          online
+        </a>
+        .
+      </p>
+    </div>
+  </section>
+</BaseLayout>

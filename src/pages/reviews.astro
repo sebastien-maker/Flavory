@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Stars from '@/components/ui/Stars.astro';
+import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
+import { getReviews } from '@/lib/content';
+import { breadcrumbs, webPage } from '@/components/seo/schema';
+
+const path = '/reviews/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Reviews', path },
+];
+const title = 'Reviews: wat spelers zeggen over Flavory';
+const description =
+  'Lees wat spelers vinden van het wijnspel van Flavory: gezellige avonden, lekkere wijnen en veel bijgeleerd. Bekijk alle ervaringen en onze Trustpilot-score.';
+const reviews = await getReviews();
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[webPage({ path, title, description }), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site py-8 md:py-12">
+    <h1 class="h1">Wat spelers zeggen over Flavory</h1>
+    <div class="mt-4">
+      <TrustpilotBadge />
+    </div>
+    <ul class="mt-8 columns-1 gap-4 md:columns-2 lg:columns-3">
+      {reviews.map(({ data }) => (
+        <li class="mb-4 break-inside-avoid">
+          <figure class="rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
+            <div class="flex items-center gap-2">
+              <Stars rating={data.rating} />
+              <span class="text-sm font-bold">{data.rating}/5</span>
+            </div>
+            <blockquote class="mt-3">
+              {data.title && <p class="font-bold">{data.title}</p>}
+              <p class="mt-1">{data.body}</p>
+            </blockquote>
+            <figcaption class="mt-4 font-bold">{data.author}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-8 text-center">
+      <a href="/shop/" class="btn-primary">
+        Probeer het zelf
+      </a>
+    </p>
+  </section>
+</BaseLayout>

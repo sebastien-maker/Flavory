@@ -1,0 +1,48 @@
+---
+// Plain text pages from src/content/pages (legal, shipping). Static routes take precedence over this one.
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { breadcrumbs, webPage } from '@/components/seo/schema';
+import { formatDate } from '@/lib/site';
+
+export const getStaticPaths = (async () => {
+  const pages = await getCollection('pages');
+  return pages.map((entry) => ({ params: { page: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: CollectionEntry<'pages'>;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const path = `/${entry.id}/`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: data.title, path },
+];
+---
+
+<BaseLayout
+  title={data.seoTitle}
+  description={data.description}
+  path={path}
+  noindex={data.noindex}
+  schema={[webPage({ path, title: data.title, description: data.description }), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <article class="container-site max-w-3xl py-8 md:py-12">
+    <h1 class="h1">{data.title}</h1>
+    {data.updatedDate && (
+      <p class="mt-2 text-sm text-muted">
+        Laatst bijgewerkt op <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time>
+      </p>
+    )}
+    <div class="prose-flavory mt-8">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

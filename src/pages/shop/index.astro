@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Reviews from '@/components/sections/Reviews.astro';
+import { getCategories, getProducts, productPath, categoryPath } from '@/lib/content';
+import { breadcrumbs, itemList, webPage } from '@/components/seo/schema';
+
+const products = await getProducts();
+const categories = await getCategories();
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Shop', path: '/shop/' },
+];
+const title = 'Wijnproeverij thuis: alle wijnspellen en boxen';
+const description =
+  'Ontdek alle Flavory-boxen voor een wijnproeverij thuis: rode wijn, witte wijn en bubbels, met of zonder wijn. Ideaal als wijncadeau. Levering in 1-3 dagen.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path="/shop/"
+  schema={[
+    webPage({ path: '/shop/', title, description, type: 'CollectionPage' }),
+    itemList(
+      '/shop/',
+      products.map((p) => ({ name: p.data.name, path: productPath(p.id) })),
+    ),
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site py-8 md:py-12">
+    <h1 class="h1">Wijnspellen voor een wijnproeverij thuis</h1>
+    <p class="lead mt-4 max-w-3xl">
+      Organiseer thuis een unieke wijnproeverij met twee blinde flessen en een interactief spel voor 2 tot 6 spelers.
+      Ideaal als cadeau, met levering in 1 tot 3 werkdagen.
+    </p>
+    <nav aria-label="Categorieën" class="mt-6">
+      <ul class="flex flex-wrap gap-2">
+        {categories.map((c) => (
+          <li>
+            <a href={categoryPath(c.id)} class="btn-outline min-h-10 py-2">
+              {c.data.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((product, i) => (
+        <li>
+          <ProductCard product={product} headingLevel="h2" eager={i < 3} />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="container-site grid gap-10 py-8 md:grid-cols-2 md:py-12">
+    <div class="prose-flavory">
+      <h2>Is een wijnspel iets voor jou?</h2>
+      <p>
+        Houd je van wijn en ken je vrienden of familie die dat ook doen? Vind je het lastig om een fles te kiezen in de
+        supermarkt of op restaurant? Wil je meer leren over wijn, maar zonder dikke boeken of saaie cursussen? Zoek je
+        een origineel wijngeschenk? Of ben je ervan overtuigd dat je Merlot van Cabernet Sauvignon kunt onderscheiden?
+      </p>
+      <p>
+        Antwoord je op één van die vragen "ja", dan is een wijnproeverij thuis met Flavory écht iets voor jou. Je
+        ontdekt wijn op een speelse manier, samen met vrienden rond de tafel, en sluit de avond af met een winnaar.
+        Kennis van wijn is niet nodig, alleen zin om te proeven.
+      </p>
+
+      <h2>Welke wijnbox kies ik?</h2>
+      <p>Begin met de keuze tussen rode wijn, witte wijn of bubbels.</p>
+      <ul>
+        <li>
+          <strong>Rood:</strong> kies <a href="/shop/italie-of-spanje/">Italië of Spanje</a>, onze bestseller, en ontdek
+          hoe verschillend twee beroemde wijnlanden smaken. Of begin bij de basis met
+          <a href="/shop/wijnproeverij-thuis-rood/">Merlot of Cabernet Sauvignon</a>, de beroemdste druiven ter wereld.
+        </li>
+        <li>
+          <strong>Wit:</strong> in de <a href="/shop/wijnproeverij-thuis-wit/">witte wijnbox</a> leer je iets over
+          jezelf. Ben jij team Chardonnay of team Sauvignon Blanc?
+        </li>
+        <li>
+          <strong>Bubbels:</strong> met de <a href="/shop/bubbelbox/">bubbelbox</a> zeg je nooit meer cava tegen
+          prosecco.
+        </li>
+      </ul>
+      <p>
+        <strong>Met of zonder wijn?</strong> De spelboxen zonder wijn (€24,90) bevatten het volledige spel; je koopt
+        zelf twee flessen. Onze <a href="/wijnkiezer/">wijnkiezer</a> helpt je daarbij. De wijnboxen bevatten twee
+        geselecteerde wijnen, anoniem verpakt.
+      </p>
+    </div>
+    <div class="prose-flavory">
+      <h2>Ideaal als cadeau, of om zelf te spelen</h2>
+      <p>
+        Het wijnspel past perfect op een gezellige avond met vrienden: samen lachen, blind proeven en op zoek gaan naar
+        de grootste wijnkenner van de avond.
+      </p>
+      <p>
+        Het is ook een origineel geschenk voor verjaardagen, housewarmings of feestdagen. Als
+        <a href="/zakelijk/">eindejaarsgeschenk of relatiegeschenk</a> gaat het veel verder dan zomaar een fles wijn: je
+        geeft een belevenis die bijblijft. En zelfs op date night hoort Flavory thuis.
+      </p>
+      <h2>Verzending en garantie</h2>
+      <p>
+        Je bestelling wordt doorgaans binnen 1 tot 3 werkdagen geleverd in België en Nederland. Vanaf 2 boxen is de
+        verzending gratis. Niet tevreden? Dan krijg je je geld terug, beloofd. Alle details lees je op
+        <a href="/verzending-en-retour/">verzending en retour</a> en in de <a href="/faq/">veelgestelde vragen</a>.
+      </p>
+    </div>
+  </section>
+
+  <HowItWorks />
+  <Reviews />
+</BaseLayout>

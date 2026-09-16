@@ -1,0 +1,134 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { absoluteUrl, SITE } from '@/lib/site';
+import { breadcrumbs, person, webPage } from '@/components/seo/schema';
+
+const path = '/over-flavory/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Over Flavory', path },
+];
+const title = 'Over Flavory: het verhaal achter het wijnspel';
+const description =
+  'Maak kennis met Flavory, het wijnspel uit Bazel: ontstaan uit liefde voor wijn en beleving, door oprichters Bart en Thomas. Proeven wordt leuker dan ooit.';
+
+const team = (await getCollection('authors')).filter((a) => a.data.image);
+const people = await Promise.all(
+  team.map(async (a) =>
+    person({
+      id: a.id,
+      name: a.data.name,
+      description: a.data.role,
+      image: a.data.image
+        ? absoluteUrl((await getImage({ src: a.data.image, width: 600, format: 'jpg' })).src)
+        : undefined,
+      sameAs: a.data.sameAs,
+    }),
+  ),
+);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[webPage({ path, title, description, type: 'AboutPage' }), ...people, breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <article class="container-site max-w-3xl py-8 md:py-12">
+    <h1 class="h1">Over Flavory</h1>
+    <div class="prose-flavory mt-6 text-lg">
+      <p>
+        Alle ingrediënten voor het etentje liggen in je winkelkar, en ook de dessertchocolade heb je al gevonden. Nu nog
+        de wijn. Je loopt door de gangen vol flessen uit verschillende landen.{' '}
+        <strong>Wat een overaanbod. Je voelt je compleet overdonderd.</strong>
+      </p>
+      <p>
+        Hoe maak je nu een keuze? Kijk je naar de kleur, de druif of het land? Of doe je zoals altijd, en kies je de
+        fles met het mooiste etiket, op hoop van zegen?
+      </p>
+      <p>
+        <strong>Als je je ooit zo hebt gevoeld, ben je niet alleen.</strong> Enkele jaren geleden liet Bart zich door
+        exact die situatie inspireren. Het resultaat? Flavory. Het{' '}
+        <a href="/blog/het-prille-begin-van-flavory-anno-2017/">prille begin van Flavory</a> lees je op onze blog.
+      </p>
+    </div>
+  </article>
+
+  <section class="container-site py-8" aria-labelledby="team-title">
+    <h2 id="team-title" class="h2 text-center">
+      De mensen achter Flavory
+    </h2>
+    <div class="mt-8 grid gap-8 md:grid-cols-2">
+      <div id="bart" class="scroll-mt-28 rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
+        {team.find((a) => a.id === 'bart')?.data.image && (
+          <Image
+            src={team.find((a) => a.id === 'bart')!.data.image!}
+            alt="Portret van Bart Claessens"
+            widths={[320, 480]}
+            sizes="(min-width: 768px) 20rem, 80vw"
+            class="mx-auto aspect-square w-full max-w-60 rounded-full object-cover"
+          />
+        )}
+        <h3 class="h4 mt-4 text-center">Bart, het creatieve brein</h3>
+        <p class="mt-3">
+          "Interesse voor wijn heb ik altijd gehad, maar ik miste een laagdrempelige manier om er meer over te leren.
+          Liefst van al bleef het nog een beetje leuk ook. En wie weet zat er wel een competitief element in? Toen ik
+          dat nergens vond, heb ik het maar zelf ontwikkeld. En zo zit jij nu op deze website. Wel een box kopen ook,
+          hé?"
+        </p>
+      </div>
+      <div id="thomas" class="scroll-mt-28 rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
+        {team.find((a) => a.id === 'thomas')?.data.image && (
+          <Image
+            src={team.find((a) => a.id === 'thomas')!.data.image!}
+            alt="Portret van Thomas, medeoprichter van Flavory"
+            widths={[320, 480]}
+            sizes="(min-width: 768px) 20rem, 80vw"
+            class="mx-auto aspect-square w-full max-w-60 rounded-full object-cover"
+          />
+        )}
+        <h3 class="h4 mt-4 text-center">Thomas, het businessbrein</h3>
+        <p class="mt-3">
+          "Mijn passie voor ondernemen combineren met mijn liefde voor wijn: die kans grijp ik met beide handen. Waar
+          Bart de wijnranken plantte, zorg ik enthousiast mee voor extra zon en regen. Samen bottelen we de perfecte
+          beleving voor elke wijnliefhebber!"
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-site max-w-3xl py-8">
+    <div class="rounded-[var(--radius-card)] bg-blush p-6">
+      <h2 class="h4">Flavory in het kort</h2>
+      <dl class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-[auto_1fr]">
+        <dt class="font-bold">Bedrijf</dt>
+        <dd>{SITE.legalName}</dd>
+        <dt class="font-bold">Adres</dt>
+        <dd>
+          {SITE.address.street}, {SITE.address.postalCode} {SITE.address.city}
+        </dd>
+        <dt class="font-bold">BTW</dt>
+        <dd>BE 0757.810.421</dd>
+        <dt class="font-bold">Opgericht</dt>
+        <dd>{SITE.foundingDate}</dd>
+        <dt class="font-bold">Contact</dt>
+        <dd>
+          <a href={`mailto:${SITE.email}`} class="text-brand underline">
+            {SITE.email}
+          </a>
+        </dd>
+      </dl>
+      <p class="mt-4">
+        Bekijk ook{' '}
+        <a href={SITE.social.youtube} class="text-brand underline" rel="noopener">
+          onze video's op YouTube
+        </a>
+        .
+      </p>
+    </div>
+  </section>
+</BaseLayout>

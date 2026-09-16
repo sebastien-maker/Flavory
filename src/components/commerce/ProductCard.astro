@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import type { Product } from '@/lib/content';
+import { productPath } from '@/lib/content';
+import { formatPrice } from '@/lib/site';
+
+interface Props {
+  product: Product;
+  headingLevel?: 'h2' | 'h3';
+  eager?: boolean;
+}
+
+const { product, headingLevel: Heading = 'h3', eager = false } = Astro.props;
+const { data } = product;
+const url = productPath(product.id);
+const soldOut = data.availability === 'out_of_stock';
+const cover = data.images[0]!;
+---
+
+<article class="card-link group p-4">
+  <div class="relative aspect-square overflow-hidden rounded-xl bg-cream">
+    <Image
+      src={cover.src}
+      alt={cover.alt}
+      width={480}
+      height={480}
+      widths={[360, 720]}
+      sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 90vw"
+      class="size-full object-cover"
+      loading={eager ? 'eager' : 'lazy'}
+    />
+    <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+      {!data.includesWine && <span class="badge bg-ink text-white">Zonder wijn</span>}
+      {data.includesWine && <span class="badge bg-brand text-white">Met 2 wijnen</span>}
+      {soldOut && <span class="badge bg-white ring-1 ring-line">Uitverkocht</span>}
+    </div>
+  </div>
+  <div class="mt-4 flex flex-1 flex-col">
+    <Heading class="font-display text-xl text-brand">
+      <a href={url} class="after:absolute after:inset-0">
+        {data.name}
+      </a>
+    </Heading>
+    <p class="mt-1 text-sm font-bold">{data.duel}</p>
+    <p class="mt-2 text-sm text-muted italic">{data.cardTagline}</p>
+    <div class="mt-auto flex items-center justify-between gap-3 pt-4">
+      <p class="text-xl font-bold">{formatPrice(data.price)}</p>
+      <span
+        class:list={[
+          'btn relative min-h-10 py-2',
+          soldOut ? 'bg-line text-muted' : 'bg-brand text-white group-hover:bg-brand-dark',
+        ]}
+        aria-hidden="true"
+      >
+        {soldOut ? 'Bekijk' : 'Bestel nu'}
+      </span>
+    </div>
+  </div>
+</article>

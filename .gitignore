@@ -2,3 +2,16 @@
 *.log
 node_modules/
 .claude/settings.local.json
+
+# Local snapshot of the old WordPress site (pnpm scrape)
+scraped/
+
+# Build output
+dist/
+.astro/
+.netlify/
+
+# Env
+.env
+.env.*
+!.env.example

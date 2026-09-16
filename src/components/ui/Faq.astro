@@ -1,0 +1,27 @@
+---
+// Visible FAQ (native <details>, works without JS). Pair with faqPage() schema only when shown on the page.
+import { marked } from 'marked';
+
+interface Props {
+  items: { question: string; answer: string }[];
+  headingLevel?: 'h2' | 'h3';
+  openFirst?: boolean;
+}
+
+const { items, headingLevel: Heading = 'h3', openFirst = false } = Astro.props;
+const rendered = items.map((item) => ({ ...item, html: marked.parse(item.answer, { async: false }) }));
+---
+
+<div class="card divide-y divide-line px-5">
+  {rendered.map((item, i) => (
+    <details class="py-1" open={openFirst && i === 0}>
+      <summary class="faq-summary">
+        <Heading class="font-sans text-base">{item.question}</Heading>
+        <span class="faq-icon" aria-hidden="true">
+          +
+        </span>
+      </summary>
+      <div class="prose-flavory pb-4 text-sm" set:html={item.html} />
+    </details>
+  ))}
+</div>

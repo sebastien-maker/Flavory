@@ -1,0 +1,163 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import ContactForm from '@/components/forms/ContactForm.astro';
+import Faq from '@/components/ui/Faq.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import { getFaq, getProducts } from '@/lib/content';
+import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
+import giftImage from '@/assets/images/products/bubbelbox/05.jpg';
+
+const path = '/zakelijk/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Zakelijk', path },
+];
+const title = 'Relatiegeschenk wijn: wijnspel als eindejaarsgeschenk';
+const seoTitle = 'Relatiegeschenk wijn: het wijnspel als geschenk';
+const description =
+  'Een relatiegeschenk met wijn dat bijblijft: het wijnspel van Flavory als eindejaarsgeschenk voor klanten of collega’s. Met logo of boodschap. Vraag een offerte.';
+
+const faq = [
+  {
+    question: 'Kan ik de boxen personaliseren?',
+    answer:
+      'Ja. Graag je logo op de dozen? Of steek je liever een persoonlijke boodschap in de box? We bekijken samen hoe we jouw wijnboxen personaliseren.',
+  },
+  {
+    question: 'Vanaf hoeveel boxen kan ik een offerte aanvragen?',
+    answer:
+      'Voor elke bulkbestelling maken we graag een voorstel op maat. Laat in het formulier weten hoeveel boxen je ongeveer nodig hebt.',
+  },
+  ...(await getFaq('zakelijk')).map((f) => f.data),
+];
+const products = (await getProducts()).filter((p) => p.data.includesWine && p.data.availability !== 'out_of_stock');
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  path={path}
+  image={giftImage}
+  imageAlt="Een Flavory-wijnspel wordt cadeau gegeven voor een kerstboom"
+  schema={[webPage({ path, title, description }), faqPage(path, faq), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site grid items-center gap-8 py-8 md:grid-cols-2 md:py-12">
+    <div>
+      <h1 class="h1">{title}</h1>
+      <p class="lead mt-4">Een fles wijn wordt opgedronken. Een avond met Flavory wordt onthouden.</p>
+      <p class="mt-4">
+        Zoek je een relatiegeschenk of eindejaarsgeschenk dat opvalt? Met het wijnspel van Flavory geef je je klanten,
+        partners of collega's geen zoveelste fles, maar een blinde wijnproeverij om thuis te spelen met vrienden of
+        familie. Leuk, leerrijk en altijd gesmaakt.
+      </p>
+      <ul class="mt-6 space-y-2">
+        <li class="flex gap-2">
+          <span class="text-brand" aria-hidden="true">
+            ✓
+          </span>{' '}
+          Twee geselecteerde wijnen en een compleet spel per box
+        </li>
+        <li class="flex gap-2">
+          <span class="text-brand" aria-hidden="true">
+            ✓
+          </span>{' '}
+          Personaliseerbaar met je logo of een persoonlijke boodschap
+        </li>
+        <li class="flex gap-2">
+          <span class="text-brand" aria-hidden="true">
+            ✓
+          </span>{' '}
+          Levering in België en Nederland
+        </li>
+        <li class="flex gap-2">
+          <span class="text-brand" aria-hidden="true">
+            ✓
+          </span>{' '}
+          Ook als teambuilding:{' '}
+          <a href="/zakelijk/teambuilding-wijnproeverij/" class="text-brand underline">
+            proeverij op locatie
+          </a>
+        </li>
+      </ul>
+      <a href="#offerte" class="btn-primary mt-6">
+        Vraag een offerte aan
+      </a>
+    </div>
+    <Image
+      src={giftImage}
+      alt="Een Flavory-wijnspel wordt cadeau gegeven voor een versierde kerstboom"
+      widths={[400, 640, 960]}
+      sizes="(min-width: 768px) 50vw, 90vw"
+      class="aspect-[3/2] w-full rounded-[var(--radius-card)] object-cover"
+      loading="eager"
+    />
+  </section>
+
+  <section class="container-site grid gap-10 py-8 md:grid-cols-2 md:py-12">
+    <div class="prose-flavory">
+      <h2>Waarom een wijnspel als relatiegeschenk?</h2>
+      <p>
+        Relatiegeschenken zijn een investering. Een pen, een drinkbeker of een fles met etiket verdwijnt snel in de
+        kast. Een geschenk dat mensen samenbrengt, blijft hangen, en wordt gedeeld met vrienden en familie.
+      </p>
+      <p>
+        Flavory is precies dat: een avondvullende activiteit waarbij de ontvanger blind twee wijnen proeft, quizvragen
+        beantwoordt en ontdekt wie de grootste wijnkenner aan tafel is. Lees er meer over in
+        <a href="/blog/relatiegeschenken-slimme-investering-of-weggegooid-budget/">
+          relatiegeschenken: slimme investering of weggegooid budget?
+        </a>
+      </p>
+    </div>
+    <div class="prose-flavory">
+      <h2>Hoe gaat een zakelijke bestelling in zijn werk?</h2>
+      <ol>
+        <li>Je vult het offerteformulier in met het gewenste aantal boxen.</li>
+        <li>We bespreken samen de oplage, de wijnkeuze en de personalisatie.</li>
+        <li>Je ontvangt een vrijblijvende offerte.</li>
+        <li>Wij verzorgen de boxen en de levering.</li>
+      </ol>
+      <p>
+        Ben je wijnhandelaar en wil je Flavory in je winkel verkopen? <a href="/contact/">Neem contact op</a>.
+      </p>
+    </div>
+  </section>
+
+  {products.length > 0 && (
+    <section class="container-site py-8" aria-labelledby="boxen-title">
+      <h2 id="boxen-title" class="h3">
+        Populair als relatiegeschenk
+      </h2>
+      <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {products.map((p) => (
+          <li>
+            <ProductCard product={p} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section id="offerte" class="container-site scroll-mt-28 py-8 md:py-12" aria-labelledby="offerte-title">
+    <div class="grid gap-8 rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line md:grid-cols-[1fr_2fr] md:p-10">
+      <div>
+        <h2 id="offerte-title" class="h3">
+          Vraag een vrijblijvende offerte aan
+        </h2>
+        <p class="mt-3">Vul het formulier in en we bezorgen je zo snel mogelijk een offerte op maat.</p>
+      </div>
+      <ContactForm name="offerte" submitLabel="Offerte aanvragen" />
+    </div>
+  </section>
+
+  <section class="container-site py-8" aria-labelledby="faq-title">
+    <h2 id="faq-title" class="h3">
+      Veelgestelde vragen van bedrijven
+    </h2>
+    <div class="mt-4">
+      <Faq items={faq} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import { SITE } from '@/lib/site';
+---
+
+<div class="bg-brand text-white">
+  <div class="container-site flex h-10 items-center justify-center overflow-hidden text-center text-xs font-bold sm:text-sm">
+    <p class="announce relative h-5 w-full" aria-label={SITE.announcements.join('. ')}>
+      {SITE.announcements.map((text, i) => (
+        <span class="announce-item absolute inset-0" style={`--i:${i}`} aria-hidden="true">
+          {text}
+        </span>
+      ))}
+    </p>
+  </div>
+</div>
+
+<style define:vars={{ count: SITE.announcements.length }}>
+  /* Pure CSS rotation: no JS, no layout shift (fixed height). */
+  .announce-item {
+    opacity: 0;
+    animation: rotate calc(var(--count) * 4s) infinite;
+    animation-delay: calc(var(--i) * 4s);
+  }
+  .announce-item:first-child {
+    opacity: 1;
+  }
+  @keyframes rotate {
+    0%,
+    30% {
+      opacity: 1;
+      transform: none;
+    }
+    33%,
+    100% {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .announce-item {
+      animation: none;
+    }
+    .announce-item:not(:first-child) {
+      display: none;
+    }
+  }
+</style>

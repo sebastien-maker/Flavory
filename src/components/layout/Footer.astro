@@ -1,0 +1,104 @@
+---
+import { FOOTER_NAV, SITE } from '@/lib/site';
+import PaymentIcons from '@/components/commerce/PaymentIcons.astro';
+import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 bg-brand text-white">
+  <div class="container-site py-12 md:py-16">
+    <div class="flex flex-col items-center gap-3 text-center">
+      <a href="/">
+        <img
+          src="/images/logo-white.svg"
+          alt="Flavory, naar de homepage"
+          width="182"
+          height="56"
+          loading="lazy"
+          decoding="async"
+          class="h-12 w-auto md:h-14"
+        />
+      </a>
+    </div>
+
+    <div class="mt-10 grid grid-cols-2 gap-8 md:grid-cols-5">
+      {FOOTER_NAV.map((group) => (
+        <nav aria-label={group.title}>
+          <p class="font-display text-lg">{group.title}</p>
+          <ul class="link-list mt-3 space-y-2 text-sm">
+            {group.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+      <div class="col-span-2 md:col-span-1">
+        <p class="font-display text-lg">Flavory volgen</p>
+        <ul class="mt-3 flex gap-3">
+          <li>
+            <a href={SITE.social.instagram} class="icon-circle" rel="noopener" aria-label="Flavory op Instagram">
+              <img
+                src="/images/social/instagram.svg"
+                alt=""
+                width="20"
+                height="20"
+                loading="lazy"
+                decoding="async"
+                class="size-5"
+              />
+            </a>
+          </li>
+          <li>
+            <a href={SITE.social.facebook} class="icon-circle" rel="noopener" aria-label="Flavory op Facebook">
+              <img
+                src="/images/social/facebook.svg"
+                alt=""
+                width="20"
+                height="20"
+                loading="lazy"
+                decoding="async"
+                class="size-5"
+              />
+            </a>
+          </li>
+          <li>
+            <a href={SITE.social.youtube} class="icon-circle" rel="noopener" aria-label="Flavory op YouTube">
+              <img
+                src="/images/social/youtube.svg"
+                alt=""
+                width="20"
+                height="20"
+                loading="lazy"
+                decoding="async"
+                class="size-5"
+              />
+            </a>
+          </li>
+        </ul>
+        <div class="mt-5">
+          <TrustpilotBadge tone="light" />
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/30 pt-6 md:flex-row">
+      <PaymentIcons />
+      <button type="button" data-consent-open class="text-sm underline underline-offset-2">
+        Cookie-instellingen
+      </button>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-2 text-xs text-white/90 md:flex-row md:justify-between">
+      <p>
+        {`© ${year} ${SITE.legalName} · ${SITE.address.street}, ${SITE.address.postalCode} ${SITE.address.city} · BTW BE 0757.810.421 · `}
+        <a href={`mailto:${SITE.email}`} class="underline">
+          {SITE.email}
+        </a>
+      </p>
+      <p>Geniet met mate. Alcoholverkoop enkel aan personen vanaf 16 jaar (België) of 18 jaar (Nederland).</p>
+    </div>
+  </div>
+</footer>

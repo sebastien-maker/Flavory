@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { SITE } from '@/lib/site';
+import { breadcrumbs, webPage } from '@/components/seo/schema';
+
+const path = '/wijnkiezer/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Wijnkiezer', path },
+];
+const title = 'Wijnkiezer: welke wijn koop je bij je wijnspel?';
+const description =
+  'Een Flavory-spelbox zonder wijn gekocht? Zo kies je de juiste twee flessen: monocépage, liefst van hetzelfde domein en uit dezelfde prijsklasse.';
+
+const grapes = [
+  {
+    box: 'Rode wijnspel',
+    href: '/shop/wijnproeverij-thuis-rood/',
+    a: 'Merlot',
+    b: 'Cabernet Sauvignon',
+    color: 'rood',
+  },
+  {
+    box: 'Witte wijnspel',
+    href: '/shop/wijnproeverij-thuis-wit/',
+    a: 'Chardonnay',
+    b: 'Sauvignon Blanc',
+    color: 'wit',
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[webPage({ path, title, description }), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <article class="container-site max-w-3xl py-8 md:py-12">
+    <p class="font-display text-2xl text-brand">Hoera, je hebt een Flavory-spelbox!</p>
+    <h1 class="h1 mt-2">Welke wijn koop je bij je wijnspel?</h1>
+    <p class="lead mt-4">
+      Er staat je een superleuke wijnavond te wachten. Je hebt enkel nog twee flessen wijn nodig. Met deze drie regels
+      kies je ze zonder twijfel.
+    </p>
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      {grapes.map((g) => (
+        <div class="rounded-[var(--radius-card)] bg-white p-5 ring-1 ring-line">
+          <p class="text-sm font-bold tracking-wide text-brand uppercase">{g.box}</p>
+          <p class="mt-2 font-display text-2xl">
+            {g.a} <span class="text-muted">+</span> {g.b}
+          </p>
+          <p class="mt-2 text-sm">
+            Koop één fles {g.a} en één fles {g.b} ({g.color}).
+          </p>
+          <a href={g.href} class="mt-3 inline-block text-sm font-bold text-brand hover:underline">
+            Bekijk de box →
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <ol class="mt-10 space-y-8">
+      <li>
+        <h2 class="h3">1. Kies twee wijnen van één druivensoort (monocépage)</h2>
+        <p class="mt-3">
+          Let erop dat elke wijn gemaakt is van één en dezelfde druif. Dat heet monocépage. Vaak worden druiven gemengd;
+          dan spreek je van een blend. Zoek dus flessen waarop enkel een van deze druiven op het etiket staat:
+        </p>
+        <ul class="mt-3 list-disc pl-6">
+          <li>Merlot (rood)</li>
+          <li>Cabernet Sauvignon (rood)</li>
+          <li>Chardonnay (wit)</li>
+          <li>Sauvignon Blanc (wit)</li>
+        </ul>
+      </li>
+      <li>
+        <h2 class="h3">2. Kies wijnen van hetzelfde wijndomein, als het kan</h2>
+        <p class="mt-3">
+          Komen beide wijnen van hetzelfde domein, dan proef je het verschil tussen de druiven het best. Voor het spel
+          is dat niet noodzakelijk.
+        </p>
+      </li>
+      <li>
+        <h2 class="h3">3. Bepaal je budget</h2>
+        <p class="mt-3">
+          Je hoeft geen fortuin uit te geven om het spel te spelen. Zorg er wel voor dat beide flessen uit dezelfde
+          prijsklasse komen, zodat de prijs het verschil niet verraadt.
+        </p>
+      </li>
+    </ol>
+
+    <aside class="mt-10 rounded-[var(--radius-card)] bg-blush p-6">
+      <h2 class="h4">Heb je vragen?</h2>
+      <p class="mt-2">
+        Aarzel niet om ons te contacteren via{' '}
+        <a href={`mailto:${SITE.email}`} class="text-brand underline">
+          {SITE.email}
+        </a>
+        . Twijfel je in de winkel? Vraag hulp aan je wijnhandelaar: laat hem deze pagina zien.
+      </p>
+      <p class="mt-4">
+        Liever geen wijn kiezen? Neem dan een wijnbox met twee geselecteerde flessen, zoals
+        <a href="/shop/italie-of-spanje/" class="text-brand underline">
+          Italië of Spanje
+        </a>
+        .
+      </p>
+    </aside>
+  </article>
+</BaseLayout>

@@ -1,0 +1,62 @@
+---
+// Real 404 (rule 6): Netlify serves dist/404.html with status 404 for unknown URLs.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import { getProducts } from '@/lib/content';
+
+const products = (await getProducts()).slice(0, 3);
+---
+
+<BaseLayout
+  title="Pagina niet gevonden"
+  description="Deze pagina bestaat niet (meer). Ontdek onze wijnspellen voor een wijnproeverij thuis, lees de blog of neem contact op met Flavory."
+  path="/404/"
+  noindex
+>
+  <section class="container-site py-12 text-center md:py-20">
+    <p class="font-display text-7xl text-brand">404</p>
+    <h1 class="h2 mt-4">Deze fles is leeg</h1>
+    <p class="mx-auto mt-4 max-w-xl">
+      De pagina die je zoekt bestaat niet (meer). Misschien vind je hier wat je zoekt:
+    </p>
+    <nav aria-label="Snelle links" class="mt-6">
+      <ul class="flex flex-wrap justify-center gap-2">
+        <li>
+          <a href="/" class="btn-outline">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/shop/" class="btn-primary">
+            Shop
+          </a>
+        </li>
+        <li>
+          <a href="/blog/" class="btn-outline">
+            Blog
+          </a>
+        </li>
+        <li>
+          <a href="/faq/" class="btn-outline">
+            FAQ
+          </a>
+        </li>
+        <li>
+          <a href="/contact/" class="btn-outline">
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </section>
+  <section class="container-site pb-12">
+    <h2 class="h3 text-center">Populaire boxen</h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((p) => (
+        <li>
+          <ProductCard product={p} />
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

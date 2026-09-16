@@ -1,0 +1,79 @@
+---
+import { NAV } from '@/lib/site';
+import CartIcon from '@/assets/icons/cart.svg';
+
+const current = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
+---
+
+<header class="sticky top-0 z-40 border-b border-transparent bg-cream/95 backdrop-blur supports-[backdrop-filter]:bg-cream/80">
+  <div class="container-site flex h-18 items-center justify-between gap-4 md:h-24">
+    <a href="/" class="shrink-0">
+      <img src="/images/logo.svg" alt="Flavory, naar de homepage" width="182" height="56" class="h-9 w-auto md:h-14" />
+    </a>
+
+    <nav aria-label="Hoofdmenu" class="hidden md:block">
+      <ul class="flex items-center gap-3 lg:gap-4">
+        {NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={['nav-pill', item.href === '/shop/' && 'nav-pill-shop']}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        data-cart-open
+        class="relative flex size-12 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
+        aria-label="Winkelmandje openen"
+      >
+        <CartIcon class="size-7 fill-current" aria-hidden="true" />
+        <span
+          data-cart-count
+          hidden
+          class="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-ink text-[0.7rem] font-bold text-white"
+        ></span>
+      </button>
+
+      <details class="group md:hidden">
+        <summary
+          class="flex size-12 cursor-pointer list-none items-center justify-center rounded-full border-2 border-ink [&::-webkit-details-marker]:hidden"
+          aria-label="Menu"
+        >
+          <svg class="size-5 group-open:hidden" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <svg class="hidden size-5 group-open:block" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </summary>
+        <nav
+          aria-label="Mobiel menu"
+          class="absolute inset-x-0 top-full border-t border-line bg-cream px-4 pt-4 pb-8 shadow-lg"
+        >
+          <ul class="flex flex-col gap-3">
+            {NAV.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={['nav-pill w-full', item.href === '/shop/' && 'nav-pill-shop']}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

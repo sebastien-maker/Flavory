@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import type { Post } from '@/lib/content';
+import { postPath } from '@/lib/content';
+import { formatDate } from '@/lib/site';
+
+interface Props {
+  post: Post;
+  headingLevel?: 'h2' | 'h3';
+  eager?: boolean;
+}
+
+const { post, headingLevel: Heading = 'h3', eager = false } = Astro.props;
+const { data } = post;
+---
+
+<article class="card-link group">
+  <Image
+    src={data.heroImage}
+    alt={data.heroAlt}
+    width={640}
+    height={400}
+    widths={[320, 480, 640]}
+    sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 90vw"
+    fit="cover"
+    class="aspect-[8/5] w-full object-cover"
+    loading={eager ? 'eager' : 'lazy'}
+  />
+  <div class="flex flex-1 flex-col p-5">
+    <p class="text-xs text-muted">
+      <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+    </p>
+    <Heading class="mt-2 font-display text-xl leading-tight">
+      <a href={postPath(post.id)} class="after:absolute after:inset-0 group-hover:text-brand">
+        {data.title}
+      </a>
+    </Heading>
+    <p class="mt-2 line-clamp-3 text-sm">{data.excerpt}</p>
+    <p class="mt-auto pt-4 text-sm font-bold text-brand" aria-hidden="true">
+      Lees meer →
+    </p>
+  </div>
+</article>

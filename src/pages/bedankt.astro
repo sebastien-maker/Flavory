@@ -1,0 +1,24 @@
+---
+// Form success page (Netlify Forms action). Not indexed, not in the sitemap.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Bedankt voor je bericht"
+  description="Bedankt! We hebben je bericht goed ontvangen en nemen zo snel mogelijk contact met je op. Ontdek intussen onze wijnspellen of lees de blog."
+  path="/bedankt/"
+  noindex
+>
+  <section class="container-site max-w-2xl py-12 text-center md:py-20">
+    <h1 class="h1">Bedankt!</h1>
+    <p class="lead mt-4">We hebben je bericht goed ontvangen en nemen zo snel mogelijk contact met je op.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="/shop/" class="btn-primary">
+        Naar de shop
+      </a>
+      <a href="/blog/" class="btn-outline">
+        Lees de blog
+      </a>
+    </div>
+  </section>
+</BaseLayout>

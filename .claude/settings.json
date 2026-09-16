@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install)",
+      "Bash(pnpm run *)",
+      "Bash(pnpm astro *)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm test)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr checks *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/*.pem)",
+      "Bash(git push --force *)",
+      "Bash(rm -rf *)"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /keystatic
+Disallow: /api/
+Disallow: /bedankt/
+Disallow: /*?*add-to-cart=
+
+Sitemap: https://flavory.wine/sitemap-index.xml

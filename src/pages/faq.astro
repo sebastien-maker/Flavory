@@ -1,0 +1,82 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Faq from '@/components/ui/Faq.astro';
+import { getFaq } from '@/lib/content';
+import { SITE } from '@/lib/site';
+import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
+
+const path = '/faq/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Veelgestelde vragen', path },
+];
+const title = 'Veelgestelde vragen over het wijnspel';
+const description =
+  'Antwoorden op al je vragen over Flavory: welke wijnbox kiezen, hoe het wijnspel werkt, levering, geld-terug-garantie en info voor bedrijven en winkels.';
+
+const groups = [
+  { key: 'kiezen', title: 'Kiezen en cadeau geven' },
+  { key: 'spel', title: 'Het spel' },
+  { key: 'bestellen', title: 'Bestellen en levering' },
+  { key: 'zakelijk', title: 'Bedrijven en winkels' },
+] as const;
+
+const all = await getFaq();
+const sections = groups.map((g) => ({ ...g, items: all.filter((f) => f.data.group === g.key).map((f) => f.data) }));
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[
+    webPage({ path, title, description }),
+    faqPage(
+      path,
+      all.map((f) => f.data),
+    ),
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site max-w-3xl py-8 md:py-12">
+    <h1 class="h1">Veelgestelde vragen</h1>
+    <p class="lead mt-4">
+      Flavory is een wijnspel voor een blinde wijnproeverij thuis, voor 2 tot 6 spelers. Hieronder vind je antwoorden op
+      de vragen die we het vaakst krijgen.
+    </p>
+    <nav aria-label="Onderwerpen" class="mt-6">
+      <ul class="flex flex-wrap gap-2">
+        {sections.map((s) => (
+          <li>
+            <a href={`#${s.key}`} class="btn-outline min-h-10 py-2">
+              {s.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    {sections.map((s) => (
+      <section id={s.key} class="mt-10 scroll-mt-28" aria-labelledby={`${s.key}-title`}>
+        <h2 id={`${s.key}-title`} class="h3">
+          {s.title}
+        </h2>
+        <div class="mt-4">
+          <Faq items={s.items} />
+        </div>
+      </section>
+    ))}
+    <p class="mt-10 rounded-[var(--radius-card)] bg-blush p-6">
+      Staat je vraag er niet bij? Mail naar{' '}
+      <a href={`mailto:${SITE.email}`} class="font-bold text-brand underline">
+        {SITE.email}
+      </a>
+      of gebruik het{' '}
+      <a href="/contact/" class="font-bold text-brand underline">
+        contactformulier
+      </a>
+      .
+    </p>
+  </section>
+</BaseLayout>

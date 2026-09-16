@@ -1,0 +1,13 @@
+dist
+.astro
+.netlify
+scraped
+flavory.wine-audit
+flavory.wine-plan
+pnpm-lock.yaml
+public/_redirects
+src/content
+CLAUDE.md
+ONBOARDING-BART.md
+.claude
+.github/workflows/claude*.yml

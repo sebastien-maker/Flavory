@@ -1,0 +1,26 @@
+name: CI
+# Every PR and push to main: type check, lint, build, SEO rules (CLAUDE.md 1-8) and redirect coverage (rule 6).
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/seo-check.mjs content
+      - run: pnpm astro check
+      - run: pnpm lint
+      - run: pnpm build
+      - run: node scripts/seo-check.mjs dist
+      - run: node scripts/build-redirects.mjs --verify

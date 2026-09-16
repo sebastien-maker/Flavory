@@ -1,0 +1,24 @@
+---
+// Star rating as a single element: CSS mask + gradient, a few bytes per use.
+interface Props {
+  rating: number;
+  class?: string;
+  label?: string;
+}
+
+const { rating, class: className, label = `${String(rating).replace('.', ',')} van 5 sterren` } = Astro.props;
+---
+
+<span class:list={['stars', className]} style={`--pct:${(rating / 5) * 100}%`} role="img" aria-label={label}></span>
+
+<style is:global>
+  .stars {
+    display: inline-block;
+    width: 5.5em;
+    height: 1.1em;
+    vertical-align: middle;
+    background: linear-gradient(90deg, var(--color-star) var(--pct), #d9d0c7 var(--pct));
+    -webkit-mask: url('/images/star.svg') 0 0 / 1.1em 1.1em repeat-x;
+    mask: url('/images/star.svg') 0 0 / 1.1em 1.1em repeat-x;
+  }
+</style>

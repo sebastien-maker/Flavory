@@ -1,0 +1,60 @@
+---
+import type { ComponentProps } from 'astro/types';
+import '@/styles/global.css';
+import SeoHead from '@/components/seo/SeoHead.astro';
+import AnnouncementBar from '@/components/layout/AnnouncementBar.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import CartDrawer from '@/components/commerce/CartDrawer.astro';
+import ConsentBanner from '@/components/layout/ConsentBanner.astro';
+
+type Props = ComponentProps<typeof SeoHead> & {
+  /** Preload the LCP image (rule 5). */
+  preloadImage?: { src: string; srcset?: string | undefined; sizes?: string | undefined } | undefined;
+};
+
+const { preloadImage, ...seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="nl-BE">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#d60021" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" href="/fonts/thesans-bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
+    {preloadImage && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadImage.src}
+        imagesrcset={preloadImage.srcset}
+        imagesizes={preloadImage.sizes}
+        fetchpriority="high"
+      />
+    )}
+    <SeoHead {...seo} />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-full bg-white px-4 py-2 focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+    >
+      Naar de inhoud
+    </a>
+    <AnnouncementBar />
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <CartDrawer />
+    <ConsentBanner />
+  </body>
+</html>

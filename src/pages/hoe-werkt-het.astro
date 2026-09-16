@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Faq from '@/components/ui/Faq.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import { getFaq, getProducts } from '@/lib/content';
+import { STEPS } from '@/lib/steps';
+import { SITE } from '@/lib/site';
+import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
+import contentsImage from '@/assets/images/products/wijnproeverij-thuis-rood/02.webp';
+
+const path = '/hoe-werkt-het/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Hoe werkt het?', path },
+];
+const title = 'Hoe werkt het wijnspel? Spelregels in 6 stappen';
+const description =
+  'Zo werkt een wijnproeverij thuis met Flavory: twee blinde wijnen, een sommelier, een spelleider en quizvragen. De spelregels in 6 stappen, zonder voorkennis.';
+const faq = (await getFaq('spel')).map((f) => f.data);
+const products = (await getProducts()).slice(0, 3);
+
+const howTo = {
+  '@type': 'HowTo',
+  '@id': `${SITE.url}${path}#howto`,
+  name: 'Een wijnproeverij thuis spelen met Flavory',
+  description,
+  totalTime: 'PT90M',
+  supply: [
+    { '@type': 'HowToSupply', name: 'Flavory-spelbox' },
+    { '@type': 'HowToSupply', name: 'Twee flessen wijn' },
+  ],
+  tool: [
+    { '@type': 'HowToTool', name: 'Twee wijnglazen per speler' },
+    { '@type': 'HowToTool', name: 'Kurkentrekker' },
+  ],
+  step: STEPS.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s.title, text: s.text })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[webPage({ path, title, description }), howTo, faqPage(path, faq), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site grid items-center gap-8 py-8 md:grid-cols-2 md:py-12">
+    <div>
+      <h1 class="h1">Hoe werkt het wijnspel van Flavory?</h1>
+      <p class="lead mt-4">
+        Flavory is een blinde wijnproeverij in spelvorm. Je proeft twee wijnen naast elkaar, verzamelt punten met
+        quizvragen en ontmaskert op het einde welke wijn in welke fles zit.
+      </p>
+      <p class="mt-4">
+        Je hebt geen voorkennis nodig. Alles wat je nodig hebt: 2 tot 6 spelers, twee wijnglazen per persoon, een
+        kurkentrekker en iets om mee te schrijven. Reken op 60 tot 90 minuten speelplezier.
+      </p>
+      <a href="/shop/" class="btn-primary mt-6">
+        Kies je box
+      </a>
+    </div>
+    <Image
+      src={contentsImage}
+      alt="Inhoud van een Flavory-box: spelregels, infobrochures, proefformulieren, rolkaarten, tipkaartjes en twee stoffen wijnzakjes"
+      widths={[400, 640, 960]}
+      sizes="(min-width: 768px) 50vw, 90vw"
+      class="w-full rounded-[var(--radius-card)]"
+      loading="eager"
+    />
+  </section>
+
+  <HowItWorks heading="De spelregels in 6 stappen" id="stappen" showCta={false} detailed />
+
+  <section class="container-site grid gap-10 py-8 md:grid-cols-2 md:py-12">
+    <div class="prose-flavory">
+      <h2>De rollen aan tafel</h2>
+      <p>
+        <strong>De sommelier van dienst</strong> leidt het proeven. Met de infobrochures leert hij of zij de groep
+        kijken, ruiken en proeven: welke kleur heeft de wijn, ruik je fruit, bloemen, kruiden of hout?
+      </p>
+      <p>
+        <strong>De spelleider</strong> houdt de quiz in goede banen. Wie een vraag juist beantwoordt, verdient punten en
+        een extra tip om de wijnen te ontmaskeren.
+      </p>
+      <p>
+        <strong>De spelers</strong> noteren hun indrukken op het proefformulier en gokken op het einde welke wijn in
+        fles A en welke in fles B zit.
+      </p>
+    </div>
+    <div class="prose-flavory">
+      <h2>Met of zonder wijn?</h2>
+      <p>
+        In de <strong>wijnboxen</strong> zitten twee geselecteerde flessen, anoniem verpakt. Je hoeft niets meer te
+        regelen.
+      </p>
+      <p>
+        Bij de <strong>spelboxen zonder wijn</strong> koop je zelf twee flessen. In de box zitten twee stoffen zakjes om
+        ze anoniem te maken. Welke wijnen je best kiest, lees je in de <a href="/wijnkiezer/">wijnkiezer</a>.
+      </p>
+      <h2>Wie wint?</h2>
+      <p>
+        De helft van de punten verdien je met proeven, de andere helft met quizvragen. Ook wie nog nooit bewust wijn
+        proefde, kan dus winnen. Wie de meeste punten heeft, gaat naar huis met het diploma van Grootste Wijnkenner.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-site py-8" aria-labelledby="faq-title">
+    <h2 id="faq-title" class="h3">
+      Vragen over het spel
+    </h2>
+    <div class="mt-4">
+      <Faq items={faq} />
+    </div>
+  </section>
+
+  <section class="container-site py-8" aria-labelledby="boxen-title">
+    <h2 id="boxen-title" class="h3">
+      Klaar om te spelen?
+    </h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((p) => (
+        <li>
+          <ProductCard product={p} />
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

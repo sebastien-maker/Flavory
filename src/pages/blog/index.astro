@@ -1,0 +1,89 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import PostCard from '@/components/blog/PostCard.astro';
+import { getPosts, postPath, PILLAR_LABELS } from '@/lib/content';
+import { breadcrumbs, itemList, webPage } from '@/components/seo/schema';
+
+const posts = await getPosts();
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+];
+const title = 'Wijnblog: leren proeven, druiven en cadeautips';
+const description =
+  'Wijn leren proeven zonder vaktermen: tips voor een wijnproeverij thuis, het verschil tussen druiven, wijn bij eten en originele wijncadeaus.';
+
+// Group by pillar so readers (and crawlers) find each topic cluster.
+const pillars = Object.entries(PILLAR_LABELS)
+  .map(([key, label]) => ({ key, label, posts: posts.filter((p) => p.data.pillar === key) }))
+  .filter((group) => group.posts.length > 0);
+const [latest, ...rest] = posts;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path="/blog/"
+  schema={[
+    webPage({ path: '/blog/', title, description, type: 'CollectionPage' }),
+    itemList(
+      '/blog/',
+      posts.map((p) => ({ name: p.data.title, path: postPath(p.id) })),
+    ),
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site py-8 md:py-12">
+    <h1 class="h1">De wijnblog van Flavory</h1>
+    <p class="lead mt-4 max-w-3xl">
+      Wijn leren proeven, zonder moeilijke woorden. Verhalen, tips en spiekbriefjes voor je volgende wijnproeverij
+      thuis.
+    </p>
+    <nav aria-label="Onderwerpen" class="mt-6">
+      <ul class="flex flex-wrap gap-2">
+        {pillars.map((group) => (
+          <li>
+            <a href={`#${group.key}`} class="btn-outline min-h-10 py-2">
+              {group.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    {latest && (
+      <div class="mt-8">
+        <h2 class="sr-only">Nieuwste artikels</h2>
+        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[latest, ...rest.slice(0, 5)].map((post, i) => (
+            <li>
+              <PostCard post={post} eager={i < 3} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </section>
+
+  {pillars.map((group) => (
+    <section id={group.key} class="container-site scroll-mt-28 py-8" aria-labelledby={`${group.key}-title`}>
+      <h2 id={`${group.key}-title`} class="h3">
+        {group.label}
+      </h2>
+      <ul class="mt-4 grid gap-x-8 gap-y-2 md:grid-cols-2">
+        {group.posts.map((post) => (
+          <li>
+            <a href={postPath(post.id)} class="flex gap-2 py-1 hover:text-brand hover:underline">
+              <span aria-hidden="true" class="text-brand">
+                →
+              </span>
+              {post.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>

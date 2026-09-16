@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import ProductPage from '@/components/commerce/ProductPage.astro';
+import CategoryPage from '@/components/commerce/CategoryPage.astro';
+import { getCategories, getProducts, type Category, type Product } from '@/lib/content';
+
+// Products and categories share the /shop/ namespace; handles must not collide.
+export const getStaticPaths = (async () => {
+  const products = await getProducts();
+  const categories = await getCategories();
+  const clash = products.find((p) => categories.some((c) => c.id === p.id));
+  if (clash) throw new Error(`Product handle "${clash.id}" collides with a category slug`);
+  return [
+    ...products.map((product) => ({
+      params: { slug: product.id },
+      props: { kind: 'product' as const, entry: product },
+    })),
+    ...categories.map((category) => ({
+      params: { slug: category.id },
+      props: { kind: 'category' as const, entry: category },
+    })),
+  ];
+}) satisfies GetStaticPaths;
+
+type Props = { kind: 'product'; entry: Product } | { kind: 'category'; entry: Category };
+
+const props = Astro.props;
+const { Content } = await render(props.entry);
+---
+
+{props.kind === 'product' ? (
+  <ProductPage product={props.entry}>
+    <Content />
+  </ProductPage>
+) : (
+  <CategoryPage category={props.entry}>
+    <Content />
+  </CategoryPage>
+)}

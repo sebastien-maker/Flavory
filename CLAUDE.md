@@ -31,7 +31,7 @@ Astro 7 (SSG, on-demand rendering alleen waar nodig) + `@astrojs/netlify` op Net
 ## Werkwijze
 - Feature-branches in deze repo (geen forks: fork-PR's krijgen geen secrets), pull request naar `main`, Netlify Deploy Preview per PR, minstens één review.
 - Commits: Conventional Commits (`feat:`, `fix:`, `content:`, `seo:`, `chore:`), Engels, korte imperatieve titel.
-- Vóór elke commit: `pnpm astro check`, `pnpm lint`, en bij pagina-wijzigingen de SEO-check (skill `/seo-check` zodra die bestaat).
+- Vóór elke commit: `pnpm verify` (contentcheck, `astro check`, lint, build, SEO-check en redirect-dekking).
 - Kleine, gerichte PR's. Geen refactors mengen met features.
 
 ## Bij review op een PR

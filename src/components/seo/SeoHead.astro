@@ -1,0 +1,101 @@
+---
+// Single source for <head> SEO tags (CLAUDE.md rule 2). Every page must render this through BaseLayout.
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import { SITE } from '@/lib/site';
+import { organization, website } from './schema';
+import defaultOgImage from '@/assets/images/site/vriendinnen-openen-box.jpg';
+
+interface Props {
+  /** Page title without the brand suffix; at most 50 characters, keyword first. */
+  title: string;
+  /** 120 to 155 characters. */
+  description: string;
+  /** Path of this page, e.g. "/shop/". Canonical is always self-referencing unless overridden. */
+  path: string;
+  canonicalPath?: string;
+  image?: ImageMetadata | undefined;
+  imageAlt?: string;
+  type?: 'website' | 'article' | 'product';
+  noindex?: boolean;
+  /** Extra JSON-LD nodes; Organization and WebSite are always included. */
+  schema?: Record<string, unknown>[];
+  /** Hreflang alternates (only for translated pairs). nl is always the x-default. */
+  alternates?: { lang: string; path: string }[];
+  publishedTime?: Date | undefined;
+  modifiedTime?: Date | undefined;
+  /** The home page keeps the brand first. */
+  isHome?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  canonicalPath = path,
+  image = defaultOgImage,
+  imageAlt = 'Vrienden openen een Flavory-wijnspel aan tafel',
+  type = 'website',
+  noindex = false,
+  schema = [],
+  alternates = [],
+  publishedTime,
+  modifiedTime,
+  isHome = false,
+} = Astro.props;
+
+if (import.meta.env.DEV) {
+  if (title.length > 50) console.warn(`[seo] title > 50 chars on ${path}: "${title}"`);
+  if (description.length < 120 || description.length > 155)
+    console.warn(`[seo] description ${description.length} chars on ${path}`);
+}
+
+const fullTitle = isHome ? title : `${title} | ${SITE.name}`;
+const canonical = new URL(canonicalPath, SITE.url).href;
+// Deploy previews and branch deploys are never indexable.
+const blockIndexing = noindex || import.meta.env.PUBLIC_NOINDEX === 'true';
+const robots = blockIndexing
+  ? 'noindex, follow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+const og = await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 });
+const ogUrl = new URL(og.src, SITE.url).href;
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [organization(), website(), ...schema],
+};
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonical} />
+{alternates.length > 0 && (
+  <>
+    <link rel="alternate" hreflang="nl" href={canonical} />
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.lang} href={new URL(alt.path, SITE.url).href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+  </>
+)}
+
+<meta property="og:locale" content="nl_BE" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:type" content={type === 'product' ? 'product' : type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogUrl} />
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(graph)}></script>

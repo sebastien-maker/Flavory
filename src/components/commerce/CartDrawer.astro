@@ -1,0 +1,198 @@
+---
+import { SITE } from '@/lib/site';
+---
+
+<dialog
+  id="cart-drawer"
+  aria-labelledby="cart-title"
+  class="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-full max-w-md bg-cream p-0 shadow-2xl backdrop:bg-ink/50"
+>
+  <div class="flex h-full flex-col">
+    <div class="flex items-center justify-between border-b border-line px-5 py-4">
+      <p id="cart-title" class="font-display text-2xl">
+        Je winkelmandje
+      </p>
+      <button
+        type="button"
+        data-cart-close
+        class="flex size-10 items-center justify-center rounded-full hover:bg-blush"
+        aria-label="Winkelmandje sluiten"
+      >
+        <svg class="size-5" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+
+    <p data-cart-progress class="bg-blush px-5 py-3 text-sm font-bold" aria-live="polite"></p>
+
+    <ul data-cart-lines class="flex-1 divide-y divide-line overflow-y-auto px-5"></ul>
+
+    <div data-cart-empty hidden class="flex flex-1 flex-col items-center justify-center gap-4 px-5 text-center">
+      <p class="font-display text-xl">Je winkelmandje is nog leeg.</p>
+      <a href="/shop/" class="btn-primary">
+        Ontdek de boxen
+      </a>
+    </div>
+
+    <div data-cart-footer class="border-t border-line px-5 py-5">
+      <div class="flex items-center justify-between text-lg font-bold">
+        <span>Subtotaal</span>
+        <span data-cart-subtotal></span>
+      </div>
+      <p class="mt-1 text-xs text-muted">Inclusief btw. Verzendkosten zie je bij het afrekenen.</p>
+      <button type="button" data-cart-checkout class="btn-primary mt-4 w-full">
+        Afrekenen
+      </button>
+      <p data-cart-notice hidden class="mt-3 rounded-xl bg-white p-3 text-sm" role="status">
+        Online afrekenen is binnenkort beschikbaar. Bestellen kan intussen via{' '}
+        <a class="text-brand underline" href={`mailto:${SITE.email}`}>
+          {SITE.email}
+        </a>
+        .
+      </p>
+    </div>
+  </div>
+</dialog>
+
+<template id="cart-line-template">
+  <li class="flex gap-4 py-4">
+    <img data-line-image alt="" width="80" height="80" class="size-20 shrink-0 rounded-xl bg-white object-cover" />
+    <div class="flex flex-1 flex-col gap-2">
+      <a data-line-name class="font-bold leading-tight hover:underline"></a>
+      <span data-line-price class="text-sm"></span>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          data-line-dec
+          class="flex size-8 items-center justify-center rounded-full border border-ink"
+          aria-label="Eén minder"
+        >
+          −
+        </button>
+        <span data-line-qty class="w-6 text-center font-bold" aria-live="polite"></span>
+        <button
+          type="button"
+          data-line-inc
+          class="flex size-8 items-center justify-center rounded-full border border-ink"
+          aria-label="Eén meer"
+        >
+          +
+        </button>
+        <button type="button" data-line-remove class="ml-auto text-xs underline">
+          Verwijderen
+        </button>
+      </div>
+    </div>
+  </li>
+</template>
+
+<script>
+  import { cart, MAX_QTY, type CartLine } from '@/lib/commerce/cart';
+  import { checkoutProvider, createCheckoutUrl } from '@/lib/commerce/checkout';
+  import { SITE, formatPrice } from '@/lib/site';
+
+  const dialog = document.getElementById('cart-drawer') as HTMLDialogElement;
+  const $ = <T extends HTMLElement>(sel: string, root: ParentNode = dialog) => root.querySelector<T>(sel)!;
+  const linesEl = $('[data-cart-lines]');
+  const template = document.getElementById('cart-line-template') as HTMLTemplateElement;
+
+  function render(lines: CartLine[]) {
+    const count = lines.reduce((n, l) => n + l.quantity, 0);
+    for (const badge of document.querySelectorAll<HTMLElement>('[data-cart-count]')) {
+      badge.hidden = count === 0;
+      badge.textContent = String(count);
+    }
+    for (const btn of document.querySelectorAll<HTMLElement>('[data-cart-open]')) {
+      btn.setAttribute(
+        'aria-label',
+        count ? `Winkelmandje openen, ${count} ${count === 1 ? 'box' : 'boxen'}` : 'Winkelmandje openen',
+      );
+    }
+
+    $('[data-cart-empty]').hidden = count > 0;
+    $('[data-cart-footer]').hidden = count === 0;
+    linesEl.hidden = count === 0;
+    const toGo = SITE.shipping.freeFromBoxes - count;
+    $('[data-cart-progress]').textContent =
+      count === 0 ? '' : toGo > 0 ? `Nog ${toGo} box en je verzending is gratis!` : 'Je verzending is gratis!';
+    $('[data-cart-progress]').hidden = count === 0;
+    $('[data-cart-subtotal]').textContent = formatPrice(lines.reduce((s, l) => s + l.price * l.quantity, 0));
+
+    linesEl.replaceChildren(
+      ...lines.map((line) => {
+        const node = template.content.firstElementChild!.cloneNode(true) as HTMLElement;
+        const img = $<HTMLImageElement>('[data-line-image]', node);
+        img.src = line.image;
+        const name = $<HTMLAnchorElement>('[data-line-name]', node);
+        name.href = line.url;
+        name.textContent = line.name;
+        $('[data-line-price]', node).textContent = formatPrice(line.price);
+        $('[data-line-qty]', node).textContent = String(line.quantity);
+        $('[data-line-dec]', node).addEventListener('click', () => cart.setQuantity(line.handle, line.quantity - 1));
+        const inc = $<HTMLButtonElement>('[data-line-inc]', node);
+        inc.disabled = line.quantity >= MAX_QTY;
+        inc.addEventListener('click', () => cart.setQuantity(line.handle, line.quantity + 1));
+        $('[data-line-remove]', node).addEventListener('click', () => cart.setQuantity(line.handle, 0));
+        return node;
+      }),
+    );
+  }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-cart-open]')) dialog.showModal();
+    if (target.closest('[data-cart-close]') || target === dialog) dialog.close();
+  });
+
+  // Add-to-cart forms: <form data-add-to-cart> with hidden inputs (see AddToCart.astro).
+  document.addEventListener('submit', (e) => {
+    const form = (e.target as HTMLElement).closest<HTMLFormElement>('form[data-add-to-cart]');
+    if (!form) return;
+    e.preventDefault();
+    const data = new FormData(form);
+    cart.add(
+      {
+        handle: String(data.get('handle')),
+        name: String(data.get('name')),
+        price: Number(data.get('price')),
+        image: String(data.get('image')),
+        url: String(data.get('url')),
+      },
+      Number(data.get('quantity') ?? 1),
+    );
+    dialog.showModal();
+    window.dataLayer?.push({
+      event: 'add_to_cart',
+      ecommerce: {
+        currency: 'EUR',
+        value: Number(data.get('price')),
+        items: [{ item_id: data.get('handle'), item_name: data.get('name'), price: Number(data.get('price')) }],
+      },
+    });
+  });
+
+  $('[data-cart-checkout]').addEventListener('click', async () => {
+    const notice = $('[data-cart-notice]');
+    if (checkoutProvider === 'none') {
+      notice.hidden = false;
+      return;
+    }
+    const url = await createCheckoutUrl(cart.lines());
+    if (url) window.location.href = url;
+  });
+
+  cart.subscribe(render);
+  render(cart.lines());
+</script>
+
+<style>
+  dialog[open] {
+    animation: slide-in 0.25s ease-out;
+  }
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+  }
+</style>

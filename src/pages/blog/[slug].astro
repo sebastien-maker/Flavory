@@ -1,0 +1,179 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image, getImage } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import PostCard from '@/components/blog/PostCard.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import { getPosts, getRelatedPosts, postPath, readingMinutes, PILLAR_LABELS, type Post } from '@/lib/content';
+import { absoluteUrl, formatDate } from '@/lib/site';
+import { article, breadcrumbs, person } from '@/components/seo/schema';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const path = postPath(post.id);
+const { Content } = await render(post);
+const author = await getEntry(data.author);
+const product = data.relatedProduct ? await getEntry(data.relatedProduct) : undefined;
+const related = await getRelatedPosts(post, 3);
+const minutes = readingMinutes(post.body);
+
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+  { name: data.title, path },
+];
+
+const heroSizes = '(min-width: 1024px) 56rem, 100vw';
+const hero = await getImage({
+  src: data.heroImage,
+  width: 1120,
+  height: 630,
+  fit: 'cover',
+  widths: [480, 800, 1120],
+  format: 'webp',
+});
+const schemaImage = absoluteUrl(
+  (await getImage({ src: data.heroImage, width: 1200, height: 675, fit: 'cover', format: 'jpg' })).src,
+);
+---
+
+<BaseLayout
+  title={data.seoTitle}
+  description={data.description}
+  path={path}
+  type="article"
+  image={data.heroImage}
+  imageAlt={data.heroAlt}
+  publishedTime={data.pubDate}
+  modifiedTime={data.updatedDate}
+  preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes }}
+  schema={[
+    article({
+      path,
+      headline: data.title,
+      description: data.description,
+      image: schemaImage,
+      datePublished: data.pubDate,
+      dateModified: data.updatedDate,
+      authorId: author?.id ?? 'bart',
+      authorName: author?.data.name ?? 'Flavory',
+    }),
+    ...(author ? [person({ id: author.id, name: author.data.name, description: author.data.role })] : []),
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+  <article class="py-8 md:py-12">
+    <header class="container-site max-w-4xl">
+      {data.pillar && <p class="text-sm font-bold tracking-wide text-brand uppercase">{PILLAR_LABELS[data.pillar]}</p>}
+      <h1 class="h1 mt-2">{data.title}</h1>
+      <p class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+        {author && (
+          <span>
+            Door{' '}
+            <a href="/over-flavory/" class="font-bold text-ink hover:underline">
+              {author.data.name}
+            </a>
+          </span>
+        )}
+        <span aria-hidden="true">·</span>
+        <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+        {data.updatedDate && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>
+              Bijgewerkt op <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time>
+            </span>
+          </>
+        )}
+        <span aria-hidden="true">·</span>
+        <span>{minutes} min leestijd</span>
+      </p>
+    </header>
+
+    <div class="container-site mt-6 max-w-4xl">
+      <img
+        src={hero.src}
+        srcset={hero.srcSet.attribute}
+        sizes={heroSizes}
+        width="1120"
+        height="630"
+        alt={data.heroAlt}
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
+      />
+    </div>
+
+    <div class="container-site mt-8 max-w-3xl">
+      <div class="prose-flavory text-base md:text-lg">
+        <Content />
+      </div>
+
+      {product && (
+        <aside class="mt-12 rounded-[var(--radius-card)] bg-blush p-6" aria-labelledby="box-title">
+          <p id="box-title" class="h4">
+            Zelf proeven?
+          </p>
+          <p class="mt-2">Test je kennis met een wijnproeverij thuis. {product.data.definition}</p>
+          <div class="mt-4 max-w-xs">
+            <ProductCard product={product} />
+          </div>
+        </aside>
+      )}
+
+      {author && (
+        <aside class="mt-12 flex items-start gap-4 border-t border-line pt-8" aria-label="Over de auteur">
+          {author.data.image && (
+            <Image
+              src={author.data.image}
+              alt={`Portret van ${author.data.name}`}
+              width={96}
+              height={96}
+              class="size-20 shrink-0 rounded-full object-cover"
+            />
+          )}
+          <div>
+            <p class="font-display text-xl">{author.data.name}</p>
+            <p class="text-sm text-muted">{author.data.role}</p>
+            <p class="mt-2 text-sm">{author.data.bio}</p>
+          </div>
+        </aside>
+      )}
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="container-site py-8" aria-labelledby="related-title">
+      <h2 id="related-title" class="h3">
+        Lees ook
+      </h2>
+      <ul class="mt-6 grid gap-4 md:grid-cols-3">
+        {related.map((p) => (
+          <li>
+            <PostCard post={p} />
+          </li>
+        ))}
+      </ul>
+      {data.pillar && (
+        <p class="mt-6">
+          <a href={`/blog/#${data.pillar}`} class="font-bold text-brand hover:underline">
+            Alle artikels over {PILLAR_LABELS[data.pillar].toLowerCase()} →
+          </a>
+        </p>
+      )}
+    </section>
+  )}
+</BaseLayout>

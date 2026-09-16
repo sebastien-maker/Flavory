@@ -1,0 +1,67 @@
+---
+// Landing page for wine retailers (linked from outreach mails); not indexed.
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ContactForm from '@/components/forms/ContactForm.astro';
+import mockup from '@/assets/images/site/partner-mockup.webp';
+---
+
+<BaseLayout
+  title="Samenwerken met Flavory als wijnhandelaar"
+  description="Wijn- of drankenhandelaar? Verkoop het wijnspel van Flavory: een origineel cadeau met een interessante marge dat nieuwe, jongere klanten naar je winkel brengt."
+  path="/partnership/"
+  image={mockup}
+  imageAlt="Flavory-wijnspel in de winkel"
+  noindex
+>
+  <section class="container-site grid items-center gap-8 py-10 md:grid-cols-2 md:py-16">
+    <div>
+      <h1 class="h1">Hoi, wij zijn Flavory. We werken graag met je samen.</h1>
+      <div class="prose-flavory mt-6">
+        <p>Beste handelaar,</p>
+        <p>We delen dezelfde missie: mensen overtuigen dat wijn de moeite waard is.</p>
+        <p>
+          Met Flavory bied je klanten méér dan een fles. Onze speelse wijnbox wekt nieuwsgierigheid en helpt nieuwe
+          doelgroepen, vaak ook jongere mensen, om hun eerste stappen in de wijnwereld te zetten. Voor jou als wijn- of
+          drankenhandelaar is het een kans om je eigen wijnen in de kijker te zetten en klanten een toegankelijke manier
+          te bieden om wijn te ontdekken.
+        </p>
+        <h2>Troeven</h2>
+        <ul>
+          <li>Interessante marge</li>
+          <li>Origineel cadeau</li>
+          <li>Voor 2 tot 6 potentieel nieuwe klanten</li>
+          <li>
+            Vermelding op onze pagina <a href="/verkooppunten/">verkooppunten</a>: bereik nieuw publiek
+          </li>
+        </ul>
+        <p>Samen zorgen we ervoor dat wijn niet alleen wordt verkocht, maar ook echt wordt ontdekt en beleefd.</p>
+      </div>
+    </div>
+    <Image
+      src={mockup}
+      alt="Flavory-wijnspellen in een winkelrek"
+      widths={[400, 640, 1000]}
+      sizes="(min-width: 768px) 45vw, 90vw"
+      class="w-full rounded-[var(--radius-card)]"
+      loading="eager"
+    />
+  </section>
+  <section class="container-site py-8" aria-labelledby="contact-title">
+    <div class="card grid gap-8 p-6 md:grid-cols-[1fr_2fr] md:p-10">
+      <div>
+        <h2 id="contact-title" class="h3">
+          Vragen of zin in een samenwerking?
+        </h2>
+        <p class="mt-3">
+          Vul het formulier in of mail naar{' '}
+          <a href="mailto:partnership@flavory.wine" class="text-brand underline">
+            partnership@flavory.wine
+          </a>
+          en we helpen je snel verder.
+        </p>
+      </div>
+      <ContactForm name="contact" submitLabel="Verstuur" />
+    </div>
+  </section>
+</BaseLayout>

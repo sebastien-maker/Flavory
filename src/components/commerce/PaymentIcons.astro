@@ -1,0 +1,26 @@
+---
+interface Props {
+  class?: string;
+}
+
+const icons = [
+  { file: 'bancontact', label: 'Bancontact' },
+  { file: 'ideal', label: 'iDEAL' },
+  { file: 'visa', label: 'Visa' },
+  { file: 'mastercard', label: 'Mastercard' },
+  { file: 'american-express', label: 'American Express' },
+  { file: 'klarna', label: 'Klarna' },
+  { file: 'kbc', label: 'KBC/CBC' },
+  { file: 'belfius', label: 'Belfius' },
+  { file: 'paypal', label: 'PayPal' },
+  { file: 'applepay', label: 'Apple Pay' },
+];
+---
+
+<ul class:list={['payments flex flex-wrap items-center gap-1.5', Astro.props.class]} aria-label="Betaalmethodes">
+  {icons.map(({ file, label }) => (
+    <li>
+      <img src={`/images/payments/${file}.svg`} alt={label} width="32" height="24" loading="lazy" decoding="async" />
+    </li>
+  ))}
+</ul>

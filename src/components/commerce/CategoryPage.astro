@@ -1,0 +1,71 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import ProductCard from './ProductCard.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import { getCategories, getProducts, productPath, categoryPath, type Category } from '@/lib/content';
+import { breadcrumbs, itemList, webPage } from '@/components/seo/schema';
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+const { data } = category;
+const path = categoryPath(category.id);
+const products = (await getProducts()).filter((p) => p.data.category.id === category.id);
+const otherCategories = (await getCategories()).filter((c) => c.id !== category.id);
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Shop', path: '/shop/' },
+  { name: data.name, path },
+];
+---
+
+<BaseLayout
+  title={data.seoTitle}
+  description={data.seoDescription}
+  path={path}
+  image={products[0]?.data.images[0]?.src}
+  schema={[
+    webPage({ path, title: data.h1, description: data.seoDescription, type: 'CollectionPage' }),
+    itemList(
+      path,
+      products.map((p) => ({ name: p.data.name, path: productPath(p.id) })),
+    ),
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+  <section class="container-site py-8 md:py-12">
+    <h1 class="h1">{data.h1}</h1>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((product, i) => (
+        <li>
+          <ProductCard product={product} headingLevel="h2" eager={i < 3} />
+        </li>
+      ))}
+    </ul>
+    <div class="prose-flavory mt-10 max-w-3xl">
+      <slot />
+    </div>
+    <nav aria-label="Andere categorieën" class="mt-8">
+      <p class="font-bold">Ook bekijken:</p>
+      <ul class="mt-2 flex flex-wrap gap-2">
+        {otherCategories.map((c) => (
+          <li>
+            <a href={categoryPath(c.id)} class="btn-outline min-h-10 py-2">
+              {c.data.name}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/shop/" class="btn-outline min-h-10 py-2">
+            Alle boxen
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </section>
+  <HowItWorks />
+</BaseLayout>

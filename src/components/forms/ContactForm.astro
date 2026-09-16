@@ -1,0 +1,110 @@
+---
+// Netlify Forms. The form name determines where submissions land in the Netlify dashboard.
+interface Props {
+  name: 'contact' | 'offerte' | 'proeverij';
+  submitLabel?: string;
+}
+
+const { name, submitLabel = 'Verstuur' } = Astro.props;
+const id = (field: string) => `${name}-${field}`;
+const input = 'mt-1 block min-h-12 w-full rounded-xl border-2 border-line bg-white px-4 py-2 focus:border-ink';
+---
+
+<form name={name} method="POST" action="/bedankt/" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4">
+  <input type="hidden" name="form-name" value={name} />
+  <p hidden>
+    <label>
+      Niet invullen: <input name="bot-field" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <label for={id('naam')} class="block text-sm font-bold">
+      Naam *
+      <input id={id('naam')} name="naam" type="text" required autocomplete="name" class={input} />
+    </label>
+    <label for={id('email')} class="block text-sm font-bold">
+      E-mailadres *
+      <input id={id('email')} name="email" type="email" required autocomplete="email" class={input} />
+    </label>
+    <label for={id('telefoon')} class="block text-sm font-bold">
+      Telefoon
+      <input id={id('telefoon')} name="telefoon" type="tel" autocomplete="tel" class={input} />
+    </label>
+    {name === 'contact' ? (
+      <label for={id('gemeente')} class="block text-sm font-bold">
+        Gemeente
+        <input id={id('gemeente')} name="gemeente" type="text" autocomplete="address-level2" class={input} />
+      </label>
+    ) : (
+      <label for={id('bedrijf')} class="block text-sm font-bold">
+        {name === 'offerte' ? 'Bedrijfsnaam *' : 'Bedrijf of organisatie'}
+        <input
+          id={id('bedrijf')}
+          name="bedrijf"
+          type="text"
+          required={name === 'offerte'}
+          autocomplete="organization"
+          class={input}
+        />
+      </label>
+    )}
+    {name === 'offerte' && (
+      <label for={id('aantal')} class="block text-sm font-bold">
+        Gewenst aantal boxen *
+        <input id={id('aantal')} name="aantal" type="number" min="1" required inputmode="numeric" class={input} />
+      </label>
+    )}
+    {name === 'proeverij' && (
+      <>
+        <label for={id('datum')} class="block text-sm font-bold">
+          Gewenste datum
+          <input id={id('datum')} name="datum" type="date" class={input} />
+        </label>
+        <label for={id('personen')} class="block text-sm font-bold">
+          Aantal personen *
+          <input
+            id={id('personen')}
+            name="personen"
+            type="number"
+            min="6"
+            max="99"
+            required
+            inputmode="numeric"
+            class={input}
+          />
+        </label>
+        <label for={id('locatie')} class="block text-sm font-bold">
+          Locatie (gemeente)
+          <input id={id('locatie')} name="locatie" type="text" autocomplete="address-level2" class={input} />
+        </label>
+      </>
+    )}
+  </div>
+
+  <label for={id('bericht')} class="block text-sm font-bold">
+    {name === 'contact' ? 'Je vraag of bericht *' : 'Bericht'}
+    <textarea
+      id={id('bericht')}
+      name="bericht"
+      rows="5"
+      required={name === 'contact'}
+      class={`${input} min-h-32`}
+    ></textarea>
+  </label>
+
+  <label class="flex items-start gap-2 text-sm">
+    <input type="checkbox" name="privacy" required class="mt-0.5 size-4 accent-brand" />
+    <span>
+      Ik ga akkoord met het{' '}
+      <a href="/privacybeleid/" class="underline">
+        privacybeleid
+      </a>
+      . *
+    </span>
+  </label>
+
+  <button type="submit" class="btn-primary">
+    {submitLabel}
+  </button>
+</form>

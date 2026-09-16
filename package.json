@@ -1,0 +1,56 @@
+{
+  "name": "flavory-wine",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.4.2",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "seo:content": "node scripts/seo-check.mjs content",
+    "seo:check": "node scripts/seo-check.mjs dist",
+    "redirects": "node scripts/build-redirects.mjs",
+    "redirects:verify": "node scripts/build-redirects.mjs --verify",
+    "verify": "pnpm seo:content && pnpm check && pnpm lint && pnpm build && pnpm seo:check && pnpm redirects:verify",
+    "scrape": "node scripts/scrape-wordpress.mjs",
+    "scrape:text": "node scripts/html-to-text.mjs",
+    "import:content": "node scripts/import-content.mjs",
+    "icons": "node scripts/build-icons.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.1",
+    "@astrojs/netlify": "^8.2.5",
+    "@astrojs/react": "^6.0.5",
+    "@astrojs/sitemap": "^3.7.4",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.9",
+    "astro": "^7.3.2",
+    "marked": "^18.0.13",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@fontsource/montserrat": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-astro": "^3.2.0",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "^1.0.0",
+    "sharp": "0.34.5",
+    "tailwindcss": "^4.3.3",
+    "turndown": "^7.2.4",
+    "typescript": "~6.0.0",
+    "typescript-eslint": "^8.70.0"
+  }
+}

@@ -5,9 +5,9 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import ContactForm from '@/components/forms/ContactForm.astro';
 import Faq from '@/components/ui/Faq.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
-import { getFaq, getProducts } from '@/lib/content';
+import { getFaq, getProducts, isAvailable } from '@/lib/content';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
-import giftImage from '@/assets/images/products/bubbelbox/05.jpg';
+import giftImage from '@/assets/images/site/cadeau-geven.jpg';
 
 const path = '/zakelijk/';
 const crumbs = [
@@ -32,7 +32,7 @@ const faq = [
   },
   ...(await getFaq('zakelijk')).map((f) => f.data),
 ];
-const products = (await getProducts()).filter((p) => p.data.includesWine && p.data.availability !== 'out_of_stock');
+const products = (await getProducts()).filter(isAvailable);
 ---
 
 <BaseLayout
@@ -40,7 +40,7 @@ const products = (await getProducts()).filter((p) => p.data.includesWine && p.da
   description={description}
   path={path}
   image={giftImage}
-  imageAlt="Een Flavory-wijnspel wordt cadeau gegeven voor een kerstboom"
+  imageAlt="Iemand krijgt een Flavory-wijnspel cadeau"
   schema={[webPage({ path, title, description }), faqPage(path, faq), breadcrumbs(crumbs)]}
 >
   <Breadcrumbs items={crumbs} />
@@ -72,15 +72,6 @@ const products = (await getProducts()).filter((p) => p.data.includesWine && p.da
           </span>{' '}
           Levering in België en Nederland
         </li>
-        <li class="flex gap-2">
-          <span class="text-brand" aria-hidden="true">
-            ✓
-          </span>{' '}
-          Ook als teambuilding:{' '}
-          <a href="/zakelijk/teambuilding-wijnproeverij/" class="text-brand underline">
-            proeverij op locatie
-          </a>
-        </li>
       </ul>
       <a href="#offerte" class="btn-primary mt-6">
         Vraag een offerte aan
@@ -88,7 +79,7 @@ const products = (await getProducts()).filter((p) => p.data.includesWine && p.da
     </div>
     <Image
       src={giftImage}
-      alt="Een Flavory-wijnspel wordt cadeau gegeven voor een versierde kerstboom"
+      alt="Iemand krijgt een Flavory-wijnspel cadeau"
       widths={[400, 640, 960]}
       sizes="(min-width: 768px) 50vw, 90vw"
       class="aspect-[3/2] w-full rounded-[var(--radius-card)] object-cover"
@@ -119,9 +110,6 @@ const products = (await getProducts()).filter((p) => p.data.includesWine && p.da
         <li>Je ontvangt een vrijblijvende offerte.</li>
         <li>Wij verzorgen de boxen en de levering.</li>
       </ol>
-      <p>
-        Ben je wijnhandelaar en wil je Flavory in je winkel verkopen? <a href="/contact/">Neem contact op</a>.
-      </p>
     </div>
   </section>
 
@@ -130,7 +118,7 @@ const products = (await getProducts()).filter((p) => p.data.includesWine && p.da
       <h2 id="boxen-title" class="h3">
         Populair als relatiegeschenk
       </h2>
-      <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul class="mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
         {products.map((p) => (
           <li>
             <ProductCard product={p} />

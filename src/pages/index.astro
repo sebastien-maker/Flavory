@@ -3,18 +3,23 @@ import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Guarantees from '@/components/sections/Guarantees.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import Stars from '@/components/ui/Stars.astro';
-import { getProducts, getPosts, productPath } from '@/lib/content';
-import { SITE } from '@/lib/site';
+import { fromPrice, getProducts, getPosts, productPath } from '@/lib/content';
+import { SITE, formatPrice } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
-import heroImage from '@/assets/images/site/hero-illustratie.webp';
+// Hero image: replace this one file (keep the name) to swap the illustration for a photo.
+import heroImage from '@/assets/images/site/hero.webp';
 import friendsImage from '@/assets/images/site/vriendinnen-openen-box.jpg';
 import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
 
 const products = await getProducts();
+const red = products.find((p) => p.data.category.id === 'rode-wijn');
+const white = products.find((p) => p.data.category.id === 'witte-wijn');
+const minPrice = Math.min(...products.map(fromPrice));
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
 const posts = (await getPosts()).filter((p) => featuredIds.includes(p.id));
@@ -49,7 +54,8 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
       <p class="lead mt-4 font-display text-brand">Ontdek je eigen smaak en word de kenner aan tafel!</p>
       <p class="mt-4 max-w-prose">
         Flavory is een blinde wijnproeverij in spelvorm. Je proeft twee wijnen tegen elkaar, beantwoordt quizvragen en
-        ontmaskert samen welke fles welke is. Voor 2 tot 6 spelers, zonder voorkennis, vanaf €24,90.
+        ontmaskert samen welke fles welke is. Voor 2 tot 6 spelers, zonder voorkennis, vanaf {formatPrice(minPrice)},
+        wijn inbegrepen.
       </p>
       <a href="/reviews/" class="mt-4 inline-flex items-center gap-2 text-sm hover:underline">
         <Stars rating={SITE.rating.value} class="text-xl" />
@@ -57,16 +63,20 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
           <strong>{String(SITE.rating.value).replace('.', ',')}/5</strong> uit {SITE.rating.count} reviews
         </span>
       </a>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a href="/shop/" class="btn-primary">
-          Ontdek de boxen
-        </a>
-        <a href="/hoe-werkt-het/" class="btn-outline">
-          Hoe werkt het?
-        </a>
+      <div class="mt-6 grid grid-cols-2 gap-3 sm:flex">
+        {red && (
+          <a href={productPath(red.id)} class="btn-primary">
+            Kies rood
+          </a>
+        )}
+        {white && (
+          <a href={productPath(white.id)} class="btn-outline">
+            Kies wit
+          </a>
+        )}
       </div>
     </div>
-    <div>
+    <figure class="hero-media">
       <img
         src={hero.src}
         srcset={hero.srcSet.attribute}
@@ -79,7 +89,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
         decoding="async"
         class="mx-auto h-auto w-full max-w-72 md:max-w-lg"
       />
-    </div>
+    </figure>
   </section>
 
   <!-- Wat is Flavory -->
@@ -99,16 +109,10 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
       <h2 id="wat-title" class="h2">
         Wat is Flavory?
       </h2>
-      <p class="mt-4">Flavory brengt de leukste wijnproeverij bij je thuis.</p>
       <p class="mt-4">
-        Alles wat je nodig hebt: glazen, een kurkentrekker en vrienden die wel van een uitdaging houden. Wat je níét
-        nodig hebt: voorkennis van wijn.
+        Flavory brengt de leukste wijnproeverij bij je thuis. Je proeft blind twee wijnen tegen elkaar, en voorkennis
+        van wijn heb je niet nodig.
       </p>
-      <p class="mt-4">
-        Je proeft blind twee wijnen tegenover elkaar. Perfect voor een avond plezier, of om cadeau te doen aan iemand
-        die van wijn houdt.
-      </p>
-      <p class="mt-4 font-bold">Proef jij het verschil en word jij de winnaar?</p>
       <a href="/over-flavory/" class="btn-outline mt-6">
         Het verhaal achter Flavory
       </a>
@@ -118,23 +122,18 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   <!-- Producten -->
   <section class="container-site py-12 md:py-20" aria-labelledby="boxen-title">
     <h2 id="boxen-title" class="h2 text-center">
-      Ontdek de boxen
+      Kies je box
     </h2>
     <p class="mx-auto mt-3 max-w-2xl text-center">
-      Kies een duel: twee druiven of twee wijnlanden. Met wijn in de box, of zonder wijn zodat je zelf de flessen kiest.
+      Rood of wit: in elke box zitten het volledige spel en twee flessen wijn.
     </p>
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="mx-auto mt-8 grid max-w-3xl gap-4 sm:grid-cols-2">
       {products.map((product) => (
         <li>
           <ProductCard product={product} />
         </li>
       ))}
     </ul>
-    <p class="mt-8 text-center">
-      <a href="/shop/" class="btn-primary">
-        Bekijk alle boxen in de shop
-      </a>
-    </p>
   </section>
 
   <HowItWorks />
@@ -155,12 +154,9 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
         </p>
         <p class="mt-4">Of je nu speelt voor de winst of voor de gezelligheid: Flavory brengt iedereen samen.</p>
         <p class="mt-4 font-bold">Perfect als cadeau of origineel relatiegeschenk.</p>
-        <div class="mt-6 flex flex-wrap gap-3">
+        <div class="mt-6">
           <a href="/shop/" class="btn-white">
             Met wie speel jij?
-          </a>
-          <a href="/zakelijk/" class="btn border-2 border-white text-white hover:bg-white hover:text-brand">
-            Relatiegeschenken
           </a>
         </div>
       </div>
@@ -180,6 +176,8 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
       </video>
     </div>
   </section>
+
+  <Guarantees />
 
   <Reviews />
 

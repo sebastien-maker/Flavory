@@ -18,4 +18,4 @@ Jij maakte de wijze beslissing om Flavory in huis te halen. De volgende stap: **
 
 > "Je vrouw is door je gevolgde profielen op Instagram aan het scrollen. Maak dat je weg bent. Wijntje?"
 
-Nog even opfrissen hoe het spel werkt? Lees [hoe werkt het](/hoe-werkt-het/). Heb je een box zonder wijn? In de [wijnkiezer](/wijnkiezer/) lees je welke flessen je koopt.
+Nog even opfrissen hoe het spel werkt? Lees [hoe werkt het](/hoe-werkt-het/).

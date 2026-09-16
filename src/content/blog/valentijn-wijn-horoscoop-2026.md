@@ -9,7 +9,7 @@ author: bart
 heroImage: "../../assets/images/blog/valentijn-wijn-horoscoop-2026.webp"
 heroAlt: "Valentijn Horoscoop 2026: Welke wijn past bij jouw sterrenbeeld?"
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 Heb je je ooit afgevraagd welke wijn het best bij jouw karakter past? Goed nieuws: het staat in de sterren geschreven. In deze blog ontdek je de ultieme **Wijnmatch voor Valentijn 2026**. Of je nu thuis van een rustige avond geniet of de sfeer van het uitgaan opzoekt: wij serveren je voor elk sterrenbeeld een sappige tegenhanger én voorspellen meteen ook hoe jouw komende Valentijn eruitziet. Gebaseerd op staalharde cijfers, uiteraard. Schenk jezelf een glas uit en ontdek jouw horoscoop!
 

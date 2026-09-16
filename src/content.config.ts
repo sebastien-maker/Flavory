@@ -16,8 +16,20 @@ const faqItem = z.object({
   answer: z.string(),
 });
 
+// A purchasable option of a product (duel + formula). Out-of-stock options are hidden entirely.
+const variant = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/),
+  duel: z.string(),
+  formula: z.enum(['Regular', 'Premium']),
+  price: z.number().positive(),
+  sku: z.string(),
+  // Links the option to one of the product's `descriptions`.
+  group: z.string(),
+  available: z.boolean().default(true),
+});
+
 const products = defineCollection({
-  // Frontmatter = product data and copy; markdown body = long description.
+  // Frontmatter = product data and copy; the markdown body is not used (texts live in `descriptions`).
   loader: glob({ pattern: '*.md', base: './src/content/products' }),
   schema: ({ image }) =>
     z.object({
@@ -25,18 +37,14 @@ const products = defineCollection({
       h1: z.string(),
       seoTitle,
       seoDescription,
-      duel: z.string(),
+      duel: z.string().describe('Short summary of the duels on product cards'),
       cardTagline: z.string(),
       definition: z.string().describe('Two-sentence definition block for AI citability'),
-      price: z.number().positive(),
-      compareAtPrice: z.number().positive().optional(),
-      sku: z.string(),
-      gtin13: z
-        .string()
-        .regex(/^\d{13}$/)
-        .optional(),
-      availability: z.enum(['in_stock', 'out_of_stock', 'preorder']),
-      includesWine: z.boolean(),
+      variants: z.array(variant).min(1),
+      descriptions: z
+        .array(z.object({ group: z.string(), heading: z.string(), text: z.string() }))
+        .min(1)
+        .describe('First entry is shown until the visitor picks an option'),
       category: reference('categories'),
       playersMin: z.number().int(),
       playersMax: z.number().int(),

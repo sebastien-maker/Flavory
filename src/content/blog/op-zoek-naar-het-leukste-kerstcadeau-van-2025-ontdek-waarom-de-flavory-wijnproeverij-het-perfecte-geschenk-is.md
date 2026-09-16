@@ -9,7 +9,7 @@ author: bart
 heroImage: "../../assets/images/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is.webp"
 heroAlt: "Het leukste kerstcadeau van 2025? Dat is het wijnspel van Flavory."
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 Ben je nog op zoek naar het **leukste kerstcadeau** van 2025 voor onder de boom?  Zoek niet verder. Je kan nu iets bijleren over wijn zonder een saaie cursus te volgen of dikke boeken te lezen. [Flavory’s blinde wijnproeverij](/) in de vorm van een spel is zonder twijfel de leukste manier om de wijnwereld te ontdekken. Twee beroemde wijnlanden of druiven worden anoniem tegenover elkaar geplaatst. Aan jou en je medespelers om ze te herkennen!
 

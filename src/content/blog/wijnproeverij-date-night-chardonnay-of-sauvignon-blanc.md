@@ -18,7 +18,7 @@ Maar wat als dat verschil in smaak juist de sleutel is tot een nieuwe ontdekking
 
 ### De Kameleon vs. de Vlijmscherpe Favoriet: Een match voor jullie wijnproeverij date night?
 
-Het is de klassieke strijd aan de keukentafel: **[Chardonnay versus Sauvignon Blanc](/shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/)**.
+Het is de klassieke strijd aan de keukentafel: **[Chardonnay versus Sauvignon Blanc](/shop/wijnproeverij-thuis-wit/)**.
 
 -   **De Sauvignon Blanc:** Dit is de druif van de directe impact. Denk aan een ultrafrisse variant uit een koel klimaat. Het ruikt naar gemaaid gras en citrus. Het is de ideale ‘starter’ voor wie van vinnig en opgewekt houdt.
 -   **De Chardonnay:** Een kameleon. In een warm klimaat (zoals Chili) wordt hij goudgeel, ruikt hij naar mango en smaakt hij bijna ‘warm’ door de hogere alcoholgraad. Maar zet hem in een koelere regio zoals Limburg, en hij wordt verrassend fris, met toetsen van appel en citrus.

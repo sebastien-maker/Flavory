@@ -10,8 +10,11 @@ const KERST_POST =
   '/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/';
 const RED = '/shop/wijnproeverij-thuis-rood/';
 const WHITE = '/shop/wijnproeverij-thuis-wit/';
-const WHITE_WINE = '/shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/';
-const IT_ES = '/shop/italie-of-spanje/';
+// Q4 range: only red and white boxes with wine. The former Italy/Spain and white-wine-box pages are merged into them.
+const WHITE_WINE = WHITE;
+const IT_ES = RED;
+const SHOP = '/shop/';
+const B2B = '/zakelijk/';
 // The bubbles box is out of the range (draft); its URLs go to the shop until it returns.
 // Netlify only applies these non-forced rules when no page exists, so re-enabling the product needs no change here.
 const BUBBLES = '/shop/';
@@ -35,10 +38,10 @@ const RULES = [
 
   // Renamed or merged pages
   ['/flavory-gameplay/', '/hoe-werkt-het/'],
-  ['/partners/', '/verkooppunten/'],
+  ['/partners/', HOME],
   ['/eindejaars-en-relatiegeschenken/', '/zakelijk/'],
-  ['/proeverij/', '/zakelijk/teambuilding-wijnproeverij/'],
-  ['/flavory-landingpage/', '/zakelijk/teambuilding-wijnproeverij/'],
+  ['/proeverij/', B2B],
+  ['/flavory-landingpage/', B2B],
   ['/alcoholvrije-wijnen/', '/blog/alcoholvrije-wijn/'],
   ['/dit-voorspelt-jouw-wijnhoroscoop-voor-valentijn/', '/blog/valentijn-wijn-horoscoop-2026/'],
   [
@@ -53,6 +56,14 @@ const RULES = [
     `/5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-${s}/`,
     KERST_POST,
   ]),
+
+  // Pages removed for Q4 (2026)
+  ['/wijnkiezer/', SHOP],
+  ['/verkooppunten/', HOME],
+  ['/zakelijk/teambuilding-wijnproeverij/', B2B],
+  ['/win/', HOME],
+  ['/shop/italie-of-spanje/', RED],
+  ['/shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/', WHITE],
 
   // WooCommerce system pages
   ['/shop/winkelwagen/', '/shop/'],
@@ -118,15 +129,15 @@ const RULES = [
   ['/de/ueber-flavory/', '/over-flavory/'],
   ['/de/so-geht-das-flavory-spiel/', '/hoe-werkt-het/'],
   ['/de/faq/', '/faq/'],
-  ['/de/wijnkiezer/', '/wijnkiezer/'],
-  ['/de/partners/', '/verkooppunten/'],
+  ['/de/wijnkiezer/', SHOP],
+  ['/de/partners/', HOME],
   ['/de/partnership/', '/partnership/'],
-  ['/de/proeverij/', '/zakelijk/teambuilding-wijnproeverij/'],
+  ['/de/proeverij/', B2B],
   ['/de/eindejaars-en-relatiegeschenken/', '/zakelijk/'],
   ['/de/algemene-voorwaarden/', '/algemene-voorwaarden/'],
   ['/de/alcoholvrije-wijnen/', '/blog/alcoholvrije-wijn/'],
-  ['/de/abonnieren-und-gewinnen/', '/win/'],
-  ['/de/flavory-landingpage/', '/zakelijk/teambuilding-wijnproeverij/'],
+  ['/de/abonnieren-und-gewinnen/', HOME],
+  ['/de/flavory-landingpage/', B2B],
   ['/de/het-was-een-cadeau/', '/het-was-een-cadeau/'],
   ['/de/mijn-ervaring/', '/mijn-ervaring/'],
   ['/de/nog-niet-gespeeld/', '/nog-niet-gespeeld/'],
@@ -189,11 +200,11 @@ const RULES = [
 // Query-string URLs (WordPress custom post types and previews).
 const QUERY_RULES = [
   ['/', 'reviews=:review', '/reviews/'],
-  ['/', 'store=:store', '/verkooppunten/'],
+  ['/', 'store=:store', HOME],
   ['/', 'post_type=:type', '/shop/'],
   ['/', 'taxonomy=:tax', '/shop/'],
   ['/de/', 'reviews=:review', '/reviews/'],
-  ['/de/', 'store=:store', '/verkooppunten/'],
+  ['/de/', 'store=:store', HOME],
 ];
 
 const pad = (s, n) => s.padEnd(n);
@@ -255,8 +266,13 @@ if (process.argv.includes('--verify')) {
     const target = resolve(url);
     const label = `${url.pathname}${url.search}`;
     if (target) {
+      // Query-string rules are explicit per parameter; path rules must name the old URL.
+      const viaQueryRule = QUERY_RULES.some(
+        ([from, param]) => url.pathname === from && url.searchParams.has(param.split('=')[0]),
+      );
       if (
         target === HOME &&
+        !viaQueryRule &&
         !RULES.some(([f, t]) => t === HOME && (f === url.pathname || f === path || path.startsWith(f.replace('*', ''))))
       ) {
         problems.push(`${label} -> home without an explicit rule`);

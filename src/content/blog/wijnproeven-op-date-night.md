@@ -33,7 +33,7 @@ Je nipt dapper van je glas en je zegt “lekker”. Maar stiekem zou je liever w
 
 Een datenight wijnproeven doet eigenlijk veel meer dan gewoon “een glaasje drinken”. In plaats van naast elkaar naar een scherm te staren, ben je echt samen bezig: inschenken, ruiken, proeven, vergelijken, lachen om hoe verschillend jullie soms reageren op dezelfde wijn. Je merkt vanzelf wie er meer van frisse witte wijn houdt en wie stiekem fan is van voller en rijper. Zonder dat je in een klaslokaal zit, leer je ondertussen echt iets bij. Door blind te proeven en eenvoudige uitleg mee te krijgen, begin je de wijnwereld beter te begrijpen, zodat je op vakantie in Italië of Spanje niet meer compleet verloren loopt tussen al die rekken en wijnkaarten.
 
-Dat soort datenight games voor twee zorgt ook voor verhalen die je bijblijven. “Weet je nog, die avond dat jij dacht dat de goedkoopste wijn de duurste was?” Met de [Italië-Spanje box](/shop/italie-of-spanje/) van [Flavory](/) proef je je samen al spelend door twee klassieke wijnlanden, gewoon aan je eigen tafel.
+Dat soort datenight games voor twee zorgt ook voor verhalen die je bijblijven. “Weet je nog, die avond dat jij dacht dat de goedkoopste wijn de duurste was?” Met de [Italië-Spanje box](/shop/wijnproeverij-thuis-rood/) van [Flavory](/) proef je je samen al spelend door twee klassieke wijnlanden, gewoon aan je eigen tafel.
 
 ## Waarom een wijnspel voor koppels werkt
 

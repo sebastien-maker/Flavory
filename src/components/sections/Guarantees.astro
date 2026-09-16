@@ -1,0 +1,30 @@
+---
+const items = [
+  'Gratis verzending vanaf 2 boxen',
+  'Meestal geleverd binnen 1 à 3 werkdagen in België en Nederland',
+  'Niet tevreden? Geld terug',
+];
+---
+
+<section class="container-site py-10 md:py-14" aria-labelledby="garanties-title">
+  <h2 id="garanties-title" class="sr-only">
+    Onze garanties
+  </h2>
+  <ul class="grid gap-3 md:grid-cols-3">
+    {items.map((item) => (
+      <li class="card flex items-center gap-3 p-5 font-bold">
+        <svg class="check size-6" viewBox="0 0 20 20" aria-hidden="true">
+          <path
+            d="M4 10.5l4 4 8-9"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+</section>

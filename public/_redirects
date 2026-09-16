@@ -2,11 +2,11 @@
 # Rule 6: every old URL gets an explicit destination; nothing falls back to the home page.
 
 /            reviews=:review      /reviews/  301!
-/            store=:store         /verkooppunten/  301!
+/            store=:store         /  301!
 /            post_type=:type      /shop/  301!
 /            taxonomy=:tax        /shop/  301!
 /de/         reviews=:review      /reviews/  301!
-/de/         store=:store         /verkooppunten/  301!
+/de/         store=:store         /  301!
 
 /home/                                                                                                         /  301
 /home-2/                                                                                                       /  301
@@ -20,10 +20,10 @@
 /shop2/                                                                                                        /shop/  301
 /b2b/                                                                                                          /zakelijk/  301
 /flavory-gameplay/                                                                                             /hoe-werkt-het/  301
-/partners/                                                                                                     /verkooppunten/  301
+/partners/                                                                                                     /  301
 /eindejaars-en-relatiegeschenken/                                                                              /zakelijk/  301
-/proeverij/                                                                                                    /zakelijk/teambuilding-wijnproeverij/  301
-/flavory-landingpage/                                                                                          /zakelijk/teambuilding-wijnproeverij/  301
+/proeverij/                                                                                                    /zakelijk/  301
+/flavory-landingpage/                                                                                          /zakelijk/  301
 /alcoholvrije-wijnen/                                                                                          /blog/alcoholvrije-wijn/  301
 /dit-voorspelt-jouw-wijnhoroscoop-voor-valentijn/                                                              /blog/valentijn-wijn-horoscoop-2026/  301
 /start-to-wijnkelder-welke-types-wijn-moet-je-altijd-in-huis-hebben/                                           /blog/start-to-wijnkelder-welke-types-wijn-moet-je-altijd-in-huis-hebben/  301
@@ -35,13 +35,19 @@
 /5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-2025-is-2/                                 /blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/  301
 /5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-2025-is-3/                                 /blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/  301
 /5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-2025-is-w2/                                /blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/  301
+/wijnkiezer/                                                                                                   /shop/  301
+/verkooppunten/                                                                                                /  301
+/zakelijk/teambuilding-wijnproeverij/                                                                          /zakelijk/  301
+/win/                                                                                                          /  301
+/shop/italie-of-spanje/                                                                                        /shop/wijnproeverij-thuis-rood/  301
+/shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/                                                            /shop/wijnproeverij-thuis-wit/  301
 /shop/winkelwagen/                                                                                             /shop/  301
 /shop/afrekenen/                                                                                               /shop/  301
 /shop/mijn-account/                                                                                            /shop/  301
-/shop/valentijn-wine-tasting-game-italie-of-spanje-10-korting/                                                 /shop/italie-of-spanje/  301
-/shop/legendarische-wijnlanden-rood/                                                                           /shop/italie-of-spanje/  301
-/shop/wijnspel-italie-vs-spanje-proef-jij-het-verschil/                                                        /shop/italie-of-spanje/  301
-/product/spanje-vs-italie-wijnspel/                                                                            /shop/italie-of-spanje/  301
+/shop/valentijn-wine-tasting-game-italie-of-spanje-10-korting/                                                 /shop/wijnproeverij-thuis-rood/  301
+/shop/legendarische-wijnlanden-rood/                                                                           /shop/wijnproeverij-thuis-rood/  301
+/shop/wijnspel-italie-vs-spanje-proef-jij-het-verschil/                                                        /shop/wijnproeverij-thuis-rood/  301
+/product/spanje-vs-italie-wijnspel/                                                                            /shop/wijnproeverij-thuis-rood/  301
 /shop/merlot-of-cabernet-sauvignon/                                                                            /shop/wijnproeverij-thuis-rood/  301
 /shop/merlot-of-cabernet-sauvignon-premium/                                                                    /shop/wijnproeverij-thuis-rood/  301
 /shop/rode-wijnspel-merlot-vs-cabernet-sauvignon-premium-editie/                                               /shop/wijnproeverij-thuis-rood/  301
@@ -50,9 +56,9 @@
 /shop/legendarische-druiven-wit/                                                                               /shop/wijnproeverij-thuis-wit/  301
 /shop/witte-wijn-box/                                                                                          /shop/wijnproeverij-thuis-wit/  301
 /product/witte-wijn-box/                                                                                       /shop/wijnproeverij-thuis-wit/  301
-/shop/chardonnay-of-sauvignon-blanc-premium/                                                                   /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
-/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-premium-editie/                                             /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
-/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-proef-jij-het-verschil/                                     /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
+/shop/chardonnay-of-sauvignon-blanc-premium/                                                                   /shop/wijnproeverij-thuis-wit/  301
+/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-premium-editie/                                             /shop/wijnproeverij-thuis-wit/  301
+/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-proef-jij-het-verschil/                                     /shop/wijnproeverij-thuis-wit/  301
 /shop/bubbelbox/                                                                                               /shop/  301
 /shop/bubbels/                                                                                                 /shop/  301
 /shop/cava-prosecco-box/                                                                                       /shop/  301
@@ -65,7 +71,7 @@
 /cava-vs-prosecco                                                                                              /shop/  301
 /merlot-vs-cabernet-sauvignon                                                                                  /shop/wijnproeverij-thuis-rood/  301
 /chardonnay-vs-sauvignon-blanc                                                                                 /shop/wijnproeverij-thuis-wit/  301
-/italie-vs-spanje                                                                                              /shop/italie-of-spanje/  301
+/italie-vs-spanje                                                                                              /shop/wijnproeverij-thuis-rood/  301
 /shop/productcategorie/rode-wijn/                                                                              /shop/rode-wijn/  301
 /shop/productcategorie/witte-wijn/                                                                             /shop/witte-wijn/  301
 /shop/productcategorie/bubbels/                                                                                /shop/  301
@@ -89,15 +95,15 @@
 /de/ueber-flavory/                                                                                             /over-flavory/  301
 /de/so-geht-das-flavory-spiel/                                                                                 /hoe-werkt-het/  301
 /de/faq/                                                                                                       /faq/  301
-/de/wijnkiezer/                                                                                                /wijnkiezer/  301
-/de/partners/                                                                                                  /verkooppunten/  301
+/de/wijnkiezer/                                                                                                /shop/  301
+/de/partners/                                                                                                  /  301
 /de/partnership/                                                                                               /partnership/  301
-/de/proeverij/                                                                                                 /zakelijk/teambuilding-wijnproeverij/  301
+/de/proeverij/                                                                                                 /zakelijk/  301
 /de/eindejaars-en-relatiegeschenken/                                                                           /zakelijk/  301
 /de/algemene-voorwaarden/                                                                                      /algemene-voorwaarden/  301
 /de/alcoholvrije-wijnen/                                                                                       /blog/alcoholvrije-wijn/  301
-/de/abonnieren-und-gewinnen/                                                                                   /win/  301
-/de/flavory-landingpage/                                                                                       /zakelijk/teambuilding-wijnproeverij/  301
+/de/abonnieren-und-gewinnen/                                                                                   /  301
+/de/flavory-landingpage/                                                                                       /zakelijk/  301
 /de/het-was-een-cadeau/                                                                                        /het-was-een-cadeau/  301
 /de/mijn-ervaring/                                                                                             /mijn-ervaring/  301
 /de/nog-niet-gespeeld/                                                                                         /nog-niet-gespeeld/  301
@@ -110,14 +116,14 @@
 /de/blog/*                                                                                                     /blog/:splat  301
 /de/shop/cava-oder-prosecco/                                                                                   /shop/  301
 /de/shop/cava-oder-prosecco-kopie/                                                                             /shop/  301
-/de/shop/chardonnay-oder-sauvignon-blanc/                                                                      /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
-/de/shop/chardonnay-oder-sauvignon-blanc-kopie/                                                                /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
-/de/shop/chardonnay-oder-sauvignon-blanc-kopie-kopie/                                                          /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
-/de/shop/chardonnay-of-sauvignon-blanc-premium/                                                                /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
-/de/shop/italien-oder-spanien/                                                                                 /shop/italie-of-spanje/  301
-/de/shop/italien-oder-spanien-copy/                                                                            /shop/italie-of-spanje/  301
-/de/shop/italien-oder-spanien-kopie/                                                                           /shop/italie-of-spanje/  301
-/de/shop/italien-oder-spanien-kopie-2/                                                                         /shop/italie-of-spanje/  301
+/de/shop/chardonnay-oder-sauvignon-blanc/                                                                      /shop/wijnproeverij-thuis-wit/  301
+/de/shop/chardonnay-oder-sauvignon-blanc-kopie/                                                                /shop/wijnproeverij-thuis-wit/  301
+/de/shop/chardonnay-oder-sauvignon-blanc-kopie-kopie/                                                          /shop/wijnproeverij-thuis-wit/  301
+/de/shop/chardonnay-of-sauvignon-blanc-premium/                                                                /shop/wijnproeverij-thuis-wit/  301
+/de/shop/italien-oder-spanien/                                                                                 /shop/wijnproeverij-thuis-rood/  301
+/de/shop/italien-oder-spanien-copy/                                                                            /shop/wijnproeverij-thuis-rood/  301
+/de/shop/italien-oder-spanien-kopie/                                                                           /shop/wijnproeverij-thuis-rood/  301
+/de/shop/italien-oder-spanien-kopie-2/                                                                         /shop/wijnproeverij-thuis-rood/  301
 /de/shop/merlot-oder-cabernet-sauvignon/                                                                       /shop/wijnproeverij-thuis-rood/  301
 /de/shop/merlot-oder-cabernet-sauvignon-copy/                                                                  /shop/wijnproeverij-thuis-rood/  301
 /de/shop/merlot-oder-cabernet-sauvignon-copy-2/                                                                /shop/wijnproeverij-thuis-rood/  301
@@ -137,7 +143,7 @@
 /de/*                                                                                                          /  301
 /en/                                                                                                           /  301
 /en/blog/                                                                                                      /blog/  301
-/en/shop/chardonnay-of-sauvignon-blanc-premium/                                                                /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/  301
+/en/shop/chardonnay-of-sauvignon-blanc-premium/                                                                /shop/wijnproeverij-thuis-wit/  301
 /en/shop/merlot-of-cabernet-sauvignon/                                                                         /shop/wijnproeverij-thuis-rood/  301
 /en/*                                                                                                          /  301
 /feed/                                                                                                         /blog/  301

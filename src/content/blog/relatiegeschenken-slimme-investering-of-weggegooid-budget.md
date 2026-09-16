@@ -9,7 +9,7 @@ author: bart
 heroImage: "../../assets/images/blog/relatiegeschenken-slimme-investering-of-weggegooid-budget.webp"
 heroAlt: "Relatiegeschenken: slimme investering of weggegooid budget?"
 pillar: zakelijk
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 ## Waarom relatiegeschenken nog altijd een slimme investering zijn
 

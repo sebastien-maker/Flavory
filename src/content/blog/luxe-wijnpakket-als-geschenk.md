@@ -8,7 +8,7 @@ author: bart
 heroImage: "../../assets/images/blog/luxe-wijnpakket-als-geschenk.webp"
 heroAlt: "To stress or not to stress. That’s the question. Een luxe wijnpakket als geschenk is the answer."
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 Rond 15 december krijgen we traditioneel de eerste mailtjes.  
 Linda vraagt of we kunnen garanderen dat haar luxe wijnpakket als geschenk op tijd geleverd wordt, zodat ze op kerstavond nonkel Herman kan verrassen. Dat lukt!
@@ -34,7 +34,7 @@ Secret Santa klinkt leuk, maar het leidt vaak tot lijstjes vol bonnen, sokken e
 
 **Een cadeau voor mensen die alles hebben.** Het wijnspel is geen klassieke wijnkist; het is een blind proeverij met twee wijnen en een spel Ideaal voor de persoon die zegt niks nodig te hebben.
 
-**Rust dankzij vroeg bestellen.** Wie begin december bestelt, profiteert van de hoogste korting en volledige keuze. Wacht niet tot de populaire box ([Italië – Spanje](/shop/italie-of-spanje/) bijvoorbeeld) uitverkocht is. Want dat is pas een luxe wijnpakket als geschenk.
+**Rust dankzij vroeg bestellen.** Wie begin december bestelt, profiteert van de hoogste korting en volledige keuze. Wacht niet tot de populaire box ([Italië – Spanje](/shop/wijnproeverij-thuis-rood/) bijvoorbeeld) uitverkocht is. Want dat is pas een luxe wijnpakket als geschenk.
 
 ## Antwoorden op vaak gestelde Flavory vragen
 

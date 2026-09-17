@@ -11,8 +11,8 @@ import Stars from '@/components/ui/Stars.astro';
 import { fromPrice, getProducts, getPosts, productPath } from '@/lib/content';
 import { SITE, formatPrice } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
-// Hero image: replace this one file (keep the name) to swap the illustration for a photo.
-import heroImage from '@/assets/images/site/hero.webp';
+// Hero photo: replace this one file (keep the name) to swap it. Landscape, at least 1600px wide.
+import heroImage from '@/assets/images/site/hero-proeverij.jpg';
 import friendsImage from '@/assets/images/site/vriendinnen-openen-box.jpg';
 import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
 
@@ -28,8 +28,8 @@ const title = 'Wijnproeverij thuis: het wijnspel voor vrienden | Flavory';
 const description =
   'Flavory is het wijnspel voor een wijnproeverij thuis: proef blind twee wijnen, beantwoord quizvragen en ontdek wie de wijnkenner is. Voor 2 tot 6 spelers.';
 
-const hero = await getImage({ src: heroImage, width: 640, widths: [320, 480, 640, 960], format: 'webp' });
-const heroSizes = '(min-width: 1024px) 32rem, (min-width: 768px) 45vw, 18rem';
+const hero = await getImage({ src: heroImage, width: 1200, widths: [480, 720, 1200, 1600], format: 'webp' });
+const heroSizes = '(min-width: 1200px) 36rem, (min-width: 768px) 48vw, calc(100vw - 2rem)';
 const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
 ---
 
@@ -48,48 +48,45 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   ]}
 >
   <!-- Hero -->
-  <section class="container-site grid items-center gap-6 py-8 md:grid-cols-2 md:gap-8 md:py-20">
+  <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-16">
     <div>
-      <h1 class="h1">Wijnproeverij thuis: speel het wijnspel met vrienden</h1>
-      <p class="lead mt-4 font-display text-brand">Ontdek je eigen smaak en word de kenner aan tafel!</p>
-      <p class="mt-4 max-w-prose">
-        Flavory is een blinde wijnproeverij in spelvorm. Je proeft twee wijnen tegen elkaar, beantwoordt quizvragen en
-        ontmaskert samen welke fles welke is. Voor 2 tot 6 spelers, zonder voorkennis, vanaf {formatPrice(minPrice)},
-        wijn inbegrepen.
+      <p class="text-lg leading-snug font-semibold md:text-xl">Blind wijnproeven met het wijnspel van Flavory</p>
+      <h1 class="h1 mt-2">Proef jij het verschil?</h1>
+      <p class="mt-3 max-w-prose text-muted md:text-lg">
+        <strong class="font-bold text-ink">Hét cadeau voor iedereen die graag een glas wijn drinkt.</strong>
+        {` Vanaf ${formatPrice(minPrice)}, wijn inbegrepen.`}
       </p>
+      <div class="mt-5 grid grid-cols-2 gap-3 sm:max-w-md">
+        {red && (
+          <a href={productPath(red.id)} class="btn-primary px-4">
+            Kies rood
+          </a>
+        )}
+        {white && (
+          <a href={productPath(white.id)} class="btn-outline px-4">
+            Kies wit
+          </a>
+        )}
+      </div>
       <a href="/reviews/" class="mt-4 inline-flex items-center gap-2 text-sm hover:underline">
         <Stars rating={SITE.rating.value} class="text-xl" />
         <span>
           <strong>{String(SITE.rating.value).replace('.', ',')}/5</strong> uit {SITE.rating.count} reviews
         </span>
       </a>
-      <div class="mt-6 grid grid-cols-2 gap-3 sm:flex">
-        {red && (
-          <a href={productPath(red.id)} class="btn-primary">
-            Kies rood
-          </a>
-        )}
-        {white && (
-          <a href={productPath(white.id)} class="btn-outline">
-            Kies wit
-          </a>
-        )}
-      </div>
     </div>
-    <figure class="hero-media">
-      <img
-        src={hero.src}
-        srcset={hero.srcSet.attribute}
-        sizes={heroSizes}
-        width={hero.attributes.width}
-        height={hero.attributes.height}
-        alt="Illustratie van vier vrienden die klinken met rode wijn aan een tafel met twee anonieme flessen"
-        fetchpriority="high"
-        loading="eager"
-        decoding="async"
-        class="mx-auto h-auto w-full max-w-72 md:max-w-lg"
-      />
-    </figure>
+    <img
+      src={hero.src}
+      srcset={hero.srcSet.attribute}
+      sizes={heroSizes}
+      width={hero.attributes.width}
+      height={hero.attributes.height}
+      alt="Twee glazen rode wijn naast elkaar tijdens een blinde proeverij met Flavory"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+      class="h-[230px] w-full rounded-[var(--radius-card)] object-cover sm:h-72 md:aspect-[4/3] md:h-auto"
+    />
   </section>
 
   <!-- Wat is Flavory -->
@@ -107,11 +104,12 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
     />
     <div>
       <h2 id="wat-title" class="h2">
-        Wat is Flavory?
+        Wijnproeverij thuis, als spel
       </h2>
       <p class="mt-4">
-        Flavory brengt de leukste wijnproeverij bij je thuis. Je proeft blind twee wijnen tegen elkaar, en voorkennis
-        van wijn heb je niet nodig.
+        Flavory is een blinde wijnproeverij in spelvorm. Je proeft twee wijnen tegen elkaar, beantwoordt quizvragen en
+        ontmaskert samen welke fles welke is. Voor 2 tot 6 spelers, zonder voorkennis, vanaf {formatPrice(minPrice)},
+        wijn inbegrepen.
       </p>
       <a href="/over-flavory/" class="btn-outline mt-6">
         Het verhaal achter Flavory

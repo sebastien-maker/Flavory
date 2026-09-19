@@ -207,21 +207,42 @@
   .link-list a:hover {
     text-decoration: underline;
   }
-  /* Homepage hero: float the illustration next to title lines two and three (line one runs full width). */
-  .hero-illustration {
-    --skip: 2.3rem;
-    float: right;
-    width: 8rem;
-    margin-left: 0.5rem;
-    padding-top: var(--skip);
-    shape-outside: inset(var(--skip) 0 0 0);
+  /* Homepage hero. The illustration floats right with its top level with title line one. Its top-left
+     37% is empty up to about 20% of its height, so shape-outside lets line one run into that corner.
+     --t is the title size, --w the illustration width; both are tuned so line one never has to wrap. */
+  .hero-copy {
+    --t: 1.75rem;
+    --w: clamp(7rem, 157vw - 449px, 10rem);
   }
   @media (min-width: 768px) {
-    .hero-illustration {
-      --skip: 3.3rem;
-      width: 11rem;
-      margin-left: 1rem;
+    .hero-copy {
+      --t: min(2.75rem, 3.6vw);
+      --w: min(13rem, 16vw);
     }
+  }
+  .hero-copy h1 {
+    font-size: var(--t);
+    line-height: 1.15;
+  }
+  .hero-illustration {
+    float: right;
+    width: var(--w);
+    margin-left: 0.5rem;
+    padding-top: calc(var(--t) * 0.55);
+    shape-outside: polygon(37% 0, 100% 0, 100% 100%, 0 100%, 0 calc(var(--t) * 1.16), 37% calc(var(--t) * 1.16));
+  }
+  /* Blog overview: compact article row with thumbnail. */
+  .post-row {
+    @apply flex items-center gap-4 rounded-xl p-2 hover:bg-blush;
+  }
+  .post-row img {
+    @apply h-18 w-24 shrink-0 rounded-lg object-cover;
+  }
+  .post-row b {
+    @apply block leading-snug group-hover:text-brand;
+  }
+  .post-row small {
+    @apply mt-1 block text-sm text-muted;
   }
   .check {
     @apply mt-0.5 size-5 shrink-0 text-success;

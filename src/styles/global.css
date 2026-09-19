@@ -207,6 +207,22 @@
   .link-list a:hover {
     text-decoration: underline;
   }
+  /* Homepage hero: float the illustration next to title lines two and three (line one runs full width). */
+  .hero-illustration {
+    --skip: 2.3rem;
+    float: right;
+    width: 8rem;
+    margin-left: 0.5rem;
+    padding-top: var(--skip);
+    shape-outside: inset(var(--skip) 0 0 0);
+  }
+  @media (min-width: 768px) {
+    .hero-illustration {
+      --skip: 3.3rem;
+      width: 11rem;
+      margin-left: 1rem;
+    }
+  }
   .check {
     @apply mt-0.5 size-5 shrink-0 text-success;
   }

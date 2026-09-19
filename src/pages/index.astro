@@ -13,7 +13,12 @@ import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 // Hero photo: replace this one file (keep the name) to swap it. Landscape, at least 1600px wide.
 import heroImage from '@/assets/images/site/hero-proeverij.jpg';
-import friendsIllustration from '@/assets/images/site/illustratie-vrienden-klinken.webp';
+// Hero illustration and icons come from the box sleeve (value proposition, 2025).
+import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
+import IconBottles from '@/assets/icons/sleeve-herken-de-wijnen.png';
+import IconPlayers from '@/assets/icons/sleeve-spelers.png';
+import IconClock from '@/assets/icons/sleeve-minuten.png';
+import IconWinner from '@/assets/icons/sleeve-winnaar.png';
 import WineGlassIcon from '@/assets/icons/wine-glass.svg';
 import TrophyIcon from '@/assets/icons/trophy.svg';
 import CheersIcon from '@/assets/icons/glasses-cheers.svg';
@@ -31,15 +36,37 @@ const description =
   'Flavory is het wijnspel voor een wijnproeverij thuis: proef blind twee wijnen, beantwoord quizvragen en ontdek wie de wijnkenner is. Voor 2 tot 6 spelers.';
 
 const hero = await getImage({ src: heroImage, width: 1200, widths: [480, 720, 1200, 1600], format: 'webp' });
-const heroSizes = '(min-width: 1200px) 34rem, (min-width: 768px) 45vw, calc(100vw - 2rem)';
+const photoSizes = '(min-width: 1200px) 34rem, (min-width: 768px) 45vw, calc(100vw - 2rem)';
+const illustration = await getImage({
+  src: sleeveIllustration,
+  width: 800,
+  widths: [400, 600, 800, 1100],
+  format: 'webp',
+});
+const illustrationSizes = '(min-width: 1200px) 34rem, (min-width: 768px) 45vw, calc(100vw - 2rem)';
+const facts = [
+  { icon: IconBottles, label: 'Herken de wijnen' },
+  { icon: IconPlayers, label: '2 tot 6 spelers' },
+  { icon: IconClock, label: '60 tot 90 minuten' },
+  { icon: IconWinner, label: 'Eén winnaar' },
+];
+// The three promises on the side of the sleeve: together, learning, competition.
 const pillars = [
   {
+    Icon: CheersIcon,
+    title: 'Speel met vrienden en familie',
+    text: 'Met 2 tot 6 spelers aan tafel, 60 à 90 minuten plezier.',
+  },
+  {
     Icon: WineGlassIcon,
-    title: 'Leer proeven',
+    title: 'Leer en ontdek je smaak',
     text: 'Kijk, ruik en proef zoals een sommelier. Geen voorkennis nodig.',
   },
-  { Icon: TrophyIcon, title: 'Speel om te winnen', text: 'Quizvragen, punten en één winnaar.' },
-  { Icon: CheersIcon, title: 'Samen aan tafel', text: 'Voor 2 tot 6 spelers, 60 à 90 minuten plezier.' },
+  {
+    Icon: TrophyIcon,
+    title: 'Ontmasker en win',
+    text: 'Verzamel tips met quizvragen en ontmasker fles A en B. Er is maar één winnaar.',
+  },
 ];
 const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
 ---
@@ -49,7 +76,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   isHome
   description={description}
   path="/"
-  preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes }}
+  preloadImage={{ src: illustration.src, srcset: illustration.srcSet.attribute, sizes: illustrationSizes }}
   schema={[
     webPage({ path: '/', title, description }),
     itemList(
@@ -58,27 +85,14 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
     ),
   ]}
 >
-  <!-- Hero -->
-  <section class="container-site grid items-center gap-5 pt-4 pb-6 md:grid-cols-2 md:gap-10 md:py-12">
+  <!-- Hero: the value proposition from the box sleeve -->
+  <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
     <div>
-      <!-- The illustration floats beside the title; its empty top-left corner leaves room for line one. -->
-      <div class="hero-copy flow-root">
-        <div class="hero-illustration">
-          <Image
-            src={friendsIllustration}
-            alt="Vrienden klinken aan tafel tijdens een wijnproeverij thuis"
-            widths={[160, 320, 420]}
-            sizes="(min-width: 768px) 13rem, 10rem"
-            loading="eager"
-            class="h-auto w-full"
-          />
-        </div>
-        <h1>
-          <span class="whitespace-nowrap">Twee blinde wijnen.</span>
-          <span class="block text-brand">Proef jij het verschil?</span>
-        </h1>
-        <p class="mt-3 text-muted md:text-lg">Dit wijnspel is hét cadeau voor iedereen die van een glas wijn houdt.</p>
-      </div>
+      <p class="text-xs font-bold tracking-widest text-brand uppercase">Speel · Proef · Leer · Win</p>
+      <h1 class="mt-2 text-[2rem] leading-[1.1] md:text-[3.25rem]">Hét spel dat je wijn leert proeven</h1>
+      <p class="mt-3 text-lg leading-snug font-bold md:text-xl">
+        Twee beroemde wijnen tegenover elkaar. <span class="text-brand">Proef jij het verschil?</span>
+      </p>
       <div class="mt-5 grid grid-cols-2 gap-3 sm:max-w-md">
         {red && (
           <a href={productPath(red.id)} class="btn-primary px-4">
@@ -98,40 +112,64 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
         </span>
       </a>
     </div>
-    <img
-      src={hero.src}
-      srcset={hero.srcSet.attribute}
-      sizes={heroSizes}
-      width={hero.attributes.width}
-      height={hero.attributes.height}
-      alt="Twee glazen rode wijn naast elkaar tijdens een blinde proeverij met Flavory"
-      fetchpriority="high"
-      loading="eager"
-      decoding="async"
-      class="h-[260px] w-full rounded-[var(--radius-card)] object-cover sm:h-80 md:aspect-[4/3] md:h-auto"
-    />
+    <div class="rounded-[var(--radius-card)] bg-white p-3 md:p-5">
+      <img
+        src={illustration.src}
+        srcset={illustration.srcSet.attribute}
+        sizes={illustrationSizes}
+        width={illustration.attributes.width}
+        height={illustration.attributes.height}
+        alt="Illustratie van vier vrienden die aan tafel blind wijn proeven met het Flavory-wijnspel"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        class="h-auto w-full"
+      />
+    </div>
+    <ul class="grid grid-cols-4 gap-2 text-center md:col-span-2 md:mx-auto md:w-full md:max-w-3xl">
+      {facts.map((f) => (
+        <li class="flex flex-col items-center gap-1.5">
+          <Image src={f.icon} alt="" width={40} height={40} loading="eager" class="size-9 md:size-10" />
+          <span class="text-xs leading-tight font-bold md:text-sm">{f.label}</span>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <!-- Wat is Flavory -->
-  <section id="wat-is-flavory" class="section-y scroll-mt-28 bg-white" aria-label="Wat is Flavory">
-    <div class="container-site">
-      <div class="mx-auto max-w-[600px] text-center">
-        <p class="h4 font-display leading-snug font-bold">
+  <section id="wat-is-flavory" class="section-y scroll-mt-28 bg-white" aria-labelledby="wat-title">
+    <div class="container-site grid items-center gap-6 md:grid-cols-2 md:gap-10">
+      <div>
+        <h2 id="wat-title" class="h3">
           Iedereen houdt van wijn, maar geen twee wijnen zijn hetzelfde.
+        </h2>
+        <p class="mt-3">
+          Met deze wijnbox ontdek je spelenderwijs het verschil tussen twee beroemde wijnen. Ruik, proef, vergelijk en
+          ontmasker de wijnen. Wie kroont zich tot wijnkenner van de avond?
         </p>
-        <p class="mt-2 text-muted">Leer spelenderwijs proeven met vrienden. Word jij de winnaar van de avond?</p>
+        <ul class="mt-6 grid gap-4">
+          {pillars.map(({ Icon, title, text }) => (
+            <li class="flex gap-4">
+              <Icon class="size-10 shrink-0 text-brand" aria-hidden="true" />
+              <div>
+                <h3 class="font-sans text-lg font-bold">{title}</h3>
+                <p class="text-muted">{text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul class="mx-auto mt-6 grid max-w-md gap-4 md:max-w-4xl md:grid-cols-3 md:gap-8">
-        {pillars.map(({ Icon, title, text }) => (
-          <li class="flex gap-4 md:flex-col md:items-center md:gap-2 md:text-center">
-            <Icon class="size-10 shrink-0 text-brand" aria-hidden="true" />
-            <div>
-              <h2 class="font-sans text-lg font-bold">{title}</h2>
-              <p class="text-muted">{text}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <img
+        src={hero.src}
+        srcset={hero.srcSet.attribute}
+        sizes={photoSizes}
+        width={hero.attributes.width}
+        height={hero.attributes.height}
+        alt="Twee glazen rode wijn naast elkaar tijdens een blinde proeverij met Flavory"
+        loading="lazy"
+        decoding="async"
+        class="h-[260px] w-full rounded-[var(--radius-card)] object-cover sm:h-80 md:aspect-[4/3] md:h-auto"
+      />
     </div>
   </section>
 
@@ -155,6 +193,32 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   </section>
 
   <HowItWorks />
+
+  <!-- Contents and what you need, from the back of the sleeve -->
+  <section class="section-y bg-white" aria-labelledby="nodig-title">
+    <div class="container-site">
+      <h2 id="nodig-title" class="h2 text-center">
+        Wat heb je nodig?
+      </h2>
+      <div class="mx-auto mt-6 grid max-w-2xl grid-cols-2 gap-6">
+        <div>
+          <h3 class="font-sans text-lg font-bold">In de box</h3>
+          <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-brand">
+            <li>Twee heerlijke wijnen</li>
+            <li>Het Flavory-wijnspel</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-sans text-lg font-bold">Zelf voorzien</h3>
+          <ul class="mt-2 list-disc space-y-1 pl-5 marker:text-brand">
+            <li>Vrienden</li>
+            <li>Wijnglazen</li>
+          </ul>
+        </div>
+      </div>
+      <p class="mt-6 text-center font-bold">Geen voorkennis nodig.</p>
+    </div>
+  </section>
 
   <!-- Voor wie -->
   <section class="bg-brand text-white" aria-labelledby="voorwie-title">

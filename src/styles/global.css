@@ -66,6 +66,8 @@
   /* Light blue from the white wine box. */
   --color-wine-white: #90d6e6;
   --color-wine-white-dark: #6cc4d9;
+  /* Sticker orange, close to the round sticker on the box sleeve (darkened for white text). */
+  --color-sticker: #e2711d;
   --color-star: #f5a623;
   --color-success: #1f7a3a;
 
@@ -206,6 +208,35 @@
   }
   .link-list a:hover {
     text-decoration: underline;
+  }
+  /* Homepage hero: round gift sticker on the corner of the illustration, wiggles twice on load. */
+  .gift-sticker {
+    @apply absolute -top-4 -right-1 flex size-24 flex-col items-center justify-center rounded-full text-center font-display leading-none text-white shadow-md md:-top-6 md:-right-4 md:size-32;
+    background: var(--color-sticker);
+    outline: 2px dashed rgb(255 255 255 / 0.6);
+    outline-offset: -6px;
+    rotate: 12deg;
+    animation: sticker-wiggle 0.9s ease-in-out 0.8s 2;
+  }
+  .gift-sticker span {
+    @apply text-[0.7rem] tracking-wide uppercase md:text-sm;
+  }
+  .gift-sticker b {
+    @apply mt-0.5 text-[1.05rem] md:text-[1.4rem];
+  }
+  @keyframes sticker-wiggle {
+    0%,
+    100% {
+      rotate: 12deg;
+      scale: 1;
+    }
+    30% {
+      rotate: 2deg;
+      scale: 1.08;
+    }
+    60% {
+      rotate: 18deg;
+    }
   }
   /* Blog overview: compact article row with thumbnail. */
   .post-row {

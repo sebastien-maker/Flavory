@@ -1,0 +1,51 @@
+---
+// Muted looping clip that only downloads once it scrolls into view, so it never slows the first load.
+// With prefers-reduced-motion it does not autoplay; the viewer gets the play controls instead.
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: string;
+  poster: ImageMetadata;
+  label: string;
+  class?: string;
+}
+
+const { src, poster, label, class: className } = Astro.props;
+const posterImage = await getImage({ src: poster, width: 960, format: 'webp' });
+---
+
+<video
+  class={className}
+  width="960"
+  height="540"
+  muted
+  loop
+  playsinline
+  preload="none"
+  poster={posterImage.src}
+  aria-label={label}
+  data-lazy-video={src}
+></video>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const { target, isIntersecting } of entries) {
+        const video = target as HTMLVideoElement;
+        if (!isIntersecting) {
+          video.pause();
+        } else if (!video.src) {
+          video.src = video.dataset.lazyVideo ?? '';
+          if (reduced) video.controls = true;
+          else video.play().catch(() => (video.controls = true));
+        } else if (!reduced) {
+          video.play().catch(() => {});
+        }
+      }
+    },
+    { rootMargin: '200px' },
+  );
+  document.querySelectorAll<HTMLVideoElement>('video[data-lazy-video]').forEach((v) => observer.observe(v));
+</script>

@@ -2,7 +2,7 @@
 title: "Algemene voorwaarden"
 seoTitle: "Algemene voorwaarden"
 description: "Lees de algemene verkoopsvoorwaarden van Flavory BV: bestellen, betalen, levering, herroepingsrecht, garantie en klachten bij je wijnspel."
-updatedDate: 2023-11-09
+updatedDate: 2026-09-16
 ---
 
 ## Artikel 1. Algemene bepalingen
@@ -15,7 +15,7 @@ b) Deze algemene voorwaarden hebben steeds voorrang op alle andersluidende voorw
 
 a) Wijnboxen
 
-De wijnboxen verkocht op deze website omvatten telkens twee flessen wijn en concept om spelenderwijs de wijnen te ontdekken en te leren proeven.
+De wijnboxen verkocht op deze website omvatten telkens twee flessen wijn (75 cl) en een spel om spelenderwijs de wijnen te ontdekken en te leren proeven. De wijnboxen zijn verkrijgbaar in een Regular- en een Premiumformule. Het spel is in beide formules identiek. In de Premiumformule zitten twee duurdere flessen wijn.
 
 De selectie van deze wijnen gebeurt door FLAVORY en kan in geen geval grond zijn voor welke betwisting dan ook.
 
@@ -39,7 +39,7 @@ Eventuele speciale aanbiedingen uitgaande van FLAVORY kunnen in geen geval de ba
 
 ## Artikel 3. Prijs
 
-De op de website vermelde prijzen voor de wijnboxen en de wijnen zijn steeds inclusief BTW exclusief leveringskosten in België en Nederland, waarbij door de klant kan geopteerd worden voor ofwel afhaling bij FLAVORY (Broedersstraat 15, 9150 Bazel) ofwel thuislevering volgens de modaliteiten van onze derde dienstverleners.
+De op de website vermelde prijzen voor de wijnboxen en de wijnen zijn steeds inclusief BTW en exclusief leveringskosten. FLAVORY levert in België en Nederland, via thuislevering volgens de modaliteiten van onze derde dienstverleners. Vanaf twee wijnboxen in één bestelling is de levering gratis.
 
 Voor bestellingen buiten België en Nederland moet de klant FLAVORY persoonlijk contacteren. FLAVORY zal dan een gepersonaliseerde offerte opmaken.
 
@@ -85,9 +85,11 @@ FLAVORY  is gerechtigd om dit verhoudingsgewijs in rekening te brengen bij de t
 
 Indien de Klant niet voldoet aan de bovenstaande voorwaarden is er sprake van een onrechtmatig gebruik van het herroepingsrecht. In dat geval zullen de goederen teruggestuurd worden naar de Klant, voor eigen rekening en risico van de Klant. FLAVORY verbindt er zich toe haar motieven duidelijk te communiceren aan Klant.
 
-ARTIKEL 5bis. NIET TEVREDEN, GELD TERUG – GARANTIE
+## Artikel 5bis. Niet tevreden? Geld terug
 
-FLAVORY verbindt zich ertoe de klant terug te betalen indien deze niet tevreden is met de kwaliteit van de ontvangen wijn. Hiertoe dient de klant FLAVORY per telefoon of mail te contacteren om deze terugbetaling aan te vragen. Deze garantie is enkel van toepassing indien  – in geval van de wijnbox – beide flessen  nog minstens 80 % van hun oorspronkelijke volume bevatten of – in geval van de wijn – de fles nog minstens 80% van haar oorspronkelijke volume bevat. FLAVORY  zal hetzij de wijnbox / de wijnen ophalen, hetzij de klant een retourlabel aanleveren.
+Niet tevreden? Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.
+
+Deze garantie geldt naast en onverminderd het wettelijk herroepingsrecht uit artikel 5.
 
 ## Artikel 6. Betaling
 
@@ -107,7 +109,7 @@ Levering zal gebeuren door onze derde dienstverlener of door FLAVORY zelf op het
 
 b) Leveringstermijn
 
-I. De wijnboxen en de wijnen worden geleverd binnen een redelijke termijn (we streven naar 3 tot 5 werkdagen)
+I. De wijnboxen en de wijnen worden geleverd binnen een redelijke termijn (meestal binnen 1 à 3 werkdagen in België en Nederland).
 
 II. Nabestellingen worden geleverd binnen een redelijke termijn.
 

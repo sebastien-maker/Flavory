@@ -145,7 +145,7 @@ import { SITE } from '@/lib/site';
     if (target.closest('[data-cart-close]') || target === dialog) dialog.close();
   });
 
-  // Add-to-cart forms: <form data-add-to-cart> with hidden inputs (see AddToCart.astro).
+  // Add-to-cart forms: <form data-add-to-cart> with hidden inputs (see ProductPage.astro).
   document.addEventListener('submit', (e) => {
     const form = (e.target as HTMLElement).closest<HTMLFormElement>('form[data-add-to-cart]');
     if (!form) return;

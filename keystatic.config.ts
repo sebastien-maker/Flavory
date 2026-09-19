@@ -47,7 +47,7 @@ export default config({
     navigation: {
       Shop: ['products', 'categories'],
       Content: ['blog', 'pages', 'faq'],
-      Vertrouwen: ['reviews', 'stores', 'authors'],
+      Vertrouwen: ['reviews', 'authors'],
     },
   },
   collections: {
@@ -90,7 +90,7 @@ export default config({
       slugField: 'name',
       path: 'src/content/products/*',
       format: { contentField: 'content' },
-      columns: ['name', 'price'],
+      columns: ['name'],
       schema: {
         name: fields.slug({
           name: { label: 'Productnaam' },
@@ -114,20 +114,58 @@ export default config({
           multiline: true,
           validation: { isRequired: true },
         }),
-        price: fields.number({ label: 'Prijs (€)', step: 0.01, validation: { isRequired: true, min: 0 } }),
-        compareAtPrice: fields.number({ label: 'Oude prijs (€)', step: 0.01 }),
-        sku: fields.text({ label: 'SKU', validation: { isRequired: true } }),
-        gtin13: fields.text({ label: 'GTIN-13 (EAN)', validation: { length: { min: 0, max: 13 } } }),
-        availability: fields.select({
-          label: 'Beschikbaarheid',
-          options: [
-            { label: 'Op voorraad', value: 'in_stock' },
-            { label: 'Uitverkocht', value: 'out_of_stock' },
-            { label: 'Voorverkoop', value: 'preorder' },
-          ],
-          defaultValue: 'in_stock',
-        }),
-        includesWine: fields.checkbox({ label: 'Wijn inbegrepen', defaultValue: true }),
+        variants: fields.array(
+          fields.object({
+            id: fields.text({
+              label: 'Code van de keuze',
+              description: 'Kleine letters en koppeltekens, bv. merlot-cabernet-premium. Niet wijzigen.',
+              validation: { isRequired: true },
+            }),
+            duel: fields.text({
+              label: 'Duel',
+              description: 'Bv. "Italië vs Spanje"',
+              validation: { isRequired: true },
+            }),
+            formula: fields.select({
+              label: 'Formule',
+              options: [
+                { label: 'Regular', value: 'Regular' },
+                { label: 'Premium', value: 'Premium' },
+              ],
+              defaultValue: 'Regular',
+            }),
+            price: fields.number({ label: 'Prijs (€)', step: 0.01, validation: { isRequired: true, min: 0 } }),
+            sku: fields.text({ label: 'SKU', validation: { isRequired: true } }),
+            group: fields.text({
+              label: 'Tekstgroep',
+              description: 'Moet overeenkomen met een groep onder "Beschrijvingen".',
+              validation: { isRequired: true },
+            }),
+            available: fields.checkbox({
+              label: 'Op voorraad',
+              description: 'Uitvinken om de keuze volledig te verbergen.',
+              defaultValue: true,
+            }),
+          }),
+          {
+            label: 'Keuzes (volgorde = volgorde in de keuzelijst)',
+            itemLabel: (props) =>
+              `${props.fields.duel.value} · ${props.fields.formula.value} · €${props.fields.price.value ?? ''}${props.fields.available.value ? '' : ' (uitverkocht)'}`,
+            validation: { length: { min: 1 } },
+          },
+        ),
+        descriptions: fields.array(
+          fields.object({
+            group: fields.text({ label: 'Tekstgroep', validation: { isRequired: true } }),
+            heading: fields.text({ label: 'Tussentitel', validation: { isRequired: true } }),
+            text: fields.text({ label: 'Tekst (markdown)', multiline: true, validation: { isRequired: true } }),
+          }),
+          {
+            label: 'Beschrijvingen (de eerste staat er tot de klant kiest)',
+            itemLabel: (props) => props.fields.heading.value,
+            validation: { length: { min: 1 } },
+          },
+        ),
         category: fields.relationship({
           label: 'Categorie',
           collection: 'categories',

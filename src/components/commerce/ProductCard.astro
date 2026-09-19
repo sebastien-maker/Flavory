@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { Product } from '@/lib/content';
-import { productPath } from '@/lib/content';
+import { fromPrice, isAvailable, productPath } from '@/lib/content';
 import { formatPrice } from '@/lib/site';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 const { product, headingLevel: Heading = 'h3', eager = false } = Astro.props;
 const { data } = product;
 const url = productPath(product.id);
-const soldOut = data.availability === 'out_of_stock';
+const soldOut = !isAvailable(product);
 const cover = data.images[0]!;
 ---
 
@@ -30,8 +30,7 @@ const cover = data.images[0]!;
       loading={eager ? 'eager' : 'lazy'}
     />
     <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
-      {!data.includesWine && <span class="badge bg-ink text-white">Zonder wijn</span>}
-      {data.includesWine && <span class="badge bg-brand text-white">Met 2 wijnen</span>}
+      <span class="badge bg-brand text-white">Met 2 wijnen</span>
       {soldOut && <span class="badge bg-white ring-1 ring-line">Uitverkocht</span>}
     </div>
   </div>
@@ -44,7 +43,9 @@ const cover = data.images[0]!;
     <p class="mt-1 text-sm font-bold">{data.duel}</p>
     <p class="mt-2 text-sm text-muted italic">{data.cardTagline}</p>
     <div class="mt-auto flex items-center justify-between gap-3 pt-4">
-      <p class="text-xl font-bold">{formatPrice(data.price)}</p>
+      <p class="text-xl font-bold">
+        <span class="text-sm font-normal">vanaf</span> {formatPrice(fromPrice(product))}
+      </p>
       <span
         class:list={[
           'btn relative min-h-10 py-2',
@@ -52,7 +53,7 @@ const cover = data.images[0]!;
         ]}
         aria-hidden="true"
       >
-        {soldOut ? 'Bekijk' : 'Bestel nu'}
+        {soldOut ? 'Bekijk' : 'Kies je box'}
       </span>
     </div>
   </div>

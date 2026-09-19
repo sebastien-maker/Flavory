@@ -93,70 +93,71 @@ export interface ProductSchemaInput {
   path: string;
   name: string;
   description: string;
-  sku: string;
-  gtin13?: string | undefined;
-  price: number;
-  availability: 'in_stock' | 'out_of_stock' | 'preorder';
+  /** One Offer per purchasable option (duel + formula). */
+  offers: { name: string; sku: string; price: number; available: boolean }[];
   images: string[];
   category: string;
   reviews: { author: string; rating: number; body: string; title?: string | undefined }[];
 }
 
-const AVAILABILITY = {
-  in_stock: 'https://schema.org/InStock',
-  out_of_stock: 'https://schema.org/OutOfStock',
-  preorder: 'https://schema.org/PreOrder',
-} as const;
-
 export function product(p: ProductSchemaInput): Thing {
   const url = absoluteUrl(p.path);
   // Offers are valid for a year; refreshed on every build.
   const priceValidUntil = new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().slice(0, 10);
+  const shippingDetails = SITE.shipping.countries.map((country) => ({
+    '@type': 'OfferShippingDetails',
+    '@id': `${SITE.url}/#shipping-${country.toLowerCase()}`,
+    shippingDestination: { '@type': 'DefinedRegion', addressCountry: country },
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+      transitTime: {
+        '@type': 'QuantitativeValue',
+        minValue: SITE.shipping.minDays,
+        maxValue: SITE.shipping.maxDays,
+        unitCode: 'DAY',
+      },
+    },
+  }));
+  const returnPolicy = {
+    '@type': 'MerchantReturnPolicy',
+    '@id': `${SITE.url}/#return-policy`,
+    applicableCountry: [...SITE.shipping.countries],
+    returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+    merchantReturnDays: SITE.returnDays,
+    returnMethod: 'https://schema.org/ReturnByMail',
+    returnFees: 'https://schema.org/ReturnShippingFees',
+    merchantReturnLink: absoluteUrl('/verzending-en-retour/'),
+  };
   return {
     '@type': 'Product',
     '@id': `${url}#product`,
     name: p.name,
     description: p.description,
     url,
-    sku: p.sku,
-    ...(p.gtin13 ? { gtin13: p.gtin13 } : {}),
     image: p.images,
     category: p.category,
     brand: { '@type': 'Brand', name: SITE.name },
     manufacturer: { '@id': ORG_ID },
-    offers: {
+    offers: p.offers.map((o, i) => ({
       '@type': 'Offer',
+      name: o.name,
+      sku: o.sku,
       url,
-      price: p.price.toFixed(2),
+      price: o.price.toFixed(2),
       priceCurrency: 'EUR',
       priceValidUntil,
-      availability: AVAILABILITY[p.availability],
+      availability: o.available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       itemCondition: 'https://schema.org/NewCondition',
       seller: { '@id': ORG_ID },
-      shippingDetails: SITE.shipping.countries.map((country) => ({
-        '@type': 'OfferShippingDetails',
-        shippingDestination: { '@type': 'DefinedRegion', addressCountry: country },
-        deliveryTime: {
-          '@type': 'ShippingDeliveryTime',
-          handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
-          transitTime: {
-            '@type': 'QuantitativeValue',
-            minValue: SITE.shipping.minDays,
-            maxValue: SITE.shipping.maxDays,
-            unitCode: 'DAY',
-          },
-        },
-      })),
-      hasMerchantReturnPolicy: {
-        '@type': 'MerchantReturnPolicy',
-        applicableCountry: [...SITE.shipping.countries],
-        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
-        merchantReturnDays: SITE.returnDays,
-        returnMethod: 'https://schema.org/ReturnByMail',
-        returnFees: 'https://schema.org/ReturnShippingFees',
-        merchantReturnLink: absoluteUrl('/verzending-en-retour/'),
-      },
-    },
+      // Shipping and return details are spelled out once and referenced by @id in the other offers.
+      ...(i === 0
+        ? { shippingDetails, hasMerchantReturnPolicy: returnPolicy }
+        : {
+            shippingDetails: shippingDetails.map((d) => ({ '@id': d['@id'] })),
+            hasMerchantReturnPolicy: { '@id': returnPolicy['@id'] },
+          }),
+    })),
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: SITE.rating.value,
@@ -233,30 +234,6 @@ export function article(opts: {
       url: absoluteUrl('/over-flavory/'),
     },
     publisher: { '@id': ORG_ID },
-  };
-}
-
-export function localBusiness(store: {
-  id: string;
-  name: string;
-  street: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  url?: string | undefined;
-}): Thing {
-  return {
-    '@type': 'Store',
-    '@id': `${absoluteUrl('/verkooppunten/')}#${store.id}`,
-    name: store.name,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: store.street,
-      postalCode: store.postalCode,
-      addressLocality: store.city,
-      addressCountry: store.country,
-    },
-    ...(store.url ? { url: store.url } : {}),
   };
 }
 

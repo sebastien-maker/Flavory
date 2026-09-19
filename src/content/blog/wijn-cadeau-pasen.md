@@ -8,7 +8,7 @@ author: bart
 heroImage: "../../assets/images/blog/wijn-cadeau-pasen.webp"
 heroAlt: "Paasontbijt met een fles rode wijn, bloedrode eieren en paasbrood op een linnen tafel, bovenaanzicht"
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 Pasen is het feest van de chocolade-eieren. Dat weet elk kind. Maar als je dit jaar op zoek bent naar een origineel **wijn cadeau Pasen**, en je wilt niet aankomen met de zoveelste fles rode Bordeaux in cadeaupapier, dan heb ik een voorstel. Vergeet even alles wat je denkt te weten over wijnlanden, en richt je blik naar het oosten. Naar twee landen waar Pasen geen gezellig bijzaakje is, maar het belangrijkste feest van het jaar. En waar wijn daar onlosmakelijk deel van uitmaakt.
 

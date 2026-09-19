@@ -15,7 +15,7 @@ const crumbs = [
 ];
 const title = 'Wijnproeverij thuis: alle wijnspellen en boxen';
 const description =
-  'Ontdek alle Flavory-boxen voor een wijnproeverij thuis: rode en witte wijn, met of zonder wijn. Ideaal als wijncadeau. Levering in 1 tot 3 werkdagen.';
+  'Ontdek de Flavory-boxen voor een wijnproeverij thuis: rood of wit, met twee flessen wijn inbegrepen. Ideaal als wijncadeau. Levering in België en Nederland.';
 ---
 
 <BaseLayout
@@ -35,8 +35,8 @@ const description =
   <section class="container-site py-8 md:py-12">
     <h1 class="h1">Wijnspellen voor een wijnproeverij thuis</h1>
     <p class="lead mt-4 max-w-3xl">
-      Organiseer thuis een unieke wijnproeverij met twee blinde flessen en een interactief spel voor 2 tot 6 spelers.
-      Ideaal als cadeau, met levering in 1 tot 3 werkdagen.
+      Organiseer thuis een unieke wijnproeverij met een interactief spel en twee flessen wijn, voor 2 tot 6 spelers.
+      Ideaal als cadeau, meestal geleverd binnen 1 à 3 werkdagen.
     </p>
     <nav aria-label="Categorieën" class="mt-6">
       <ul class="flex flex-wrap gap-2">
@@ -49,7 +49,7 @@ const description =
         ))}
       </ul>
     </nav>
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="mt-8 grid max-w-3xl gap-4 sm:grid-cols-2">
       {products.map((product, i) => (
         <li>
           <ProductCard product={product} headingLevel="h2" eager={i < 3} />
@@ -58,7 +58,7 @@ const description =
     </ul>
   </section>
 
-  <section class="container-site grid gap-10 py-8 md:grid-cols-2 md:py-12">
+  <section class="section-y container-site grid gap-10 md:grid-cols-2">
     <div class="prose-flavory">
       <h2>Is een wijnspel iets voor jou?</h2>
       <p>
@@ -73,22 +73,21 @@ const description =
       </p>
 
       <h2>Welke wijnbox kies ik?</h2>
-      <p>Begin met de keuze tussen rode en witte wijn.</p>
+      <p>Begin met de keuze tussen rode en witte wijn. In elke box zitten het spel en twee flessen wijn.</p>
       <ul>
         <li>
-          <strong>Rood:</strong> kies <a href="/shop/italie-of-spanje/">Italië of Spanje</a>, onze bestseller, en ontdek
-          hoe verschillend twee beroemde wijnlanden smaken. Of begin bij de basis met
-          <a href="/shop/wijnproeverij-thuis-rood/">Merlot of Cabernet Sauvignon</a>, de beroemdste druiven ter wereld.
+          <strong>Rood:</strong> in het <a href="/shop/wijnproeverij-thuis-rood/">rode wijnspel</a> kies je Merlot vs
+          Cabernet Sauvignon, de beroemdste druiven ter wereld, of Italië vs Spanje, onze bestseller, en ontdek je hoe
+          verschillend twee beroemde wijnlanden smaken.
         </li>
         <li>
-          <strong>Wit:</strong> in de <a href="/shop/wijnproeverij-thuis-wit/">witte wijnbox</a> leer je iets over
+          <strong>Wit:</strong> in het <a href="/shop/wijnproeverij-thuis-wit/">witte wijnspel</a> leer je iets over
           jezelf. Ben jij team Chardonnay of team Sauvignon Blanc?
         </li>
       </ul>
       <p>
-        <strong>Met of zonder wijn?</strong> De spelboxen zonder wijn (€24,90) bevatten het volledige spel; je koopt
-        zelf twee flessen. Onze <a href="/wijnkiezer/">wijnkiezer</a> helpt je daarbij. De wijnboxen bevatten twee
-        geselecteerde wijnen, anoniem verpakt.
+        <strong>Regular of Premium?</strong> Het spel is identiek. Regular zit vol heerlijke, eerlijke wijn. Bij Premium
+        krijg je twee duurdere flessen met nog meer diepgang.
       </p>
     </div>
     <div class="prose-flavory">
@@ -98,19 +97,21 @@ const description =
         de grootste wijnkenner van de avond.
       </p>
       <p>
-        Het is ook een origineel geschenk voor verjaardagen, housewarmings of feestdagen. Als
+        Het is ook een origineel geschenk voor verjaardagen, housewarmings of feestdagen. Als{' '}
         <a href="/zakelijk/">eindejaarsgeschenk of relatiegeschenk</a> gaat het veel verder dan zomaar een fles wijn: je
         geeft een belevenis die bijblijft. En zelfs op date night hoort Flavory thuis.
       </p>
       <h2>Verzending en garantie</h2>
       <p>
-        Je bestelling wordt doorgaans binnen 1 tot 3 werkdagen geleverd in België en Nederland. Vanaf 2 boxen is de
-        verzending gratis. Niet tevreden? Dan krijg je je geld terug, beloofd. Alle details lees je op
+        Je bestelling wordt meestal binnen 1 à 3 werkdagen geleverd in België en Nederland. Vanaf 2 boxen is de
+        verzending gratis. Niet tevreden? Geld terug. Alle details lees je op{' '}
         <a href="/verzending-en-retour/">verzending en retour</a> en in de <a href="/faq/">veelgestelde vragen</a>.
       </p>
     </div>
   </section>
 
-  <HowItWorks />
+  <div class="bg-white">
+    <HowItWorks />
+  </div>
   <Reviews />
 </BaseLayout>

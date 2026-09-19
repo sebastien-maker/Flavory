@@ -8,14 +8,18 @@ export const productPath = (id: string) => `/shop/${id}/`;
 export const categoryPath = (id: string) => `/shop/${id}/`;
 export const postPath = (id: string) => `/blog/${id}/`;
 
+export type Variant = Product['data']['variants'][number];
+
+// Options that can be bought; sold-out options are not shown at all.
+export const availableVariants = (product: Product): Variant[] => product.data.variants.filter((v) => v.available);
+export const isAvailable = (product: Product) => availableVariants(product).length > 0;
+export const fromPrice = (product: Product) =>
+  Math.min(...(isAvailable(product) ? availableVariants(product) : product.data.variants).map((v) => v.price));
+
 // In-stock products first, then by manual order.
 export async function getProducts(): Promise<Product[]> {
   const all = await getCollection('products', ({ data }) => !data.draft);
-  return all.sort(
-    (a, b) =>
-      Number(a.data.availability === 'out_of_stock') - Number(b.data.availability === 'out_of_stock') ||
-      a.data.order - b.data.order,
-  );
+  return all.sort((a, b) => Number(!isAvailable(a)) - Number(!isAvailable(b)) || a.data.order - b.data.order);
 }
 
 export async function getPosts(): Promise<Post[]> {

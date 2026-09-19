@@ -9,7 +9,7 @@ author: bart
 heroImage: "../../assets/images/blog/wijnspel-als-kerstcadeau-black-friday.webp"
 heroAlt: "Onze tip: Negeer Secret Santa en gebruik Black Friday"
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 Op haar lijstje heeft tante Astrid ingevuld dat ze graag een bon van [Standaard Boekhandel](https://www.standaardboekhandel.be/), een bon van [Fnac](https://www.nl.fnac.be/) of (als het écht moet) een nieuwe theepot wil krijgen. Maar hoe kan jij nu weten welke theepot tante Astrid precies bedoelt? Bovendien: tante Astrid hééft eigenlijk alles al (behalve een theepot blijkbaar). Geen wonder dat steeds meer mensen een wijnspel als kerstcadeau tijdens Black Friday kopen.
 
@@ -31,7 +31,7 @@ Daarom vinden wij het eerlijk gezegd aangenamer dat mensen nu al bestellen. Niet
 
 ## Keuze genoeg, zolang de voorraad strekt.
 
-Als je nu bestelt, heb je nog volledige keuze. Onze [Italië vs. Spanje-box](/shop/italie-of-spanje/) is elk jaar weer de populairste en richting kerst durft die wel eens uitverkocht raken. Importeren duurt nu eenmaal even, dus op is op.
+Als je nu bestelt, heb je nog volledige keuze. Onze [Italië vs. Spanje-box](/shop/wijnproeverij-thuis-rood/) is elk jaar weer de populairste en richting kerst durft die wel eens uitverkocht raken. Importeren duurt nu eenmaal even, dus op is op.
 
 Daarnaast is er de rust. Wie ooit op 24 december in een supermarkt heeft gestaan voor een rek vol willekeurige flessen, kent het gevoel: Error 404. Je hersenen crashen gewoon. Wat moet je kiezen? Wat is “een goeie” wijn? Hoeveel moet je uitgeven? Waarom staat heel Vlaanderen tegelijk in dezelfde rayon?
 

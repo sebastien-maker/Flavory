@@ -6,10 +6,27 @@ seoDescription: "Bubbelbox met een Spaanse cava en een Italiaanse prosecco om bl
 duel: "Cava vs. Prosecco"
 cardTagline: "Na dit spel zeg je nooit meer cava tegen prosecco."
 definition: "De bubbelbox van Flavory is een blinde proeverij met twee meegeleverde schuimwijnen: een typische Spaanse cava en een herkenbare Italiaanse prosecco. De box kost €64,90 en bevat alles voor een feestelijk spel met 2 tot 6 spelers."
-price: 64.9
-sku: "B005N Cava/Prosecco (6151308390370)"
-availability: out_of_stock
-includesWine: true
+variants:
+  - id: cava-prosecco-regular
+    duel: "Cava vs Prosecco"
+    formula: Regular
+    price: 64.9
+    sku: "B005N Cava/Prosecco (6151308390370)"
+    group: bubbels
+    available: false
+descriptions:
+  - group: bubbels
+    heading: "Cava vs Prosecco"
+    text: |
+      **Twee bruisende klassiekers uit Zuid-Europa.** Cava uit Spanje en prosecco uit Italië: allebei feestelijk, maar totaal verschillend in stijl en smaak. Welke is jouw favoriet?
+
+      **In deze box proef je ze blind.** We selecteerden één fles cava en één fles prosecco, maar we verklappen niet welke welke is. Het is aan jou en je gezelschap om dat al proevend te ontdekken.
+
+      **Het spel neemt je stap voor stap mee in de wereld van bubbels.** Je leert kijken, ruiken en proeven als een sommelier, maar dan zonder gedoe. Zo ontdek je niet alleen welke schuimwijn je drinkt, maar ook wat jouw smaak is.
+
+      **Na deze avond weet je precies waar je naar vraagt bij je volgende aperitief.** Wie de meeste juiste antwoorden geeft, gaat naar huis met het diploma van Grootste Wijnkenner.
+
+      _Niet tevreden? Dan krijg je gewoon je geld terug._
 category: bubbels
 playersMin: 2
 playersMax: 6
@@ -52,12 +69,3 @@ relatedPosts:
   - de-ene-rose-is-de-andere-niet
   - vijf-cadeaus-die-iedereen-geeft-en-een-dat-bijblijft
 ---
-**Twee bruisende klassiekers uit Zuid-Europa.** Cava uit Spanje en prosecco uit Italië: allebei feestelijk, maar totaal verschillend in stijl en smaak. Welke is jouw favoriet?
-
-**In deze box proef je ze blind.** We selecteerden één fles cava en één fles prosecco, maar we verklappen niet welke welke is. Het is aan jou en je gezelschap om dat al proevend te ontdekken.
-
-**Het spel neemt je stap voor stap mee in de wereld van bubbels.** Je leert kijken, ruiken en proeven als een sommelier, maar dan zonder gedoe. Zo ontdek je niet alleen welke schuimwijn je drinkt, maar ook wat jouw smaak is.
-
-**Na deze avond weet je precies waar je naar vraagt bij je volgende aperitief.** Wie de meeste juiste antwoorden geeft, gaat naar huis met het diploma van Grootste Wijnkenner.
-
-_Niet tevreden? Dan krijg je gewoon je geld terug._

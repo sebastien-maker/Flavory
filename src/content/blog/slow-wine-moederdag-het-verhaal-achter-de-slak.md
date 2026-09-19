@@ -8,7 +8,7 @@ author: bart
 heroImage: "../../assets/images/blog/slow-wine-moederdag-het-verhaal-achter-de-slak.webp"
 heroAlt: "slow wine moederdag wijnproeverij samen aan tafel"
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 Slow wine Moederdag is bij ons thuis altijd hetzelfde geweest: iets doen _samen_. Niet een parfum kopen, niet een doos bonbons. Iets maken, iets proeven, iets meemaken dat je daarna nog even napraat aan tafel. En dat idee, samen een herinnering maken in plaats van een product geven, blijkt een stuk ouder te zijn dan ik dacht. Het begint namelijk in Rome, in 1986, aan de voet van de Spaanse Trappen.
 

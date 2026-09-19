@@ -1,16 +1,16 @@
 ---
 title: "Verzending en retour"
 seoTitle: "Verzending en retour"
-description: "Levering in België en Nederland in 1 tot 3 werkdagen, gratis verzending vanaf 2 boxen, 14 dagen herroepingsrecht en een geld-terug-garantie."
+description: "Levering in België en Nederland, meestal binnen 1 à 3 werkdagen, gratis verzending vanaf 2 boxen, 14 dagen herroepingsrecht en een geld-terug-garantie."
 updatedDate: 2026-09-16
 ---
 ## Waar leveren we?
 
-We leveren in **België en Nederland**. Je kunt je bestelling ook afhalen bij Flavory, Broedersstraat 15, 9150 Bazel. Laat dan even weten wanneer je langskomt via [info@flavory.wine](mailto:info@flavory.wine).
+We leveren in **België en Nederland**.
 
 ## Levertijd
 
-Bestellingen worden doorgaans binnen **1 tot 3 werkdagen** geleverd. Zodra je pakket onderweg is, krijg je een verzendbevestiging met een trackingnummer. In drukke periodes, zoals de weken voor kerst, kan de levering iets langer duren.
+Bestellingen worden meestal binnen **1 à 3 werkdagen** geleverd. Zodra je pakket onderweg is, krijg je een verzendbevestiging met een trackingnummer. In drukke periodes, zoals de weken voor kerst, kan de levering iets langer duren.
 
 ## Verzendkosten
 
@@ -22,7 +22,7 @@ Onze wijnboxen bevatten alcohol. Door te bestellen bevestig je dat je de wetteli
 
 ## Niet tevreden? Geld terug
 
-We zijn zó overtuigd van ons spel dat we een zorgeloze geld-terug-garantie geven. Ben je niet tevreden over de wijn of het spel, mail dan naar [info@flavory.wine](mailto:info@flavory.wine). Vertel ons waarom, zodat we iets kunnen bijleren, en we storten het aankoopbedrag terug. Bij een wijnbox moeten beide flessen nog minstens 80% van hun inhoud bevatten. De exacte voorwaarden lees je in artikel 6 van onze [algemene voorwaarden](/algemene-voorwaarden/).
+Niet tevreden? Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug. Meer lees je in artikel 5bis van onze [algemene voorwaarden](/algemene-voorwaarden/).
 
 ## Herroepingsrecht
 

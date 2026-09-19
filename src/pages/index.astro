@@ -3,6 +3,7 @@ import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Guarantees from '@/components/sections/Guarantees.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
@@ -10,11 +11,23 @@ import Stars from '@/components/ui/Stars.astro';
 import { getProducts, getPosts, productPath } from '@/lib/content';
 import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
-import heroImage from '@/assets/images/site/hero-illustratie.webp';
-import friendsImage from '@/assets/images/site/vriendinnen-openen-box.jpg';
+// Hero photo: replace this one file (keep the name) to swap it. Landscape, at least 1600px wide.
+import heroImage from '@/assets/images/site/hero-proeverij.jpg';
+// Hero illustration and icons come from the box sleeve (value proposition, 2025).
+import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
+import IconBottles from '@/assets/icons/sleeve-herken-de-wijnen.png';
+import IconPlayers from '@/assets/icons/sleeve-spelers.png';
+import IconClock from '@/assets/icons/sleeve-minuten.png';
+import IconWinner from '@/assets/icons/sleeve-winnaar.png';
+import WineGlassIcon from '@/assets/icons/wine-glass.svg';
+import TrophyIcon from '@/assets/icons/trophy.svg';
+import CheersIcon from '@/assets/icons/glasses-cheers.svg';
+import GiftIcon from '@/assets/icons/gift.svg';
 import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
 
 const products = await getProducts();
+const red = products.find((p) => p.data.category.id === 'rode-wijn');
+const white = products.find((p) => p.data.category.id === 'witte-wijn');
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
 const posts = (await getPosts()).filter((p) => featuredIds.includes(p.id));
@@ -23,8 +36,44 @@ const title = 'Wijnproeverij thuis: het wijnspel voor vrienden | Flavory';
 const description =
   'Flavory is het wijnspel voor een wijnproeverij thuis: proef blind twee wijnen, beantwoord quizvragen en ontdek wie de wijnkenner is. Voor 2 tot 6 spelers.';
 
-const hero = await getImage({ src: heroImage, width: 640, widths: [320, 480, 640, 960], format: 'webp' });
-const heroSizes = '(min-width: 1024px) 32rem, (min-width: 768px) 45vw, 18rem';
+const hero = await getImage({ src: heroImage, width: 1200, widths: [480, 720, 1200, 1600], format: 'webp' });
+const photoSizes = '(min-width: 1200px) 34rem, (min-width: 768px) 45vw, calc(100vw - 2rem)';
+const illustration = await getImage({
+  src: sleeveIllustration,
+  width: 800,
+  widths: [400, 600, 800, 1100],
+  format: 'webp',
+});
+const illustrationSizes = '(min-width: 1200px) 34rem, (min-width: 768px) 45vw, calc(100vw - 2rem)';
+const facts = [
+  { icon: IconBottles, label: 'Herken de wijnen' },
+  { icon: IconPlayers, label: '2 tot 6 spelers' },
+  { icon: IconClock, label: '60 tot 90 minuten' },
+  { icon: IconWinner, label: 'Eén winnaar' },
+];
+// The three promises on the side of the sleeve: together, learning, competition.
+const pillars = [
+  {
+    Icon: CheersIcon,
+    title: 'Speel met vrienden en familie',
+    text: 'Met 2 tot 6 spelers aan tafel, 60 à 90 minuten plezier.',
+  },
+  {
+    Icon: WineGlassIcon,
+    title: 'Leer en ontdek je smaak',
+    text: 'Kijk, ruik en proef zoals een sommelier. Geen voorkennis nodig.',
+  },
+  {
+    Icon: TrophyIcon,
+    title: 'Ontmasker en win',
+    text: 'Verzamel tips met quizvragen en ontmasker fles A en B. Er is maar één winnaar.',
+  },
+  {
+    Icon: GiftIcon,
+    title: 'Hét cadeau voor iedereen die van wijn houdt',
+    text: 'Voor een verjaardag, de feestdagen of als relatiegeschenk: een cadeau om samen te beleven.',
+  },
+];
 const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
 ---
 
@@ -33,7 +82,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   isHome
   description={description}
   path="/"
-  preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes }}
+  preloadImage={{ src: illustration.src, srcset: illustration.srcSet.attribute, sizes: illustrationSizes }}
   schema={[
     webPage({ path: '/', title, description }),
     itemList(
@@ -42,106 +91,121 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
     ),
   ]}
 >
-  <!-- Hero -->
-  <section class="container-site grid items-center gap-6 py-8 md:grid-cols-2 md:gap-8 md:py-20">
+  <!-- Hero: the value proposition from the box sleeve -->
+  <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
     <div>
-      <h1 class="h1">Wijnproeverij thuis: speel het wijnspel met vrienden</h1>
-      <p class="lead mt-4 font-display text-brand">Ontdek je eigen smaak en word de kenner aan tafel!</p>
-      <p class="mt-4 max-w-prose">
-        Flavory is een blinde wijnproeverij in spelvorm. Je proeft twee wijnen tegen elkaar, beantwoordt quizvragen en
-        ontmaskert samen welke fles welke is. Voor 2 tot 6 spelers, zonder voorkennis, vanaf €24,90.
+      <h1 class="text-[2rem] leading-[1.1] md:text-[3.25rem]">Hét spel dat je wijn leert proeven</h1>
+      <p class="mt-3 text-lg leading-snug font-bold md:text-xl">
+        Twee beroemde wijnen tegenover elkaar. <span class="text-brand">Proef jij het verschil?</span>
       </p>
+      <div class="mt-5 grid grid-cols-2 gap-3 sm:max-w-md">
+        {red && (
+          <a href={productPath(red.id)} class="btn-primary px-4">
+            Kies rood
+          </a>
+        )}
+        {white && (
+          <a href={productPath(white.id)} class="btn-wine-white px-4">
+            Kies wit
+          </a>
+        )}
+      </div>
       <a href="/reviews/" class="mt-4 inline-flex items-center gap-2 text-sm hover:underline">
         <Stars rating={SITE.rating.value} class="text-xl" />
         <span>
           <strong>{String(SITE.rating.value).replace('.', ',')}/5</strong> uit {SITE.rating.count} reviews
         </span>
       </a>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <a href="/shop/" class="btn-primary">
-          Ontdek de boxen
-        </a>
-        <a href="/hoe-werkt-het/" class="btn-outline">
-          Hoe werkt het?
-        </a>
-      </div>
     </div>
-    <div>
+    <div class="relative rounded-[var(--radius-card)] bg-white p-3 md:p-5">
+      <!-- Round sticker like the one on the box sleeve; the gift message itself is the text above the title. -->
+      <p class="gift-sticker" aria-hidden="true">
+        <span>Het leukste</span> <b>wijncadeau</b>
+      </p>
       <img
-        src={hero.src}
-        srcset={hero.srcSet.attribute}
-        sizes={heroSizes}
-        width={hero.attributes.width}
-        height={hero.attributes.height}
-        alt="Illustratie van vier vrienden die klinken met rode wijn aan een tafel met twee anonieme flessen"
+        src={illustration.src}
+        srcset={illustration.srcSet.attribute}
+        sizes={illustrationSizes}
+        width={illustration.attributes.width}
+        height={illustration.attributes.height}
+        alt="Illustratie van vier vrienden die aan tafel blind wijn proeven met het Flavory-wijnspel"
         fetchpriority="high"
         loading="eager"
         decoding="async"
-        class="mx-auto h-auto w-full max-w-72 md:max-w-lg"
+        class="h-auto w-full"
+      />
+    </div>
+    <ul class="grid grid-cols-4 gap-2 text-center md:col-span-2 md:mx-auto md:w-full md:max-w-3xl">
+      {facts.map((f) => (
+        <li class="flex flex-col items-center gap-1.5">
+          <Image src={f.icon} alt="" width={40} height={40} loading="eager" class="size-9 md:size-10" />
+          <span class="text-xs leading-tight font-bold md:text-sm">{f.label}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- Wat is Flavory -->
+  <section id="wat-is-flavory" class="section-y scroll-mt-28 bg-white" aria-labelledby="wat-title">
+    <div class="container-site grid items-center gap-6 md:grid-cols-2 md:gap-10">
+      <div>
+        <h2 id="wat-title" class="h3">
+          Iedereen houdt van wijn, maar geen twee wijnen zijn hetzelfde.
+        </h2>
+        <p class="mt-3">
+          Met deze wijnbox ontdek je spelenderwijs het verschil tussen twee beroemde wijnen. Ruik, proef, vergelijk en
+          ontmasker de wijnen. Wie kroont zich tot wijnkenner van de avond?
+        </p>
+        <ul class="mt-6 grid gap-4">
+          {pillars.map(({ Icon, title, text }) => (
+            <li class="flex gap-4">
+              <Icon class="size-10 shrink-0 text-brand" aria-hidden="true" />
+              <div>
+                <h3 class="font-sans text-lg font-bold">{title}</h3>
+                <p class="text-muted">{text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <img
+        src={hero.src}
+        srcset={hero.srcSet.attribute}
+        sizes={photoSizes}
+        width={hero.attributes.width}
+        height={hero.attributes.height}
+        alt="Twee glazen rode wijn naast elkaar tijdens een blinde proeverij met Flavory"
+        loading="lazy"
+        decoding="async"
+        class="h-[260px] w-full rounded-[var(--radius-card)] object-cover sm:h-80 md:aspect-[4/3] md:h-auto"
       />
     </div>
   </section>
 
-  <!-- Wat is Flavory -->
-  <section
-    id="wat-is-flavory"
-    class="container-site grid scroll-mt-28 items-center gap-8 py-12 md:grid-cols-2 md:py-20"
-    aria-labelledby="wat-title"
-  >
-    <Image
-      src={friendsImage}
-      alt="Twee vriendinnen lachen terwijl ze een Flavory-wijnspel openen"
-      widths={[400, 640, 960]}
-      sizes="(min-width: 768px) 50vw, 90vw"
-      class="aspect-[3/2] w-full rounded-[var(--radius-card)] object-cover"
-    />
-    <div>
-      <h2 id="wat-title" class="h2">
-        Wat is Flavory?
-      </h2>
-      <p class="mt-4">Flavory brengt de leukste wijnproeverij bij je thuis.</p>
-      <p class="mt-4">
-        Alles wat je nodig hebt: glazen, een kurkentrekker en vrienden die wel van een uitdaging houden. Wat je níét
-        nodig hebt: voorkennis van wijn.
-      </p>
-      <p class="mt-4">
-        Je proeft blind twee wijnen tegenover elkaar. Perfect voor een avond plezier, of om cadeau te doen aan iemand
-        die van wijn houdt.
-      </p>
-      <p class="mt-4 font-bold">Proef jij het verschil en word jij de winnaar?</p>
-      <a href="/over-flavory/" class="btn-outline mt-6">
-        Het verhaal achter Flavory
-      </a>
-    </div>
-  </section>
-
   <!-- Producten -->
-  <section class="container-site py-12 md:py-20" aria-labelledby="boxen-title">
-    <h2 id="boxen-title" class="h2 text-center">
-      Ontdek de boxen
-    </h2>
-    <p class="mx-auto mt-3 max-w-2xl text-center">
-      Kies een duel: twee druiven of twee wijnlanden. Met wijn in de box, of zonder wijn zodat je zelf de flessen kiest.
-    </p>
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((product) => (
-        <li>
-          <ProductCard product={product} />
-        </li>
-      ))}
-    </ul>
-    <p class="mt-8 text-center">
-      <a href="/shop/" class="btn-primary">
-        Bekijk alle boxen in de shop
-      </a>
-    </p>
+  <section class="section-y bg-blush" aria-labelledby="boxen-title">
+    <div class="container-site">
+      <h2 id="boxen-title" class="h2 text-center">
+        Kies je box
+      </h2>
+      <p class="mx-auto mt-2 max-w-2xl text-center">
+        Rood of wit: in elke box zitten het volledige spel en twee flessen wijn.
+      </p>
+      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
+        {products.map((product) => (
+          <li>
+            <ProductCard product={product} />
+          </li>
+        ))}
+      </ul>
+    </div>
   </section>
 
   <HowItWorks />
 
   <!-- Voor wie -->
   <section class="bg-brand text-white" aria-labelledby="voorwie-title">
-    <div class="container-site grid items-center gap-8 py-12 md:grid-cols-2 md:py-20">
+    <div class="section-y container-site grid items-center gap-8 md:grid-cols-2">
       <div>
         <h2 id="voorwie-title" class="h2">
           Voor wie is Flavory?
@@ -155,12 +219,9 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
         </p>
         <p class="mt-4">Of je nu speelt voor de winst of voor de gezelligheid: Flavory brengt iedereen samen.</p>
         <p class="mt-4 font-bold">Perfect als cadeau of origineel relatiegeschenk.</p>
-        <div class="mt-6 flex flex-wrap gap-3">
+        <div class="mt-6">
           <a href="/shop/" class="btn-white">
             Met wie speel jij?
-          </a>
-          <a href="/zakelijk/" class="btn border-2 border-white text-white hover:bg-white hover:text-brand">
-            Relatiegeschenken
           </a>
         </div>
       </div>
@@ -181,25 +242,30 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
     </div>
   </section>
 
-  <Reviews />
+  <Guarantees class="bg-blush pt-10 md:pt-16" />
+
+  <Reviews class="bg-blush pt-6 pb-10 md:pt-8 md:pb-16" />
 
   <!-- Blog -->
-  <section class="container-site py-12 md:py-20" aria-labelledby="blog-title">
-    <h2 id="blog-title" class="h2 text-center">
-      Meer weten over wijn?
-    </h2>
-    <ul class="mt-8 grid gap-4 md:grid-cols-3">
-      {posts.map((post) => (
-        <li>
-          <PostCard post={post} />
-        </li>
-      ))}
-    </ul>
-    <p class="mt-8 text-center">
-      <a href="/blog/" class="btn-outline">
-        Alle blogberichten
-      </a>
-    </p>
+  <section class="section-y bg-white" aria-labelledby="blog-title">
+    <div class="container-site">
+      <h2 id="blog-title" class="h2 text-center">
+        Meer weten over wijn?
+      </h2>
+      <p class="mx-auto mt-2 max-w-2xl text-center">Lees onze blogs over proeven, druiven en wijn aan tafel.</p>
+      <ul class="mt-6 grid gap-4 md:grid-cols-3">
+        {posts.map((post) => (
+          <li>
+            <PostCard post={post} />
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-center">
+        <a href="/blog/" class="btn-outline">
+          Alle blogberichten
+        </a>
+      </p>
+    </div>
   </section>
 
   <Newsletter />

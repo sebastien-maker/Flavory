@@ -22,7 +22,7 @@ export const SITE = {
   },
   // Trustpilot aggregate (audit 16 Sep 2026). Replace with the scheduled sync once the API key exists.
   rating: { value: 4.5, count: 31, source: 'Trustpilot' },
-  announcement: 'Gratis verzending vanaf 2 boxen · Geld terug',
+  announcement: 'Gratis verzending vanaf 2 boxen',
   shipping: {
     countries: ['BE', 'NL'] as const,
     minDays: 1,

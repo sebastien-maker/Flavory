@@ -221,9 +221,7 @@ const schemaImages = await Promise.all(
         <p class="mt-2 text-center text-xs">{SITE.ageNotice}</p>
       </form>
 
-      <p class="mt-4 text-center text-sm">
-        Meestal geleverd binnen {SITE.shipping.minDays} à {SITE.shipping.maxDays} werkdagen in België en Nederland
-      </p>
+      <p class="mt-4 text-center text-sm">Voor 12u besteld, vandaag verzonden</p>
       <PaymentIcons class="mt-3 justify-center" />
 
       <p class="mt-6 border-l-4 border-brand pl-4">{data.definition}</p>
@@ -272,81 +270,85 @@ const schemaImages = await Promise.all(
   )}
 
   <!-- Details -->
-  <section class="container-site grid items-start gap-8 py-10 md:grid-cols-2 md:py-16" aria-labelledby="over-title">
-    <div>
-      <h2 id="over-title" class="h3">
-        Over dit wijnspel
-      </h2>
-      {descriptions.map((d, i) => (
-        <div data-description={d.group} hidden={i !== 0}>
-          {descriptions.length > 1 && <h3 class="h4 mt-4">{d.heading}</h3>}
-          <div class="prose-flavory mt-3" set:html={d.html} />
-        </div>
-      ))}
-      {data.highlights.length > 0 && (
-        <ul class="mt-6 space-y-3">
-          {data.highlights.map((h) => (
-            <li class="flex gap-3">
-              <span class="mt-2 size-2 shrink-0 rounded-full bg-brand" aria-hidden="true" />
-              <span>
-                <strong>{h.title}</strong> {h.text}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-    <div class="space-y-6">
-      <div class="card p-6">
-        <h2 class="h4">Wat zit er in de box?</h2>
-        <ul class="mt-3 list-disc space-y-1 pl-5">
-          {data.boxContents.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
+  <section class="section-y bg-white" aria-labelledby="over-title">
+    <div class="container-site grid items-start gap-8 md:grid-cols-2">
+      <div>
+        <h2 id="over-title" class="h3">
+          Over dit wijnspel
+        </h2>
+        {descriptions.map((d, i) => (
+          <div data-description={d.group} hidden={i !== 0}>
+            {descriptions.length > 1 && <h3 class="h4 mt-4">{d.heading}</h3>}
+            <div class="prose-flavory mt-3" set:html={d.html} />
+          </div>
+        ))}
+        {data.highlights.length > 0 && (
+          <ul class="mt-6 space-y-3">
+            {data.highlights.map((h) => (
+              <li class="flex gap-3">
+                <span class="mt-2 size-2 shrink-0 rounded-full bg-brand" aria-hidden="true" />
+                <span>
+                  <strong>{h.title}</strong> {h.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      <video
-        class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
-        width="1280"
-        height="720"
-        controls
-        muted
-        playsinline
-        preload="none"
-        poster={(await getImage({ src: stillImage, width: 960, format: 'webp' })).src}
-        aria-label="Sfeervideo: vrienden spelen Flavory"
-      >
-        <source src="/media/flavory-sfeer.mp4" type="video/mp4" />
-      </video>
+      <div class="space-y-6">
+        <div class="card p-6">
+          <h2 class="h4">Wat zit er in de box?</h2>
+          <ul class="mt-3 list-disc space-y-1 pl-5">
+            {data.boxContents.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <video
+          class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
+          width="1280"
+          height="720"
+          controls
+          muted
+          playsinline
+          preload="none"
+          poster={(await getImage({ src: stillImage, width: 960, format: 'webp' })).src}
+          aria-label="Sfeervideo: vrienden spelen Flavory"
+        >
+          <source src="/media/flavory-sfeer.mp4" type="video/mp4" />
+        </video>
+      </div>
     </div>
   </section>
 
   <HowItWorks heading="Zo speel je Flavory" />
 
-  <section class="container-site py-10" aria-labelledby="faq-title">
-    <h2 id="faq-title" class="h3">
-      Veelgestelde vragen over deze box
-    </h2>
-    <div class="mt-4">
-      <Faq items={data.faq} />
+  <section class="section-y bg-white" aria-labelledby="faq-title">
+    <div class="container-site">
+      <h2 id="faq-title" class="h3">
+        Veelgestelde vragen over deze box
+      </h2>
+      <div class="mt-4">
+        <Faq items={data.faq} />
+      </div>
+      <p class="mt-4 text-sm">
+        Nog een vraag? Bekijk alle{' '}
+        <a href="/faq/" class="text-brand underline">
+          veelgestelde vragen
+        </a>{' '}
+        of lees{' '}
+        <a href="/verzending-en-retour/" class="text-brand underline">
+          verzending en retour
+        </a>
+        .
+      </p>
     </div>
-    <p class="mt-4 text-sm">
-      Nog een vraag? Bekijk alle{' '}
-      <a href="/faq/" class="text-brand underline">
-        veelgestelde vragen
-      </a>{' '}
-      of lees{' '}
-      <a href="/verzending-en-retour/" class="text-brand underline">
-        verzending en retour
-      </a>
-      .
-    </p>
   </section>
 
   <Reviews />
 
   {others.length > 0 && (
-    <section class="container-site py-10" aria-labelledby="andere-title">
+    <section class="section-y container-site" aria-labelledby="andere-title">
       <h2 id="andere-title" class="h3">
         Ontdek ook
       </h2>
@@ -361,17 +363,19 @@ const schemaImages = await Promise.all(
   )}
 
   {relatedPosts.length > 0 && (
-    <section class="container-site py-10" aria-labelledby="lees-title">
-      <h2 id="lees-title" class="h3">
-        Lees meer voor je begint
-      </h2>
-      <ul class="mt-6 grid gap-4 md:grid-cols-3">
-        {relatedPosts.map((post) => (
-          <li>
-            <PostCard post={post} />
-          </li>
-        ))}
-      </ul>
+    <section class="section-y bg-white" aria-labelledby="lees-title">
+      <div class="container-site">
+        <h2 id="lees-title" class="h3">
+          Lees meer voor je begint
+        </h2>
+        <ul class="mt-6 grid gap-4 md:grid-cols-3">
+          {relatedPosts.map((post) => (
+            <li>
+              <PostCard post={post} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )}
 </BaseLayout>

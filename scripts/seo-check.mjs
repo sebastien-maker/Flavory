@@ -104,6 +104,11 @@ if (mode === 'content') {
       if (redirectSources.has(href)) warn(rel, `internal link via redirect: ${href}`);
       else if (!(await linkTargetExists(href))) warn(rel, `broken internal link: ${href}`);
     }
+    // A word glued to a link ("Als<a …>", "</a>en"): Astro drops the line break between text and an inline tag.
+    // Fix with {' '} in the source.
+    for (const [glued] of html.matchAll(/[\p{L}\d,;:]<(?:a|strong|em|b)[\s>]|<\/(?:a|strong|em|b)>[\p{L}\d]/gu)) {
+      warn(rel, `missing space around inline tag: ${glued}`);
+    }
     for (const json of html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g) ?? []) {
       try {
         JSON.parse(json.replace(/^<script[^>]*>|<\/script>$/g, ''));

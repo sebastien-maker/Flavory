@@ -33,8 +33,6 @@ playersMin: 2
 playersMax: 6
 order: 1
 images:
-  - src: "../../assets/images/products/wijnproeverij-thuis-wit/00-hoofdfoto.jpg"
-    alt: "Wit wijnspel van Flavory met twee flessen witte wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-wit/01-box.webp"
     alt: "Flavory witte wijnspel: interactieve wijnproeverij thuis met Chardonnay en Sauvignon Blanc"
   - src: "../../assets/images/products/wijnproeverij-thuis-wit/02-hoe-speel-je.webp"

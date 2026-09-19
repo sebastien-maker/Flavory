@@ -72,12 +72,13 @@
   --font-sans: 'Montserrat', 'Montserrat Fallback', system-ui, sans-serif;
   --font-display: 'TheSans', 'TheSans Fallback', system-ui, sans-serif;
 
-  /* Fluid type scale (same clamps as the current site). */
-  --text-h1: clamp(2.027rem, 1.289rem + 3.945vw, 4.29rem);
-  --text-h2: clamp(1.802rem, 1.2089rem + 2.9658vw, 3.4332rem);
-  --text-h3: clamp(1.4238rem, 1.1426rem + 1.4063vw, 2.1973rem);
-  --text-h4: clamp(1.2656rem, 1.0866rem + 0.8949vw, 1.7578rem);
-  --text-lead: clamp(1.125rem, 1.0227rem + 0.5114vw, 1.4063rem);
+  /* One type scale for the whole site. Body text is 1rem (16px); use these steps instead of ad hoc sizes.
+     Mobile to desktop: h1 36-56px, h2 26-40px, h3 20-28px, h4 18-22px, lead 18-20px. */
+  --text-h1: clamp(2.25rem, 1.8rem + 2.2vw, 3.5rem);
+  --text-h2: clamp(1.625rem, 1.4rem + 1.2vw, 2.5rem);
+  --text-h3: clamp(1.25rem, 1.15rem + 0.6vw, 1.75rem);
+  --text-h4: clamp(1.125rem, 1.07rem + 0.3vw, 1.375rem);
+  --text-lead: clamp(1.125rem, 1.08rem + 0.2vw, 1.25rem);
 
   --radius-pill: 999px;
   --radius-card: 1.25rem;
@@ -116,6 +117,11 @@
 
 @utility container-site {
   @apply mx-auto w-full max-w-[75rem] px-4 sm:px-6;
+}
+
+/* Vertical rhythm for page sections. Separate blocks with a background tone, not with extra whitespace. */
+@utility section-y {
+  @apply py-10 md:py-16;
 }
 
 @utility btn {

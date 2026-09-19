@@ -9,7 +9,12 @@ import { getFaq, getProducts } from '@/lib/content';
 import { STEPS } from '@/lib/steps';
 import { SITE } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
+import LazyVideo from '@/components/ui/LazyVideo.astro';
 import contentsImage from '@/assets/images/products/wijnproeverij-thuis-rood/02.webp';
+import heroImage from '@/assets/images/site/avond-aan-tafel.jpg';
+import gameMasterImage from '@/assets/images/site/spelleider-kaart.jpg';
+import bottlesImage from '@/assets/images/site/flessen-in-zakjes.jpg';
+import videoPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
 
 const path = '/hoe-werkt-het/';
 const crumbs = [
@@ -44,57 +49,107 @@ const howTo = {
   schema={[webPage({ path, title, description }), howTo, faqPage(path, faq), breadcrumbs(crumbs)]}
 >
   <Breadcrumbs items={crumbs} />
-  <section class="container-site grid items-center gap-8 py-8 md:grid-cols-2 md:py-12">
+  <section class="container-site grid items-center gap-6 pt-4 pb-10 md:grid-cols-2 md:gap-10 md:pb-16">
     <div>
       <h1 class="h1">Hoe werkt het wijnspel van Flavory?</h1>
-      <p class="lead mt-4">
+      <p class="lead mt-3">
         Flavory is een blinde wijnproeverij in spelvorm. Je proeft twee wijnen naast elkaar, verzamelt punten met
         quizvragen en ontmaskert op het einde welke wijn in welke fles zit.
       </p>
-      <p class="mt-4">
+      <p class="mt-3">
         Je hebt geen voorkennis nodig. Alles wat je nodig hebt: 2 tot 6 spelers, twee wijnglazen per persoon, een
         kurkentrekker en iets om mee te schrijven. Reken op 60 tot 90 minuten speelplezier.
       </p>
-      <a href="/shop/" class="btn-primary mt-6">
+      <a href="/shop/" class="btn-primary mt-5">
         Kies je box
       </a>
     </div>
     <Image
-      src={contentsImage}
-      alt="Inhoud van een Flavory-box: spelregels, infobrochures, proefformulieren, rolkaarten, tipkaartjes en twee stoffen wijnzakjes"
-      widths={[400, 640, 960]}
-      sizes="(min-width: 768px) 50vw, 90vw"
-      class="w-full rounded-[var(--radius-card)]"
+      src={heroImage}
+      alt="Vrienden klinken met rode wijn aan tafel bij het haardvuur tijdens een wijnproeverij thuis met Flavory"
+      widths={[480, 720, 960, 1280]}
+      sizes="(min-width: 1200px) 36rem, (min-width: 768px) 48vw, calc(100vw - 2rem)"
+      class="aspect-[3/2] w-full rounded-[var(--radius-card)] object-cover"
       loading="eager"
+      fetchpriority="high"
     />
   </section>
 
-  <HowItWorks heading="De spelregels in 6 stappen" id="stappen" detailed />
+  <div class="bg-white">
+    <HowItWorks heading="De spelregels in 6 stappen" id="stappen" detailed />
+  </div>
 
-  <section class="container-site grid gap-10 py-8 md:grid-cols-2 md:py-12">
-    <div class="prose-flavory">
-      <h2>De rollen aan tafel</h2>
-      <p>
-        <strong>De sommelier van dienst</strong> leidt het proeven. Met de infobrochures leert hij of zij de groep
-        kijken, ruiken en proeven: welke kleur heeft de wijn, ruik je fruit, bloemen, kruiden of hout?
-      </p>
-      <p>
-        <strong>De spelleider</strong> houdt de quiz in goede banen. Wie een vraag juist beantwoordt, verdient punten en
-        een extra tip om de wijnen te ontmaskeren.
-      </p>
-      <p>
-        <strong>De spelers</strong> noteren hun indrukken op het proefformulier en gokken op het einde welke wijn in
-        fles A en welke in fles B zit.
+  <section
+    class="section-y container-site grid items-center gap-6 md:grid-cols-2 md:gap-10"
+    aria-labelledby="avond-title"
+  >
+    <div>
+      <h2 id="avond-title" class="h2">
+        Zo ziet een avond Flavory eruit
+      </h2>
+      <p class="mt-3">
+        Twee flessen in stoffen zakjes, een tafel vol vrienden en één vraag: welke wijn zit in fles A en welke in fles
+        B? Je proeft, je twijfelt, je discussieert en op het einde weet je wie de grootste wijnkenner is.
       </p>
     </div>
+    <LazyVideo
+      src="/media/flavory-avond-rood.mp4"
+      poster={videoPoster}
+      label="Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur"
+      class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
+    />
+  </section>
+
+  <section class="section-y bg-white" aria-labelledby="rollen-title">
+    <div class="container-site grid items-center gap-6 md:grid-cols-2 md:gap-10">
+      <Image
+        src={gameMasterImage}
+        alt="Een speler leest de kaart van de spelleider voor tijdens een Flavory-wijnproeverij"
+        widths={[480, 720, 960]}
+        sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
+        class="aspect-video w-full rounded-[var(--radius-card)] object-cover md:order-2"
+      />
+      <div class="prose-flavory md:order-1">
+        <h2 id="rollen-title" class="h2">
+          De rollen aan tafel
+        </h2>
+        <p>
+          <strong>De sommelier van dienst</strong> leidt het proeven. Met de infobrochures leert hij of zij de groep
+          kijken, ruiken en proeven: welke kleur heeft de wijn, ruik je fruit, bloemen, kruiden of hout?
+        </p>
+        <p>
+          <strong>De spelleider</strong> houdt de quiz in goede banen. Wie een vraag juist beantwoordt, verdient punten
+          en een extra tip om de wijnen te ontmaskeren.
+        </p>
+        <p>
+          <strong>De spelers</strong> noteren hun indrukken op het proefformulier en gokken op het einde welke wijn in
+          fles A en welke in fles B zit.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="section-y container-site grid items-center gap-6 md:grid-cols-[2fr_3fr] md:gap-10"
+    aria-labelledby="wijn-title"
+  >
+    <Image
+      src={bottlesImage}
+      alt="Twee anonieme flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn"
+      widths={[400, 640, 800]}
+      sizes="(min-width: 768px) 38vw, calc(100vw - 2rem)"
+      class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover"
+    />
     <div class="prose-flavory">
-      <h2>Wijn inbegrepen</h2>
+      <h2 id="wijn-title" class="h2">
+        Wijn inbegrepen
+      </h2>
       <p>
         In elke box zitten twee flessen wijn (75 cl), anoniem verpakt in stoffen zakjes. Je kiest{' '}
         <a href="/shop/wijnproeverij-thuis-rood/">rood</a> of <a href="/shop/wijnproeverij-thuis-wit/">wit</a>, in
         Regular of Premium. Het spel is identiek, bij Premium krijg je twee duurdere flessen met nog meer diepgang.
       </p>
-      <h2>Wie wint?</h2>
+      <h3 class="h3">Wie wint?</h3>
       <p>
         De helft van de punten verdien je met proeven, de andere helft met quizvragen. Ook wie nog nooit bewust wijn
         proefde, kan dus winnen. Wie de meeste punten heeft, gaat naar huis met het diploma van Grootste Wijnkenner.
@@ -102,7 +157,28 @@ const howTo = {
     </div>
   </section>
 
-  <section class="container-site py-8" aria-labelledby="faq-title">
+  <section class="section-y bg-white" aria-labelledby="box-title">
+    <div class="container-site grid items-center gap-6 md:grid-cols-2 md:gap-10">
+      <div>
+        <h2 id="box-title" class="h2">
+          Wat zit er in de box?
+        </h2>
+        <p class="mt-3">
+          Spelregels, infobrochures voor de sommelier, proefformulieren, rolkaarten, tipkaartjes en twee flessen wijn in
+          stoffen zakjes. Alles wat je nodig hebt voor een complete wijnproeverij thuis.
+        </p>
+      </div>
+      <Image
+        src={contentsImage}
+        alt="Inhoud van een Flavory-box: spelregels, infobrochures, proefformulieren, rolkaarten, tipkaartjes en twee stoffen wijnzakjes"
+        widths={[400, 640, 960]}
+        sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
+        class="w-full rounded-[var(--radius-card)]"
+      />
+    </div>
+  </section>
+
+  <section class="section-y container-site" aria-labelledby="faq-title">
     <h2 id="faq-title" class="h3">
       Vragen over het spel
     </h2>
@@ -111,16 +187,18 @@ const howTo = {
     </div>
   </section>
 
-  <section class="container-site py-8" aria-labelledby="boxen-title">
-    <h2 id="boxen-title" class="h3">
-      Klaar om te spelen?
-    </h2>
-    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((p) => (
-        <li>
-          <ProductCard product={p} />
-        </li>
-      ))}
-    </ul>
+  <section class="section-y bg-blush" aria-labelledby="boxen-title">
+    <div class="container-site">
+      <h2 id="boxen-title" class="h3">
+        Klaar om te spelen?
+      </h2>
+      <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {products.map((p) => (
+          <li>
+            <ProductCard product={p} />
+          </li>
+        ))}
+      </ul>
+    </div>
   </section>
 </BaseLayout>

@@ -35,6 +35,12 @@ order: 1
 images:
   - src: "../../assets/images/products/wijnproeverij-thuis-wit/01-box.webp"
     alt: "Flavory witte wijnspel: interactieve wijnproeverij thuis met Chardonnay en Sauvignon Blanc"
+  - src: "../../assets/images/products/wijnproeverij-thuis-wit/01b-flessen-in-zakjes.jpg"
+    alt: "Speler houdt de twee anonieme flessen in stoffen zakjes met de letters A en B omhoog"
+  - src: "../../assets/images/products/wijnproeverij-thuis-wit/03-witte-wijn-proeven.jpg"
+    alt: "Twee glazen witte wijn op het proefformulier tijdens een blinde wijnproeverij thuis"
+  - src: "../../assets/images/products/wijnproeverij-thuis-wit/04-inschenken.jpg"
+    alt: "Witte wijn wordt ingeschonken uit een anonieme fles aan een tafel met proefformulieren"
   - src: "../../assets/images/products/wijnproeverij-thuis-wit/02-hoe-speel-je.webp"
     alt: "Flavory-box met de zes spelstappen: uitnodigen, inschenken, proeven, tips verzamelen, ontmaskeren en winnen"
 usps:

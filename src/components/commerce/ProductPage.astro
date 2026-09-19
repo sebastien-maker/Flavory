@@ -23,7 +23,9 @@ import {
 } from '@/lib/content';
 import { FORMULAS, SITE, absoluteUrl, formatPrice } from '@/lib/site';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
-import stillImage from '@/assets/images/site/rode-box-still.jpeg';
+import LazyVideo from '@/components/ui/LazyVideo.astro';
+import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
+import whitePoster from '@/assets/images/site/flavory-avond-wit-poster.jpg';
 
 interface Props {
   product: Product;
@@ -304,19 +306,21 @@ const schemaImages = await Promise.all(
             ))}
           </ul>
         </div>
-        <video
-          class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
-          width="1280"
-          height="720"
-          controls
-          muted
-          playsinline
-          preload="none"
-          poster={(await getImage({ src: stillImage, width: 960, format: 'webp' })).src}
-          aria-label="Sfeervideo: vrienden spelen Flavory"
-        >
-          <source src="/media/flavory-sfeer.mp4" type="video/mp4" />
-        </video>
+        {data.category.id === 'rode-wijn' ? (
+          <LazyVideo
+            src="/media/flavory-avond-rood.mp4"
+            poster={redPoster}
+            label="Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur"
+            class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
+          />
+        ) : (
+          <LazyVideo
+            src="/media/flavory-avond-wit.mp4"
+            poster={whitePoster}
+            label="Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel"
+            class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
+          />
+        )}
       </div>
     </div>
   </section>

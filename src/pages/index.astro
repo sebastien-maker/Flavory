@@ -22,6 +22,7 @@ import IconWinner from '@/assets/icons/sleeve-winnaar.png';
 import WineGlassIcon from '@/assets/icons/wine-glass.svg';
 import TrophyIcon from '@/assets/icons/trophy.svg';
 import CheersIcon from '@/assets/icons/glasses-cheers.svg';
+import GiftIcon from '@/assets/icons/gift.svg';
 import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
 
 const products = await getProducts();
@@ -67,6 +68,11 @@ const pillars = [
     title: 'Ontmasker en win',
     text: 'Verzamel tips met quizvragen en ontmasker fles A en B. Er is maar één winnaar.',
   },
+  {
+    Icon: GiftIcon,
+    title: 'Hét cadeau voor iedereen die van wijn houdt',
+    text: 'Voor een verjaardag, de feestdagen of als relatiegeschenk: een cadeau om samen te beleven.',
+  },
 ];
 const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
 ---
@@ -88,8 +94,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   <!-- Hero: the value proposition from the box sleeve -->
   <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
     <div>
-      <p class="text-sm font-bold text-brand md:text-base">Hét cadeau voor iedereen die van wijn houdt</p>
-      <h1 class="mt-2 text-[2rem] leading-[1.1] md:text-[3.25rem]">Hét spel dat je wijn leert proeven</h1>
+      <h1 class="text-[2rem] leading-[1.1] md:text-[3.25rem]">Hét spel dat je wijn leert proeven</h1>
       <p class="mt-3 text-lg leading-snug font-bold md:text-xl">
         Twee beroemde wijnen tegenover elkaar. <span class="text-brand">Proef jij het verschil?</span>
       </p>

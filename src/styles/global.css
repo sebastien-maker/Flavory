@@ -219,10 +219,10 @@
     animation: sticker-wiggle 0.9s ease-in-out 0.8s 2;
   }
   .gift-sticker span {
-    @apply text-[0.7rem] tracking-wide uppercase md:text-sm;
+    @apply text-[0.6rem] tracking-wide uppercase md:text-xs;
   }
   .gift-sticker b {
-    @apply mt-0.5 text-[1.05rem] md:text-[1.4rem];
+    @apply mt-0.5 text-[0.875rem] md:text-[1.15rem];
   }
   @keyframes sticker-wiggle {
     0%,

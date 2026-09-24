@@ -138,7 +138,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
     <ul class="grid grid-cols-4 gap-2 text-center md:col-span-2 md:mx-auto md:w-full md:max-w-3xl">
       {facts.map((f) => (
         <li class="flex flex-col items-center gap-1.5">
-          <Image src={f.icon} alt="" width={40} height={40} loading="eager" class="size-9 md:size-10" />
+          <Image src={f.icon} alt="" width={40} height={40} loading="lazy" class="size-9 md:size-10" />
           <span class="text-xs leading-tight font-bold md:text-sm">{f.label}</span>
         </li>
       ))}

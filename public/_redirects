@@ -2,11 +2,11 @@
 # Rule 6: every old URL gets an explicit destination; nothing falls back to the home page.
 
 /            reviews=:review      /reviews/  301!
-/            store=:store         /  301!
+/            store=:store         /shop/  301!
 /            post_type=:type      /shop/  301!
 /            taxonomy=:tax        /shop/  301!
 /de/         reviews=:review      /reviews/  301!
-/de/         store=:store         /  301!
+/de/         store=:store         /shop/  301!
 
 /home/                                                                                                         /  301
 /home-2/                                                                                                       /  301
@@ -20,7 +20,7 @@
 /shop2/                                                                                                        /shop/  301
 /b2b/                                                                                                          /zakelijk/  301
 /flavory-gameplay/                                                                                             /hoe-werkt-het/  301
-/partners/                                                                                                     /  301
+/partners/                                                                                                     /partnership/  301
 /eindejaars-en-relatiegeschenken/                                                                              /zakelijk/  301
 /proeverij/                                                                                                    /zakelijk/  301
 /flavory-landingpage/                                                                                          /zakelijk/  301
@@ -36,7 +36,7 @@
 /5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-2025-is-3/                                 /blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/  301
 /5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-2025-is-w2/                                /blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/  301
 /wijnkiezer/                                                                                                   /shop/  301
-/verkooppunten/                                                                                                /  301
+/verkooppunten/                                                                                                /shop/  301
 /zakelijk/teambuilding-wijnproeverij/                                                                          /zakelijk/  301
 /win/                                                                                                          /  301
 /shop/italie-of-spanje/                                                                                        /shop/wijnproeverij-thuis-rood/  301
@@ -96,7 +96,7 @@
 /de/so-geht-das-flavory-spiel/                                                                                 /hoe-werkt-het/  301
 /de/faq/                                                                                                       /faq/  301
 /de/wijnkiezer/                                                                                                /shop/  301
-/de/partners/                                                                                                  /  301
+/de/partners/                                                                                                  /partnership/  301
 /de/partnership/                                                                                               /partnership/  301
 /de/proeverij/                                                                                                 /zakelijk/  301
 /de/eindejaars-en-relatiegeschenken/                                                                           /zakelijk/  301

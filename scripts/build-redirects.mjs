@@ -38,7 +38,7 @@ const RULES = [
 
   // Renamed or merged pages
   ['/flavory-gameplay/', '/hoe-werkt-het/'],
-  ['/partners/', HOME],
+  ['/partners/', '/partnership/'],
   ['/eindejaars-en-relatiegeschenken/', '/zakelijk/'],
   ['/proeverij/', B2B],
   ['/flavory-landingpage/', B2B],
@@ -59,7 +59,7 @@ const RULES = [
 
   // Pages removed for Q4 (2026)
   ['/wijnkiezer/', SHOP],
-  ['/verkooppunten/', HOME],
+  ['/verkooppunten/', SHOP],
   ['/zakelijk/teambuilding-wijnproeverij/', B2B],
   ['/win/', HOME],
   ['/shop/italie-of-spanje/', RED],
@@ -130,7 +130,7 @@ const RULES = [
   ['/de/so-geht-das-flavory-spiel/', '/hoe-werkt-het/'],
   ['/de/faq/', '/faq/'],
   ['/de/wijnkiezer/', SHOP],
-  ['/de/partners/', HOME],
+  ['/de/partners/', '/partnership/'],
   ['/de/partnership/', '/partnership/'],
   ['/de/proeverij/', B2B],
   ['/de/eindejaars-en-relatiegeschenken/', '/zakelijk/'],
@@ -200,11 +200,11 @@ const RULES = [
 // Query-string URLs (WordPress custom post types and previews).
 const QUERY_RULES = [
   ['/', 'reviews=:review', '/reviews/'],
-  ['/', 'store=:store', HOME],
+  ['/', 'store=:store', SHOP],
   ['/', 'post_type=:type', '/shop/'],
   ['/', 'taxonomy=:tax', '/shop/'],
   ['/de/', 'reviews=:review', '/reviews/'],
-  ['/de/', 'store=:store', HOME],
+  ['/de/', 'store=:store', SHOP],
 ];
 
 const pad = (s, n) => s.padEnd(n);

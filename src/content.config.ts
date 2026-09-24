@@ -17,12 +17,24 @@ const faqItem = z.object({
 });
 
 // A purchasable option of a product (duel + formula). Out-of-stock options are hidden entirely.
+// GTIN-13 (EAN) with a valid check digit.
+const isGtin13 = (code: string) => {
+  const digits = [...code].map(Number);
+  const sum = digits.slice(0, 12).reduce((s, d, i) => s + d * (i % 2 ? 3 : 1), 0);
+  return (10 - (sum % 10)) % 10 === digits[12];
+};
+
 const variant = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   duel: z.string(),
   formula: z.enum(['Regular', 'Premium']),
   price: z.number().positive(),
   sku: z.string(),
+  // Barcode of this exact box (with wine). The CMS saves an empty field as "".
+  gtin13: z.preprocess(
+    (v) => (v === '' ? undefined : v),
+    z.string().regex(/^\d{13}$/).refine(isGtin13, 'invalid GTIN-13 check digit').optional(),
+  ),
   // Links the option to one of the product's `descriptions`.
   group: z.string(),
   available: z.boolean().default(true),

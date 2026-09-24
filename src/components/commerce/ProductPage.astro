@@ -19,6 +19,7 @@ import {
   getReviews,
   productPath,
   categoryPath,
+  realSku,
   resolvePosts,
   type Product,
 } from '@/lib/content';
@@ -121,7 +122,8 @@ const schemaImages = await Promise.all(
       description: data.definition,
       offers: data.variants.map((v) => ({
         name: `${v.duel} · ${v.formula}`,
-        sku: v.sku,
+        sku: realSku(v.sku),
+        gtin13: v.gtin13,
         price: v.price,
         available: v.available,
       })),
@@ -461,6 +463,11 @@ const schemaImages = await Promise.all(
       block.hidden = block.dataset.description !== option.dataset.group;
     }
   }
+
+  // Merchant Center links to ?box=<option id>, so the landing page shows that option and its price.
+  const requested = new URLSearchParams(location.search).get('box');
+  const requestedRadio = radios.find((r) => r.value === requested);
+  if (requestedRadio) requestedRadio.checked = true;
 
   form?.addEventListener('change', applyChoice);
   // Browsers may restore a previous choice on back/forward navigation.

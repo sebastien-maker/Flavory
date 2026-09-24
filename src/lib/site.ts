@@ -32,6 +32,8 @@ export const SITE = {
     minDays: 1,
     maxDays: 3,
     freeFromBoxes: 2,
+    // Standard rate for one box (current checkout, BE). Free from `freeFromBoxes` boxes.
+    rate: 7.5,
   },
   returnDays: 14,
   // The only guarantee we make; reuse this wording everywhere it is explained.

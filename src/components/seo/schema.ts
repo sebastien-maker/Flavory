@@ -94,7 +94,7 @@ export interface ProductSchemaInput {
   name: string;
   description: string;
   /** One Offer per purchasable option (duel + formula). */
-  offers: { name: string; sku: string; price: number; available: boolean }[];
+  offers: { name: string; sku?: string | undefined; gtin13?: string | undefined; price: number; available: boolean }[];
   images: string[];
   category: string;
   reviews: { author: string; rating: number; body: string; title?: string | undefined }[];
@@ -108,6 +108,7 @@ export function product(p: ProductSchemaInput): Thing {
     '@type': 'OfferShippingDetails',
     '@id': `${SITE.url}/#shipping-${country.toLowerCase()}`,
     shippingDestination: { '@type': 'DefinedRegion', addressCountry: country },
+    shippingRate: { '@type': 'MonetaryAmount', value: SITE.shipping.rate.toFixed(2), currency: 'EUR' },
     deliveryTime: {
       '@type': 'ShippingDeliveryTime',
       handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
@@ -142,7 +143,8 @@ export function product(p: ProductSchemaInput): Thing {
     offers: p.offers.map((o, i) => ({
       '@type': 'Offer',
       name: o.name,
-      sku: o.sku,
+      ...(o.sku ? { sku: o.sku } : {}),
+      ...(o.gtin13 ? { gtin13: o.gtin13 } : {}),
       url,
       price: o.price.toFixed(2),
       priceCurrency: 'EUR',

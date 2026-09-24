@@ -217,7 +217,7 @@ const schemaImages = await Promise.all(
           <legend class="text-sm font-bold">Kies je box</legend>
           {duels.map((duel) => (
             <div class="mt-3">
-              {duels.length > 1 && <p class="mb-1.5 text-sm text-muted">{duel.name}</p>}
+              {duels.length > 1 && <p class="mb-3 text-sm text-muted">{duel.name}</p>}
               <div class="grid grid-cols-2 gap-2">
                 {duel.variants.map((v) => (
                   <label class="variant-tile">
@@ -234,6 +234,7 @@ const schemaImages = await Promise.all(
                       data-price={v.price}
                       data-group={v.group}
                     />
+                    {v.formula === 'Premium' && <span class="tile-badge">Meest populair</span>}
                     <span class="flex items-center justify-between gap-2">
                       <span class="font-bold">{v.formula}</span>
                       <span class="tile-dot" aria-hidden="true" />

@@ -22,6 +22,10 @@ export const SITE = {
   },
   // Trustpilot aggregate (audit 16 Sep 2026). Replace with the scheduled sync once the API key exists.
   rating: { value: 4.5, count: 31, source: 'Trustpilot' },
+  // Short quote from a real review (src/content/reviews/charlotte.yaml), shown next to the rating.
+  featuredReview: { quote: 'Tweede box is al besteld en de derde staat op mijn lijstje!', author: 'Charlotte' },
+  // Orders placed before this hour (Brussels time) on working days ship the same day.
+  shippingCutoffHour: 12,
   announcement: 'Gratis verzending vanaf 2 boxen',
   shipping: {
     countries: ['BE', 'NL'] as const,
@@ -85,6 +89,9 @@ export const FORMULAS = {
 
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(value);
+
+// Price per player at a full table, e.g. "€ 9,98" for € 59,90 and 6 players.
+export const pricePerPerson = (price: number, players: number) => formatPrice(Math.floor((price / players) * 100) / 100);
 
 export const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);

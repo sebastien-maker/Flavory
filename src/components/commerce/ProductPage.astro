@@ -4,7 +4,8 @@ import { getEntry } from 'astro:content';
 import { marked } from 'marked';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
-import Stars from '@/components/ui/Stars.astro';
+import ReviewHighlight from '@/components/ui/ReviewHighlight.astro';
+import ShippingCutoff from '@/components/ui/ShippingCutoff.astro';
 import Faq from '@/components/ui/Faq.astro';
 import PaymentIcons from './PaymentIcons.astro';
 import ProductCard from './ProductCard.astro';
@@ -21,7 +22,7 @@ import {
   resolvePosts,
   type Product,
 } from '@/lib/content';
-import { FORMULAS, SITE, absoluteUrl, formatPrice } from '@/lib/site';
+import { FORMULAS, SITE, absoluteUrl, formatPrice, pricePerPerson } from '@/lib/site';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
@@ -39,8 +40,14 @@ const category = await getEntry(data.category);
 const variants = availableVariants(product);
 const available = variants.length > 0;
 const minPrice = fromPrice(product);
-const formulas = [...new Set(variants.map((v) => v.formula))];
-const optionLabel = (v: (typeof variants)[number]) => `${v.duel} · ${v.formula} · ${formatPrice(v.price)}`;
+// The first option is preselected, so the buy button works straight away.
+const initial = variants[0];
+// Premium tiles show the extra cost over the Regular box of the same duel.
+const upcharge = (v: (typeof variants)[number]) => {
+  const regular = variants.find((r) => r.duel === v.duel && r.formula === 'Regular');
+  return v.formula !== 'Regular' && regular ? v.price - regular.price : 0;
+};
+const perPersonLabel = (price: number) => `${pricePerPerson(price, data.playersMax)} per persoon met ${data.playersMax} spelers`;
 
 const crumbs = [
   { name: 'Home', path: '/' },
@@ -66,6 +73,17 @@ const gallery = await Promise.all(
 );
 const gallerySizes = '(min-width: 1024px) 36rem, (min-width: 768px) 50vw, 100vw';
 const cover = gallery[0]!;
+// Mood clip of the matching wine colour, shown as the second slide of the gallery.
+const clip =
+  data.category.id === 'rode-wijn'
+    ? { src: '/media/flavory-avond-rood.mp4', poster: redPoster, label: 'Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur' }
+    : { src: '/media/flavory-avond-wit.mp4', poster: whitePoster, label: 'Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel' };
+const clipThumb = await getImage({ src: clip.poster, width: 96, height: 96, fit: 'cover', format: 'webp' });
+const slides = [
+  { kind: 'image' as const, label: 'Foto 1', ...cover },
+  { kind: 'video' as const, label: 'Filmpje', thumb: clipThumb },
+  ...gallery.slice(1).map((img, i) => ({ kind: 'image' as const, label: `Foto ${i + 2}`, ...img })),
+];
 
 const descriptions = data.descriptions.map((d) => ({ ...d, html: marked.parse(d.text, { async: false }) }));
 const others = (await getProducts()).filter((p) => p.id !== product.id);
@@ -115,140 +133,156 @@ const schemaImages = await Promise.all(
       <ul
         class="flex snap-x snap-mandatory overflow-x-auto rounded-[var(--radius-card)] bg-white [scrollbar-width:none]"
         data-gallery-track
+        data-lazy-root
         aria-label="Productfoto's"
       >
-        {gallery.map((img, i) => (
+        {slides.map((slide, i) => (
           <li class="w-full shrink-0 snap-center" id={`foto-${i + 1}`}>
-            <img
-              src={img.main.src}
-              srcset={img.main.srcSet.attribute}
-              sizes={gallerySizes}
-              width="720"
-              height="720"
-              alt={img.alt}
-              loading={i === 0 ? 'eager' : 'lazy'}
-              fetchpriority={i === 0 ? 'high' : undefined}
-              decoding="async"
-              class="aspect-square w-full object-cover"
-            />
+            {slide.kind === 'video' ? (
+              <LazyVideo src={clip.src} poster={clip.poster} label={clip.label} class="aspect-square h-auto w-full object-cover" />
+            ) : (
+              <img
+                src={slide.main.src}
+                srcset={slide.main.srcSet.attribute}
+                sizes={gallerySizes}
+                width="720"
+                height="720"
+                alt={slide.alt}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                fetchpriority={i === 0 ? 'high' : undefined}
+                decoding="async"
+                class="aspect-square w-full object-cover"
+              />
+            )}
           </li>
         ))}
       </ul>
-      {gallery.length > 1 && (
-        <p class="mt-2 text-center text-xs text-muted md:hidden" aria-hidden="true">
-          Swipe voor {gallery.length - 1} foto's meer
-        </p>
-      )}
-      {gallery.length > 1 && (
-        <ul class="mt-3 hidden gap-2 overflow-x-auto pb-1 md:flex" aria-label="Kies een foto">
-          {gallery.map((img, i) => (
-            <li class="shrink-0">
-              <a href={`#foto-${i + 1}`} data-gallery-thumb={i} class="thumb" aria-current={i === 0 ? 'true' : 'false'}>
-                <img
-                  src={img.thumb.src}
-                  width="64"
-                  height="64"
-                  alt={`Foto ${i + 1}`}
-                  loading="lazy"
-                  decoding="async"
-                  class="size-16 object-cover"
-                />
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+      <p class="mt-2 text-center text-xs text-muted md:hidden" aria-hidden="true">
+        Swipe voor een filmpje en {slides.length - 2} foto's
+      </p>
+      <ul class="mt-3 hidden gap-2 overflow-x-auto pb-1 md:flex" aria-label="Kies een foto of het filmpje">
+        {slides.map((slide, i) => (
+          <li class="shrink-0">
+            <a
+              href={`#foto-${i + 1}`}
+              data-gallery-thumb={i}
+              class="thumb relative"
+              aria-current={i === 0 ? 'true' : 'false'}
+            >
+              <img
+                src={slide.thumb.src}
+                width="64"
+                height="64"
+                alt={slide.label}
+                loading="lazy"
+                decoding="async"
+                class="size-16 object-cover"
+              />
+              {slide.kind === 'video' && (
+                <span class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                  <svg class="size-7 drop-shadow" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="11" fill="white" fill-opacity="0.9" />
+                    <path d="M10 8l6 4-6 4z" fill="currentColor" />
+                  </svg>
+                </span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
 
     <!-- Buy box: name, option list, price and button come first (mobile first) -->
     <div>
       <h1 class="h3 text-brand">{data.h1}</h1>
-      <a href="#reviews-title" class="mt-1 inline-flex items-center gap-2 text-sm hover:underline">
-        <Stars rating={SITE.rating.value} />
-        <span>
-          {String(SITE.rating.value).replace('.', ',')}/5 · {SITE.rating.count} reviews
-        </span>
-      </a>
+      <ReviewHighlight href="#reviews-title" class="mt-1" />
 
       <form data-add-to-cart data-variant-form id="bestellen" class="mt-4 scroll-mt-28" method="post" action="#">
-        <input type="hidden" name="handle" value="" />
-        <input type="hidden" name="name" value="" />
-        <input type="hidden" name="price" value="" />
+        <input type="hidden" name="handle" value={initial ? `${product.id}:${initial.id}` : ''} />
+        <input type="hidden" name="name" value={initial ? `${data.name} (${initial.duel} · ${initial.formula})` : ''} />
+        <input type="hidden" name="price" value={initial?.price ?? ''} />
         <input type="hidden" name="image" value={cover.thumb.src} />
         <input type="hidden" name="url" value={path} />
         <input type="hidden" name="quantity" value="1" />
 
-        <label for="variant" class="block text-sm font-bold">
-          Kies je box
-        </label>
-        <select
-          id="variant"
-          required
-          disabled={!available}
-          class="mt-1 block min-h-12 w-full rounded-xl border-2 border-ink bg-white px-3 text-base"
-          aria-describedby="variant-help"
-        >
-          <option value="" selected disabled>
-            Maak een keuze
-          </option>
-          {variants.map((v) => (
-            <option
-              value={v.id}
-              data-handle={`${product.id}:${v.id}`}
-              data-name={`${data.name} (${v.duel} · ${v.formula})`}
-              data-price={v.price}
-              data-group={v.group}
-            >
-              {optionLabel(v)}
-            </option>
-          ))}
-        </select>
-        <dl id="variant-help" class="mt-2 space-y-0.5 text-sm">
-          {formulas.map((f) => (
-            <div class="flex gap-1">
-              <dt class="font-bold">{f}:</dt>
-              <dd class="text-muted">{FORMULAS[f]}</dd>
-            </div>
-          ))}
-        </dl>
+        <fieldset disabled={!available}>
+          <legend class="text-sm font-bold">Kies je box</legend>
+          <div class="mt-2 grid gap-2">
+            {variants.map((v, i) => (
+              <label class="variant-tile">
+                <input
+                  type="radio"
+                  name="variant"
+                  value={v.id}
+                  checked={i === 0}
+                  required
+                  class="sr-only"
+                  data-handle={`${product.id}:${v.id}`}
+                  data-name={`${data.name} (${v.duel} · ${v.formula})`}
+                  data-label={`${v.duel} · ${v.formula}`}
+                  data-price={v.price}
+                  data-group={v.group}
+                />
+                <span class="min-w-0 flex-1">
+                  <span class="block font-bold leading-tight">{v.duel}</span>
+                  <span class="block text-sm text-muted">
+                    <strong class="text-ink">{v.formula}:</strong> {FORMULAS[v.formula]}
+                  </span>
+                </span>
+                <span class="shrink-0 text-right">
+                  <span class="block font-bold">{formatPrice(v.price)}</span>
+                  {upcharge(v) > 0 && (
+                    <span class="block text-xs font-bold text-brand">+ {formatPrice(upcharge(v))} voor betere wijn</span>
+                  )}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
 
-        <p class="mt-3 text-3xl font-bold" data-price-display aria-live="polite">
-          {available ? `vanaf ${formatPrice(minPrice)}` : 'Tijdelijk uitverkocht'}
+        <p class="mt-4 text-3xl font-bold" data-price-display aria-live="polite">
+          {initial ? formatPrice(initial.price) : 'Tijdelijk uitverkocht'}
         </p>
-        <p class="mt-1 text-sm text-muted">Inclusief btw en twee flessen wijn</p>
+        <p class="mt-1 text-sm text-muted">
+          Inclusief btw en twee flessen wijn
+          {initial && (
+            <>
+              {' · '}
+              <span data-per-person data-players={data.playersMax}>{perPersonLabel(initial.price)}</span>
+            </>
+          )}
+        </p>
 
-        <button type="submit" class="btn-primary mt-4 w-full" data-buy-button disabled>
-          {available ? 'Kies eerst je box' : 'Tijdelijk uitverkocht'}
+        <button type="submit" class="btn-primary mt-4 w-full" data-buy-button disabled={!available}>
+          {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : 'Tijdelijk uitverkocht'}
         </button>
-        <p class="mt-2 text-center text-xs">{SITE.ageNotice}</p>
+        <ShippingCutoff class="mt-2 text-center text-sm" />
+
+        <ul class="checklist mt-4 space-y-1.5 text-sm" aria-label="Goed om te weten">
+          {[
+            'Geen wijnkennis nodig',
+            `Al vanaf ${data.playersMin} spelers`,
+            'Niet lekker? Geld terug, geopende flessen hoeven niet terug',
+          ].map((reason) => (
+            <li>{reason}</li>
+          ))}
+        </ul>
+        <p class="mt-3 text-xs text-muted">{SITE.ageNotice}</p>
       </form>
 
-      <p class="mt-4 text-center text-sm">Voor 12u besteld, vandaag verzonden</p>
       <PaymentIcons class="mt-3 justify-center" />
 
       <p class="mt-6 border-l-4 border-brand pl-4">{data.definition}</p>
 
-      <ul class="mt-5 space-y-2">
+      <ul class="checklist mt-5 space-y-2">
         {data.usps.map((usp) => (
-          <li class="flex gap-2">
-            <svg class="check" viewBox="0 0 20 20" aria-hidden="true">
-              <path
-                d="M4 10.5l4 4 8-9"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span>{usp}</span>
-          </li>
+          <li>{usp}</li>
         ))}
       </ul>
     </div>
   </section>
 
-  <!-- Sticky buy bar on mobile: shows the chosen price; before a choice it jumps to the option list -->
+  <!-- Sticky buy bar on mobile: adds the chosen box straight away -->
   {available && (
     <div
       class="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-cream/95 p-3 backdrop-blur md:hidden"
@@ -258,10 +292,10 @@ const schemaImages = await Promise.all(
       <div class="flex items-center gap-3">
         <div class="min-w-0 flex-1">
           <p class="truncate text-sm font-bold" data-sticky-label>
-            {data.name}
+            {initial ? `${initial.duel} · ${initial.formula}` : data.name}
           </p>
           <p class="text-sm" data-sticky-price>
-            vanaf {formatPrice(minPrice)}
+            {formatPrice(initial?.price ?? minPrice)}
           </p>
         </div>
         <button type="button" class="btn-primary min-h-11 py-2" data-sticky-button>
@@ -279,7 +313,7 @@ const schemaImages = await Promise.all(
           Over dit wijnspel
         </h2>
         {descriptions.map((d, i) => (
-          <div data-description={d.group} hidden={i !== 0}>
+          <div data-description={d.group} hidden={initial ? d.group !== initial.group : i !== 0}>
             {descriptions.length > 1 && <h3 class="h4 mt-4">{d.heading}</h3>}
             <div class="prose-flavory mt-3" set:html={d.html} />
           </div>
@@ -306,21 +340,6 @@ const schemaImages = await Promise.all(
             ))}
           </ul>
         </div>
-        {data.category.id === 'rode-wijn' ? (
-          <LazyVideo
-            src="/media/flavory-avond-rood.mp4"
-            poster={redPoster}
-            label="Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur"
-            class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
-          />
-        ) : (
-          <LazyVideo
-            src="/media/flavory-avond-wit.mp4"
-            poster={whitePoster}
-            label="Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel"
-            class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
-          />
-        )}
       </div>
     </div>
   </section>
@@ -385,7 +404,7 @@ const schemaImages = await Promise.all(
 </BaseLayout>
 
 <script>
-  import { formatPrice } from '@/lib/site';
+  import { formatPrice, pricePerPerson } from '@/lib/site';
 
   // Gallery thumbnails scroll the track instead of jumping the page.
   const root = document.querySelector<HTMLElement>('[data-gallery]');
@@ -408,14 +427,16 @@ const schemaImages = await Promise.all(
     );
   }
 
-  // Option list: price, button, formula explanation and description follow the choice.
+  // Option tiles: price, button, sticky bar and description follow the choice.
   const form = document.querySelector<HTMLFormElement>('[data-variant-form]');
-  const select = form?.querySelector<HTMLSelectElement>('select');
+  const radios = [...(form?.querySelectorAll<HTMLInputElement>('input[name="variant"]') ?? [])];
   const button = form?.querySelector<HTMLButtonElement>('[data-buy-button]');
   const priceDisplay = form?.querySelector<HTMLElement>('[data-price-display]');
+  const perPerson = form?.querySelector<HTMLElement>('[data-per-person]');
   const stickyPrice = document.querySelector<HTMLElement>('[data-sticky-price]');
   const stickyLabel = document.querySelector<HTMLElement>('[data-sticky-label]');
   const stickyButton = document.querySelector<HTMLButtonElement>('[data-sticky-button]');
+  const players = Number(perPerson?.dataset.players ?? 0);
 
   const setField = (name: string, value: string) => {
     const input = form?.elements.namedItem(name);
@@ -423,35 +444,27 @@ const schemaImages = await Promise.all(
   };
 
   function applyChoice() {
-    if (!form || !select || !button) return;
-    const option = select.selectedOptions[0];
-    if (!option || !option.value) return;
+    const option = radios.find((r) => r.checked);
+    if (!form || !button || !option) return;
     const price = Number(option.dataset.price);
     setField('handle', option.dataset.handle ?? '');
     setField('name', option.dataset.name ?? '');
     setField('price', String(price));
     if (priceDisplay) priceDisplay.textContent = formatPrice(price);
-    button.disabled = false;
+    if (perPerson && players) perPerson.textContent = `${pricePerPerson(price, players)} per persoon met ${players} spelers`;
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
     if (stickyPrice) stickyPrice.textContent = formatPrice(price);
-    if (stickyLabel) stickyLabel.textContent = option.textContent?.split(' · ').slice(0, 2).join(' · ') ?? '';
+    if (stickyLabel) stickyLabel.textContent = option.dataset.label ?? '';
     for (const block of document.querySelectorAll<HTMLElement>('[data-description]')) {
       block.hidden = block.dataset.description !== option.dataset.group;
     }
   }
 
-  select?.addEventListener('change', applyChoice);
+  form?.addEventListener('change', applyChoice);
   // Browsers may restore a previous choice on back/forward navigation.
   applyChoice();
 
-  stickyButton?.addEventListener('click', () => {
-    if (select?.value && form) {
-      form.requestSubmit();
-    } else {
-      form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      select?.focus({ preventScroll: true });
-    }
-  });
+  stickyButton?.addEventListener('click', () => form?.requestSubmit());
 
   // Show the sticky bar once the main button scrolls out of view.
   const bar = document.querySelector<HTMLElement>('[data-sticky-buy]');

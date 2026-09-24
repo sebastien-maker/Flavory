@@ -7,9 +7,10 @@ import Guarantees from '@/components/sections/Guarantees.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
-import Stars from '@/components/ui/Stars.astro';
-import { getProducts, getPosts, productPath } from '@/lib/content';
-import { SITE } from '@/lib/site';
+import ReviewHighlight from '@/components/ui/ReviewHighlight.astro';
+import ShippingCutoff from '@/components/ui/ShippingCutoff.astro';
+import { fromPrice, getProducts, getPosts, productPath } from '@/lib/content';
+import { formatPrice, pricePerPerson } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 // Hero photo: replace this one file (keep the name) to swap it. Landscape, at least 1600px wide.
 import heroImage from '@/assets/images/site/hero-proeverij.jpg';
@@ -28,6 +29,9 @@ import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
 const products = await getProducts();
 const red = products.find((p) => p.data.category.id === 'rode-wijn');
 const white = products.find((p) => p.data.category.id === 'witte-wijn');
+// Hero price line: lowest box price and what that means per player at a full table.
+const lowestPrice = Math.min(...products.map(fromPrice));
+const maxPlayers = Math.max(...products.map((p) => p.data.playersMax));
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
 const posts = (await getPosts()).filter((p) => featuredIds.includes(p.id));
@@ -110,12 +114,22 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
           </a>
         )}
       </div>
-      <a href="/reviews/" class="mt-4 inline-flex items-center gap-2 text-sm hover:underline">
-        <Stars rating={SITE.rating.value} class="text-xl" />
-        <span>
-          <strong>{String(SITE.rating.value).replace('.', ',')}/5</strong> uit {SITE.rating.count} reviews
-        </span>
-      </a>
+      <ul class="checklist mt-4 space-y-1 text-sm md:text-base">
+        <li>
+          <span>
+            Vanaf <strong>{formatPrice(lowestPrice)}</strong>, inclusief 2 flessen wijn
+          </span>
+        </li>
+        <li>
+          <span>
+            Slechts <strong>{pricePerPerson(lowestPrice, maxPlayers)}</strong> per persoon met {maxPlayers} spelers
+          </span>
+        </li>
+        <li>
+          <ShippingCutoff />
+        </li>
+      </ul>
+      <ReviewHighlight href="/reviews/" class="mt-4" />
     </div>
     <div class="relative rounded-[var(--radius-card)] bg-white p-3 md:p-5">
       <!-- Round sticker like the one on the box sleeve; the gift message itself is the text above the title. -->

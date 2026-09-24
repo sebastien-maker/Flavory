@@ -197,6 +197,11 @@
   .thumb[aria-current='true'] {
     @apply ring-brand;
   }
+  /* Product option as a selectable tile (radio input inside the label) */
+  .variant-tile {
+    @apply flex cursor-pointer items-center gap-3 rounded-xl border-2 border-line bg-white p-3 hover:border-ink;
+    @apply has-checked:border-brand has-checked:bg-blush has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink;
+  }
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;
   }
@@ -251,8 +256,15 @@
   .post-row small {
     @apply mt-1 block text-sm text-muted;
   }
-  .check {
-    @apply mt-0.5 size-5 shrink-0 text-success;
+  /* List with a green check before each item; one CSS icon instead of an inline SVG per item */
+  .checklist > li {
+    @apply relative pl-7;
+  }
+  .checklist > li::before {
+    content: '';
+    @apply absolute top-0.5 left-0 size-5 bg-success;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
   }
 }
 

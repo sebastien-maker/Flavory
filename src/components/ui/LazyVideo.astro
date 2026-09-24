@@ -30,22 +30,28 @@ const posterImage = await getImage({ src: poster, width: 960, format: 'webp' });
 
 <script>
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const { target, isIntersecting } of entries) {
-        const video = target as HTMLVideoElement;
-        if (!isIntersecting) {
-          video.pause();
-        } else if (!video.src) {
-          video.src = video.dataset.lazyVideo ?? '';
-          if (reduced) video.controls = true;
-          else video.play().catch(() => (video.controls = true));
-        } else if (!reduced) {
-          video.play().catch(() => {});
-        }
+
+  function onIntersect(entries: IntersectionObserverEntry[]) {
+    for (const { target, isIntersecting } of entries) {
+      const video = target as HTMLVideoElement;
+      if (!isIntersecting) {
+        video.pause();
+      } else if (!video.src) {
+        video.src = video.dataset.lazyVideo ?? '';
+        if (reduced) video.controls = true;
+        else video.play().catch(() => (video.controls = true));
+      } else if (!reduced) {
+        video.play().catch(() => {});
       }
-    },
-    { rootMargin: '200px' },
-  );
-  document.querySelectorAll<HTMLVideoElement>('video[data-lazy-video]').forEach((v) => observer.observe(v));
+    }
+  }
+
+  // On the page: start loading just before the clip scrolls into view.
+  const pageObserver = new IntersectionObserver(onIntersect, { rootMargin: '200px' });
+  document.querySelectorAll<HTMLVideoElement>('video[data-lazy-video]').forEach((video) => {
+    // Inside a swipe gallery ([data-lazy-root]): only once the slide itself is swiped into view.
+    const root = video.closest<HTMLElement>('[data-lazy-root]');
+    if (root) new IntersectionObserver(onIntersect, { root, threshold: 0.5 }).observe(video);
+    else pageObserver.observe(video);
+  });
 </script>

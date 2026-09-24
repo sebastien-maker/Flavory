@@ -96,13 +96,19 @@ if (mode === 'content') {
     if (h1s !== 1 && rel !== '/404.html') warn(rel, `${h1s} <h1> elements`);
     if (!html.includes('application/ld+json')) warn(rel, 'no JSON-LD');
     for (const img of html.match(/<img\b[^>]*>/g) ?? []) {
-      if (!/\balt=/.test(img)) warn(rel, `img without alt: ${img.slice(0, 80)}`);
+      // A bare `alt` is how Astro renders alt="" (decorative image), which is valid.
+      if (!/\balt(=|[\s>])/.test(img)) warn(rel, `img without alt: ${img.slice(0, 80)}`);
       if (!/\bwidth=/.test(img) || !/\bheight=/.test(img)) warn(rel, `img without width/height: ${img.slice(0, 80)}`);
     }
     // Internal links must point straight at a built page or file, never through a redirect (rule 6).
     for (const [, href] of html.matchAll(/<a\b[^>]*\bhref="(\/[^"#?]*)/g)) {
       if (redirectSources.has(href)) warn(rel, `internal link via redirect: ${href}`);
       else if (!(await linkTargetExists(href))) warn(rel, `broken internal link: ${href}`);
+    }
+    // A word glued to a link ("Als<a …>", "</a>en"): Astro drops the line break between text and an inline tag.
+    // Fix with {' '} in the source.
+    for (const [glued] of html.matchAll(/[\p{L}\d,;:]<(?:a|strong|em|b)[\s>]|<\/(?:a|strong|em|b)>[\p{L}\d]/gu)) {
+      warn(rel, `missing space around inline tag: ${glued}`);
     }
     for (const json of html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g) ?? []) {
       try {

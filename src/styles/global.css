@@ -63,18 +63,24 @@
   --color-ink: #000000;
   --color-muted: #4a4a4a;
   --color-line: #e8ddd2;
+  /* Light blue from the white wine box. */
+  --color-wine-white: #90d6e6;
+  --color-wine-white-dark: #6cc4d9;
+  /* Sticker orange, close to the round sticker on the box sleeve (darkened for white text). */
+  --color-sticker: #e2711d;
   --color-star: #f5a623;
   --color-success: #1f7a3a;
 
   --font-sans: 'Montserrat', 'Montserrat Fallback', system-ui, sans-serif;
   --font-display: 'TheSans', 'TheSans Fallback', system-ui, sans-serif;
 
-  /* Fluid type scale (same clamps as the current site). */
-  --text-h1: clamp(2.027rem, 1.289rem + 3.945vw, 4.29rem);
-  --text-h2: clamp(1.802rem, 1.2089rem + 2.9658vw, 3.4332rem);
-  --text-h3: clamp(1.4238rem, 1.1426rem + 1.4063vw, 2.1973rem);
-  --text-h4: clamp(1.2656rem, 1.0866rem + 0.8949vw, 1.7578rem);
-  --text-lead: clamp(1.125rem, 1.0227rem + 0.5114vw, 1.4063rem);
+  /* One type scale for the whole site. Body text is 1rem (16px); use these steps instead of ad hoc sizes.
+     Mobile to desktop: h1 36-56px, h2 26-40px, h3 20-28px, h4 18-22px, lead 18-20px. */
+  --text-h1: clamp(2.25rem, 1.8rem + 2.2vw, 3.5rem);
+  --text-h2: clamp(1.625rem, 1.4rem + 1.2vw, 2.5rem);
+  --text-h3: clamp(1.25rem, 1.15rem + 0.6vw, 1.75rem);
+  --text-h4: clamp(1.125rem, 1.07rem + 0.3vw, 1.375rem);
+  --text-lead: clamp(1.125rem, 1.08rem + 0.2vw, 1.25rem);
 
   --radius-pill: 999px;
   --radius-card: 1.25rem;
@@ -115,6 +121,11 @@
   @apply mx-auto w-full max-w-[75rem] px-4 sm:px-6;
 }
 
+/* Vertical rhythm for page sections. Separate blocks with a background tone, not with extra whitespace. */
+@utility section-y {
+  @apply py-10 md:py-16;
+}
+
 @utility btn {
   @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-center text-sm font-bold tracking-wide uppercase transition-colors;
 }
@@ -133,6 +144,9 @@
   }
   .btn-outline {
     @apply btn border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-white;
+  }
+  .btn-wine-white {
+    @apply btn bg-wine-white text-ink hover:bg-wine-white-dark;
   }
   .btn-white {
     @apply btn bg-white text-brand hover:bg-blush;
@@ -194,6 +208,48 @@
   }
   .link-list a:hover {
     text-decoration: underline;
+  }
+  /* Homepage hero: round gift sticker on the corner of the illustration, wiggles twice on load. */
+  .gift-sticker {
+    @apply absolute -top-4 -right-1 flex size-24 flex-col items-center justify-center rounded-full text-center font-display leading-none text-white shadow-md md:-top-6 md:-right-4 md:size-32;
+    background: var(--color-sticker);
+    outline: 2px dashed rgb(255 255 255 / 0.6);
+    outline-offset: -6px;
+    rotate: 12deg;
+    animation: sticker-wiggle 0.9s ease-in-out 0.8s 2;
+  }
+  .gift-sticker span {
+    @apply text-[0.6rem] tracking-wide uppercase md:text-xs;
+  }
+  .gift-sticker b {
+    @apply mt-0.5 text-[0.875rem] md:text-[1.15rem];
+  }
+  @keyframes sticker-wiggle {
+    0%,
+    100% {
+      rotate: 12deg;
+      scale: 1;
+    }
+    30% {
+      rotate: 2deg;
+      scale: 1.08;
+    }
+    60% {
+      rotate: 18deg;
+    }
+  }
+  /* Blog overview: compact article row with thumbnail. */
+  .post-row {
+    @apply flex items-center gap-4 rounded-xl p-2 hover:bg-blush;
+  }
+  .post-row img {
+    @apply h-18 w-24 shrink-0 rounded-lg object-cover;
+  }
+  .post-row b {
+    @apply block leading-snug group-hover:text-brand;
+  }
+  .post-row small {
+    @apply mt-1 block text-sm text-muted;
   }
   .check {
     @apply mt-0.5 size-5 shrink-0 text-success;

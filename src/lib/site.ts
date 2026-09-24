@@ -22,7 +22,7 @@ export const SITE = {
   },
   // Trustpilot aggregate (audit 16 Sep 2026). Replace with the scheduled sync once the API key exists.
   rating: { value: 4.5, count: 31, source: 'Trustpilot' },
-  announcements: ['Gratis verzending vanaf 2 boxen', 'Meer dan 5.000 tevreden klanten', 'Niet tevreden? Geld terug'],
+  announcement: 'Gratis verzending vanaf 2 boxen',
   shipping: {
     countries: ['BE', 'NL'] as const,
     minDays: 1,
@@ -30,13 +30,16 @@ export const SITE = {
     freeFromBoxes: 2,
   },
   returnDays: 14,
+  // The only guarantee we make; reuse this wording everywhere it is explained.
+  guarantee:
+    'Niet tevreden? Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.',
+  ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',
 } as const;
 
 export const NAV = [
   { href: '/shop/', label: 'Shop' },
   { href: '/hoe-werkt-het/', label: 'Hoe werkt het?' },
-  { href: '/zakelijk/', label: 'Zakelijk' },
   { href: '/blog/', label: 'Blog' },
 ] as const;
 
@@ -47,7 +50,6 @@ export const FOOTER_NAV = [
       { href: '/shop/', label: 'Alle boxen' },
       { href: '/shop/rode-wijn/', label: 'Rode wijn' },
       { href: '/shop/witte-wijn/', label: 'Witte wijn' },
-      { href: '/wijnkiezer/', label: 'Wijnkiezer' },
     ],
   },
   {
@@ -56,17 +58,12 @@ export const FOOTER_NAV = [
       { href: '/hoe-werkt-het/', label: 'Hoe werkt het?' },
       { href: '/over-flavory/', label: 'Over Flavory' },
       { href: '/reviews/', label: 'Reviews' },
-      { href: '/verkooppunten/', label: 'Verkooppunten' },
       { href: '/blog/', label: 'Blog' },
     ],
   },
   {
     title: 'Zakelijk',
-    links: [
-      { href: '/zakelijk/', label: 'Relatiegeschenken' },
-      { href: '/zakelijk/teambuilding-wijnproeverij/', label: 'Proeverij op locatie' },
-      { href: '/contact/', label: 'Wijnhandelaar worden' },
-    ],
+    links: [{ href: '/zakelijk/', label: 'Relatiegeschenken' }],
   },
   {
     title: 'Klantenservice',
@@ -79,6 +76,12 @@ export const FOOTER_NAV = [
     ],
   },
 ] as const;
+
+// Explanation shown under the option list on product pages.
+export const FORMULAS = {
+  Regular: 'Heerlijke, eerlijke wijn.',
+  Premium: 'Zelfde spel, twee duurdere flessen. Wijnen met nog meer diepgang.',
+} as const;
 
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(value);

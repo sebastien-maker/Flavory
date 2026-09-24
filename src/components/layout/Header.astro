@@ -7,9 +7,15 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
 ---
 
 <header class="sticky top-0 z-40 border-b border-transparent bg-cream/95 backdrop-blur supports-[backdrop-filter]:bg-cream/80">
-  <div class="container-site flex h-18 items-center justify-between gap-4 md:h-24">
+  <div class="container-site flex h-14 items-center justify-between gap-4 md:h-24">
     <a href="/" class="shrink-0">
-      <img src="/images/logo.svg" alt="Flavory, naar de homepage" width="182" height="56" class="h-9 w-auto md:h-14" />
+      <img
+        src="/images/logo.svg"
+        alt="Flavory, naar de homepage"
+        width="182"
+        height="56"
+        class="h-[25px] w-auto md:h-14"
+      />
     </a>
 
     <nav aria-label="Hoofdmenu" class="hidden md:block">
@@ -32,10 +38,10 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
       <button
         type="button"
         data-cart-open
-        class="relative flex size-12 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
+        class="relative flex size-10 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark md:size-12"
         aria-label="Winkelmandje openen"
       >
-        <CartIcon class="size-7 fill-current" aria-hidden="true" />
+        <CartIcon class="size-6 fill-current md:size-7" aria-hidden="true" />
         <span
           data-cart-count
           hidden
@@ -45,7 +51,7 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
 
       <details class="group md:hidden">
         <summary
-          class="flex size-12 cursor-pointer list-none items-center justify-center rounded-full border-2 border-ink [&::-webkit-details-marker]:hidden"
+          class="flex size-10 cursor-pointer list-none items-center justify-center rounded-full border-2 border-ink [&::-webkit-details-marker]:hidden"
           aria-label="Menu"
         >
           <svg class="size-5 group-open:hidden" viewBox="0 0 20 20" aria-hidden="true">

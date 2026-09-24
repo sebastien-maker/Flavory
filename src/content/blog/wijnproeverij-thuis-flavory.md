@@ -32,7 +32,7 @@ Wijnproeven is dus honderden jaren uit. Maar de laatste jaren wordt een wijnproe
 
 ## Hoe een Flavory wijnproeverij thuis werkt
 
-Een [Flavory](/)\-proeverij werkt verrassend eenvoudig. Je kiest een box: rood of wit. Voor rode wijn blijft [Italië vs. Spanje](/shop/italie-of-spanje/) de absolute favoriet in Nederland en België. Je nodigt vrienden of familie uit. Met twee proef je intenser, met zes wordt het vaak hilarisch.
+Een [Flavory](/)\-proeverij werkt verrassend eenvoudig. Je kiest een box: rood of wit. Voor rode wijn blijft [Italië vs. Spanje](/shop/wijnproeverij-thuis-rood/) de absolute favoriet in Nederland en België. Je nodigt vrienden of familie uit. Met twee proef je intenser, met zes wordt het vaak hilarisch.
 
 Je hoeft niets te plannen of te organiseren. Propere glazen, een paar hapjes, een muziekje dat de sfeer bepaalt: meer vraagt het niet.
 

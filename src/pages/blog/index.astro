@@ -1,8 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import PostCard from '@/components/blog/PostCard.astro';
-import { getPosts, postPath, PILLAR_LABELS } from '@/lib/content';
+import { getPosts, postPath, readingMinutes, PILLAR_LABELS } from '@/lib/content';
 import { breadcrumbs, itemList, webPage } from '@/components/seo/schema';
 
 const posts = await getPosts();
@@ -14,11 +15,28 @@ const title = 'Wijnblog: leren proeven, druiven en cadeautips';
 const description =
   'Wijn leren proeven zonder vaktermen: tips voor een wijnproeverij thuis, het verschil tussen druiven, wijn bij eten en originele wijncadeaus.';
 
-// Group by pillar so readers (and crawlers) find each topic cluster.
+// One answer-first sentence per topic: tells readers and AI answer engines what each cluster covers.
+const PILLAR_INTROS: Record<keyof typeof PILLAR_LABELS, string> = {
+  'wijnproeverij-thuis':
+    'Zo organiseer je een gezellige wijnproeverij thuis: met vrienden, op date night of tijdens een vriendenweekend.',
+  'wijn-leren-proeven': 'Kijken, ruiken, proeven: hoe je smaak werkt en waarom je van blind proeven het meeste leert.',
+  'druiven-en-stijlen': 'Van Italiaanse rode wijn tot rosé en natuurwijn: wat maakt elke druif en stijl anders?',
+  'wijn-en-eten': 'Welke wijn past bij welk gerecht, met een spiekbriefje voor in de supermarkt.',
+  'wijn-cadeau': 'Originele wijncadeaus voor Kerstmis, Pasen, Moederdag, Valentijn en elke andere gelegenheid.',
+  zakelijk: 'Wijn als relatiegeschenk of eindejaarsgeschenk: wat werkt en wat niet.',
+};
+
+// "Begin hier": the pillar article that explains blind tasting, the core of the game.
+const featured = posts.find((p) => p.id === 'blind-wijn-proeven') ?? posts[0];
+const latest = posts.filter((p) => p.id !== featured?.id).slice(0, 3);
 const pillars = Object.entries(PILLAR_LABELS)
-  .map(([key, label]) => ({ key, label, posts: posts.filter((p) => p.data.pillar === key) }))
+  .map(([key, label]) => ({
+    key,
+    label,
+    intro: PILLAR_INTROS[key as keyof typeof PILLAR_LABELS],
+    posts: posts.filter((p) => p.data.pillar === key),
+  }))
   .filter((group) => group.posts.length > 0);
-const [latest, ...rest] = posts;
 ---
 
 <BaseLayout
@@ -35,55 +53,83 @@ const [latest, ...rest] = posts;
   ]}
 >
   <Breadcrumbs items={crumbs} />
-  <section class="container-site py-8 md:py-12">
+  <section class="container-site pt-4 pb-10 md:pb-16">
     <h1 class="h1">De wijnblog van Flavory</h1>
-    <p class="lead mt-4 max-w-3xl">
+    <p class="lead mt-3 max-w-3xl">
       Wijn leren proeven, zonder moeilijke woorden. Verhalen, tips en spiekbriefjes voor je volgende wijnproeverij
       thuis.
     </p>
-    <nav aria-label="Onderwerpen" class="mt-6">
-      <ul class="flex flex-wrap gap-2">
-        {pillars.map((group) => (
-          <li>
-            <a href={`#${group.key}`} class="btn-outline min-h-10 py-2">
-              {group.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
 
-    {latest && (
-      <div class="mt-8">
-        <h2 class="sr-only">Nieuwste artikels</h2>
-        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[latest, ...rest.slice(0, 5)].map((post, i) => (
+    {featured && (
+      <article class="card-link group mt-6 md:flex-row">
+        <Image
+          src={featured.data.heroImage}
+          alt={featured.data.heroAlt}
+          width={720}
+          height={450}
+          widths={[360, 540, 720]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          fit="cover"
+          loading="eager"
+          fetchpriority="high"
+          class="aspect-[8/5] w-full object-cover md:w-1/2"
+        />
+        <div class="flex flex-1 flex-col justify-center p-5 md:p-8">
+          <p class="text-xs font-bold tracking-wide text-brand uppercase">Begin hier</p>
+          <h2 class="h3 mt-2">
+            <a href={postPath(featured.id)} class="after:absolute after:inset-0 group-hover:text-brand">
+              {featured.data.title}
+            </a>
+          </h2>
+          <p class="mt-2 text-muted">{featured.data.excerpt}</p>
+          <p class="mt-3 text-sm text-muted">{readingMinutes(featured.body)} min lezen</p>
+        </div>
+      </article>
+    )}
+  </section>
+
+  {latest.length > 0 && (
+    <section class="section-y bg-white" aria-labelledby="nieuw-title">
+      <div class="container-site">
+        <h2 id="nieuw-title" class="h2">
+          Nieuw op de blog
+        </h2>
+        <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {latest.map((post) => (
             <li>
-              <PostCard post={post} eager={i < 3} />
+              <PostCard post={post} />
             </li>
           ))}
         </ul>
       </div>
-    )}
-  </section>
+    </section>
+  )}
 
-  {pillars.map((group) => (
-    <section id={group.key} class="container-site scroll-mt-28 py-8" aria-labelledby={`${group.key}-title`}>
-      <h2 id={`${group.key}-title`} class="h3">
-        {group.label}
-      </h2>
-      <ul class="mt-4 grid gap-x-8 gap-y-2 md:grid-cols-2">
-        {group.posts.map((post) => (
-          <li>
-            <a href={postPath(post.id)} class="flex gap-2 py-1 hover:text-brand hover:underline">
-              <span aria-hidden="true" class="text-brand">
-                →
-              </span>
-              {post.data.title}
-            </a>
-          </li>
-        ))}
-      </ul>
+  {pillars.map((group, i) => (
+    <section
+      id={group.key}
+      class:list={['section-y scroll-mt-28', i % 2 === 1 && 'bg-white']}
+      aria-labelledby={`${group.key}-title`}
+    >
+      <div class="container-site">
+        <h2 id={`${group.key}-title`} class="h2">
+          {group.label}
+        </h2>
+        <p class="mt-2 max-w-2xl text-muted">{group.intro}</p>
+        <ul class="mt-5 grid gap-3 md:grid-cols-2">
+          {group.posts.map((post) => (
+            <li>
+              <a href={postPath(post.id)} class="post-row group">
+                <Image src={post.data.heroImage} alt="" width={192} height={144} fit="cover" />
+                <span class="min-w-0">
+                  <b>{post.data.title}</b>
+                  <small>{readingMinutes(post.body)} min lezen</small>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   ))}
 </BaseLayout>

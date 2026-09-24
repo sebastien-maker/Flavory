@@ -9,7 +9,7 @@ author: bart
 heroImage: "../../assets/images/blog/5-redenen-waarom-flavory-het-leukste-wijngeschenk-is.webp"
 heroAlt: "5 Redenen waarom Flavory het leukste wijngeschenk is"
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 ## 1\. Waarom Flavory het beste wijngeschenk voor thuis is
 

@@ -8,7 +8,7 @@ author: bart
 heroImage: "../../assets/images/blog/vijf-cadeaus-die-iedereen-geeft-en-een-dat-bijblijft.webp"
 heroAlt: "Vijf cadeaus die iedereen geeft (en één dat bijblijft)"
 pillar: wijn-cadeau
-relatedProduct: italie-of-spanje
+relatedProduct: wijnproeverij-thuis-rood
 ---
 ## Van sokken tot Bongo-bonnen: leuk geprobeerd. Maar dit jaar mag het wat origineler, toch?
 

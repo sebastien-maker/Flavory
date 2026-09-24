@@ -56,8 +56,8 @@ const PRODUCT_FOR_PILLAR = {
   'wijn-leren-proeven': 'wijnproeverij-thuis-rood',
   'druiven-en-stijlen': 'wijnproeverij-thuis-wit',
   'wijn-en-eten': 'wijnproeverij-thuis-rood',
-  'wijn-cadeau': 'italie-of-spanje',
-  zakelijk: 'italie-of-spanje',
+  'wijn-cadeau': 'wijnproeverij-thuis-rood',
+  zakelijk: 'wijnproeverij-thuis-rood',
 };
 
 const decode = (s) =>

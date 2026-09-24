@@ -8,9 +8,11 @@ interface Props {
   post: Post;
   headingLevel?: 'h2' | 'h3';
   eager?: boolean;
+  /** Image, date and title only (no excerpt), for teaser rows. */
+  compact?: boolean;
 }
 
-const { post, headingLevel: Heading = 'h3', eager = false } = Astro.props;
+const { post, headingLevel: Heading = 'h3', eager = false, compact = false } = Astro.props;
 const { data } = post;
 ---
 
@@ -35,7 +37,7 @@ const { data } = post;
         {data.title}
       </a>
     </Heading>
-    <p class="mt-2 line-clamp-3 text-sm">{data.excerpt}</p>
+    {!compact && <p class="mt-2 line-clamp-3 text-sm">{data.excerpt}</p>}
     <p class="mt-auto pt-4 text-sm font-bold text-brand" aria-hidden="true">
       Lees meer →
     </p>

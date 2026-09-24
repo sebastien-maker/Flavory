@@ -1,0 +1,35 @@
+---
+// Rating with the Trustpilot logo and one short quote from a real review, for above the fold.
+import { SITE } from '@/lib/site';
+import Stars from './Stars.astro';
+
+interface Props {
+  href: string;
+  class?: string;
+}
+
+const { href, class: className } = Astro.props;
+const score = String(SITE.rating.value).replace('.', ',');
+---
+
+<div class={className}>
+  <a href={href} class="inline-flex flex-wrap items-center gap-x-2 gap-y-1 text-sm hover:underline">
+    <Stars rating={SITE.rating.value} class="text-lg" />
+    <span>
+      <strong>{score}/5</strong> uit {SITE.rating.count} reviews op
+    </span>
+    <img
+      src="/images/trustpilot-dark.svg"
+      alt="Trustpilot"
+      width="67"
+      height="30"
+      loading="lazy"
+      decoding="async"
+      class="h-5 w-auto"
+    />
+  </a>
+  <figure class="mt-1.5 text-sm">
+    <blockquote class="inline italic">“{SITE.featuredReview.quote}”</blockquote>{' '}
+    <figcaption class="inline text-muted">– {SITE.featuredReview.author}</figcaption>
+  </figure>
+</div>

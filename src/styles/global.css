@@ -179,6 +179,9 @@
   .step-card {
     @apply flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-brand p-4 text-white;
   }
+  .step-card-compact {
+    @apply w-36 shrink-0 snap-start p-3 text-sm md:w-auto;
+  }
   .faq-summary {
     @apply flex cursor-pointer list-none items-center justify-between gap-4 py-4;
   }
@@ -196,6 +199,18 @@
   }
   .thumb[aria-current='true'] {
     @apply ring-brand;
+  }
+  /* Product option as a selectable tile (radio input inside the label) */
+  .variant-tile {
+    @apply flex cursor-pointer flex-col gap-0.5 rounded-xl border border-line bg-white px-3 py-2.5 text-sm transition-colors hover:border-ink;
+    @apply has-checked:border-brand has-checked:bg-blush has-checked:shadow-[inset_0_0_0_1px_var(--color-brand)];
+    @apply has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink;
+  }
+  .tile-dot {
+    @apply size-4 shrink-0 rounded-full border border-muted bg-white;
+  }
+  .variant-tile:has(:checked) .tile-dot {
+    @apply border-brand bg-brand shadow-[inset_0_0_0_3px_white];
   }
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;
@@ -251,8 +266,15 @@
   .post-row small {
     @apply mt-1 block text-sm text-muted;
   }
-  .check {
-    @apply mt-0.5 size-5 shrink-0 text-success;
+  /* List with a green check before each item; one CSS icon instead of an inline SVG per item */
+  .checklist > li {
+    @apply relative pl-7;
+  }
+  .checklist > li::before {
+    content: '';
+    @apply absolute top-0.5 left-0 size-5 bg-success;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
   }
 }
 

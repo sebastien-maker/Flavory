@@ -1,0 +1,50 @@
+---
+// Same-day shipping promise. The HTML carries the static promise; on working days before the
+// cutoff (Brussels time) the script turns it into a live countdown. Only a real deadline, never a fake timer.
+import { SITE } from '@/lib/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class={className} data-shipping-cutoff={SITE.shippingCutoffHour}>
+  Voor {SITE.shippingCutoffHour}u besteld, vandaag verzonden
+</p>
+
+<script>
+  const elements = [...document.querySelectorAll<HTMLElement>('[data-shipping-cutoff]')];
+  const fallback = new Map(elements.map((el) => [el, el.textContent?.trim() ?? '']));
+  const clock = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Brussels',
+    weekday: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  });
+
+  function minutesLeft(cutoffHour: number): number {
+    const parts = Object.fromEntries(clock.formatToParts(new Date()).map((p) => [p.type, p.value]));
+    if (parts.weekday === 'Sat' || parts.weekday === 'Sun') return 0;
+    return cutoffHour * 60 - (Number(parts.hour) * 60 + Number(parts.minute));
+  }
+
+  function update() {
+    for (const el of elements) {
+      const left = minutesLeft(Number(el.dataset.shippingCutoff));
+      if (left <= 0) {
+        el.textContent = fallback.get(el) ?? '';
+        continue;
+      }
+      const hours = Math.floor(left / 60);
+      const time = document.createElement('strong');
+      time.textContent = hours > 0 ? `${hours}u ${left % 60}m` : `${left} min`;
+      el.replaceChildren('Bestel binnen ', time, ', vandaag verzonden');
+    }
+  }
+
+  update();
+  setInterval(update, 30_000);
+</script>

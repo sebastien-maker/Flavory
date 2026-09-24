@@ -42,11 +42,11 @@ const available = variants.length > 0;
 const minPrice = fromPrice(product);
 // The first option is preselected, so the buy button works straight away.
 const initial = variants[0];
-// Premium tiles show the extra cost over the Regular box of the same duel.
-const upcharge = (v: (typeof variants)[number]) => {
-  const regular = variants.find((r) => r.duel === v.duel && r.formula === 'Regular');
-  return v.formula !== 'Regular' && regular ? v.price - regular.price : 0;
-};
+// Options grouped per duel, so Regular and Premium sit side by side.
+const duels = [...new Set(variants.map((v) => v.duel))].map((name) => ({
+  name,
+  variants: variants.filter((v) => v.duel === name),
+}));
 const perPersonLabel = (price: number) => `${pricePerPerson(price, data.playersMax)} per persoon met ${data.playersMax} spelers`;
 
 const crumbs = [
@@ -85,7 +85,15 @@ const slides = [
   ...gallery.slice(1).map((img, i) => ({ kind: 'image' as const, label: `Foto ${i + 2}`, ...img })),
 ];
 
-const descriptions = data.descriptions.map((d) => ({ ...d, html: marked.parse(d.text, { async: false }) }));
+// First paragraph stays visible; the rest sits behind "Lees meer" (still in the HTML for search engines).
+const descriptions = data.descriptions.map((d) => {
+  const [intro = '', ...rest] = d.text.trim().split(/\n\s*\n/);
+  return {
+    ...d,
+    intro: marked.parse(intro, { async: false }),
+    more: marked.parse(rest.join('\n\n'), { async: false }),
+  };
+});
 const others = (await getProducts()).filter((p) => p.id !== product.id);
 const relatedPosts = await resolvePosts(data.relatedPosts);
 const reviews = (await getReviews()).map((r) => r.data);
@@ -207,37 +215,36 @@ const schemaImages = await Promise.all(
 
         <fieldset disabled={!available}>
           <legend class="text-sm font-bold">Kies je box</legend>
-          <div class="mt-2 grid gap-2">
-            {variants.map((v, i) => (
-              <label class="variant-tile">
-                <input
-                  type="radio"
-                  name="variant"
-                  value={v.id}
-                  checked={i === 0}
-                  required
-                  class="sr-only"
-                  data-handle={`${product.id}:${v.id}`}
-                  data-name={`${data.name} (${v.duel} · ${v.formula})`}
-                  data-label={`${v.duel} · ${v.formula}`}
-                  data-price={v.price}
-                  data-group={v.group}
-                />
-                <span class="min-w-0 flex-1">
-                  <span class="block font-bold leading-tight">{v.duel}</span>
-                  <span class="block text-sm text-muted">
-                    <strong class="text-ink">{v.formula}:</strong> {FORMULAS[v.formula]}
-                  </span>
-                </span>
-                <span class="shrink-0 text-right">
-                  <span class="block font-bold">{formatPrice(v.price)}</span>
-                  {upcharge(v) > 0 && (
-                    <span class="block text-xs font-bold text-brand">+ {formatPrice(upcharge(v))} voor betere wijn</span>
-                  )}
-                </span>
-              </label>
-            ))}
-          </div>
+          {duels.map((duel) => (
+            <div class="mt-3">
+              {duels.length > 1 && <p class="mb-1.5 text-sm text-muted">{duel.name}</p>}
+              <div class="grid grid-cols-2 gap-2">
+                {duel.variants.map((v) => (
+                  <label class="variant-tile">
+                    <input
+                      type="radio"
+                      name="variant"
+                      value={v.id}
+                      checked={v.id === initial?.id}
+                      required
+                      class="sr-only"
+                      data-handle={`${product.id}:${v.id}`}
+                      data-name={`${data.name} (${v.duel} · ${v.formula})`}
+                      data-label={`${v.duel} · ${v.formula}`}
+                      data-price={v.price}
+                      data-group={v.group}
+                    />
+                    <span class="flex items-center justify-between gap-2">
+                      <span class="font-bold">{v.formula}</span>
+                      <span class="tile-dot" aria-hidden="true" />
+                    </span>
+                    <span class="font-bold">{formatPrice(v.price)}</span>
+                    <span class="text-xs leading-snug text-muted">{FORMULAS[v.formula]}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
         </fieldset>
 
         <p class="mt-4 text-3xl font-bold" data-price-display aria-live="polite">
@@ -272,13 +279,6 @@ const schemaImages = await Promise.all(
 
       <PaymentIcons class="mt-3 justify-center" />
 
-      <p class="mt-6 border-l-4 border-brand pl-4">{data.definition}</p>
-
-      <ul class="checklist mt-5 space-y-2">
-        {data.usps.map((usp) => (
-          <li>{usp}</li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -312,26 +312,28 @@ const schemaImages = await Promise.all(
         <h2 id="over-title" class="h3">
           Over dit wijnspel
         </h2>
+        <p class="mt-3 border-l-4 border-brand pl-4">{data.definition}</p>
         {descriptions.map((d, i) => (
           <div data-description={d.group} hidden={initial ? d.group !== initial.group : i !== 0}>
-            {descriptions.length > 1 && <h3 class="h4 mt-4">{d.heading}</h3>}
-            <div class="prose-flavory mt-3" set:html={d.html} />
+            {descriptions.length > 1 && <h3 class="h4 mt-5">{d.heading}</h3>}
+            <div class="prose-flavory mt-3" set:html={d.intro} />
+            <details class="group mt-2">
+              <summary class="cursor-pointer list-none font-bold text-brand underline group-open:hidden">Lees meer</summary>
+              <div class="prose-flavory" set:html={d.more} />
+              {data.highlights.length > 0 && (
+                <ul class="checklist mt-4 space-y-2">
+                  {data.highlights.map((h) => (
+                    <li>
+                      <strong>{h.title}</strong> {h.text}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </details>
           </div>
         ))}
-        {data.highlights.length > 0 && (
-          <ul class="mt-6 space-y-3">
-            {data.highlights.map((h) => (
-              <li class="flex gap-3">
-                <span class="mt-2 size-2 shrink-0 rounded-full bg-brand" aria-hidden="true" />
-                <span>
-                  <strong>{h.title}</strong> {h.text}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
-      <div class="space-y-6">
+      <div>
         <div class="card p-6">
           <h2 class="h4">Wat zit er in de box?</h2>
           <ul class="mt-3 list-disc space-y-1 pl-5">
@@ -344,7 +346,7 @@ const schemaImages = await Promise.all(
     </div>
   </section>
 
-  <HowItWorks heading="Zo speel je Flavory" />
+  <HowItWorks heading="Zo speel je Flavory" link={{ href: '/hoe-werkt-het/', label: 'Lees de volledige spelregels' }} />
 
   <section class="section-y bg-white" aria-labelledby="faq-title">
     <div class="container-site">
@@ -368,7 +370,7 @@ const schemaImages = await Promise.all(
     </div>
   </section>
 
-  <Reviews />
+  <Reviews limit={3} />
 
   {others.length > 0 && (
     <section class="section-y container-site" aria-labelledby="andere-title">

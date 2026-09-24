@@ -179,6 +179,9 @@
   .step-card {
     @apply flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-brand p-4 text-white;
   }
+  .step-card-compact {
+    @apply w-36 shrink-0 snap-start p-3 text-sm md:w-auto;
+  }
   .faq-summary {
     @apply flex cursor-pointer list-none items-center justify-between gap-4 py-4;
   }
@@ -199,8 +202,15 @@
   }
   /* Product option as a selectable tile (radio input inside the label) */
   .variant-tile {
-    @apply flex cursor-pointer items-center gap-3 rounded-xl border-2 border-line bg-white p-3 hover:border-ink;
-    @apply has-checked:border-brand has-checked:bg-blush has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink;
+    @apply flex cursor-pointer flex-col gap-0.5 rounded-xl border border-line bg-white px-3 py-2.5 text-sm transition-colors hover:border-ink;
+    @apply has-checked:border-brand has-checked:bg-blush has-checked:shadow-[inset_0_0_0_1px_var(--color-brand)];
+    @apply has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink;
+  }
+  .tile-dot {
+    @apply size-4 shrink-0 rounded-full border border-muted bg-white;
+  }
+  .variant-tile:has(:checked) .tile-dot {
+    @apply border-brand bg-brand shadow-[inset_0_0_0_3px_white];
   }
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;

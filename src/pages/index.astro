@@ -74,8 +74,8 @@ const pillars = [
   },
   {
     Icon: GiftIcon,
-    title: 'Hét cadeau voor iedereen die van wijn houdt',
-    text: 'Voor een verjaardag, de feestdagen of als relatiegeschenk: een cadeau om samen te beleven.',
+    title: 'Hét cadeau voor wijnliefhebbers',
+    text: 'Voor een verjaardag, de feestdagen of als relatiegeschenk.',
   },
 ];
 const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
@@ -170,14 +170,12 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
           Met deze wijnbox ontdek je spelenderwijs het verschil tussen twee beroemde wijnen. Ruik, proef, vergelijk en
           ontmasker de wijnen. Wie kroont zich tot wijnkenner van de avond?
         </p>
-        <ul class="mt-6 grid gap-4">
+        <ul class="mt-6 grid grid-cols-2 gap-x-4 gap-y-5">
           {pillars.map(({ Icon, title, text }) => (
-            <li class="flex gap-4">
-              <Icon class="size-10 shrink-0 text-brand" aria-hidden="true" />
-              <div>
-                <h3 class="font-sans text-lg font-bold">{title}</h3>
-                <p class="text-muted">{text}</p>
-              </div>
+            <li>
+              <Icon class="size-9 text-brand" aria-hidden="true" />
+              <h3 class="mt-2 font-sans text-base leading-tight font-bold">{title}</h3>
+              <p class="mt-1 text-sm text-muted">{text}</p>
             </li>
           ))}
         </ul>
@@ -224,15 +222,16 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
         <h2 id="voorwie-title" class="h2">
           Voor wie is Flavory?
         </h2>
-        <p class="mt-4">
-          Flavory is voor 2 tot 6 vrienden of familieleden die liever herinneringen maken dan tv kijken.
-        </p>
-        <p class="mt-4">
-          Het is ook voor iedereen die zich minder verloren wil voelen in de wijnrayon, en zich afvraagt of wijn écht
-          naar paprika kan ruiken.
-        </p>
-        <p class="mt-4">Of je nu speelt voor de winst of voor de gezelligheid: Flavory brengt iedereen samen.</p>
-        <p class="mt-4 font-bold">Perfect als cadeau of origineel relatiegeschenk.</p>
+        <p class="mt-3 text-lg">Voor 2 tot 6 vrienden of familieleden die liever herinneringen maken dan tv kijken.</p>
+        <ul class="mt-5 grid gap-2">
+          {[
+            'Voor wie zich minder verloren wil voelen in de wijnrayon',
+            'Voor wie speelt om te winnen, of gewoon voor de gezelligheid',
+            'Als cadeau of origineel relatiegeschenk',
+          ].map((item) => (
+            <li class="rounded-xl bg-white/10 px-4 py-2.5 font-bold">{item}</li>
+          ))}
+        </ul>
         <div class="mt-6">
           <a href="/shop/" class="btn-white">
             Met wie speel jij?
@@ -270,7 +269,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
       <ul class="mt-6 grid gap-4 md:grid-cols-3">
         {posts.map((post) => (
           <li>
-            <PostCard post={post} />
+            <PostCard post={post} compact />
           </li>
         ))}
       </ul>

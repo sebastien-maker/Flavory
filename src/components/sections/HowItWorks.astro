@@ -6,6 +6,8 @@ interface Props {
   headingLevel?: 'h2' | 'h3';
   id?: string;
   detailed?: boolean;
+  /** Optional link under the steps, e.g. to the full game rules. */
+  link?: { href: string; label: string };
 }
 
 const {
@@ -13,6 +15,7 @@ const {
   headingLevel: Heading = 'h2',
   id = 'hoe-werkt-het',
   detailed = false,
+  link,
 } = Astro.props;
 ---
 
@@ -20,9 +23,17 @@ const {
   <Heading id={`${id}-title`} class="h2 text-center">
     {heading}
   </Heading>
-  <ol class="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+  <!-- Detailed: full cards with text. Otherwise a compact row (swipe on mobile, six in a row on desktop). -->
+  <ol
+    class:list={[
+      'mt-6',
+      detailed
+        ? 'grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3'
+        : 'flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] md:grid md:grid-cols-6 md:overflow-visible',
+    ]}
+  >
     {STEPS.map((step, i) => (
-      <li class="step-card">
+      <li class:list={['step-card', !detailed && 'step-card-compact']}>
         <img src={step.img} alt="" width="400" height="344" class="h-auto w-full" loading="lazy" decoding="async" />
         <p class="mt-2 font-bold">
           <span class="sr-only">Stap {i + 1}: </span>
@@ -32,4 +43,11 @@ const {
       </li>
     ))}
   </ol>
+  {link && (
+    <p class="mt-4 text-center">
+      <a href={link.href} class="font-bold text-brand underline">
+        {link.label}
+      </a>
+    </p>
+  )}
 </section>

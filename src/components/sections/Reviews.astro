@@ -31,7 +31,7 @@ const reviews = (await getReviews()).slice(0, limit);
             </div>
             <blockquote class="mt-2 text-sm">
               {data.title && <p class="font-bold">{data.title}</p>}
-              <p class="mt-1 line-clamp-6">{data.body}</p>
+              <p class="mt-1 line-clamp-4">{data.body}</p>
             </blockquote>
             <figcaption class="mt-2 text-sm font-bold">{data.author}</figcaption>
           </figure>

@@ -26,6 +26,7 @@ variants:
     formula: Regular
     price: 59.9
     sku: "B003N It/Sp (6151306865801)-1"
+    gtin13: "6151306865801"
     group: landen
     available: true
 descriptions:

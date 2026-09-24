@@ -136,6 +136,10 @@ export default config({
             }),
             price: fields.number({ label: 'Prijs (€)', step: 0.01, validation: { isRequired: true, min: 0 } }),
             sku: fields.text({ label: 'SKU', validation: { isRequired: true } }),
+            gtin13: fields.text({
+              label: 'GTIN-13 (EAN-barcode)',
+              description: 'De 13 cijfers van de barcode op deze box. Leeg laten zolang er geen barcode is.',
+            }),
             group: fields.text({
               label: 'Tekstgroep',
               description: 'Moet overeenkomen met een groep onder "Beschrijvingen".',

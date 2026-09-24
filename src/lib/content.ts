@@ -13,6 +13,9 @@ export type Variant = Product['data']['variants'][number];
 // Options that can be bought; sold-out options are not shown at all.
 export const availableVariants = (product: Product): Variant[] => product.data.variants.filter((v) => v.available);
 export const isAvailable = (product: Product) => availableVariants(product).length > 0;
+// Placeholder SKUs ("TMP-…") stay out of structured data and the Merchant Center feed until Shopify has the real one.
+export const realSku = (sku: string) => (/^TMP-/i.test(sku) ? undefined : sku);
+
 export const fromPrice = (product: Product) =>
   Math.min(...(isAvailable(product) ? availableVariants(product) : product.data.variants).map((v) => v.price));
 

@@ -12,6 +12,7 @@ variants:
     formula: Regular
     price: 59.9
     sku: "TMP-ROOD-MCS-REG"
+    wooId: 15718
     group: druiven
     available: true
   - id: merlot-cabernet-premium
@@ -19,6 +20,7 @@ variants:
     formula: Premium
     price: 74.9
     sku: "TMP-ROOD-MCS-PREM"
+    wooId: 2842
     group: druiven
     available: true
   - id: italie-spanje-regular
@@ -27,6 +29,7 @@ variants:
     price: 59.9
     sku: "B003N It/Sp (6151306865801)-1"
     gtin13: "6151306865801"
+    wooId: 13647
     group: landen
     available: true
 descriptions:

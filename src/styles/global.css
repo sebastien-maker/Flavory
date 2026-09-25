@@ -206,6 +206,9 @@
     @apply has-checked:border-brand has-checked:bg-blush has-checked:shadow-[inset_0_0_0_1px_var(--color-brand)];
     @apply has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink;
   }
+  .variant-tile.is-sold-out {
+    @apply cursor-not-allowed opacity-50;
+  }
   .tile-badge {
     @apply absolute -top-2.5 left-3 rounded-full bg-brand px-2 py-0.5 text-[0.6875rem] leading-tight font-bold text-white;
   }

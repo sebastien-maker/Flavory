@@ -8,7 +8,7 @@ Herbouw van flavory.wine (Belgisch D2C-merk, wijnspel-boxen: twee wijnen blind p
 - Sitecode komt in de root: `src/`, `public/`, `netlify/functions/`, `scripts/`, `astro.config.mjs`, `keystatic.config.ts`.
 
 ## Stack
-Astro 7 (SSG, on-demand rendering alleen waar nodig) + `@astrojs/netlify` op Netlify; Shopify Basic via Headless-kanaal en Storefront API (checkout op shop.flavory.wine); Keystatic als git-CMS; TypeScript strict; Tailwind; pnpm. Geen andere frameworks toevoegen zonder overleg.
+Astro 7 (SSG, on-demand rendering alleen waar nodig) + `@astrojs/netlify` op Netlify; WooCommerce (bestaande WordPress-winkel) voor prijs, voorraad en checkout, na de lancering op shop.flavory.wine (zie `docs/woocommerce-koppeling.md`); Keystatic als git-CMS; TypeScript strict; Tailwind; pnpm. Geen andere frameworks toevoegen zonder overleg.
 
 ## Harde SEO-regels (elke PR wordt hierop gereviewd)
 1. Elke indexeerbare pagina is server-gerenderde HTML. Geen content die pas na JavaScript verschijnt. Islands alleen voor winkelmandje, prijs/voorraad-verversing, wijnkiezer en formulieren.
@@ -23,10 +23,11 @@ Astro 7 (SSG, on-demand rendering alleen waar nodig) + `@astrojs/netlify` op Net
 10. Content is Nederlands (Vlaams-neutraal, "je/jij"), Duitse pagina's alleen als volledige vertaling.
 
 ## Commerce-regels
-- Shopify is de bron voor prijs, voorraad, varianten, SKU, GTIN en afbeeldingen; marketingcopy per product leeft in Keystatic op Shopify-handle.
-- Productpagina's worden bij build gegenereerd; een Shopify-webhook triggert een Netlify build hook. Prijs en voorraad worden bij paginaload ververst in een island.
+- WooCommerce is de bron voor prijs en voorraad; elke keuze in Keystatic verwijst naar een WooCommerce-product-ID. Marketingcopy, SKU, GTIN en afbeeldingen leven in Keystatic.
+- Productpagina's worden bij build gegenereerd met prijs en voorraad uit de WooCommerce Store API; een WooCommerce-webhook triggert een Netlify build hook. Prijs en voorraad worden bij paginaload ververst via de proxy `/woo-api/*`.
+- Afrekenen: het winkelmandje gaat via `?flavory_cart=` naar de WooCommerce-checkout (plugin `integrations/wordpress/flavory-cart-bridge.php`).
 - Leeftijdsbevestiging in de checkout; 18+-bezorgoptie voor NL-orders.
-- Secrets (Storefront-token, Trustpilot-key, build hooks) alleen in Netlify-omgevingsvariabelen. Nooit in de repo.
+- Secrets (WooCommerce-API-sleutels, Trustpilot-key, build hooks) alleen in Netlify-omgevingsvariabelen. Nooit in de repo.
 
 ## Werkwijze
 - Feature-branches in deze repo (geen forks: fork-PR's krijgen geen secrets), pull request naar `main`, Netlify Deploy Preview per PR, minstens één review.

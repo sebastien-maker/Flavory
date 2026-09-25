@@ -1,4 +1,5 @@
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { WOO_URL, parseStoreProducts, storeProductsPath, type WooStock } from './commerce/woo';
 
 export type Product = CollectionEntry<'products'>;
 export type Post = CollectionEntry<'blog'>;
@@ -19,9 +20,34 @@ export const realSku = (sku: string) => (/^TMP-/i.test(sku) ? undefined : sku);
 export const fromPrice = (product: Product) =>
   Math.min(...(isAvailable(product) ? availableVariants(product) : product.data.variants).map((v) => v.price));
 
+// Price and stock from WooCommerce, fetched once per build. Without a shop URL, or when the shop
+// cannot be reached, the prices in the CMS stay (the page then refreshes them in the browser).
+let wooStock: Promise<Map<number, WooStock>> | undefined;
+function loadWooStock(ids: number[]): Promise<Map<number, WooStock>> {
+  if (!WOO_URL || ids.length === 0) return Promise.resolve(new Map());
+  wooStock ??= fetch(`${WOO_URL}/wp-json/wc/store/v1${storeProductsPath(ids)}`, { signal: AbortSignal.timeout(10_000) })
+    .then((res) => (res.ok ? res.json() : []))
+    .then(parseStoreProducts)
+    .catch((error: unknown) => {
+      console.warn(`[woocommerce] prices not loaded, using CMS prices: ${String(error)}`);
+      return new Map<number, WooStock>();
+    });
+  return wooStock;
+}
+
 // In-stock products first, then by manual order.
 export async function getProducts(): Promise<Product[]> {
   const all = await getCollection('products', ({ data }) => !data.draft);
+  const ids = all.flatMap((p) => p.data.variants.flatMap((v) => (v.wooId ? [v.wooId] : [])));
+  const stock = await loadWooStock(ids);
+  for (const product of all) {
+    for (const v of product.data.variants) {
+      const live = v.wooId ? stock.get(v.wooId) : undefined;
+      if (!live) continue;
+      v.price = live.price;
+      v.available = v.available && live.buyable;
+    }
+  }
   return all.sort((a, b) => Number(!isAvailable(a)) - Number(!isAvailable(b)) || a.data.order - b.data.order);
 }
 

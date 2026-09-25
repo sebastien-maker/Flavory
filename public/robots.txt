@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /keystatic
 Disallow: /api/
+Disallow: /woo-api/
 Disallow: /bedankt/
 Disallow: /*?*add-to-cart=
 

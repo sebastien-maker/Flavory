@@ -4,6 +4,16 @@
 
 [build.environment]
   NODE_VERSION = "24"
+  # WooCommerce shop for checkout, price and stock (docs/woocommerce-koppeling.md).
+  # After WordPress moves to shop.flavory.wine: change this URL AND the /woo-api/* proxy below.
+  PUBLIC_WOO_URL = "https://flavory.wine"
+  PUBLIC_CHECKOUT_PROVIDER = "woocommerce"
+
+# Same-origin proxy to the WooCommerce Store API (read-only price and stock refresh in the browser).
+[[redirects]]
+  from = "/woo-api/*"
+  to = "https://flavory.wine/wp-json/wc/store/v1/:splat"
+  status = 200
 
 # Security headers (audit action 2.5). CSP starts report-only.
 [[headers]]

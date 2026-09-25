@@ -1,5 +1,5 @@
 // Client-side cart state (localStorage). Framework-free to keep JS small (rule 8).
-// Checkout is delegated to a provider (src/lib/commerce/checkout.ts) so Shopify can be plugged in later.
+// Checkout is delegated to a provider (src/lib/commerce/checkout.ts).
 
 export interface CartLine {
   handle: string;
@@ -8,6 +8,8 @@ export interface CartLine {
   image: string;
   url: string;
   quantity: number;
+  /** WooCommerce product ID used at checkout. */
+  wooId?: number | undefined;
 }
 
 const KEY = 'flavory-cart-v1';

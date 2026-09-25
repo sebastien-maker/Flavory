@@ -35,6 +35,8 @@ const variant = z.object({
     (v) => (v === '' ? undefined : v),
     z.string().regex(/^\d{13}$/).refine(isGtin13, 'invalid GTIN-13 check digit').optional(),
   ),
+  // WooCommerce product ID: checkout, live price and stock. The CMS saves an empty field as null.
+  wooId: z.preprocess((v) => (v === null ? undefined : v), z.number().int().positive().optional()),
   // Links the option to one of the product's `descriptions`.
   group: z.string(),
   available: z.boolean().default(true),

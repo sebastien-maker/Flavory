@@ -214,6 +214,7 @@ const schemaImages = await Promise.all(
         <input type="hidden" name="image" value={cover.thumb.src} />
         <input type="hidden" name="url" value={path} />
         <input type="hidden" name="quantity" value="1" />
+        <input type="hidden" name="woo_id" value={initial?.wooId ?? ''} />
 
         <fieldset disabled={!available}>
           <legend class="text-sm font-bold">Kies je box</legend>
@@ -235,13 +236,14 @@ const schemaImages = await Promise.all(
                       data-label={`${v.duel} · ${v.formula}`}
                       data-price={v.price}
                       data-group={v.group}
+                      data-woo-id={v.wooId}
                     />
                     {v.formula === 'Premium' && <span class="tile-badge">Meest populair</span>}
                     <span class="flex items-center justify-between gap-2">
                       <span class="font-bold">{v.formula}</span>
                       <span class="tile-dot" aria-hidden="true" />
                     </span>
-                    <span class="font-bold">{formatPrice(v.price)}</span>
+                    <span class="font-bold" data-tile-price>{formatPrice(v.price)}</span>
                     <span class="text-xs leading-snug text-muted">{FORMULAS[v.formula]}</span>
                   </label>
                 ))}
@@ -410,6 +412,7 @@ const schemaImages = await Promise.all(
 
 <script>
   import { formatPrice, pricePerPerson } from '@/lib/site';
+  import { WOO_API_PROXY, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
 
   // Gallery thumbnails scroll the track instead of jumping the page.
   const root = document.querySelector<HTMLElement>('[data-gallery]');
@@ -455,6 +458,7 @@ const schemaImages = await Promise.all(
     setField('handle', option.dataset.handle ?? '');
     setField('name', option.dataset.name ?? '');
     setField('price', String(price));
+    setField('woo_id', option.dataset.wooId ?? '');
     if (priceDisplay) priceDisplay.textContent = formatPrice(price);
     if (perPerson && players) perPerson.textContent = `${pricePerPerson(price, players)} per persoon met ${players} spelers`;
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
@@ -471,6 +475,34 @@ const schemaImages = await Promise.all(
   if (requestedRadio) requestedRadio.checked = true;
 
   form?.addEventListener('change', applyChoice);
+
+  // Live price and stock from WooCommerce (via the same-origin proxy). The HTML already has the build-time
+  // values, so a failed request changes nothing.
+  const wooIds = radios.map((r) => Number(r.dataset.wooId)).filter(Boolean);
+  if (wooIds.length > 0) {
+    fetch(`${WOO_API_PROXY}${storeProductsPath(wooIds)}`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((json: unknown) => {
+        const stock = parseStoreProducts(json);
+        for (const radio of radios) {
+          const live = stock.get(Number(radio.dataset.wooId));
+          if (!live) continue;
+          radio.dataset.price = String(live.price);
+          const tile = radio.closest('label');
+          const price = tile?.querySelector('[data-tile-price]');
+          if (price) price.textContent = formatPrice(live.price);
+          radio.disabled = !live.buyable;
+          tile?.classList.toggle('is-sold-out', !live.buyable);
+        }
+        const selected = radios.find((r) => r.checked);
+        if (selected?.disabled) {
+          const next = radios.find((r) => !r.disabled);
+          if (next) next.checked = true;
+        }
+        applyChoice();
+      })
+      .catch(() => {});
+  }
   // Browsers may restore a previous choice on back/forward navigation.
   applyChoice();
 

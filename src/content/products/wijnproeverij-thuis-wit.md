@@ -21,6 +21,7 @@ variants:
     formula: Premium
     price: 74.9
     sku: "TMP-WIT-CSB-PREM"
+    wooId: 7361
     group: druiven
     available: true
 descriptions:

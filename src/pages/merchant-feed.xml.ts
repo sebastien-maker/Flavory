@@ -36,12 +36,8 @@ export const GET: APIRoute = async () => {
         ['g:mpn', v.gtin13 ? undefined : sku],
         ['g:product_type', `Wijnspel > ${data.name}`],
       ];
-      const lines = fields
-        .filter(([, value]) => value)
-        .map(([tag, value]) => `      <${tag}>${escape(value!)}</${tag}>`);
-      lines.push(
-        ...images.slice(1).map((src) => `      <g:additional_image_link>${escape(src)}</g:additional_image_link>`),
-      );
+      const lines = fields.filter(([, value]) => value).map(([tag, value]) => `      <${tag}>${escape(value!)}</${tag}>`);
+      lines.push(...images.slice(1).map((src) => `      <g:additional_image_link>${escape(src)}</g:additional_image_link>`));
       items.push(`    <item>\n${lines.join('\n')}\n    </item>`);
     }
   }

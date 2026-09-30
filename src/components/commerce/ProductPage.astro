@@ -48,8 +48,7 @@ const duels = [...new Set(variants.map((v) => v.duel))].map((name) => ({
   name,
   variants: variants.filter((v) => v.duel === name),
 }));
-const perPersonLabel = (price: number) =>
-  `${pricePerPerson(price, data.playersMax)} per persoon met ${data.playersMax} spelers`;
+const perPersonLabel = (price: number) => `${pricePerPerson(price, data.playersMax)} per persoon met ${data.playersMax} spelers`;
 
 const crumbs = [
   { name: 'Home', path: '/' },
@@ -78,16 +77,8 @@ const cover = gallery[0]!;
 // Mood clip of the matching wine colour, shown as the second slide of the gallery.
 const clip =
   data.category.id === 'rode-wijn'
-    ? {
-        src: '/media/flavory-avond-rood.mp4',
-        poster: redPoster,
-        label: 'Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur',
-      }
-    : {
-        src: '/media/flavory-avond-wit.mp4',
-        poster: whitePoster,
-        label: 'Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel',
-      };
+    ? { src: '/media/flavory-avond-rood.mp4', poster: redPoster, label: 'Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur' }
+    : { src: '/media/flavory-avond-wit.mp4', poster: whitePoster, label: 'Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel' };
 const clipThumb = await getImage({ src: clip.poster, width: 96, height: 96, fit: 'cover', format: 'webp' });
 const slides = [
   { kind: 'image' as const, label: 'Foto 1', ...cover },
@@ -158,12 +149,7 @@ const schemaImages = await Promise.all(
         {slides.map((slide, i) => (
           <li class="w-full shrink-0 snap-center" id={`foto-${i + 1}`}>
             {slide.kind === 'video' ? (
-              <LazyVideo
-                src={clip.src}
-                poster={clip.poster}
-                label={clip.label}
-                class="aspect-square h-auto w-full object-cover"
-              />
+              <LazyVideo src={clip.src} poster={clip.poster} label={clip.label} class="aspect-square h-auto w-full object-cover" />
             ) : (
               <img
                 src={slide.main.src}
@@ -257,9 +243,7 @@ const schemaImages = await Promise.all(
                       <span class="font-bold">{v.formula}</span>
                       <span class="tile-dot" aria-hidden="true" />
                     </span>
-                    <span class="font-bold" data-tile-price>
-                      {formatPrice(v.price)}
-                    </span>
+                    <span class="font-bold" data-tile-price>{formatPrice(v.price)}</span>
                     <span class="text-xs leading-snug text-muted">{FORMULAS[v.formula]}</span>
                   </label>
                 ))}
@@ -276,9 +260,7 @@ const schemaImages = await Promise.all(
           {initial && (
             <>
               {' · '}
-              <span data-per-person data-players={data.playersMax}>
-                {perPersonLabel(initial.price)}
-              </span>
+              <span data-per-person data-players={data.playersMax}>{perPersonLabel(initial.price)}</span>
             </>
           )}
         </p>
@@ -301,6 +283,7 @@ const schemaImages = await Promise.all(
       </form>
 
       <PaymentIcons class="mt-3 justify-center" />
+
     </div>
   </section>
 
@@ -340,9 +323,7 @@ const schemaImages = await Promise.all(
             {descriptions.length > 1 && <h3 class="h4 mt-5">{d.heading}</h3>}
             <div class="prose-flavory mt-3" set:html={d.intro} />
             <details class="group mt-2">
-              <summary class="cursor-pointer list-none font-bold text-brand underline group-open:hidden">
-                Lees meer
-              </summary>
+              <summary class="cursor-pointer list-none font-bold text-brand underline group-open:hidden">Lees meer</summary>
               <div class="prose-flavory" set:html={d.more} />
               {data.highlights.length > 0 && (
                 <ul class="checklist mt-4 space-y-2">
@@ -479,8 +460,7 @@ const schemaImages = await Promise.all(
     setField('price', String(price));
     setField('woo_id', option.dataset.wooId ?? '');
     if (priceDisplay) priceDisplay.textContent = formatPrice(price);
-    if (perPerson && players)
-      perPerson.textContent = `${pricePerPerson(price, players)} per persoon met ${players} spelers`;
+    if (perPerson && players) perPerson.textContent = `${pricePerPerson(price, players)} per persoon met ${players} spelers`;
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
     if (stickyPrice) stickyPrice.textContent = formatPrice(price);
     if (stickyLabel) stickyLabel.textContent = option.dataset.label ?? '';

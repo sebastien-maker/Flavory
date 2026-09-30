@@ -8,7 +8,7 @@ Herbouw van flavory.wine (Belgisch D2C-merk, wijnspel-boxen: twee wijnen blind p
 - Sitecode komt in de root: `src/`, `public/`, `netlify/functions/`, `scripts/`, `astro.config.mjs`, `keystatic.config.ts`.
 
 ## Stack
-Astro 7 (SSG, on-demand rendering alleen waar nodig) + `@astrojs/netlify` op Netlify; WooCommerce (bestaande WordPress-winkel) voor prijs, voorraad en checkout, na de lancering op shop.flavory.wine (zie `docs/woocommerce-koppeling.md`); Keystatic als git-CMS; TypeScript strict; Tailwind; pnpm. Geen andere frameworks toevoegen zonder overleg.
+Astro 7 (SSG, on-demand rendering alleen waar nodig) + `@astrojs/netlify` op Netlify; WooCommerce (bestaande WordPress-winkel) voor prijs, voorraad en checkout, na de lancering op www.flavory.wine (zie `docs/woocommerce-koppeling.md` en `docs/lancering.md`); Keystatic als git-CMS; TypeScript strict; Tailwind; pnpm. Geen andere frameworks toevoegen zonder overleg.
 
 ## Harde SEO-regels (elke PR wordt hierop gereviewd)
 1. Elke indexeerbare pagina is server-gerenderde HTML. Geen content die pas na JavaScript verschijnt. Islands alleen voor winkelmandje, prijs/voorraad-verversing, wijnkiezer en formulieren.

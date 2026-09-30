@@ -8,7 +8,7 @@ De nieuwe site (Astro, Netlify) toont de producten en heeft het winkelmandje. Wo
 2. **Afrekenen.** De knop *Afrekenen* stuurt de bezoeker naar `<winkel>/?flavory_cart=13647:1,19757:2`. De plugin *Flavory cart bridge* maakt daarmee het WooCommerce-winkelmandje aan en stuurt door naar de checkout.
 3. **Een box zonder WooCommerce-ID** kan niet afgerekend worden. Het winkelmandje toont dan een melding om via e-mail te bestellen.
 
-Het adres van de winkel staat op twee plaatsen in `netlify.toml`: `PUBLIC_WOO_URL` en de `/woo-api/*`-proxy. Verandert het adres, dan pas je beide aan.
+Het adres van de winkel staat op twee plaatsen in `netlify.toml`: `PUBLIC_WOO_URL` en de `/woo-api/*`-proxy. Bij de lancering worden beide `https://www.flavory.wine` (zie `docs/lancering.md`).
 
 ## Stap 1: producten in WooCommerce (Bart)
 
@@ -24,16 +24,9 @@ Het adres van de winkel staat op twee plaatsen in `netlify.toml`: `PUBLIC_WOO_UR
 
 De plugin kan ook nu al op de huidige site staan. Zonder `?flavory_cart=` in de URL doet hij niets.
 
-## Stap 3: WordPress naar `shop.flavory.wine` (Bart, bij de lancering)
+## Stap 3: lancering
 
-1. **Maak het subdomein aan** bij de hosting, met een SSL-certificaat.
-2. **Zet in WordPress** onder Instellingen → Algemeen het WordPress-adres en het site-adres op `https://shop.flavory.wine`.
-3. **Vervang in de database** `https://flavory.wine` door `https://shop.flavory.wine`, bijvoorbeeld met de plugin *Better Search Replace*. Maak eerst een back-up.
-4. **Zet de WordPress-pagina's op noindex.** Alles behalve winkelwagen, checkout, mijn account en bedankt stuurt met een 301 door naar dezelfde URL op `https://flavory.wine`. De nieuwe site heeft voor elke oude URL een redirect klaarstaan.
-5. **Stem de checkout visueel af** op de nieuwe site: logo, kleuren (rood `#d60021`, crème `#faf4ed`), en een link terug naar `https://flavory.wine`.
-6. **Controleer** de leeftijdsbevestiging en de 18+-bezorgoptie voor Nederland, de betaalmethodes en de orderbevestigingsmail.
-7. **DNS:** `flavory.wine` gaat naar Netlify, `shop.flavory.wine` naar de huidige hosting. **Pas alleen de website-records aan (A/CNAME), nooit de MX-records**, anders valt de mail weg.
-8. **In deze repository:** `netlify.toml` aanpassen, zowel `PUBLIC_WOO_URL` als de proxy, naar `https://shop.flavory.wine`. Pas daarna `FLAVORY_SHOP_URL` in de plugin aan als dat nodig is.
+De lancering volgt `docs/lancering.md`. WordPress komt op **`www.flavory.wine`**, en niet op `shop.flavory.wine`, omdat de server van Combell `www` al kent. Zo kan elke stap zonder hostingtoegang teruggedraaid worden.
 
 ## Stap 4: testen
 
@@ -47,5 +40,5 @@ De plugin kan ook nu al op de huidige site staan. Zonder `?flavory_cart=` in de 
 
 ## Nog te doen
 
-- **Cross-domain meting in GA4** voor `flavory.wine` en `shop.flavory.wine`, zodat een aankoop aan de juiste bron wordt toegekend.
+- **Cross-domain meting in GA4** voor `flavory.wine` en `www.flavory.wine`, zodat een aankoop aan de juiste bron wordt toegekend.
 - **Webhook in WooCommerce** (Instellingen → Geavanceerd → Webhooks, *Product bijgewerkt*) naar een Netlify build hook, zodat de site opnieuw bouwt na een prijswijziging. De build hook-URL is geheim: zet hem enkel in WooCommerce, nooit in deze repository.

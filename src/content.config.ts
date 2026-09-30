@@ -33,7 +33,11 @@ const variant = z.object({
   // Barcode of this exact box (with wine). The CMS saves an empty field as "".
   gtin13: z.preprocess(
     (v) => (v === '' ? undefined : v),
-    z.string().regex(/^\d{13}$/).refine(isGtin13, 'invalid GTIN-13 check digit').optional(),
+    z
+      .string()
+      .regex(/^\d{13}$/)
+      .refine(isGtin13, 'invalid GTIN-13 check digit')
+      .optional(),
   ),
   // WooCommerce product ID: checkout, live price and stock. The CMS saves an empty field as null.
   wooId: z.preprocess((v) => (v === null ? undefined : v), z.number().int().positive().optional()),

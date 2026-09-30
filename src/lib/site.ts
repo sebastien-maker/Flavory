@@ -93,7 +93,8 @@ export const formatPrice = (value: number) =>
   new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(value);
 
 // Price per player at a full table, e.g. "€ 9,98" for € 59,90 and 6 players.
-export const pricePerPerson = (price: number, players: number) => formatPrice(Math.floor((price / players) * 100) / 100);
+export const pricePerPerson = (price: number, players: number) =>
+  formatPrice(Math.floor((price / players) * 100) / 100);
 
 export const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);

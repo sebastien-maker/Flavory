@@ -2,10 +2,10 @@
 name: "Wit wijnspel met 2 wijnen"
 h1: "Wit wijnspel met 2 wijnen"
 seoTitle: "Wijnproeverij thuis wit: Chardonnay of Sauvignon?"
-seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Regular of Premium, voor 2 tot 6 spelers."
+seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Chardonnay vs Sauvignon Blanc"
 cardTagline: "Twee witte wijnen, blind geproefd. Wie wordt de wijnkenner aan tafel?"
-definition: "Het witte wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Chardonnay en een Sauvignon Blanc. Je kiest Regular of Premium, vanaf €59,90, voor 2 tot 6 spelers."
+definition: "Het witte wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Chardonnay en een Sauvignon Blanc. Voor 2 tot 6 spelers."
 variants:
   - id: chardonnay-sauvignon-regular
     duel: "Chardonnay vs Sauvignon Blanc"
@@ -23,7 +23,7 @@ variants:
     sku: "TMP-WIT-CSB-PREM"
     wooId: 7361
     group: druiven
-    available: true
+    available: false
 descriptions:
   - group: druiven
     heading: "Chardonnay vs Sauvignon Blanc"
@@ -70,8 +70,6 @@ boxContents:
   - "Twee stoffen zakjes om de wijnflessen anoniem te maken"
   - "Twee flessen witte wijn (75 cl)"
 faq:
-  - question: "Wat is het verschil tussen Regular en Premium?"
-    answer: "Het spel is identiek. Regular zit vol heerlijke, eerlijke wijn. Bij Premium krijg je twee duurdere flessen met nog meer diepgang."
   - question: "Moet ik iets van wijn afweten?"
     answer: "Nee. Je moet wijn gewoon lekker vinden. De rest leer je al spelend."
   - question: "Ik ben al een wijnkenner. Heb ik er dan nog iets aan?"

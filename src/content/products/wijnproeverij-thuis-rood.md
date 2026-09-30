@@ -1,11 +1,11 @@
 ---
 name: "Rood wijnspel met 2 wijnen"
 h1: "Rood wijnspel met 2 wijnen"
-seoTitle: "Wijnproeverij thuis rood: Merlot of Cabernet?"
-seoDescription: "Wijnproeverij thuis met het rode wijnspel en twee flessen wijn: proef blind Merlot en Cabernet Sauvignon, of Italië en Spanje. Voor 2 tot 6 spelers."
-duel: "Merlot vs Cabernet Sauvignon of Italië vs Spanje"
+seoTitle: "Wijnproeverij thuis rood: Italië of Spanje?"
+seoDescription: "Wijnproeverij thuis met het rode wijnspel en twee flessen wijn: proef blind een Italiaanse en een Spaanse wijn. Voor 2 tot 6 spelers, zonder voorkennis."
+duel: "Italië vs Spanje"
 cardTagline: "Twee rode wijnen, blind geproefd. Wie wordt de wijnkenner aan tafel?"
-definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn. Je kiest Merlot vs Cabernet Sauvignon (Regular of Premium) of Italië vs Spanje, vanaf €59,90, voor 2 tot 6 spelers."
+definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn. Je proeft een Italiaanse en een Spaanse wijn, voor 2 tot 6 spelers."
 variants:
   - id: merlot-cabernet-regular
     duel: "Merlot vs Cabernet Sauvignon"
@@ -14,7 +14,7 @@ variants:
     sku: "TMP-ROOD-MCS-REG"
     wooId: 15718
     group: druiven
-    available: true
+    available: false
   - id: merlot-cabernet-premium
     duel: "Merlot vs Cabernet Sauvignon"
     formula: Premium
@@ -22,7 +22,7 @@ variants:
     sku: "TMP-ROOD-MCS-PREM"
     wooId: 2842
     group: druiven
-    available: true
+    available: false
   - id: italie-spanje-regular
     duel: "Italië vs Spanje"
     formula: Regular
@@ -50,14 +50,14 @@ playersMin: 2
 playersMax: 6
 order: 0
 images:
+  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-italie-of-spanje-box.webp"
+    alt: "Flavory rode wijnspel Italië versus Spanje met twee flessen in stoffen zakjes"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
     alt: "Flavory rode wijnspel op tafel: blinde wijnproeverij thuis met Merlot en Cabernet Sauvignon"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg"
     alt: "Twee anonieme flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg"
     alt: "Vrienden aan tafel onthullen welke rode wijn in fles A zat"
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-italie-of-spanje-box.webp"
-    alt: "Flavory rode wijnspel Italië versus Spanje met twee flessen in stoffen zakjes"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/04-vergelijk.webp"
     alt: "Speler ruikt aan twee glazen rode wijn om de geuren en smaken te vergelijken"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/02.webp"
@@ -86,8 +86,6 @@ boxContents:
   - "Twee stoffen zakjes om de wijnflessen anoniem te maken"
   - "Twee flessen rode wijn (75 cl)"
 faq:
-  - question: "Wat is het verschil tussen Regular en Premium?"
-    answer: "Het spel is identiek. Regular zit vol heerlijke, eerlijke wijn. Bij Premium krijg je twee duurdere flessen met nog meer diepgang."
   - question: "Moet ik iets van wijn afweten?"
     answer: "Nee. Je moet wijn gewoon lekker vinden. De rest leer je al spelend."
   - question: "Ik ben al een wijnkenner. Heb ik er dan nog iets aan?"

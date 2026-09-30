@@ -15,6 +15,8 @@ const WHITE_WINE = WHITE;
 const IT_ES = RED;
 const SHOP = '/shop/';
 const B2B = '/zakelijk/';
+// WooCommerce (checkout, account, admin) lives on www since the launch (docs/lancering.md).
+const CHECKOUT = 'https://www.flavory.wine';
 // The bubbles box is out of the range (draft); its URLs go to the shop until it returns.
 // Netlify only applies these non-forced rules when no page exists, so re-enabling the product needs no change here.
 const BUBBLES = '/shop/';
@@ -65,10 +67,11 @@ const RULES = [
   ['/shop/italie-of-spanje/', RED],
   ['/shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/', WHITE],
 
-  // WooCommerce system pages
-  ['/shop/winkelwagen/', '/shop/'],
-  ['/shop/afrekenen/', '/shop/'],
-  ['/shop/mijn-account/', '/shop/'],
+  // WooCommerce system pages: to the checkout on www
+  ['/shop/winkelwagen/', `${CHECKOUT}/shop/winkelwagen/`],
+  ['/shop/afrekenen/', `${CHECKOUT}/shop/afrekenen/`],
+  ['/shop/mijn-account/', `${CHECKOUT}/shop/mijn-account/`],
+  ['/shop/mijn-account/*', `${CHECKOUT}/shop/mijn-account/:splat`],
 
   // Products: renamed and legacy slugs (SITE-STRUCTURE §3)
   ['/shop/valentijn-wine-tasting-game-italie-of-spanje-10-korting/', IT_ES],
@@ -194,7 +197,8 @@ const RULES = [
   // WordPress leftovers
   ['/feed/', '/blog/'],
   ['/blog/feed/', '/blog/'],
-  ['/wp-login.php', HOME],
+  ['/wp-login.php', `${CHECKOUT}/wp-login.php`],
+  ['/wp-admin/*', `${CHECKOUT}/wp-admin/:splat`],
 ];
 
 // Query-string URLs (WordPress custom post types and previews).
@@ -277,6 +281,8 @@ if (process.argv.includes('--verify')) {
       ) {
         problems.push(`${label} -> home without an explicit rule`);
       }
+      // Targets on the checkout host are served by WordPress, not by this build.
+      if (target.startsWith(CHECKOUT)) continue;
       if (!(await built(target.split('?')[0]))) problems.push(`${label} -> ${target} (target not built)`);
     } else if (!(await built(path))) {
       problems.push(`${label}: no page and no redirect (would 404)`);

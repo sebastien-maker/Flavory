@@ -41,9 +41,10 @@
 /win/                                                                                                          /  301
 /shop/italie-of-spanje/                                                                                        /shop/wijnproeverij-thuis-rood/  301
 /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/                                                            /shop/wijnproeverij-thuis-wit/  301
-/shop/winkelwagen/                                                                                             /shop/  301
-/shop/afrekenen/                                                                                               /shop/  301
-/shop/mijn-account/                                                                                            /shop/  301
+/shop/winkelwagen/                                                                                             https://www.flavory.wine/shop/winkelwagen/  301
+/shop/afrekenen/                                                                                               https://www.flavory.wine/shop/afrekenen/  301
+/shop/mijn-account/                                                                                            https://www.flavory.wine/shop/mijn-account/  301
+/shop/mijn-account/*                                                                                           https://www.flavory.wine/shop/mijn-account/:splat  301
 /shop/valentijn-wine-tasting-game-italie-of-spanje-10-korting/                                                 /shop/wijnproeverij-thuis-rood/  301
 /shop/legendarische-wijnlanden-rood/                                                                           /shop/wijnproeverij-thuis-rood/  301
 /shop/wijnspel-italie-vs-spanje-proef-jij-het-verschil/                                                        /shop/wijnproeverij-thuis-rood/  301
@@ -148,4 +149,5 @@
 /en/*                                                                                                          /  301
 /feed/                                                                                                         /blog/  301
 /blog/feed/                                                                                                    /blog/  301
-/wp-login.php                                                                                                  /  301
+/wp-login.php                                                                                                  https://www.flavory.wine/wp-login.php  301
+/wp-admin/*                                                                                                    https://www.flavory.wine/wp-admin/:splat  301

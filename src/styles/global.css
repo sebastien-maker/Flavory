@@ -92,6 +92,8 @@
     scroll-behavior: smooth;
   }
   body {
+    /* clip (not hidden) keeps position: sticky working while no child can widen the page sideways */
+    overflow-x: clip;
     @apply bg-cream font-sans text-base leading-relaxed text-ink antialiased;
   }
   h1,
@@ -176,8 +178,10 @@
   .icon-circle {
     @apply flex size-10 items-center justify-center rounded-full border-2 border-white hover:bg-white hover:text-brand;
   }
+  /* relative: keeps the absolutely positioned sr-only step number inside the card, so it cannot
+     escape the horizontal scroller and stretch the page (mobile zoomed out otherwise). */
   .step-card {
-    @apply flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-brand p-4 text-white;
+    @apply relative flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-brand p-4 text-white;
   }
   .step-card-compact {
     @apply w-36 shrink-0 snap-start p-3 text-sm md:w-auto;

@@ -5,7 +5,7 @@
 [build.environment]
   NODE_VERSION = "24"
   # WooCommerce shop for checkout, price and stock (docs/woocommerce-koppeling.md).
-  # After WordPress moves to shop.flavory.wine: change this URL AND the /woo-api/* proxy below.
+  # At launch WordPress moves to www.flavory.wine: change this URL AND the /woo-api/* proxy below (docs/lancering.md).
   PUBLIC_WOO_URL = "https://flavory.wine"
   PUBLIC_CHECKOUT_PROVIDER = "woocommerce"
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Flavory cart bridge
  * Description: Neemt het winkelmandje van de nieuwe flavory.wine over in WooCommerce en stuurt door naar de checkout. Link: /?flavory_cart=13647:1,19757:2
- * Version: 1.0.0
+ * Version: 1.1.0
  * Requires Plugins: woocommerce
  *
  * Installeren: dit bestand in wp-content/mu-plugins/ zetten (dan staat het altijd aan), of als gewone plugin uploaden.
@@ -11,8 +11,10 @@
 
 defined('ABSPATH') || exit;
 
+// De nieuwe site. Na de lancering draait WordPress op www.flavory.wine en doet het alleen nog de winkel.
+const FLAVORY_SITE_URL = 'https://flavory.wine';
 // Waar een bezoeker terechtkomt als geen enkele box in het winkelmandje kan (bv. uitverkocht).
-const FLAVORY_SHOP_URL = 'https://flavory.wine/shop/';
+const FLAVORY_SHOP_URL = FLAVORY_SITE_URL . '/shop/';
 // Hoogste aantal per box, gelijk aan de nieuwe site.
 const FLAVORY_MAX_QTY = 20;
 
@@ -66,4 +68,42 @@ add_action('wp_loaded', function () {
 add_filter('allowed_redirect_hosts', function ($hosts) {
     $hosts[] = 'flavory.wine';
     return $hosts;
+});
+
+/**
+ * Na de lancering (WordPress-adres = www.flavory.wine): WordPress is alleen nog de kassa.
+ * Winkelmandje, checkout, account en beheer blijven; elke andere pagina gaat met een 301 naar
+ * dezelfde URL op de nieuwe site, en niets van WordPress wordt nog geïndexeerd.
+ * Zolang WordPress zelf op flavory.wine staat, doet dit niets.
+ */
+function flavory_is_checkout_only(): bool
+{
+    $wp_host = wp_parse_url(home_url(), PHP_URL_HOST);
+    return $wp_host && $wp_host !== wp_parse_url(FLAVORY_SITE_URL, PHP_URL_HOST);
+}
+
+add_action('template_redirect', function () {
+    if (!flavory_is_checkout_only() || !function_exists('is_checkout')) {
+        return;
+    }
+    if (is_cart() || is_checkout() || is_account_page() || is_wc_endpoint_url()) {
+        return;
+    }
+    $path = wp_parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+    wp_redirect(FLAVORY_SITE_URL . $path, 301);
+    exit;
+}, 1);
+
+add_filter('wp_robots', function ($robots) {
+    if (flavory_is_checkout_only()) {
+        $robots['noindex'] = true;
+        $robots['nofollow'] = true;
+    }
+    return $robots;
+});
+
+add_action('send_headers', function () {
+    if (flavory_is_checkout_only()) {
+        header('X-Robots-Tag: noindex, nofollow', true);
+    }
 });

@@ -5,15 +5,11 @@
 [build.environment]
   NODE_VERSION = "24"
   # WooCommerce shop for checkout, price and stock (docs/woocommerce-koppeling.md).
-  # At launch WordPress moves to www.flavory.wine: change this URL AND the /woo-api/* proxy below (docs/lancering.md).
+  # At launch WordPress moves to www.flavory.wine: change this URL AND ORIGIN in netlify/functions/woo-proxy.mts (docs/lancering.md).
   PUBLIC_WOO_URL = "https://www.flavory.wine"
   PUBLIC_CHECKOUT_PROVIDER = "woocommerce"
 
-# Same-origin proxy to the WooCommerce Store API (read-only price and stock refresh in the browser).
-[[redirects]]
-  from = "/woo-api/*"
-  to = "https://www.flavory.wine/wp-json/wc/store/v1/:splat"
-  status = 200
+# /woo-api/*, /wp-json/* and /wc-api/* are handled by netlify/functions/woo-proxy.mts (WordPress on www).
 
 # Security headers (audit action 2.5). CSP starts report-only.
 [[headers]]

@@ -9,6 +9,20 @@
   PUBLIC_WOO_URL = "https://www.flavory.wine"
   PUBLIC_CHECKOUT_PROVIDER = "woocommerce"
 
+# Partners (Postalux fulfilment) connect to the WooCommerce REST API on flavory.wine. WordPress lives on
+# www since the launch, so the API paths on the apex are proxied there (Authorization headers pass through).
+[[redirects]]
+  from = "/wp-json/*"
+  to = "https://www.flavory.wine/wp-json/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/wc-api/*"
+  to = "https://www.flavory.wine/wc-api/:splat"
+  status = 200
+  force = true
+
 # Same-origin proxy to the WooCommerce Store API (read-only price and stock refresh in the browser).
 [[redirects]]
   from = "/woo-api/*"

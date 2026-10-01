@@ -3,6 +3,8 @@ Allow: /
 Disallow: /keystatic
 Disallow: /api/
 Disallow: /woo-api/
+Disallow: /wp-json/
+Disallow: /wc-api/
 Disallow: /bedankt/
 Disallow: /*?*add-to-cart=
 

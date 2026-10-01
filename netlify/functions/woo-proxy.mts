@@ -32,5 +32,5 @@ export default async (request: Request): Promise<Response> => {
 };
 
 export const config = {
-  path: ['/wp-json/*', '/wc-api/*', '/woo-api/*'],
+  path: ['/wp-json', '/wp-json/', '/wp-json/*', '/wc-api/*', '/woo-api/*'],
 };

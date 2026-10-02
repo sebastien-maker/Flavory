@@ -413,6 +413,7 @@ const schemaImages = await Promise.all(
 <script>
   import { formatPrice, pricePerPerson } from '@/lib/site';
   import { WOO_API_PROXY, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
+  import { track as trackEvent } from '@/lib/analytics';
 
   // Gallery thumbnails scroll the track instead of jumping the page.
   const root = document.querySelector<HTMLElement>('[data-gallery]');
@@ -475,6 +476,20 @@ const schemaImages = await Promise.all(
   if (requestedRadio) requestedRadio.checked = true;
 
   form?.addEventListener('change', applyChoice);
+
+  // Analytics: which box people look at and which option they pick.
+  const optionProperties = (radio: HTMLInputElement | undefined) => ({
+    product_id: radio?.dataset.handle?.split(':')[0],
+    variant_id: radio?.value,
+    variant: radio?.dataset.label,
+    price: Number(radio?.dataset.price),
+    currency: 'EUR',
+  });
+  trackEvent('product_viewed', { ...optionProperties(radios.find((r) => r.checked)), options: radios.length });
+  form?.addEventListener('change', (e) => {
+    const radio = e.target instanceof HTMLInputElement && e.target.name === 'variant' ? e.target : undefined;
+    if (radio) trackEvent('variant_selected', optionProperties(radio));
+  });
 
   // Live price and stock from WooCommerce (via the same-origin proxy). The HTML already has the build-time
   // values, so a failed request changes nothing.

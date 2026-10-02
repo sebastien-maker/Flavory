@@ -47,7 +47,7 @@ import { SITE } from '@/lib/site';
   </form>
 </div>
 
-<script is:inline define:vars={{ gtmId: SITE.gtmId }}>
+<script is:inline define:vars={{ gtmId: SITE.gtmId, posthogKey: SITE.posthogKey }}>
   (() => {
     const KEY = 'flavory-consent-v1';
     window.dataLayer = window.dataLayer || [];
@@ -75,7 +75,48 @@ import { SITE } from '@/lib/site';
       document.head.appendChild(s);
     };
 
+    // PostHog (EU cloud) through the same-origin proxy /ingest (netlify.toml), so blockers miss less.
+    // Recordings mask every input; nothing loads before analytics consent.
+    let posthogLoaded = false;
+    const loadPosthog = () => {
+      if (posthogLoaded || !posthogKey) return;
+      posthogLoaded = true;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = '/ingest/static/array.js';
+      s.onload = () => {
+        if (!window.posthog) return;
+        window.posthog.init(posthogKey, {
+          api_host: '/ingest',
+          ui_host: 'https://eu.posthog.com',
+          person_profiles: 'identified_only',
+          capture_pageview: true,
+          capture_pageleave: true,
+          autocapture: true,
+          enable_heatmaps: true,
+          capture_dead_clicks: true,
+          capture_performance: { web_vitals: true },
+          capture_exceptions: true,
+          session_recording: { maskAllInputs: true, maskTextSelector: '[data-ph-mask]' },
+          loaded: (ph) => {
+            // A visitor who withdrew consent earlier and now gives it again is opted back in.
+            if (ph.has_opted_out_capturing()) ph.opt_in_capturing();
+            for (const [event, props] of window.flavoryAnalyticsQueue || []) ph.capture(event, props);
+            window.flavoryAnalyticsQueue = [];
+          },
+        });
+      };
+      document.head.appendChild(s);
+    };
+
     const apply = (c) => {
+      window.flavoryConsent = { analytics: !!c.analytics, marketing: !!c.marketing };
+      if (c.analytics) {
+        ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadPosthog);
+      } else {
+        window.flavoryAnalyticsQueue = [];
+        if (window.posthog && window.posthog.__loaded) window.posthog.opt_out_capturing();
+      }
       gtag('consent', 'update', {
         analytics_storage: c.analytics ? 'granted' : 'denied',
         ad_storage: c.marketing ? 'granted' : 'denied',

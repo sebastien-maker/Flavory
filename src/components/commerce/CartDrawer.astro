@@ -90,6 +90,7 @@ import { SITE } from '@/lib/site';
 <script>
   import { cart, MAX_QTY, type CartLine } from '@/lib/commerce/cart';
   import { checkoutProvider, createCheckoutUrl } from '@/lib/commerce/checkout';
+  import { analyticsIds, track } from '@/lib/analytics';
   import { SITE, formatPrice } from '@/lib/site';
 
   const dialog = document.getElementById('cart-drawer') as HTMLDialogElement;
@@ -139,9 +140,20 @@ import { SITE } from '@/lib/site';
     );
   }
 
+  // Analytics properties for the whole cart (no personal data).
+  const cartProperties = (lines: CartLine[]) => ({
+    value: lines.reduce((s, l) => s + l.price * l.quantity, 0),
+    currency: 'EUR',
+    boxes: lines.reduce((n, l) => n + l.quantity, 0),
+    items: lines.map((l) => ({ id: l.handle, name: l.name, price: l.price, quantity: l.quantity })),
+  });
+
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    if (target.closest('[data-cart-open]')) dialog.showModal();
+    if (target.closest('[data-cart-open]')) {
+      dialog.showModal();
+      track('cart_viewed', cartProperties(cart.lines()));
+    }
     if (target.closest('[data-cart-close]') || target === dialog) dialog.close();
   });
 
@@ -163,6 +175,12 @@ import { SITE } from '@/lib/site';
       Number(data.get('quantity') ?? 1),
     );
     dialog.showModal();
+    track('product_added_to_cart', {
+      id: String(data.get('handle')),
+      name: String(data.get('name')),
+      price: Number(data.get('price')),
+      ...cartProperties(cart.lines()),
+    });
     window.dataLayer?.push({
       event: 'add_to_cart',
       ecommerce: {
@@ -188,7 +206,15 @@ import { SITE } from '@/lib/site';
         items: lines.map((l) => ({ item_id: l.handle, item_name: l.name, price: l.price, quantity: l.quantity })),
       },
     });
-    window.location.href = url;
+    track('checkout_started', cartProperties(lines));
+    // Hand the anonymous PostHog IDs to WooCommerce, so the paid order joins the same journey.
+    const target = new URL(url);
+    const ids = analyticsIds();
+    if (ids) {
+      target.searchParams.set('ph_id', ids.distinctId);
+      if (ids.sessionId) target.searchParams.set('ph_sid', ids.sessionId);
+    }
+    window.location.href = target.toString();
   });
 
   cart.subscribe(render);

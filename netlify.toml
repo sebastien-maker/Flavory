@@ -9,6 +9,19 @@
   PUBLIC_WOO_URL = "https://www.flavory.wine"
   PUBLIC_CHECKOUT_PROVIDER = "woocommerce"
 
+# PostHog (EU) through our own domain, so ad blockers and tracking protection miss fewer events.
+[[redirects]]
+  from = "/ingest/static/*"
+  to = "https://eu-assets.i.posthog.com/static/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ingest/*"
+  to = "https://eu.i.posthog.com/:splat"
+  status = 200
+  force = true
+
 # /woo-api/*, /wp-json/* and /wc-api/* are handled by netlify/functions/woo-proxy.mts (WordPress on www).
 
 # Security headers (audit action 2.5). CSP starts report-only.

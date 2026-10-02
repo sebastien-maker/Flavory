@@ -3,6 +3,7 @@ Allow: /
 Disallow: /keystatic
 Disallow: /api/
 Disallow: /woo-api/
+Disallow: /ingest/
 Disallow: /wp-json/
 Disallow: /wc-api/
 Disallow: /bedankt/

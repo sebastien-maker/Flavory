@@ -41,6 +41,8 @@ export const SITE = {
     'Niet tevreden? Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.',
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',
+  // PostHog project API key (public by design: it can only send events). EU cloud.
+  posthogKey: 'phc_wyE7EYQB42WLwnUmp7u7b8WLJScYNe74mzLTLe452BM7',
 } as const;
 
 export const NAV = [

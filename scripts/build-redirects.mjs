@@ -14,6 +14,7 @@ const WHITE = '/shop/wijnproeverij-thuis-wit/';
 const WHITE_WINE = WHITE;
 const IT_ES = RED;
 const SHOP = '/shop/';
+const VRIENDINNEN_POST = '/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie/';
 const B2B = '/zakelijk/';
 // WooCommerce (checkout, account, admin) lives on www since the launch (docs/lancering.md).
 const CHECKOUT = 'https://www.flavory.wine';
@@ -50,10 +51,12 @@ const RULES = [
     '/start-to-wijnkelder-welke-types-wijn-moet-je-altijd-in-huis-hebben/',
     '/blog/start-to-wijnkelder-welke-types-wijn-moet-je-altijd-in-huis-hebben/',
   ],
+  // WordPress duplicates of the "wijnavond met vriendinnen" post: to the original.
   [
     '/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie-dupliceren/',
-    '/blog/wijnproeven-op-date-night/',
+    VRIENDINNEN_POST,
   ],
+  ['/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-dan-therapie-dupliceren/', VRIENDINNEN_POST],
   ...['2024-is', '2024-is-2', '2024-is-2-2', '2025-is', '2025-is-2', '2025-is-3', '2025-is-w2'].map((s) => [
     `/5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-${s}/`,
     KERST_POST,
@@ -154,7 +157,7 @@ const RULES = [
   ['/de/blog/', '/blog/'],
   [
     '/de/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie-dupliceren/',
-    '/blog/wijnproeven-op-date-night/',
+    VRIENDINNEN_POST,
   ],
   ['/de/blog/*', '/blog/:splat'],
   ['/de/shop/cava-oder-prosecco/', BUBBLES],

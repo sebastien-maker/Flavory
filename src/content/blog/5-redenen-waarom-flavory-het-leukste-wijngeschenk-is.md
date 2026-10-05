@@ -32,7 +32,7 @@ relatedProduct: wijnproeverij-thuis-rood
 **Spelen is leuk, maar winnen is nog veel leuker.** Je hoeft niet de grootste kenner te zijn om uitgeroepen te worden tot wijnkenner van de avond. Met een goed ontwikkeld reukorgaan, frisse smaakpapillen en een beetje geluk kom je al een heel eind. En als je wint, waar ga je jouw diploma dan laten pronken?
 
   
-Benieuwd welk wijngeschenk het beste past bij jouw gelegenheid? Bij Flavory kies je tussen een [rode wijnbox](/shop/rode-wijn/) en een [witte wijnbox](/shop/witte-wijn/), met of zonder wijn. Elke box bevat een uniek wijnspel dat zorgt voor een gezellige én leerrijke avond. Ideaal als cadeau, of om zelf van te genieten.
+Benieuwd welk wijngeschenk het beste past bij jouw gelegenheid? Bij Flavory kies je tussen een [rode wijnbox](/shop/rode-wijn/) en een [witte wijnbox](/shop/witte-wijn/), met of zonder wijn. Elke box bevat een uniek wijnspel dat zorgt voor een gezellige én leerzaame avond. Ideaal als cadeau, of om zelf van te genieten.
 
 ![](../../assets/images/blog/5-redenen-waarom-flavory-het-leukste-wijngeschenk-is/4d1b0603-1.webp)
 

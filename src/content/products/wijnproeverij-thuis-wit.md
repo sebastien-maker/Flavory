@@ -48,7 +48,7 @@ images:
     alt: "Flavory-box met de zes spelstappen: uitnodigen, inschenken, proeven, tips verzamelen, ontmaskeren en winnen"
 usps:
   - "Inclusief twee flessen witte wijn (75 cl)"
-  - "Fun en leerrijk: wie wint het spel en is de grootste sommelier?"
+  - "Fun en leerzaam: wie wint het spel en is de grootste sommelier?"
   - "Speelplezier voor 2 tot 6 personen"
   - "Geen voorkennis nodig"
   - "Gratis verzending vanaf 2 boxen"
@@ -57,7 +57,7 @@ highlights:
   - title: "Leer hoe je Chardonnay en Sauvignon Blanc herkent,"
     text: "de twee beroemdste witte druiven ter wereld."
   - title: "Ontdek wat je zelf graag drinkt,"
-    text: "en weet voortaan wat je moet kopen in de winkel of bestellen op restaurant."
+    text: "en weet voortaan wat je moet kopen in de winkel of bestellen in een restaurant."
   - title: "Breng je vrienden of familie rond de tafel,"
     text: "zonder scherm of internet, gewoon samen zijn."
   - title: "Win het spel"

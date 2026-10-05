@@ -269,20 +269,20 @@ const schemaImages = await Promise.all(
           {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : 'Tijdelijk uitverkocht'}
         </button>
         <ShippingCutoff class="mt-2 text-center text-sm" />
+        <PaymentIcons class="mt-2 justify-center" />
 
         <ul class="checklist mt-4 space-y-1.5 text-sm" aria-label="Goed om te weten">
           {[
             'Geen wijnkennis nodig',
             `Al vanaf ${data.playersMin} spelers`,
             'Niet lekker? Geld terug, geopende flessen hoeven niet terug',
+            'Levering in België en Nederland, meestal in 1 à 3 werkdagen',
           ].map((reason) => (
             <li>{reason}</li>
           ))}
         </ul>
         <p class="mt-3 text-xs text-muted">{SITE.ageNotice}</p>
       </form>
-
-      <PaymentIcons class="mt-3 justify-center" />
 
     </div>
   </section>

@@ -64,7 +64,7 @@ images:
     alt: "Inhoud van de box: spelregels, infobrochures, proefformulieren, rolkaarten, tipkaartjes en twee stoffen wijnzakjes"
 usps:
   - "Inclusief twee flessen rode wijn (75 cl)"
-  - "Fun en leerrijk: wie wint het spel en is de grootste sommelier?"
+  - "Fun en leerzaam: wie wint het spel en is de grootste sommelier?"
   - "Speelplezier voor 2 tot 6 personen"
   - "Geen voorkennis nodig"
   - "Gratis verzending vanaf 2 boxen"
@@ -73,7 +73,7 @@ highlights:
   - title: "Leer twee rode wijnen herkennen,"
     text: "twee beroemde druiven of twee legendarische wijnlanden."
   - title: "Ontdek wat je zelf graag drinkt,"
-    text: "en weet voortaan wat je moet kopen in de winkel of bestellen op restaurant."
+    text: "en weet voortaan wat je moet kopen in de winkel of bestellen in een restaurant."
   - title: "Breng je vrienden of familie rond de tafel,"
     text: "zonder scherm of internet, gewoon samen zijn."
   - title: "Win het spel"

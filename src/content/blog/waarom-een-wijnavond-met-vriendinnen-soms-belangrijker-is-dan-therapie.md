@@ -16,7 +16,7 @@ relatedProduct: wijnproeverij-thuis-rood
 Er is dat moment op de dag.  
 De laptop is dicht, de kinderen slapen (hopelijk), de vaatwasser draait, jij zakt in de zetel. Je bent moe, maar in je hoofd is het nog niet stil.
 
-Je gsm licht op.  
+Je telefoon licht op.  
 **“Wittewijnwijven, wanneer spreken we nog eens af?”**
 
 Sinds die middag in 2014 op het terras van de zomerbar dragen jullie officieel die glorieuze groepsnaam. Tussen foto’s van een glazen Chardonnay, memes over mentale breakdowns en schunnige moppen over de nieuwste Satisfyer Pro, staat zo ongeveer alles wat er voor jou echt belangrijk is. Doodgewone gesprekken met de allerbeste vriendinnen.
@@ -31,7 +31,7 @@ In de vriendinnengroep volstaat één zin.
 “Hij stuurde gewoon ‘ok’ terug.” Of:  
 “Het kind is al drie nachten overtuigd dat slapen optioneel is.”
 
-Je hoeft niets uit te leggen, geen hele context te schetsen. Nog voor je je gsm neerlegt, heb je al antwoorden als: “Ok? Alleen ok? Ugh!” Gevolgd door: “Zal ik een fles meenemen?”
+Je hoeft niets uit te leggen, geen hele context te schetsen. Nog voor je je telefoon neerlegt, heb je al antwoorden als: “Ok? Alleen ok? Ugh!” Gevolgd door: “Zal ik een fles meenemen?”
 
 ## Het gaat niet om wat er in je glas zit
 

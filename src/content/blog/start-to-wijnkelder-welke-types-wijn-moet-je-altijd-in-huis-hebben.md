@@ -1,8 +1,8 @@
 ---
 title: "Welke wijn moet je altijd in huis hebben?"
 seoTitle: "Start to wijnkelder: 4 types wijn voor in huis"
-description: "Verloren in de wijnrayon? Met deze tips van Flavory haal je vier types wijn in huis waarmee je elke maaltijd en elke gelegenheid covert."
-excerpt: "Noem één ding dat angstaanjagender is dan de wijnrayon van de supermarkt inwandelen. Neem je tijd – wij kunnen wachten. Juist. Dat dachten we al. Zoveel flessen, zoveel regio’s, zoveel informatie: het zorgt voor complete chaos. Kortsluiting. Error 404. Met als resultaat dat je nog maar eens kiest voor die fles met het schattige dier op het label. (“Kijk nu! Een schaap met een hoedje op! Dat kan toch alleen maar lekker zijn?”) Beste lezer: dat stopt vandaag. Met de tips van Flavory haal je 4 types wijn in huis waar je elke maaltijd en gelegenheid mee covert. Wat zeg je? Komt als geroepen nu Tournée Minérale afgelopen is? Wat een onverwachte en totaal niet vooraf geplande samenloop van omstandigheden!"
+description: "Verloren in de wijnafdeling? Met deze tips van Flavory haal je vier types wijn in huis waarmee je elke maaltijd en elke gelegenheid covert."
+excerpt: "Noem één ding dat angstaanjagender is dan de wijnafdeling van de supermarkt inwandelen. Neem je tijd – wij kunnen wachten. Juist. Dat dachten we al. Zoveel flessen, zoveel regio’s, zoveel informatie: het zorgt voor complete chaos. Kortsluiting. Error 404. Met als resultaat dat je nog maar eens kiest voor die fles met het schattige dier op het label. (“Kijk nu! Een schaap met een hoedje op! Dat kan toch alleen maar lekker zijn?”) Beste lezer: dat stopt vandaag. Met de tips van Flavory haal je 4 types wijn in huis waar je elke maaltijd en gelegenheid mee covert. Wat zeg je? Komt als geroepen nu Tournée Minérale afgelopen is? Wat een onverwachte en totaal niet vooraf geplande samenloop van omstandigheden!"
 pubDate: 2025-02-18
 updatedDate: 2025-09-09
 author: bart

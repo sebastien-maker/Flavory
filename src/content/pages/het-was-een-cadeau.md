@@ -1,6 +1,6 @@
 ---
-title: "Proficiat, jij geeft originele cadeaus!"
-seoTitle: "Proficiat, jij geeft originele cadeaus!"
+title: "Gefeliciteerd, jij geeft originele cadeaus!"
+seoTitle: "Gefeliciteerd, jij geeft originele cadeaus!"
 description: "Je gaf Flavory cadeau. Tijd voor een box voor jezelf: kies het rode of witte wijnspel, met twee flessen wijn inbegrepen, voor een avond met vrienden."
 noindex: true
 ---

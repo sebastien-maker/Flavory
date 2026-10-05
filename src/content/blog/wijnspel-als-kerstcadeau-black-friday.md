@@ -33,7 +33,7 @@ Daarom vinden wij het eerlijk gezegd aangenamer dat mensen nu al bestellen. Niet
 
 Als je nu bestelt, heb je nog volledige keuze. Onze [Italië vs. Spanje-box](/shop/wijnproeverij-thuis-rood/) is elk jaar weer de populairste en richting kerst durft die wel eens uitverkocht raken. Importeren duurt nu eenmaal even, dus op is op.
 
-Daarnaast is er de rust. Wie ooit op 24 december in een supermarkt heeft gestaan voor een rek vol willekeurige flessen, kent het gevoel: Error 404. Je hersenen crashen gewoon. Wat moet je kiezen? Wat is “een goeie” wijn? Hoeveel moet je uitgeven? Waarom staat heel Vlaanderen tegelijk in dezelfde rayon?
+Daarnaast is er de rust. Wie ooit op 24 december in een supermarkt heeft gestaan voor een rek vol willekeurige flessen, kent het gevoel: Error 404. Je hersenen crashen gewoon. Wat moet je kiezen? Wat is “een goeie” wijn? Hoeveel moet je uitgeven? Waarom staat iedereen tegelijk in dezelfde winkelgang?
 
 ## Een geschenk voor mensen die alles al hebben
 
@@ -45,6 +45,6 @@ Je kerstcadeau nu kiezen betekent dat je in december niet hoeft te stressen. Gee
 
 ## Wijnspel als kerstcadeau voor tante Astrid
 
-Onze tip is dus: negeer Secret Santa. En gebruik Black Friday. Voor uw en onze gemoedsrust.
+Onze tip is dus: negeer Secret Santa. En gebruik Black Friday. Voor jouw en onze gemoedsrust.
 
 ![wijnspel als kerstcadeau](../../assets/images/blog/wijnspel-als-kerstcadeau-black-friday/flavory_still2024-11-27-110558_1.46.1.webp)

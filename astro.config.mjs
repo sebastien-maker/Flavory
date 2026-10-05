@@ -53,7 +53,7 @@ export default defineConfig({
     ...(enableKeystatic ? [react({ include: ['**/keystatic/**', '**/node_modules/@keystatic/**'] }), keystatic()] : []),
     sitemap({
       filter: (page) => !SITEMAP_EXCLUDE.some((re) => re.test(page)),
-      i18n: { defaultLocale: 'nl', locales: { nl: 'nl-BE' } },
+      i18n: { defaultLocale: 'nl', locales: { nl: 'nl' } },
     }),
   ],
   vite: {

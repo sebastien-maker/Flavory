@@ -104,8 +104,13 @@ export default config({
         seoDescription: seoDescription(),
         duel: fields.text({
           label: 'Duel',
-          description: 'Bv. "Merlot vs. Cabernet Sauvignon"',
+          description: 'Bv. "Merlot of Cabernet Sauvignon"',
           validation: { isRequired: true },
+        }),
+        stockNote: fields.text({
+          label: 'Voorraadzin',
+          description: 'Eén regel onder de keuzelijst: wat er nu te koop is. Leeg laten mag.',
+          validation: { isRequired: false },
         }),
         cardTagline: fields.text({ label: 'Tekst op productkaart', validation: { isRequired: true } }),
         definition: fields.text({

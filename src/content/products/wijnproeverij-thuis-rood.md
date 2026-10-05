@@ -3,12 +3,13 @@ name: "Rood wijnspel met 2 wijnen"
 h1: "Rood wijnspel met 2 wijnen"
 seoTitle: "Wijnproeverij thuis rood: Italië of Spanje?"
 seoDescription: "Wijnproeverij thuis met het rode wijnspel en twee flessen wijn: proef blind een Italiaanse en een Spaanse wijn. Voor 2 tot 6 spelers, zonder voorkennis."
-duel: "Italië vs Spanje"
+duel: "Italië of Spanje"
+stockNote: "Nu te koop: Italië of Spanje, zolang de voorraad strekt. Merlot of Cabernet Sauvignon is tijdelijk uitverkocht."
 cardTagline: "Twee rode wijnen, blind geproefd. Wie wordt de wijnkenner aan tafel?"
 definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn. Je proeft een Italiaanse en een Spaanse wijn, voor 2 tot 6 spelers."
 variants:
   - id: merlot-cabernet-regular
-    duel: "Merlot vs Cabernet Sauvignon"
+    duel: "Merlot of Cabernet Sauvignon"
     formula: Standaard
     price: 59.9
     sku: "TMP-ROOD-MCS-REG"
@@ -16,7 +17,7 @@ variants:
     group: druiven
     available: false
   - id: merlot-cabernet-premium
-    duel: "Merlot vs Cabernet Sauvignon"
+    duel: "Merlot of Cabernet Sauvignon"
     formula: Premium
     price: 74.9
     sku: "TMP-ROOD-MCS-PREM"
@@ -24,7 +25,7 @@ variants:
     group: druiven
     available: false
   - id: italie-spanje-regular
-    duel: "Italië vs Spanje"
+    duel: "Italië of Spanje"
     formula: Standaard
     price: 59.9
     sku: "B003N It/Sp (6151306865801)-1"
@@ -34,13 +35,13 @@ variants:
     available: true
 descriptions:
   - group: druiven
-    heading: "Merlot vs Cabernet Sauvignon"
+    heading: "Merlot of Cabernet Sauvignon"
     text: |
       Wat is het verschil tussen Merlot en Cabernet Sauvignon? Na dit spel weet je het voorgoed. Je schenkt twee rode wijnen blind uit, proeft ze samen met je vrienden of familie en probeert te ontmaskeren welke fles welke druif bevat.
 
       Het spel neemt je stap voor stap mee: je leert kijken, ruiken en proeven zoals een sommelier, zonder moeilijke vaktermen. De sommelier van dienst leidt het proeven, de spelleider houdt de quiz in goede banen en wie de meeste punten verzamelt, mag zich de wijnkenner van de avond noemen.
   - group: landen
-    heading: "Italië vs Spanje"
+    heading: "Italië of Spanje"
     text: |
       Italië of Spanje: twee wijnlanden, twee totaal verschillende stijlen. In deze box zitten een typische Italiaanse en een herkenbare Spaanse rode wijn, anoniem verpakt. Aan jou en je gezelschap om te ontdekken welke fles uit welk land komt.
 

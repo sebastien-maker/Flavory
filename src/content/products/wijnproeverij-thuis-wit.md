@@ -3,12 +3,13 @@ name: "Wit wijnspel met 2 wijnen"
 h1: "Wit wijnspel met 2 wijnen"
 seoTitle: "Wijnproeverij thuis wit: Chardonnay of Sauvignon?"
 seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Voor 2 tot 6 spelers, zonder voorkennis."
-duel: "Chardonnay vs Sauvignon Blanc"
+duel: "Chardonnay of Sauvignon Blanc"
+stockNote: "Nu te koop: Chardonnay of Sauvignon Blanc in Standaard. Premium is tijdelijk uitverkocht."
 cardTagline: "Twee witte wijnen, blind geproefd. Wie wordt de wijnkenner aan tafel?"
 definition: "Het witte wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Chardonnay en een Sauvignon Blanc. Voor 2 tot 6 spelers."
 variants:
   - id: chardonnay-sauvignon-regular
-    duel: "Chardonnay vs Sauvignon Blanc"
+    duel: "Chardonnay of Sauvignon Blanc"
     formula: Standaard
     price: 59.9
     sku: "B002N Chardonnay/SB (6151305126156)-1-1"
@@ -17,7 +18,7 @@ variants:
     group: druiven
     available: true
   - id: chardonnay-sauvignon-premium
-    duel: "Chardonnay vs Sauvignon Blanc"
+    duel: "Chardonnay of Sauvignon Blanc"
     formula: Premium
     price: 74.9
     sku: "TMP-WIT-CSB-PREM"
@@ -26,7 +27,7 @@ variants:
     available: false
 descriptions:
   - group: druiven
-    heading: "Chardonnay vs Sauvignon Blanc"
+    heading: "Chardonnay of Sauvignon Blanc"
     text: |
       Chardonnay en Sauvignon Blanc staan op bijna elke wijnkaart, maar ze smaken totaal verschillend. Met dit spel proef je dat verschil zelf: je schenkt twee witte wijnen blind uit en probeert samen met je tafelgenoten te ontdekken welke fles welke druif bevat.
 

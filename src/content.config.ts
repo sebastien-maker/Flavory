@@ -52,6 +52,8 @@ const products = defineCollection({
       seoTitle,
       seoDescription,
       duel: z.string().describe('Short summary of the duels on product cards'),
+      // One line under the option list: what is for sale right now.
+      stockNote: z.string().optional(),
       cardTagline: z.string(),
       definition: z.string().describe('Two-sentence definition block for AI citability'),
       variants: z.array(variant).min(1),

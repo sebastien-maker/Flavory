@@ -5,10 +5,12 @@ import ProductCard from '@/components/commerce/ProductCard.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
+import LazyVideo from '@/components/ui/LazyVideo.astro';
 import { clearanceProducts, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
 import { SITE, formatPrice } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 import heroPhoto from '@/assets/images/site/hero-zakjes.jpg';
+import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import pouringPhoto from '@/assets/images/site/inschenken.jpg';
 import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
 // Small accent next to the steps; the drawing also sits on the box sleeve.
@@ -135,7 +137,9 @@ const audiences = [
           <ol class="divide-y divide-line">
             {steps.map((step, i) => (
               <li class="flex items-center gap-4 py-3">
-                <span class="step-number" aria-hidden="true">{i + 1}</span>
+                <span class="step-number" aria-hidden="true">
+                  {i + 1}
+                </span>
                 <div class="min-w-0">
                   <p class="font-bold">
                     <span class="sr-only">Stap {i + 1}: </span>
@@ -196,29 +200,38 @@ const audiences = [
 
   <!-- Voor wie -->
   <section class="bg-white" aria-labelledby="voorwie-title">
-    <div class="section-y container-site grid items-center gap-8 md:grid-cols-2">
-      <div>
-        <h2 id="voorwie-title" class="h2">
-          Voor wie is Flavory?
-        </h2>
-        <ul class="mt-5 grid gap-4">
-          {audiences.map((a) => (
-            <li class="rounded-xl bg-blush px-4 py-3">
-              <h3 class="font-sans text-lg font-bold">{a.title}</h3>
-              <p class="mt-1 text-sm">{a.text}</p>
-              <a href={a.href} class="mt-2 inline-block text-sm font-bold underline">
-                {a.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <div class="section-y container-site">
+      <div class="grid items-center gap-8 md:grid-cols-2">
+        <div>
+          <h2 id="voorwie-title" class="h2">
+            Voor wie is Flavory?
+          </h2>
+          <ul class="mt-5 grid gap-4">
+            {audiences.map((a) => (
+              <li class="rounded-xl bg-blush px-4 py-3">
+                <h3 class="font-sans text-lg font-bold">{a.title}</h3>
+                <p class="mt-1 text-sm">{a.text}</p>
+                <a href={a.href} class="mt-2 inline-block text-sm font-bold underline">
+                  {a.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Image
+          src={tablePhoto}
+          alt="Vrienden aan tafel terwijl iemand een fles in een stoffen zakje omhooghoudt"
+          widths={[480, 720, 960]}
+          sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
+          class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
+        />
       </div>
-      <Image
-        src={tablePhoto}
-        alt="Vrienden aan tafel terwijl iemand een fles in een stoffen zakje omhooghoudt"
-        widths={[480, 720, 960]}
-        sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
-        class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
+      <!-- Mood clip, only loaded once it scrolls into view. -->
+      <LazyVideo
+        src="/media/flavory-avond-vrienden.mp4"
+        poster={clipPoster}
+        label="Sfeerbeelden: vrienden proeven samen wijn aan een tafel met kaarsen"
+        class="mt-8 aspect-video w-full rounded-[var(--radius-card)] object-cover"
       />
     </div>
   </section>

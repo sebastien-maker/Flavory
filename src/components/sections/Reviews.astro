@@ -21,9 +21,9 @@ const reviews = (await getReviews()).slice(0, limit);
     <div class="mt-3 flex justify-center">
       <TrustpilotBadge />
     </div>
-    <ul class="mt-6 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto pb-3 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible">
+    <ul class="mt-6 grid items-start gap-3 md:grid-cols-3 md:gap-4">
       {reviews.map(({ data }) => (
-        <li class="review-slide">
+        <li>
           <figure class="card p-4 md:p-5">
             <div class="flex items-center gap-2">
               <Stars rating={data.rating} />

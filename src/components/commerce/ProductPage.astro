@@ -5,25 +5,23 @@ import { marked } from 'marked';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import ReviewHighlight from '@/components/ui/ReviewHighlight.astro';
-import ShippingCutoff from '@/components/ui/ShippingCutoff.astro';
 import Faq from '@/components/ui/Faq.astro';
 import PaymentIcons from './PaymentIcons.astro';
 import ProductCard from './ProductCard.astro';
-import PostCard from '@/components/blog/PostCard.astro';
-import HowItWorks from '@/components/sections/HowItWorks.astro';
+import { SHORT_STEPS } from '@/lib/steps';
 import Reviews from '@/components/sections/Reviews.astro';
 import {
   availableVariants,
   fromPrice,
   getProducts,
   getReviews,
+  postPath,
   productPath,
   categoryPath,
   realSku,
-  resolvePosts,
   type Product,
 } from '@/lib/content';
-import { SITE, absoluteUrl, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
+import { SITE, absoluteUrl, formatPrice, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
@@ -57,7 +55,6 @@ const alternative = standardSoldOut
       (p) => p.id !== product.id && p.data.category.id === data.category.id && availableVariants(p).length > 0,
     )
   : undefined;
-const perPersonLabel = (price: number) => `${pricePerPerson(price, data.playersMax)} per persoon met ${data.playersMax} spelers`;
 
 const crumbs = [
   { name: 'Home', path: '/' },
@@ -86,8 +83,16 @@ const cover = gallery[0]!;
 // Mood clip of the matching wine colour, shown as the second slide of the gallery.
 const clip =
   data.category.id === 'rode-wijn'
-    ? { src: '/media/flavory-avond-rood.mp4', poster: redPoster, label: 'Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur' }
-    : { src: '/media/flavory-avond-wit.mp4', poster: whitePoster, label: 'Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel' };
+    ? {
+        src: '/media/flavory-avond-rood.mp4',
+        poster: redPoster,
+        label: 'Sfeerbeelden: vrienden spelen Flavory met rode wijn bij het haardvuur',
+      }
+    : {
+        src: '/media/flavory-avond-wit.mp4',
+        poster: whitePoster,
+        label: 'Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel',
+      };
 const clipThumb = await getImage({ src: clip.poster, width: 96, height: 96, fit: 'cover', format: 'webp' });
 const slides = [
   { kind: 'image' as const, label: cover.alt, ...cover },
@@ -105,7 +110,8 @@ const descriptions = data.descriptions.map((d) => {
   };
 });
 const others = (await getProducts()).filter((p) => p.id !== product.id);
-const relatedPosts = await resolvePosts(data.relatedPosts);
+// Comparison article about the two wines in this box, when there is one.
+const comparison = data.comparisonPost ? await getEntry(data.comparisonPost) : undefined;
 const reviews = (await getReviews()).map((r) => r.data);
 
 const schemaImages = await Promise.all(
@@ -158,7 +164,12 @@ const schemaImages = await Promise.all(
         {slides.map((slide, i) => (
           <li class="w-full shrink-0 snap-center" id={`foto-${i + 1}`}>
             {slide.kind === 'video' ? (
-              <LazyVideo src={clip.src} poster={clip.poster} label={clip.label} class="aspect-square h-auto w-full object-cover" />
+              <LazyVideo
+                src={clip.src}
+                poster={clip.poster}
+                label={clip.label}
+                class="aspect-square h-auto w-full object-cover"
+              />
             ) : (
               <img
                 src={slide.main.src}
@@ -255,7 +266,9 @@ const schemaImages = await Promise.all(
                       {v.available && <span class="tile-dot" aria-hidden="true" />}
                     </span>
                     {v.available ? (
-                      <span class="font-bold" data-tile-price>{formatPrice(v.price)}</span>
+                      <span class="font-bold" data-tile-price>
+                        {formatPrice(v.price)}
+                      </span>
                     ) : (
                       <span class="font-bold">Tijdelijk uitverkocht</span>
                     )}
@@ -284,36 +297,19 @@ const schemaImages = await Promise.all(
         <p class="mt-4 text-3xl font-bold" data-price-display aria-live="polite">
           {initial ? formatPrice(initial.price) : 'Tijdelijk uitverkocht'}
         </p>
-        <p class="mt-1 text-sm">{shippingLine()}</p>
-        <p class="mt-1 text-sm text-muted">
-          Inclusief btw en twee flessen wijn
-          {initial && (
-            <>
-              {' · '}
-              <span data-per-person data-players={data.playersMax}>{perPersonLabel(initial.price)}</span>
-            </>
-          )}
+        <p class="mt-1 text-sm">
+          Spel + 2 flessen van 75 cl · {data.playersMin} tot {data.playersMax} spelers · 60 tot 90 minuten
         </p>
 
         <button type="submit" class="btn-primary mt-4 w-full" data-buy-button disabled={!available}>
           {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : 'Tijdelijk uitverkocht'}
         </button>
-        <ShippingCutoff class="mt-2 text-center text-sm" />
-        <PaymentIcons class="mt-2 justify-center" />
-
-        <ul class="checklist mt-4 space-y-1.5 text-sm" aria-label="Goed om te weten">
-          {[
-            'Geen wijnkennis nodig',
-            `Al vanaf ${data.playersMin} spelers`,
-            'Niet lekker? Geld terug, geopende flessen hoeven niet terug',
-            'Levering in België en Nederland, meestal in 1 à 3 werkdagen',
-          ].map((reason) => (
-            <li>{reason}</li>
-          ))}
-        </ul>
+        <p class="mt-2 text-sm text-muted">
+          {shippingLine()} {SITE.guarantee}
+        </p>
+        <PaymentIcons class="mt-3 justify-center" />
         <p class="mt-3 text-xs text-muted">{SITE.ageNotice}</p>
       </form>
-
     </div>
   </section>
 
@@ -340,56 +336,82 @@ const schemaImages = await Promise.all(
     </div>
   )}
 
-  <!-- Details -->
-  <section class="section-y bg-white" aria-labelledby="over-title">
-    <div class="container-site grid items-start gap-8 md:grid-cols-2">
-      <div>
-        <h2 id="over-title" class="h3">
-          Over dit wijnspel
-        </h2>
-        <p class="mt-3 border-l-4 border-brand pl-4">{data.definition}</p>
-        {descriptions.map((d, i) => (
-          <div data-description={d.group} hidden={initial ? d.group !== initial.group : i !== 0}>
-            {descriptions.length > 1 && <h3 class="h4 mt-5">{d.heading}</h3>}
-            <div class="prose-flavory mt-3" set:html={d.intro} />
-            <details class="group mt-2">
-              <summary class="cursor-pointer list-none font-bold text-brand underline group-open:hidden">Lees meer</summary>
-              <div class="prose-flavory" set:html={d.more} />
-              {data.highlights.length > 0 && (
-                <ul class="checklist mt-4 space-y-2">
-                  {data.highlights.map((h) => (
-                    <li>
-                      <strong>{h.title}</strong> {h.text}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </details>
-          </div>
-        ))}
-      </div>
-      <div>
-        <div class="card p-6">
-          <h2 class="h4">Wat zit er in de box?</h2>
-          <ul class="mt-3 list-disc space-y-1 pl-5">
-            {data.boxContents.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
+  <!-- 2. Wat je proeft -->
+  <section class="section-y bg-white" aria-labelledby="proeven-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="proeven-title" class="h2">
+        Wat je proeft
+      </h2>
+      <p class="mt-3 border-l-4 border-brand pl-4">{data.definition}</p>
+      {descriptions.map((d, i) => (
+        <div data-description={d.group} hidden={initial ? d.group !== initial.group : i !== 0}>
+          <div class="prose-flavory mt-4" set:html={d.intro} />
+          <details class="group mt-2">
+            <summary class="cursor-pointer list-none font-bold text-brand underline group-open:hidden">
+              Lees meer
+            </summary>
+            <div class="prose-flavory" set:html={d.more} />
+          </details>
         </div>
-      </div>
+      ))}
     </div>
   </section>
 
-  <HowItWorks heading="Zo speel je Flavory" link={{ href: '/hoe-werkt-het/', label: 'Lees de volledige spelregels' }} />
+  <!-- 3. Wat zit erin -->
+  <section class="section-y" aria-labelledby="inhoud-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="inhoud-title" class="h2">
+        Wat zit erin
+      </h2>
+      <ul class="checklist mt-4 space-y-1.5">
+        {data.boxContents.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
+  <!-- 4. Zo speel je -->
+  <section class="section-y bg-white" aria-labelledby="spelen-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="spelen-title" class="h2">
+        Zo speel je
+      </h2>
+      <ol class="mt-4 divide-y divide-line">
+        {SHORT_STEPS.map((step, i) => (
+          <li class="flex items-center gap-4 py-3">
+            <span class="step-number" aria-hidden="true">
+              {i + 1}
+            </span>
+            <div class="min-w-0">
+              <p class="font-bold">
+                <span class="sr-only">Stap {i + 1}: </span>
+                {step.title}
+              </p>
+              <p class="mt-1 text-sm text-muted">{step.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-4">
+        <a href="/hoe-werkt-het/" class="font-bold text-brand underline">
+          De spelregels in 6 stappen
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. Reviews -->
+  <Reviews limit={3} />
+
+  <!-- 6. Vragen, andere duels en het vergelijkingsartikel -->
   <section class="section-y bg-white" aria-labelledby="faq-title">
-    <div class="container-site">
-      <h2 id="faq-title" class="h3">
-        Veelgestelde vragen over deze box
+    <div class="container-site max-w-3xl">
+      <h2 id="faq-title" class="h2">
+        Veelgestelde vragen
       </h2>
       <div class="mt-4">
-        <Faq items={data.faq} />
+        <Faq items={data.faq.slice(0, 5)} />
       </div>
       <p class="mt-4 text-sm">
         Nog een vraag? Bekijk alle{' '}
@@ -402,46 +424,31 @@ const schemaImages = await Promise.all(
         </a>
         .
       </p>
+      {comparison && (
+        <p class="mt-4">
+          <a href={postPath(comparison.id)} class="font-bold text-brand underline">
+            {comparison.data.title}
+          </a>
+        </p>
+      )}
+      {others.length > 0 && (
+        <>
+          <h3 class="h3 mt-10">Andere duels</h3>
+          <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+            {others.map((p) => (
+              <li>
+                <ProductCard product={p} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   </section>
-
-  <Reviews limit={3} />
-
-  {others.length > 0 && (
-    <section class="section-y container-site" aria-labelledby="andere-title">
-      <h2 id="andere-title" class="h3">
-        Ontdek ook
-      </h2>
-      <ul class="mt-6 grid gap-4 sm:grid-cols-2">
-        {others.map((p) => (
-          <li>
-            <ProductCard product={p} />
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
-  {relatedPosts.length > 0 && (
-    <section class="section-y bg-white" aria-labelledby="lees-title">
-      <div class="container-site">
-        <h2 id="lees-title" class="h3">
-          Lees meer voor je begint
-        </h2>
-        <ul class="mt-6 grid gap-4 md:grid-cols-3">
-          {relatedPosts.map((post) => (
-            <li>
-              <PostCard post={post} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
 </BaseLayout>
 
 <script>
-  import { formatPrice, pricePerPerson } from '@/lib/site';
+  import { formatPrice } from '@/lib/site';
   import { WOO_API_PROXY, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
   import { track as trackEvent } from '@/lib/analytics';
 
@@ -471,11 +478,9 @@ const schemaImages = await Promise.all(
   const radios = [...(form?.querySelectorAll<HTMLInputElement>('input[name="variant"]') ?? [])];
   const button = form?.querySelector<HTMLButtonElement>('[data-buy-button]');
   const priceDisplay = form?.querySelector<HTMLElement>('[data-price-display]');
-  const perPerson = form?.querySelector<HTMLElement>('[data-per-person]');
   const stickyPrice = document.querySelector<HTMLElement>('[data-sticky-price]');
   const stickyLabel = document.querySelector<HTMLElement>('[data-sticky-label]');
   const stickyButton = document.querySelector<HTMLButtonElement>('[data-sticky-button]');
-  const players = Number(perPerson?.dataset.players ?? 0);
 
   const setField = (name: string, value: string) => {
     const input = form?.elements.namedItem(name);
@@ -491,7 +496,6 @@ const schemaImages = await Promise.all(
     setField('price', String(price));
     setField('woo_id', option.dataset.wooId ?? '');
     if (priceDisplay) priceDisplay.textContent = formatPrice(price);
-    if (perPerson && players) perPerson.textContent = `${pricePerPerson(price, players)} per persoon met ${players} spelers`;
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
     if (stickyPrice) stickyPrice.textContent = formatPrice(price);
     if (stickyLabel) stickyLabel.textContent = option.dataset.label ?? '';

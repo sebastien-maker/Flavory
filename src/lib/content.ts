@@ -29,13 +29,24 @@ export const fromPrice = (product: Product) =>
 let wooStock: Promise<Map<number, WooStock>> | undefined;
 function loadWooStock(ids: number[]): Promise<Map<number, WooStock>> {
   if (!WOO_URL || ids.length === 0) return Promise.resolve(new Map());
-  wooStock ??= fetch(`${WOO_URL}/wp-json/wc/store/v1${storeProductsPath(ids)}`, { signal: AbortSignal.timeout(10_000) })
-    .then((res) => (res.ok ? res.json() : []))
-    .then(parseStoreProducts)
-    .catch((error: unknown) => {
-      console.warn(`[woocommerce] prices not loaded, using CMS prices: ${String(error)}`);
-      return new Map<number, WooStock>();
-    });
+  wooStock ??= (async () => {
+    const url = `${WOO_URL}/wp-json/wc/store/v1${storeProductsPath(ids)}`;
+    // Three tries: a single slow response would otherwise publish the CMS prices site-wide.
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const res = await fetch(url, { signal: AbortSignal.timeout(15_000) });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const stock = parseStoreProducts(await res.json());
+        if (stock.size > 0) return stock;
+        throw new Error('no products in response');
+      } catch (error: unknown) {
+        console.warn(`[woocommerce] try ${attempt}/3 failed: ${String(error)}`);
+        if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, attempt * 2000));
+      }
+    }
+    console.warn('[woocommerce] prices not loaded, using the prices from the CMS');
+    return new Map<number, WooStock>();
+  })();
   return wooStock;
 }
 

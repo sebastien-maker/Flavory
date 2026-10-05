@@ -1,10 +1,10 @@
 ---
 title: "Onze tip: Negeer Secret Santa en gebruik Black Friday"
 seoTitle: "Wijnspel als kerstcadeau: koop het op Black Friday"
-description: "Wijnspel als kerstcadeau tijdens Black Friday kopen? Geniet van 20% korting en vermijd last-minute stress. Een origineel en gezellig cadeau."
+description: "Wijnspel als kerstcadeau tijdens Black Friday kopen? Koop het met korting en vermijd last-minute stress. Een origineel en gezellig cadeau."
 excerpt: "Iedereen kent Secret Santa wel. Je geeft je naam in en je krijgt iemand anders toegewezen waar jij een kerstgeschenk voor moet kopen. Je duwt op een knop, het rad draait, de namen van alle familieleden verschijnen en verdwijnen weer. En het rad blijft staan bij …. oh neen … tante Astrid!"
 pubDate: 2025-11-23
-updatedDate: 2025-11-24
+updatedDate: 2026-10-05
 author: bart
 heroImage: "../../assets/images/blog/wijnspel-als-kerstcadeau-black-friday.webp"
 heroAlt: "Onze tip: Negeer Secret Santa en gebruik Black Friday"
@@ -27,7 +27,7 @@ Aan de ene kant heb je de vooruitziende klanten: mensen die nu al beslist hebben
 
 Aan de andere kant heb je de last-minute kampioenen. Dat zijn de klanten die rond 20 december mailen met de vraag of het pakket “alsjeblieft morgen nog kan geleverd worden”. Maar december is de drukste maand voor Bpost, PostNL en DPD. Wij kunnen op dat moment niet meer toveren. Niemand wordt daar blij van. De klant niet, wij niet, de postbode zeker niet.
 
-Daarom vinden wij het eerlijk gezegd aangenamer dat mensen nu al bestellen. Niet om sneller te verkopen, maar om rust te creëren. En daar hebben we 20% korting voor over.
+Daarom vinden wij het eerlijk gezegd aangenamer dat mensen nu al bestellen. Niet om sneller te verkopen, maar om rust te creëren. En daar hebben we een korting voor over. Hoeveel en tot wanneer lees je op [onze Black Friday-pagina](/black-friday/).
 
 ## Keuze genoeg, zolang de voorraad strekt.
 

@@ -1,0 +1,28 @@
+---
+// A price. During a promotion the regular price comes first, struck through.
+// The browser builds the same markup in src/lib/commerce/price.ts.
+import { formatPrice } from '@/lib/site';
+
+interface Props {
+  price: number;
+  /** Only set during a promotion (WooCommerce regular_price). */
+  regularPrice?: number | undefined;
+}
+
+const { price, regularPrice } = Astro.props;
+---
+
+{regularPrice && regularPrice > price ? (
+  <>
+    <s class="price-old">
+      <span class="sr-only">Gewone prijs: </span>
+      {formatPrice(regularPrice)}
+    </s>
+    <span>
+      <span class="sr-only">Actieprijs: </span>
+      {formatPrice(price)}
+    </span>
+  </>
+) : (
+  formatPrice(price)
+)}

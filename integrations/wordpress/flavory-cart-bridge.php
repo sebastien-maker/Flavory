@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Flavory cart bridge
  * Description: Neemt het winkelmandje van de nieuwe flavory.wine over in WooCommerce en stuurt door naar de checkout. Link: /?flavory_cart=13647:1,19757:2
- * Version: 1.2.0
+ * Version: 1.3.0
  * Requires Plugins: woocommerce
  *
  * Installeren: dit bestand in wp-content/mu-plugins/ zetten (dan staat het altijd aan), of als gewone plugin uploaden.
@@ -196,3 +196,30 @@ function flavory_posthog_order_completed($order_id): void
 // Online betaald (Mollie) of manueel op "In behandeling" gezet.
 add_action('woocommerce_payment_complete', 'flavory_posthog_order_completed');
 add_action('woocommerce_order_status_processing', 'flavory_posthog_order_completed');
+
+// Einddatum van een promotie in de Store API: extensions.flavory.sale_end (JJJJ-MM-DD of null).
+// De nieuwe site zet die datum als priceValidUntil in de productgegevens voor Google.
+add_action('woocommerce_blocks_loaded', function () {
+    if (!function_exists('woocommerce_store_api_register_endpoint_data')) {
+        return;
+    }
+    woocommerce_store_api_register_endpoint_data([
+        'endpoint' => \Automattic\WooCommerce\StoreApi\Schemas\V1\ProductSchema::IDENTIFIER,
+        'namespace' => 'flavory',
+        'data_callback' => function ($product) {
+            $end = $product->is_on_sale() ? $product->get_date_on_sale_to() : null;
+            return ['sale_end' => $end ? $end->date('Y-m-d') : null];
+        },
+        'schema_callback' => function () {
+            return [
+                'sale_end' => [
+                    'description' => 'Laatste dag van de promotie',
+                    'type' => ['string', 'null'],
+                    'context' => ['view', 'edit'],
+                    'readonly' => true,
+                ],
+            ];
+        },
+        'schema_type' => ARRAY_A,
+    ]);
+});

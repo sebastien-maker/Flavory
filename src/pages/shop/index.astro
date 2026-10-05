@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import { clearanceProducts, getProducts, mainProducts, productPath } from '@/lib/content';
-import { formatPrice } from '@/lib/site';
+import Price from '@/components/commerce/Price.astro';
 import { breadcrumbs, itemList, webPage } from '@/components/seo/schema';
 
 const products = await getProducts();
@@ -67,7 +67,9 @@ const description =
                 <span class="font-bold">{product.data.name}</span>
                 <span class="block text-sm text-muted">Zolang de voorraad strekt</span>
               </span>
-              <span class="font-bold">{formatPrice(product.data.variants[0]!.price)}</span>
+              <span class="font-bold">
+                <Price price={product.data.variants[0]!.price} regularPrice={product.data.variants[0]!.regularPrice} />
+              </span>
             </a>
           </li>
         ))}

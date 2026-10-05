@@ -29,15 +29,21 @@ export const GET: APIRoute = async () => {
         ['g:link', `${absoluteUrl(productPath(product.id))}?box=${v.id}`],
         ['g:image_link', images[0]],
         ['g:availability', v.available ? 'in_stock' : 'out_of_stock'],
-        ['g:price', `${v.price.toFixed(2)} EUR`],
+        // During a promotion: the regular price in g:price, the price to pay in g:sale_price.
+        ['g:price', `${(v.regularPrice ?? v.price).toFixed(2)} EUR`],
+        ['g:sale_price', v.regularPrice ? `${v.price.toFixed(2)} EUR` : undefined],
         ['g:condition', 'new'],
         ['g:brand', SITE.name],
         ['g:gtin', v.gtin13],
         ['g:mpn', v.gtin13 ? undefined : sku],
         ['g:product_type', `Wijnspel > ${data.name}`],
       ];
-      const lines = fields.filter(([, value]) => value).map(([tag, value]) => `      <${tag}>${escape(value!)}</${tag}>`);
-      lines.push(...images.slice(1).map((src) => `      <g:additional_image_link>${escape(src)}</g:additional_image_link>`));
+      const lines = fields
+        .filter(([, value]) => value)
+        .map(([tag, value]) => `      <${tag}>${escape(value!)}</${tag}>`);
+      lines.push(
+        ...images.slice(1).map((src) => `      <g:additional_image_link>${escape(src)}</g:additional_image_link>`),
+      );
       items.push(`    <item>\n${lines.join('\n')}\n    </item>`);
     }
   }

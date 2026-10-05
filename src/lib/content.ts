@@ -60,6 +60,8 @@ export async function getProducts(): Promise<Product[]> {
       const live = v.wooId ? stock.get(v.wooId) : undefined;
       if (!live) continue;
       v.price = live.price;
+      v.regularPrice = live.regularPrice;
+      v.saleEnd = live.saleEnd;
       v.available = v.available && live.buyable;
     }
   }

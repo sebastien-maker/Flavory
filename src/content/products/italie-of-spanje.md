@@ -31,8 +31,10 @@ playersMin: 2
 playersMax: 6
 order: 2
 images:
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
-    alt: "Rood wijnspel van Flavory op tafel, met twee flessen rode wijn"
+  - src: "../../assets/images/products/italie-of-spanje/01-box.jpg"
+    alt: "Doos van het rode wijnspel Italië of Spanje, met de sticker Italië vs Spanje"
+  - src: "../../assets/images/products/italie-of-spanje/02-in-handen.jpg"
+    alt: "Speelster houdt de doos van het wijnspel Italië of Spanje vast aan tafel"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg"
     alt: "Twee anonieme flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg"

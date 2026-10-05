@@ -7,7 +7,7 @@ export const SITE = {
   locale: 'nl-BE',
   email: 'info@flavory.wine',
   vatId: 'BE0757810421',
-  foundingDate: '2017',
+  foundingDate: '2021',
   address: {
     street: 'Broedersstraat 15',
     postalCode: '9150',

@@ -95,7 +95,7 @@ Cadans: 2 stukken per maand tot januari, daarna 3. Publicatievenster voor struct
 
 ### E-E-A-T
 - Auteurspagina voor oprichter Bart met foto, bio, selectiemethode van de wijnen; Person-schema met echte URL (nu "#").
-- Over-pagina met adres (Bazel), BTW-nummer, oprichtingsjaar 2017, verkooppunten, pers.
+- Over-pagina met adres (Bazel), BTW-nummer, oprichtingsjaar 2021, verkooppunten, pers.
 - Reviews van Trustpilot op de site met Review-schema; Organization met AggregateRating.
 - Privacybeleid herstellen (nu redirect naar de homepage terwijl de checkout ernaar verwijst).
 

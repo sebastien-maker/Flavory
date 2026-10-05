@@ -52,7 +52,7 @@ usps:
   - "Speelplezier voor 2 tot 6 personen"
   - "Geen voorkennis nodig"
   - "Gratis verzending vanaf 2 boxen"
-  - "Niet tevreden? Geld terug"
+  - "Niet tevreden? Je krijgt je geld terug."
 highlights:
   - title: "Leer hoe je Chardonnay en Sauvignon Blanc herkent,"
     text: "de twee beroemdste witte druiven ter wereld."
@@ -65,7 +65,7 @@ highlights:
 boxContents:
   - "Een plezierig en eenvoudig spel voor 2 tot 6 personen. Geen vermoeiende handleiding, beloofd!"
   - "Professionele proefformulieren en infobrochures"
-  - "Wijntips en -tricks die je écht kunt gebruiken"
+  - "Wijntips die je meteen kunt gebruiken"
   - "Een mini-foodpairinggids als bonus"
   - "Twee stoffen zakjes om de wijnflessen anoniem te maken"
   - "Twee flessen witte wijn (75 cl)"

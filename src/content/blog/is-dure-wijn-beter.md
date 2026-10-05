@@ -14,7 +14,7 @@ relatedProduct: wijnproeverij-thuis-rood
 
 Mijn vader vond wijn boven de tien euro decadent. Maar mijn beste vriend vindt wijn onder de tien euro goed genoeg om in de spaghetti te kappen. Mijn twee sherpa’s spreken elkaar dus ferm tegen. En ze hebben allebei ongelijk.
 
-Deze week zag ik een Zuid-Afrikaanse chardonnay in _den [Aldi](https://www.aldi.be/nl/)_ voor 4,39 euro. Volgens het etiket was ze fruitig, met exotische aroma’s in de neus, een volle aanzet en een frisse afdronk. Uiteraard konden ze moeilijk ‘zuur als een onrijpe citroen’ op de fles zetten.
+Deze week zag ik een Zuid-Afrikaanse chardonnay bij de [Aldi](https://www.aldi.be/nl/) voor 4,39 euro. Volgens het etiket was ze fruitig, met exotische aroma’s in de neus, een volle aanzet en een frisse afdronk. Uiteraard konden ze moeilijk ‘zuur als een onrijpe citroen’ op de fles zetten.
 
 Wat mij opvalt: hoe kán dat eigenlijk, wijn maken voor die prijs? Je moet druiven plukken, persen, gisten, bottelen, etiketteren, vervoeren… En toch blijft de prijs onder die van een smos met kaas. Kaapse Pracht doet daar dan nog een Fair Trade-label bovenop. Hoe ze winst maken, is mij een raadsel.
 

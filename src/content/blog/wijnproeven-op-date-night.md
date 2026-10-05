@@ -27,7 +27,7 @@ De cursus ging diep, snel en lang. Acht keer twee uur in een klaslokaal, met sli
 Veel koppels genieten graag samen van een glas wijn.  
 Op vakantie in Frankrijk, Italië of Spanje is een bezoekje aan een wijndomein bijna standaard. Je krijgt een rondleiding, hoort iets over druiven en terroir, proeft een paar glazen. Je knikt alsof je alles begrijpt, terwijl je eigenlijk vooral denkt hoe brak je kennis van het Frans wel is geworden en je weet dat je hier niks van gaat onthouden.
 
-Je nipt dapper van je glas en je zegt “lekker”. Maar stiekem zou je liever wat beter begrijpen waarover het gaat, en je neemt je voor om je ooit eens echt in wijn te verdiepen.Alleen: hoe kun je samen iets bijleren over wijn, zonder dat het voelt alsof je terug op de schoolbanken zit? Hoe maak je van een datenight thuis met wijn een gezellige, romantische én een beetje leerrijke avond?
+Je nipt dapper van je glas en je zegt “lekker”. Maar stiekem zou je liever wat beter begrijpen waarover het gaat, en je neemt je voor om je ooit eens echt in wijn te verdiepen.Alleen: hoe kun je samen iets bijleren over wijn, zonder dat het voelt alsof je terug op de schoolbanken zit? Hoe maak je van een datenight thuis met wijn een gezellige, romantische én een beetje leerzaame avond?
 
 ## Speelse wijnproeverij voor 2
 

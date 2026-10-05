@@ -40,7 +40,7 @@ Dat is precies wat ik bedoel als ik zeg dat Moederdag voor ons nooit over produc
 
 ## Hoe kies je een goede wijn voor Moederdag?
 
-Dat is precies de vraag die de meeste mensen liever vermijden. Want de wijnrayon voelt soms aan als een examen waarvoor je niet hebt gestudeerd. Toch is het niet zo ingewikkeld als het lijkt. Begin met wat je weet: houdt ze van rood of wit? Licht of vol? Speels of serieus?
+Dat is precies de vraag die de meeste mensen liever vermijden. Want de wijnafdeling voelt soms aan als een examen waarvoor je niet hebt gestudeerd. Toch is het niet zo ingewikkeld als het lijkt. Begin met wat je weet: houdt ze van rood of wit? Licht of vol? Speels of serieus?
 
 Als je meer wil weten over welk type wijn past bij welke gelegenheid, lees dan zeker ook [ons spiekbriefje over wijn bij gerechten](/blog/welke-wijn-bij-welk-gerecht-spiekbriefje/). Handig als je ook het eten voor die dag plant.
 

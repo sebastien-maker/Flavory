@@ -18,7 +18,7 @@ Je zoekt een cadeau. Liefst iets origineels. Liefst iets dat blijft hangen. En l
 
 …maar wat zegt dat nu echt? Leuk, zeker. Maar ook wat onpersoonlijk, zeker als je niet weet wat de ander graag drinkt. Misschien heb je wél veel moeite gedaan om net die ene fles te kiezen, maar dat ziet de ontvanger niet altijd.
 
-Met een Flavory wijnbox zit je daar niet mee. Je geeft geen gewone fles, maar een blinde proeverij met twee heerlijke (maar blinde) wijnen en quizvragen. Niet alleen een cadeau, maar ook een spel en een gezellige avond met vrienden en familie in één doos. Origineel, verrassend en leerrijk, zelfs als je niks van wijn kent.
+Met een Flavory wijnbox zit je daar niet mee. Je geeft geen gewone fles, maar een blinde proeverij met twee heerlijke (maar blinde) wijnen en quizvragen. Niet alleen een cadeau, maar ook een spel en een gezellige avond met vrienden en familie in één doos. Origineel, verrassend en leerzaam, zelfs als je niks van wijn kent.
 
 ### Je kan een paar sokken geven…
 

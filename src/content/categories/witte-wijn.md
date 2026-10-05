@@ -9,4 +9,4 @@ Chardonnay en Sauvignon Blanc zijn dé klassiekers op bijna elke wijnkaart, en t
 
 In de box zitten het volledige spel en twee witte wijnen die hun druif typisch laten proeven.
 
-Na afloop weet je welke stijl jou het best ligt, en bestel je op restaurant met meer zekerheid.
+Na afloop weet je welke stijl jou het best ligt, en bestel je in een restaurant met meer zekerheid.

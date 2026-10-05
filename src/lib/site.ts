@@ -4,7 +4,8 @@ export const SITE = {
   legalName: 'Flavory BV',
   url: 'https://flavory.wine',
   tagline: 'Taste the fun',
-  locale: 'nl-BE',
+  // Neutral Dutch: the site serves Belgium and the Netherlands equally.
+  locale: 'nl',
   email: 'info@flavory.wine',
   vatId: 'BE0757810421',
   foundingDate: '2017',

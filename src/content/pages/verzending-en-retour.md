@@ -6,7 +6,10 @@ updatedDate: 2026-09-16
 ---
 ## Waar leveren we?
 
-We leveren in **België en Nederland**.
+We leveren in **België en Nederland**, met dezelfde levertijd en dezelfde voorwaarden in beide landen.
+
+- **Nederland:** je betaalt met iDEAL, Klarna, kaart, PayPal of Apple Pay. Omdat de box wijn bevat, controleert de bezorger bij de levering of je 18 jaar of ouder bent.
+- **België:** je betaalt met Bancontact, KBC/CBC, Belfius, Klarna, kaart, PayPal of Apple Pay.
 
 ## Levertijd
 

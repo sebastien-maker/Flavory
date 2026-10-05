@@ -31,3 +31,22 @@ export const STEPS = [
     text: 'Ontmasker de flessen, tel de punten en kroon de wijnkenner van de avond.',
   },
 ] as const;
+
+/** The same three steps in short, used on the home page and on product pages. */
+export const SHORT_STEPS = [
+  {
+    img: '/images/steps/stap-2.svg',
+    title: 'Schenk blind in',
+    text: 'De twee flessen zitten in stoffen zakjes. Niemand weet welke wijn in fles A of B zit.',
+  },
+  {
+    img: '/images/steps/stap-3.svg',
+    title: 'Proef en speel',
+    text: 'Kijk, ruik en proef, en verzamel tips met de quizvragen.',
+  },
+  {
+    img: '/images/steps/stap-5.svg',
+    title: 'Ontmasker de wijnen',
+    text: 'Noteer je gok, onthul de flessen en kroon de winnaar.',
+  },
+] as const;

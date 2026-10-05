@@ -80,6 +80,8 @@ const products = defineCollection({
       highlights: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
       boxContents: z.array(z.string()),
       faq: z.array(faqItem),
+      /** Blog article that compares the two wines in this box, if one exists. */
+      comparisonPost: reference('blog').optional(),
       relatedPosts: z.array(reference('blog')).max(4).default([]),
       order: z.number().int().default(0),
       draft: z.boolean().default(false),

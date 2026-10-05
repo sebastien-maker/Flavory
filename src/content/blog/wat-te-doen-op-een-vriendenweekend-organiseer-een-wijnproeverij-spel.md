@@ -16,18 +16,17 @@ Het mooiste van dit concept? Jullie hebben de regie helemaal zelf in handen. Wij
 
 ## Stap 1: De basis voor je vriendenweekend – Het Wijnproeverij Spel
 
-Wij verkopen boxen met wijn en boxen zónder wijn. Waarom ook zonder wijn? Omdat jij zelf je budget en kwaliteit moet kunnen bepalen. En omdat sommige vriendengroepen genoeg hebben aan een enkel glaasje per persoon (wat in theorie voldoende is om wijn te leren proeven), terwijl andere graag wat meer wijn willen kunnen drinken.
+In elke box zitten het wijnspel en twee flessen wijn (75 cl). Je hoeft dus niets meer te regelen. Wil je met een grotere groep meer drinken, dan koop je er zelf een fles bij.
 
 In één box zitten alle formulieren en materialen voor een complete wijnproefavond voor 2 tot 6 personen. Zijn jullie met een grotere groep? Dan bestel je gewoon twee dozen.
 
--   **Prijs voor de [boxen mét wijn](/shop/):** €49,90 per box
--   **Prijs voor de [boxen zónder wijn](/shop/):** €24,90 per box
+-   **Prijs:** vanaf € 59,90 per [box](/shop/), inclusief twee flessen wijn
 
 In dit spel leer je stap voor stap hoe je wijn moet proeven. Het is opgebouwd als een quiz, waardoor de competitie al snel losbarst.
 
-## Stap 2: Scoor zelf de wijn voor je vriendenweekend
+## Stap 2: Wil je meer wijn? Zo koop je er zelf bij
 
-Zodra je de box in huis hebt, begint het echte werk: je moet zelf de wijn gaan kopen.
+De twee flessen uit de box volstaan om te proeven. Wil je met een grotere groep doordrinken, koop dan flessen van dezelfde druiven bij.
 
 Stel dat jullie gekozen hebben voor rode wijn. Dan is jullie missie als volgt: Je gaat op zoek naar één fles Merlot en één fles Cabernet Sauvignon. Welke wijn je moet kopen, wordt duidelijk omschreven in de speldoos zelf. Maar we geven je hier alvast wat info.
 
@@ -45,6 +44,6 @@ _Praktische tip: Uit één fles haal je ongeveer 6 tot 7 grote glazen wijn. Houd
 
 ## Stap 3: Spelen maar!
 
-Jullie hebben de flessen, jullie hebben de box. Laat het vriendenweekend maar beginnen. Ontdek de smaken, daag elkaar uit en kroon de ultieme wijnkenner van de groep!
+Jullie hebben de flessen, jullie hebben de box. Laat het vriendenweekend maar beginnen. Ontdek de smaken, daag elkaar uit en kroon de wijnkenner van de groep!
 
 ![Flavory wijnspel het leukste kerstcadeau](../../assets/images/blog/wat-te-doen-op-een-vriendenweekend-organiseer-een-wijnproeverij-spel/image-2025-10-16t145557.571.webp)

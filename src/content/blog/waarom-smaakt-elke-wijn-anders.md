@@ -1,7 +1,7 @@
 ---
 title: "Waarom smaakt elke wijn anders?"
 seoTitle: "Waarom smaakt elke wijn anders?"
-description: "Wijn kiezen in de supermarkt? Ontdek de 5 belangrijkste drijfveren: herkenning, prijs, etiket, medailles en geluk. Tips om de beste keuze te maken!"
+description: "Waarom smaakt elke wijn anders? Het druivenras, de grond, het klimaat en de hand van de wijnmaker verklaren waarom twee flessen nooit gelijk zijn."
 excerpt: "Geen twee flessen zijn ooit identiek. Ontdek hoe druivenrassen, terroir en de keuzes van de wijnmaker samen bepalen waarom elke wijn uniek smaakt. En voor ons zo moeilijk is om te kiezen…"
 pubDate: 2025-07-10
 updatedDate: 2025-09-12

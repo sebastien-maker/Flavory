@@ -1,7 +1,7 @@
 ---
 title: "VIDEO – Verdwaald in de wijnafdeling"
 seoTitle: "VIDEO - Verdwaald in de wijnafdeling"
-description: "Wijn kiezen in de supermarkt? Ontdek de 5 belangrijkste drijfveren: herkenning, prijs, etiket, medailles en geluk. Tips om de beste keuze te maken!"
+description: "Meer dan 1250 flessen in één supermarkt: hoe kies je daaruit? In deze video lopen we door de wijnafdeling en kiezen we samen een fles."
 excerpt: "Wist je dat in België en Nederland samen ongeveer 75% van alle wijn via supermarkten wordt gekocht? Dat is een enorm cijfer, en het illustreert perfect hoe belangrijk de supermarkt is geworden voor de doorsnee wijnconsument. Het aanbod is dan ook gigantisch, de verwarring ongetwijfeld ook. Het totale aanbod van pakweg Albert Heijn bestaat uit meer dan 1250 flessen. Begin maar te kiezen! En laten we eerlijk zijn, voor de gemiddelde consument is dat een behoorlijke uitdaging"
 pubDate: 2025-03-04
 updatedDate: 2025-03-05

@@ -81,9 +81,9 @@ const clip =
     : { src: '/media/flavory-avond-wit.mp4', poster: whitePoster, label: 'Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel' };
 const clipThumb = await getImage({ src: clip.poster, width: 96, height: 96, fit: 'cover', format: 'webp' });
 const slides = [
-  { kind: 'image' as const, label: 'Foto 1', ...cover },
-  { kind: 'video' as const, label: 'Filmpje', thumb: clipThumb },
-  ...gallery.slice(1).map((img, i) => ({ kind: 'image' as const, label: `Foto ${i + 2}`, ...img })),
+  { kind: 'image' as const, label: cover.alt, ...cover },
+  { kind: 'video' as const, label: clip.label, thumb: clipThumb },
+  ...gallery.slice(1).map((img) => ({ kind: 'image' as const, label: img.alt, ...img })),
 ];
 
 // First paragraph stays visible; the rest sits behind "Lees meer" (still in the HTML for search engines).

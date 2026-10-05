@@ -1,5 +1,11 @@
 ---
 import { SITE } from '@/lib/site';
+
+// Fallback when online checkout is unavailable. Without an e-mail address the link would be empty,
+// so we point to the contact page instead.
+const contact = SITE.email
+  ? { href: `mailto:${SITE.email}`, label: SITE.email }
+  : { href: '/contact/', label: 'het contactformulier' };
 ---
 
 <dialog
@@ -46,8 +52,8 @@ import { SITE } from '@/lib/site';
       </button>
       <p data-cart-notice hidden class="mt-3 rounded-xl bg-white p-3 text-sm" role="status">
         Online afrekenen lukt nog niet voor een box in je winkelmandje. Bestellen kan intussen via{' '}
-        <a class="text-brand underline" href={`mailto:${SITE.email}`}>
-          {SITE.email}
+        <a class="text-brand underline" href={contact.href}>
+          {contact.label}
         </a>
         .
       </p>

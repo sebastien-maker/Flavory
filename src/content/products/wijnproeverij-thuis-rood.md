@@ -51,18 +51,14 @@ playersMin: 2
 playersMax: 6
 order: 0
 images:
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-italie-of-spanje-box.webp"
-    alt: "Flavory rode wijnspel Italië versus Spanje met twee flessen in stoffen zakjes"
+  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-merlot-cabernet-box.webp"
+    alt: "Doos van het rode wijnspel Merlot of Cabernet Sauvignon, met twee flessen in stoffen zakjes ernaast"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
     alt: "Flavory rode wijnspel op tafel: blinde wijnproeverij thuis met Merlot en Cabernet Sauvignon"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg"
     alt: "Twee anonieme flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg"
     alt: "Vrienden aan tafel onthullen welke rode wijn in fles A zat"
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/04-vergelijk.webp"
-    alt: "Speler ruikt aan twee glazen rode wijn om de geuren en smaken te vergelijken"
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02.webp"
-    alt: "Inhoud van de box: spelregels, infobrochures, proefformulieren, rolkaarten, tipkaartjes en twee stoffen wijnzakjes"
 usps:
   - "Inclusief twee flessen rode wijn (75 cl)"
   - "Fun en leerzaam: wie wint het spel en is de grootste sommelier?"
@@ -80,12 +76,12 @@ highlights:
   - title: "Win het spel"
     text: "door de wijnen te herkennen en leuke vragen juist te beantwoorden."
 boxContents:
-  - "Een plezierig en eenvoudig spel voor 2 tot 6 personen. Geen vermoeiende handleiding, beloofd!"
-  - "Professionele proefformulieren en infobrochures"
+  - "Twee flessen rode wijn (75 cl)"
+  - "Het wijnspel voor 2 tot 6 personen"
+  - "Proefformulieren en infobrochures"
   - "Wijntips die je meteen kunt gebruiken"
   - "Een mini-foodpairinggids als bonus"
   - "Twee stoffen zakjes om de wijnflessen anoniem te maken"
-  - "Twee flessen rode wijn (75 cl)"
 faq:
   - question: "Moet ik iets van wijn afweten?"
     answer: "Nee. Je moet wijn gewoon lekker vinden. De rest leer je al spelend."
@@ -96,7 +92,7 @@ faq:
   - question: "Wat is de levertijd?"
     answer: "Bestellingen in België en Nederland worden meestal binnen 1 à 3 werkdagen geleverd. Je krijgt een verzendbevestiging met trackingnummer zodra je pakket onderweg is."
   - question: "Wat als ik niet tevreden ben?"
-    answer: "Niet tevreden? Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
+    answer: "Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
 relatedPosts:
   - blind-wijn-proeven
   - italiaanse-rode-wijnen

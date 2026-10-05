@@ -85,9 +85,9 @@ FLAVORY  is gerechtigd om dit verhoudingsgewijs in rekening te brengen bij de t
 
 Indien de Klant niet voldoet aan de bovenstaande voorwaarden is er sprake van een onrechtmatig gebruik van het herroepingsrecht. In dat geval zullen de goederen teruggestuurd worden naar de Klant, voor eigen rekening en risico van de Klant. FLAVORY verbindt er zich toe haar motieven duidelijk te communiceren aan Klant.
 
-## Artikel 5bis. Niet tevreden? Geld terug
+## Artikel 5bis. Niet tevreden? Je krijgt je geld terug
 
-Niet tevreden? Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.
+Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.
 
 Deze garantie geldt naast en onverminderd het wettelijk herroepingsrecht uit artikel 5.
 

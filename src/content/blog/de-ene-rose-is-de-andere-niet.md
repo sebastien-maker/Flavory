@@ -1,7 +1,7 @@
 ---
 title: "De ene rosé is de andere niet…"
 seoTitle: "De ene rosé is de andere niet..."
-description: "Wijn kiezen in de supermarkt? Ontdek de 5 belangrijkste drijfveren: herkenning, prijs, etiket, medailles en geluk. Tips om de beste keuze te maken!"
+description: "Rosé is meer dan een zomerwijn. Ontdek hoe rosé gemaakt wordt, welke stijlen er bestaan, hoe je hem serveert en bij welke gerechten hij past."
 excerpt: "Roséwijn is al lang niet meer alleen een zomerse dorstlesser. Met zijn veelzijdige smaken, kleuren en stijlen is rosé een volwaardige wijnsoort die het hele jaar door gedronken kan worden. In deze blog ontdek je alles wat je moet weten over roséwijn: van de productie en druivenrassen tot serveertips en culinaire combinaties"
 pubDate: 2025-05-02
 author: bart

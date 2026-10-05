@@ -1,7 +1,7 @@
 ---
 title: "Waarom geen twee wijnen ooit hetzelfde smaken"
 seoTitle: "Waarom geen twee wijnen ooit hetzelfde smaken"
-description: "Wijn kiezen in de supermarkt? Ontdek de 5 belangrijkste drijfveren: herkenning, prijs, etiket, medailles en geluk. Tips om de beste keuze te maken!"
+description: "Geen twee flessen smaken hetzelfde. Ontdek hoe de druif, het terroir en de keuzes van de wijnmaker samen bepalen wat je in je glas proeft."
 excerpt: "Elke wijn is uniek. En dat is geen toeval. Er zijn drie belangrijke redenen waarom geen twee flessen ooit identiek zijn: de druif, het terroir en de keuzes van de wijnmaker."
 pubDate: 2025-04-14
 updatedDate: 2025-09-09

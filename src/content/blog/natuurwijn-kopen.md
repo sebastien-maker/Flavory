@@ -1,7 +1,7 @@
 ---
 title: "Natuurwijn kopen: hype of eerlijk glas?"
 seoTitle: "Natuurwijn kopen: hype of eerlijk glas?"
-description: ")Wil je natuurwijn kopen maar weet je niet wat je krijgt? Troebel, funky, vegan. Bart legt uit wat het écht is en of het de moeite waard is."
+description: "Wil je natuurwijn kopen maar weet je niet wat je krijgt? Troebel, zuur, vegan. Bart legt uit wat natuurwijn is en of het de moeite waard is."
 excerpt: "Natuurwijn kopen roept vragen op. Troebel, zuur, of verrassend goed? Bart duikt in de wereld van wijn zonder trucjes, en ontdekt onderweg een verrassend veganistisch geheim."
 pubDate: 2026-04-07
 author: bart
@@ -16,7 +16,7 @@ Een vriend van me weigert er zelfs over te praten. Natuurwijn kopen, voor hem is
 
 Er bestaat geen wettelijke definitie van natuurwijn. Dat maakt het lastig. Maar de kern is simpel: een wijnmaker die zo weinig mogelijk ingrijpt. Geen pesticides op het veld, geen industriële gisten in de kelder, geen sulfieten toegevoegd, geen filtratie. De druiven gisten op eigen kracht, met de wilde gisten die al op de schil zitten. Wat er uitkomt, is wat het is.
 
-Dat klinkt romantisch. En dat is het ook, een beetje. Maar het is vooral een uitdaging. Want wijn maken zonder vangnetten is moeilijk. Een slechte oogst, een warme zomer, een fout in de timing en je hebt geen correcerende middelen achter de hand. Wie dat toch doet, die heeft lef. En daar heb ik respect voor.
+Dat klinkt romantisch. En dat is het ook, een beetje. Maar het is vooral een uitdaging. Want wijn maken zonder vangnetten is moeilijk. Een slechte oogst, een warme zomer, een fout in de timing en je hebt geen corrigerende middelen achter de hand. Wie dat toch doet, die heeft lef. En daar heb ik respect voor.
 
 ## Waarom smaakt natuurwijn soms zo raar?
 

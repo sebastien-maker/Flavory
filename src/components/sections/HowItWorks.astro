@@ -23,23 +23,19 @@ const {
   <Heading id={`${id}-title`} class="h2 text-center">
     {heading}
   </Heading>
-  <!-- Detailed: full cards with text. Otherwise a compact row (swipe on mobile, six in a row on desktop). -->
-  <ol
-    class:list={[
-      'mt-6',
-      detailed
-        ? 'grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3'
-        : 'grid grid-cols-2 gap-3 md:grid-cols-6',
-    ]}
-  >
+  <!-- One numbered list, each step under the other, with a small drawing. -->
+  <ol class="mx-auto mt-6 max-w-2xl divide-y divide-line">
     {STEPS.map((step, i) => (
-      <li class:list={['step-card', !detailed && 'step-card-compact']}>
-        <img src={step.img} alt="" width="400" height="344" class="h-auto w-full" loading="lazy" decoding="async" />
-        <p class="mt-2 font-bold">
-          <span class="sr-only">Stap {i + 1}: </span>
-          {step.title}
-        </p>
-        {detailed && <p class="mt-1 text-sm text-white/90">{step.text}</p>}
+      <li class="flex items-center gap-4 py-3">
+        <span class="step-number" aria-hidden="true">{i + 1}</span>
+        <img src={step.img} alt="" width="400" height="344" class="h-12 w-14 shrink-0 object-contain" loading="lazy" decoding="async" />
+        <div class="min-w-0">
+          <p class="font-bold">
+            <span class="sr-only">Stap {i + 1}: </span>
+            {step.title}
+          </p>
+          {detailed && <p class="mt-1 text-sm text-muted">{step.text}</p>}
+        </div>
       </li>
     ))}
   </ol>

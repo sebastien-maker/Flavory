@@ -32,7 +32,7 @@ const options = data.variants.map((v) => ({ formula: v.formula, price: v.price, 
       loading={eager ? 'eager' : 'lazy'}
     />
     <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
-      <span class="badge bg-brand text-white">Met 2 wijnen</span>
+      <span class="badge bg-cream text-ink">Met 2 wijnen</span>
       {data.badge && <span class="badge bg-ink text-white">{data.badge}</span>}
       {soldOut && <span class="badge bg-white ring-1 ring-line">Uitverkocht</span>}
     </div>
@@ -62,7 +62,7 @@ const options = data.variants.map((v) => ({ formula: v.formula, price: v.price, 
         ]}
         aria-hidden="true"
       >
-        {soldOut ? 'Bekijk' : 'Kies je box'}
+        Bekijk de box
       </span>
     </div>
   </div>

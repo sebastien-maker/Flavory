@@ -38,14 +38,14 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
       <button
         type="button"
         data-cart-open
-        class="relative flex size-10 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark md:size-12"
+        class="relative flex size-10 items-center justify-center rounded-full border-2 border-ink text-ink transition-colors hover:bg-ink hover:text-white md:size-12"
         aria-label="Winkelmandje openen"
       >
         <CartIcon class="size-6 fill-current md:size-7" aria-hidden="true" />
         <span
           data-cart-count
           hidden
-          class="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-ink text-[0.7rem] font-bold text-white"
+          class="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-brand text-xs font-bold text-white"
         ></span>
       </button>
 

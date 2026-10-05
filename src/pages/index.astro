@@ -9,7 +9,7 @@ import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import ReviewHighlight from '@/components/ui/ReviewHighlight.astro';
 import ShippingCutoff from '@/components/ui/ShippingCutoff.astro';
-import { fromPrice, getProducts, getPosts, productPath } from '@/lib/content';
+import { clearanceProducts, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
 import { formatPrice, pricePerPerson } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 // Hero photo: replace this one file (keep the name) to swap it. Landscape, at least 1600px wide.
@@ -26,7 +26,9 @@ import CheersIcon from '@/assets/icons/glasses-cheers.svg';
 import GiftIcon from '@/assets/icons/gift.svg';
 import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
 
-const products = await getProducts();
+const allProducts = await getProducts();
+const products = mainProducts(allProducts);
+const clearance = clearanceProducts(allProducts);
 const red = products.find((p) => p.data.category.id === 'rode-wijn');
 const white = products.find((p) => p.data.category.id === 'witte-wijn');
 // Hero price line: lowest box price and what that means per player at a full table.
@@ -210,6 +212,14 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
           </li>
         ))}
       </ul>
+      {clearance.map((product) => (
+        <p class="mt-4 text-center text-sm">
+          Zolang de voorraad strekt:{' '}
+          <a href={productPath(product.id)} class="font-bold underline">
+            {product.data.name}
+          </a>
+        </p>
+      ))}
     </div>
   </section>
 

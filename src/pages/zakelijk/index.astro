@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import ContactForm from '@/components/forms/ContactForm.astro';
 import Faq from '@/components/ui/Faq.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
-import { getFaq, getProducts, isAvailable } from '@/lib/content';
+import { getFaq, getProducts, isAvailable, mainProducts } from '@/lib/content';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-geven.jpg';
 
@@ -32,7 +32,7 @@ const faq = [
   },
   ...(await getFaq('zakelijk')).map((f) => f.data),
 ];
-const products = (await getProducts()).filter(isAvailable);
+const products = mainProducts(await getProducts()).filter(isAvailable);
 ---
 
 <BaseLayout

@@ -17,6 +17,10 @@ export const isAvailable = (product: Product) => availableVariants(product).leng
 // Placeholder SKUs ("TMP-…") stay out of structured data and the Merchant Center feed until Shopify has the real one.
 export const realSku = (sku: string) => (/^TMP-/i.test(sku) ? undefined : sku);
 
+// The two main boxes versus leftover stock (Italië of Spanje), which is listed apart.
+export const mainProducts = (products: Product[]) => products.filter((p) => !p.data.clearance);
+export const clearanceProducts = (products: Product[]) => products.filter((p) => p.data.clearance && isAvailable(p));
+
 export const fromPrice = (product: Product) =>
   Math.min(...(isAvailable(product) ? availableVariants(product) : product.data.variants).map((v) => v.price));
 

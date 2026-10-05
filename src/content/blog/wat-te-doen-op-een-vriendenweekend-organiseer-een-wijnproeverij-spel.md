@@ -20,7 +20,7 @@ In elke box zitten het wijnspel en twee flessen wijn (75 cl). Je hoeft dus niets
 
 In één box zitten alle formulieren en materialen voor een complete wijnproefavond voor 2 tot 6 personen. Zijn jullie met een grotere groep? Dan bestel je gewoon twee dozen.
 
--   **Prijs:** vanaf € 59,90 per [box](/shop/), inclusief twee flessen wijn
+-   **Prijs:** zie de actuele prijs per box in de [shop](/shop/), altijd inclusief twee flessen wijn
 
 In dit spel leer je stap voor stap hoe je wijn moet proeven. Het is opgebouwd als een quiz, waardoor de competitie al snel losbarst.
 

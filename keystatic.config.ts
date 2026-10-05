@@ -107,6 +107,16 @@ export default config({
           description: 'Bv. "Merlot of Cabernet Sauvignon"',
           validation: { isRequired: true },
         }),
+        badge: fields.text({
+          label: 'Label',
+          description: 'Klein label op de kaart en de productpagina, bv. "Zolang de voorraad strekt". Leeg laten mag.',
+          validation: { isRequired: false },
+        }),
+        clearance: fields.checkbox({
+          label: 'Restvoorraad',
+          description: 'Aangevinkt: deze box staat apart van de twee hoofdboxen en niet als kaart op de homepage.',
+          defaultValue: false,
+        }),
         stockNote: fields.text({
           label: 'Voorraadzin',
           description: 'Eén regel onder de keuzelijst: wat er nu te koop is. Leeg laten mag.',

@@ -12,7 +12,8 @@ const RED = '/shop/wijnproeverij-thuis-rood/';
 const WHITE = '/shop/wijnproeverij-thuis-wit/';
 // Q4 range: only red and white boxes with wine. The former Italy/Spain and white-wine-box pages are merged into them.
 const WHITE_WINE = WHITE;
-const IT_ES = RED;
+// Leftover stock has its own page. When it sells out, point these back to RED.
+const IT_ES = '/shop/italie-of-spanje/';
 const SHOP = '/shop/';
 const VRIENDINNEN_POST = '/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie/';
 const B2B = '/zakelijk/';
@@ -67,7 +68,6 @@ const RULES = [
   ['/verkooppunten/', SHOP],
   ['/zakelijk/teambuilding-wijnproeverij/', B2B],
   ['/win/', HOME],
-  ['/shop/italie-of-spanje/', RED],
   ['/shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/', WHITE],
 
   // WooCommerce system pages: to the checkout on www

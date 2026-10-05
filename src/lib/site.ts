@@ -42,6 +42,10 @@ export const SITE = {
   guarantee: 'Niet tevreden? Je krijgt je geld terug.',
   guaranteeDetails:
     'Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.',
+  // Seasonal block on /cadeau/. Empty means no block at all. Set a season and the last order day
+  // together, for example 'kerst' and 'maandag 22 december'.
+  giftSeason: '' as '' | 'kerst' | 'moederdag' | 'vaderdag',
+  giftDeadline: '',
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',
   // PostHog project API key (public by design: it can only send events). EU cloud.
@@ -50,6 +54,7 @@ export const SITE = {
 
 export const NAV = [
   { href: '/shop/', label: 'Shop' },
+  { href: '/cadeau/', label: 'Cadeau' },
   { href: '/hoe-werkt-het/', label: 'Hoe werkt het?' },
   { href: '/blog/', label: 'Blog' },
 ] as const;
@@ -67,6 +72,7 @@ export const FOOTER_NAV = [
     title: 'Meer ontdekken',
     links: [
       { href: '/hoe-werkt-het/', label: 'Hoe werkt het?' },
+      { href: '/cadeau/', label: 'Cadeau' },
       { href: '/over-flavory/', label: 'Over Flavory' },
       { href: '/reviews/', label: 'Reviews' },
       { href: '/blog/', label: 'Blog' },
@@ -102,7 +108,8 @@ export const formatPrice = (value: number) =>
   new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(value);
 
 // Price per player at a full table, e.g. "€ 9,98" for € 59,90 and 6 players.
-export const pricePerPerson = (price: number, players: number) => formatPrice(Math.floor((price / players) * 100) / 100);
+export const pricePerPerson = (price: number, players: number) =>
+  formatPrice(Math.floor((price / players) * 100) / 100);
 
 export const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);

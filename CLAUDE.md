@@ -34,6 +34,7 @@ Astro 7 (SSG, on-demand rendering alleen waar nodig) + `@astrojs/netlify` op Net
 - Commits: Conventional Commits (`feat:`, `fix:`, `content:`, `seo:`, `chore:`), Engels, korte imperatieve titel.
 - Vóór elke commit: `pnpm verify` (contentcheck, `astro check`, lint, build, SEO-check en redirect-dekking).
 - Kleine, gerichte PR's. Geen refactors mengen met features.
+- Lees docs/design-richtlijnen.md en docs/woordenlijst.md voor elke wijziging aan tekst of layout.
 
 ## Bij review op een PR
 Controleer in deze volgorde: (1) SEO-regels 1–8 hierboven, (2) redirects voor verwijderde of hernoemde URL's, (3) schema-validiteit, (4) toegankelijkheid (alt, labels, contrast, focus), (5) performance-budget, (6) geen secrets in de diff. Meld bevindingen als inline-opmerkingen met een concreet voorstel. Wees kort.

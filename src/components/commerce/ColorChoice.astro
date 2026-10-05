@@ -1,0 +1,76 @@
+---
+// The first choice is the colour only: two cards side by side, also on mobile.
+// The duel (Chardonnay of Sauvignon Blanc, …) is introduced on the product page.
+import { Image } from 'astro:assets';
+import { clearanceProducts, colourChoices, fromPrice, isAvailable, productPath, type Product } from '@/lib/content';
+import { SITE, formatPrice } from '@/lib/site';
+
+interface Props {
+  /** All products; the cards pick the box per colour that is for sale now. */
+  products: Product[];
+  headingLevel?: 'h2' | 'h3';
+  eager?: boolean;
+  class?: string;
+}
+
+const { products, headingLevel: Heading = 'h3', eager = false, class: className } = Astro.props;
+const choices = colourChoices(products);
+// Leftover stock gets its own line, unless a card already leads to it.
+const clearance = clearanceProducts(products).filter((p) => !choices.some((c) => c.product.id === p.id));
+---
+
+<div class:list={['max-w-3xl', className]}>
+  <ul class="grid grid-cols-2 gap-3 sm:gap-4">
+    {choices.map(({ label, product }) => {
+      const cover = product.data.images[0]!;
+      const soldOut = !isAvailable(product);
+      return (
+        <li>
+          <article class="card-link group p-3 sm:p-4">
+            <div class="relative aspect-square overflow-hidden rounded-xl bg-cream">
+              <Image
+                src={cover.src}
+                alt={cover.alt}
+                width={480}
+                height={480}
+                widths={[240, 360, 720]}
+                sizes="(min-width: 768px) 22rem, 45vw"
+                class="size-full object-cover"
+                loading={eager ? 'eager' : 'lazy'}
+              />
+              {soldOut && <span class="badge absolute top-2 left-2 bg-white ring-1 ring-line">Uitverkocht</span>}
+            </div>
+            <div class="mt-3 flex flex-1 flex-col">
+              <Heading class:list={['text-2xl font-bold', Heading === 'h3' && 'font-sans']}>{label}</Heading>
+              <p class="mt-1 text-sm">Spel + 2 flessen wijn (75 cl)</p>
+              <p class="text-sm font-bold">
+                {soldOut ? 'Tijdelijk uitverkocht' : `vanaf ${formatPrice(fromPrice(product))}`}
+              </p>
+              <p class="mt-1 text-sm text-muted">{product.data.duel}</p>
+              <div class="mt-auto pt-3">
+                <a
+                  href={productPath(product.id)}
+                  class:list={[
+                    'btn min-h-10 w-full px-3 py-2 after:absolute after:inset-0',
+                    soldOut ? 'bg-line text-muted' : 'bg-brand text-white group-hover:bg-brand-dark',
+                  ]}
+                >
+                  Kies {label.toLowerCase()}
+                </a>
+              </div>
+            </div>
+          </article>
+        </li>
+      );
+    })}
+  </ul>
+  {clearance.map((product) => (
+    <p class="mt-4 text-center text-sm">
+      Zolang de voorraad strekt:{' '}
+      <a href={productPath(product.id)} class="font-bold underline">
+        {product.data.name}
+      </a>
+    </p>
+  ))}
+  <p class="mt-4 text-center text-sm">Goede, eerlijke wijnen, door ons geselecteerd. {SITE.guarantee}</p>
+</div>

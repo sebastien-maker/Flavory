@@ -1,6 +1,7 @@
 ---
 name: "Wit wijnspel: Chardonnay of Sauvignon Blanc"
 h1: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
+intro: "Chardonnay en Sauvignon Blanc: twee legendarische witte wijnen. Ken je ze van naam, maar heb je geen idee wat het verschil is? Dan is dit je kans."
 seoTitle: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
 seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Chardonnay of Sauvignon Blanc"

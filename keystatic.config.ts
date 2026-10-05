@@ -100,6 +100,12 @@ export default config({
           },
         }),
         h1: fields.text({ label: 'H1', validation: { isRequired: true } }),
+        intro: fields.text({
+          label: 'Intro onder de H1',
+          description: 'Eén of twee zinnen die het duel voorstellen. Leeg laten mag.',
+          multiline: true,
+          validation: { isRequired: false },
+        }),
         seoTitle,
         seoDescription: seoDescription(),
         duel: fields.text({
@@ -153,7 +159,8 @@ export default config({
             sku: fields.text({ label: 'SKU', validation: { isRequired: true } }),
             wooId: fields.integer({
               label: 'WooCommerce-product-ID',
-              description: 'Het nummer in de adresbalk als je het product bewerkt (post=…). Nodig om te kunnen afrekenen.',
+              description:
+                'Het nummer in de adresbalk als je het product bewerkt (post=…). Nodig om te kunnen afrekenen.',
             }),
             gtin13: fields.text({
               label: 'GTIN-13 (EAN-barcode)',

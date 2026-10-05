@@ -65,6 +65,8 @@ const products = defineCollection({
       // Leftover stock: shown apart from the two main boxes, never on the home page as a card.
       clearance: z.boolean().default(false),
       cardTagline: z.string(),
+      // Italic line on the colour card (wit of rood), e.g. "Italiaanse of Spaanse wijn: proef jij het verschil?".
+      choiceLine: z.string().optional(),
       definition: z.string().describe('Two-sentence definition block for AI citability'),
       variants: z.array(variant).min(1),
       descriptions: z

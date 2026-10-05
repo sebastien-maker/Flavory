@@ -63,6 +63,10 @@
   --color-ink: #000000;
   --color-muted: #4a4a4a;
   --color-line: #e8ddd2;
+  /* Only in the choice between white and red wine, where the colour follows the wine (docs/design-richtlijnen.md). */
+  --color-wine-white: #8fd5e4;
+  --color-wine-white-text: #1f6f86;
+  --color-wine-red-text: #b8001c;
   /* Light blue from the white wine box. */
   --color-star: #f5a623;
   --color-success: #1f7a3a;
@@ -224,6 +228,13 @@
   }
   .variant-tile:has(:checked) .tile-dot {
     @apply border-brand bg-brand shadow-[inset_0_0_0_3px_white];
+  }
+  /* Colour choice card (ColorChoice.astro): the whole card is the link. */
+  .choice-card {
+    @apply flex h-full flex-col overflow-hidden rounded-[1.125rem] border border-line bg-white text-ink transition-shadow hover:shadow-md;
+  }
+  .choice-button {
+    @apply mt-auto flex h-11 items-center justify-center rounded-full text-[0.9375rem] font-bold;
   }
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;

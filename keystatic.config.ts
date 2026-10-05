@@ -129,6 +129,12 @@ export default config({
           validation: { isRequired: false },
         }),
         cardTagline: fields.text({ label: 'Tekst op productkaart', validation: { isRequired: true } }),
+        choiceLine: fields.text({
+          label: 'Vraag op de kleurkaart',
+          description:
+            'Cursieve regel op de kaart Witte wijn of Rode wijn, bv. "Merlot of Cabernet Sauvignon: proef jij het verschil?"',
+          validation: { isRequired: false },
+        }),
         definition: fields.text({
           label: 'Definitieblok',
           description: 'Twee zinnen: wat is het, wat kost het, voor wie. Wordt ook gebruikt in schema.',

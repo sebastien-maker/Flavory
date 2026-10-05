@@ -70,13 +70,23 @@
   --font-sans: 'Montserrat', 'Montserrat Fallback', system-ui, sans-serif;
   --font-display: 'TheSans', 'TheSans Fallback', system-ui, sans-serif;
 
-  /* One type scale for the whole site. Body text is 1rem (16px); use these steps instead of ad hoc sizes.
-     Mobile to desktop: h1 36-56px, h2 26-40px, h3 20-28px, h4 18-22px, lead 18-20px. */
-  --text-h1: clamp(2.25rem, 1.8rem + 2.2vw, 3.5rem);
-  --text-h2: clamp(1.625rem, 1.4rem + 1.2vw, 2.5rem);
-  --text-h3: clamp(1.25rem, 1.15rem + 0.6vw, 1.75rem);
-  --text-h4: clamp(1.125rem, 1.07rem + 0.3vw, 1.375rem);
-  --text-lead: clamp(1.125rem, 1.08rem + 0.2vw, 1.25rem);
+  /* The six sizes from docs/design-richtlijnen.md: 14, 16, 18, 22, 28 and 36 px, and nothing else.
+     Tailwind's own steps are snapped onto them, so text-xl and text-3xl cannot introduce a seventh size. */
+  --text-xs: 0.875rem; /* 14px, the smallest; only legal text may go below */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.375rem; /* 22px */
+  --text-2xl: 1.75rem; /* 28px */
+  --text-3xl: 2.25rem; /* 36px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 2.25rem; /* 36px */
+  /* Names used by the .h1 to .h4 and .lead classes. */
+  --text-h1: 2.25rem;
+  --text-h2: 1.75rem;
+  --text-h3: 1.375rem;
+  --text-h4: 1.125rem;
+  --text-lead: 1.125rem;
 
   --radius-pill: 999px;
   --radius-card: 1.25rem;
@@ -170,6 +180,9 @@
   }
   /* relative: keeps the absolutely positioned sr-only step number inside the card, so it cannot
      escape the horizontal scroller and stretch the page (mobile zoomed out otherwise). */
+  .step-number {
+    @apply flex size-7 shrink-0 items-center justify-center rounded-full border border-ink text-sm font-bold;
+  }
   .step-card {
     @apply card relative flex flex-col overflow-hidden p-4;
   }

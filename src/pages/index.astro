@@ -1,5 +1,5 @@
 ---
-import { getImage } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import Reviews from '@/components/sections/Reviews.astro';
@@ -8,9 +8,11 @@ import Newsletter from '@/components/sections/Newsletter.astro';
 import { clearanceProducts, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
 import { SITE, formatPrice } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
-// Hero illustration from the box sleeve (value proposition, 2025).
+import heroPhoto from '@/assets/images/site/hero-zakjes.jpg';
+import pouringPhoto from '@/assets/images/site/inschenken.jpg';
+import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
+// Small accent next to the steps; the drawing also sits on the box sleeve.
 import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
-import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
 
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
@@ -24,13 +26,8 @@ const title = 'Wijnproeverij thuis: het wijnspel voor vrienden | Flavory';
 const description =
   'Flavory is het wijnspel voor een wijnproeverij thuis: 2 tot 6 spelers proeven blind twee meegeleverde wijnen. Wie raadt welke wijn welke is?';
 
-const illustration = await getImage({
-  src: sleeveIllustration,
-  width: 800,
-  widths: [400, 600, 800, 1100],
-  format: 'webp',
-});
-const illustrationSizes = '(min-width: 1200px) 34rem, (min-width: 768px) 45vw, calc(100vw - 2rem)';
+const hero = await getImage({ src: heroPhoto, width: 900, widths: [360, 540, 720, 900], format: 'webp' });
+const heroSizes = '(min-width: 768px) 28rem, calc(100vw - 2rem)';
 const rating = `${String(SITE.rating.value).replace('.', ',')}/5 op ${SITE.rating.source} (${SITE.rating.count} reviews)`;
 // Three steps, with the drawings that also sit on the box.
 const steps = [
@@ -70,7 +67,6 @@ const audiences = [
     label: 'Zakelijk bestellen',
   },
 ];
-const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
 ---
 
 <BaseLayout
@@ -78,7 +74,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   isHome
   description={description}
   path="/"
-  preloadImage={{ src: illustration.src, srcset: illustration.srcSet.attribute, sizes: illustrationSizes }}
+  preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes }}
   schema={[
     webPage({ path: '/', title, description }),
     itemList(
@@ -90,7 +86,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   <!-- Hero -->
   <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
     <div>
-      <h1 class="text-[2rem] leading-[1.1] md:text-[3.25rem]">Het wijnspel voor een avond met vrienden</h1>
+      <h1 class="h1">Het wijnspel voor een avond met vrienden</h1>
       <p class="mt-3 text-lg leading-snug md:text-xl">
         2 tot 6 spelers proeven blind twee wijnen en raden welke welke is. De twee flessen zitten in de doos.
       </p>
@@ -103,20 +99,18 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
         Vanaf <strong>{formatPrice(lowestPrice)}</strong> · {rating}
       </p>
     </div>
-    <div class="rounded-[var(--radius-card)] bg-white p-3 md:p-5">
-      <img
-        src={illustration.src}
-        srcset={illustration.srcSet.attribute}
-        sizes={illustrationSizes}
-        width={illustration.attributes.width}
-        height={illustration.attributes.height}
-        alt="Illustratie van vier vrienden die aan tafel blind wijn proeven met het Flavory-wijnspel"
-        fetchpriority="high"
-        loading="eager"
-        decoding="async"
-        class="h-auto w-full"
-      />
-    </div>
+    <img
+      src={hero.src}
+      srcset={hero.srcSet.attribute}
+      sizes={heroSizes}
+      width={hero.attributes.width}
+      height={hero.attributes.height}
+      alt="Speler houdt twee flessen in stoffen zakjes met de letters A en B omhoog aan tafel"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+      class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover"
+    />
   </section>
 
   <!-- Zo speel je Flavory -->
@@ -129,18 +123,38 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
         Flavory is een Belgisch wijnspel voor 2 tot 6 spelers. Je proeft blind twee meegeleverde wijnen en ontdekt met
         quizvragen welke welke is. Een spel duurt 60 tot 90 minuten en je hebt geen wijnkennis nodig.
       </p>
-      <ol class="mt-6 grid gap-3 md:grid-cols-3 md:gap-4">
-        {steps.map((step, i) => (
-          <li class="step-card">
-            <img src={step.img} alt="" width="400" height="344" class="h-auto w-full" loading="lazy" decoding="async" />
-            <p class="mt-2 font-bold">
-              <span class="sr-only">Stap {i + 1}: </span>
-              {step.title}
-            </p>
-            <p class="mt-1 text-sm text-muted">{step.text}</p>
-          </li>
-        ))}
-      </ol>
+      <div class="mt-6 grid items-center gap-6 md:grid-cols-2 md:gap-10">
+        <Image
+          src={pouringPhoto}
+          alt="Wijn wordt blind ingeschonken uit een fles in een stoffen zakje"
+          widths={[480, 720, 960]}
+          sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
+          class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
+        />
+        <div>
+          <ol class="divide-y divide-line">
+            {steps.map((step, i) => (
+              <li class="flex items-center gap-4 py-3">
+                <span class="step-number" aria-hidden="true">{i + 1}</span>
+                <div class="min-w-0">
+                  <p class="font-bold">
+                    <span class="sr-only">Stap {i + 1}: </span>
+                    {step.title}
+                  </p>
+                  <p class="mt-1 text-sm text-muted">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Image
+            src={sleeveIllustration}
+            alt="Tekening van vier vrienden die samen wijn proeven"
+            widths={[160, 320]}
+            sizes="10rem"
+            class="mt-4 h-auto w-40"
+          />
+        </div>
+      </div>
       <p class="mt-6 text-center font-bold">
         2 tot 6 spelers · 60 tot 90 minuten · geen wijnkennis nodig · alleen glazen nodig
       </p>
@@ -199,20 +213,13 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
           ))}
         </ul>
       </div>
-      <video
-        class="aspect-square w-full rounded-[var(--radius-card)] object-cover"
-        width="720"
-        height="720"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="none"
-        poster={poster.src}
-        aria-label="Sfeerbeelden van vrienden die Flavory spelen"
-      >
-        <source src="/media/flavory-loop.mp4" type="video/mp4" />
-      </video>
+      <Image
+        src={tablePhoto}
+        alt="Vrienden aan tafel terwijl iemand een fles in een stoffen zakje omhooghoudt"
+        widths={[480, 720, 960]}
+        sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
+        class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
+      />
     </div>
   </section>
 

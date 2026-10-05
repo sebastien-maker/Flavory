@@ -1,0 +1,196 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Faq from '@/components/ui/Faq.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import { clearanceProducts, getProducts, mainProducts, productPath } from '@/lib/content';
+import { SITE, shippingLine } from '@/lib/site';
+import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
+import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
+
+const path = '/cadeau/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Cadeau', path },
+];
+const seoTitle = 'Wijnbox cadeau: een origineel wijncadeau';
+const description =
+  'Geef een wijnbox cadeau: het wijnspel met twee flessen wijn (75 cl). Een avond samen proeven in plaats van één fles. Geleverd in België en Nederland.';
+
+const allProducts = await getProducts();
+const products = mainProducts(allProducts);
+const clearance = clearanceProducts(allProducts);
+
+const reasons = [
+  {
+    title: 'Je geeft een avond, geen fles',
+    text: 'De ontvanger zet twee glazen per persoon klaar en de avond vult zichzelf: proeven, raden en lachen met 2 tot 6 spelers.',
+  },
+  {
+    title: 'Geen wijnkennis nodig',
+    text: 'Het spel legt stap voor stap uit hoe je kijkt, ruikt en proeft. Wie nog nooit bewust proefde, kan gewoon winnen.',
+  },
+  {
+    title: 'De wijn zit erbij',
+    text: 'In elke box zitten twee flessen wijn van 75 cl, anoniem verpakt in stoffen zakjes. Niemand hoeft nog naar de winkel.',
+  },
+];
+
+// Season block: only when SITE.giftSeason is filled in (see src/lib/site.ts).
+const seasons = {
+  kerst: { title: 'Op tijd voor kerst', text: 'Bestel voor' },
+  moederdag: { title: 'Op tijd voor moederdag', text: 'Bestel voor' },
+  vaderdag: { title: 'Op tijd voor vaderdag', text: 'Bestel voor' },
+};
+const season = SITE.giftSeason ? seasons[SITE.giftSeason] : undefined;
+
+const faq = [
+  {
+    question: 'Kan ik het cadeau rechtstreeks naar de ontvanger laten sturen?',
+    answer:
+      'Ja. Vul bij het afrekenen het adres van de ontvanger in als leveradres. Je krijgt zelf de bevestiging en het trackingnummer.',
+  },
+  {
+    question: 'Welke box geef ik het best cadeau?',
+    answer:
+      'Weet je wat de ontvanger graag drinkt, kies dan rood of wit. Twijfel je, dan is het witte wijnspel met Chardonnay of Sauvignon Blanc de veiligste keuze: die twee druiven kent bijna iedereen.',
+  },
+  {
+    question: 'Wat als de ontvanger niets van wijn kent?',
+    answer:
+      'Dan is dit net een goed cadeau. Je hebt geen voorkennis nodig: het spel leert je proeven terwijl je speelt, en de helft van de punten verdien je met quizvragen.',
+  },
+  {
+    question: 'Zit er een boodschap bij?',
+    answer:
+      'Je kunt bij je bestelling een bericht meegeven in het opmerkingenveld. Geef je het cadeau zelf, dan kan je de box gewoon inpakken zoals hij is.',
+  },
+  {
+    question: 'Hoelang duurt de levering?',
+    answer:
+      'Bestellingen in België en Nederland zijn er meestal binnen 1 à 3 werkdagen. Bestel je voor 12u, dan vertrekt je pakket dezelfde dag.',
+  },
+];
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  path={path}
+  schema={[
+    webPage({ path, title: seoTitle, description, type: 'CollectionPage' }),
+    faqPage(path, faq),
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+
+  <!-- Hero -->
+  <section class="container-site grid items-center gap-6 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
+    <div>
+      <h1 class="h1">Wijnbox cadeau: een wijnproeverij om samen te openen</h1>
+      <p class="mt-3 text-lg">
+        Het wijnspel met twee flessen wijn van 75 cl erbij. De ontvanger nodigt vrienden uit, proeft blind en ontdekt
+        wie het verschil raadt.
+      </p>
+      <div class="mt-5">
+        <a href="#boxen" class="btn-primary">
+          Bekijk de boxen
+        </a>
+      </div>
+      <p class="mt-3 text-sm">{shippingLine()}</p>
+    </div>
+    <Image
+      src={giftImage}
+      alt="Iemand pakt een Flavory-wijnspel uit het cadeaupapier"
+      widths={[360, 540, 720]}
+      sizes="(min-width: 768px) 24rem, calc(100vw - 2rem)"
+      class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover md:max-w-sm"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </section>
+
+  <!-- Drie redenen -->
+  <section class="section-y bg-white" aria-labelledby="redenen-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="redenen-title" class="h2">
+        Waarom een wijnbox een goed cadeau is
+      </h2>
+      <ul class="mt-5 grid gap-4">
+        {reasons.map((r) => (
+          <li class="rounded-xl bg-blush px-4 py-3">
+            <h3 class="font-sans text-lg font-bold">{r.title}</h3>
+            <p class="mt-1 text-sm">{r.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- De boxen -->
+  <section id="boxen" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
+    <div class="container-site">
+      <h2 id="boxen-title" class="h2 text-center">
+        Welke box geef je cadeau?
+      </h2>
+      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
+        {products.map((product) => (
+          <li>
+            <ProductCard product={product} />
+          </li>
+        ))}
+      </ul>
+      {clearance.map((product) => (
+        <p class="mt-4 text-center text-sm">
+          Zolang de voorraad strekt:{' '}
+          <a href={productPath(product.id)} class="font-bold underline">
+            {product.data.name}
+          </a>
+        </p>
+      ))}
+    </div>
+  </section>
+
+  <!-- Levering, met het seizoensblok alleen als er een seizoen ingesteld staat -->
+  <section class="section-y bg-white" aria-labelledby="levering-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="levering-title" class="h2">
+        Rechtstreeks naar de ontvanger
+      </h2>
+      <p class="mt-3">
+        Vul bij het afrekenen het adres van de ontvanger in als leveradres. Jij krijgt de bevestiging en het
+        trackingnummer, zij krijgen de doos. Bestel je voor 12u, dan vertrekt het pakket dezelfde dag; levering duurt
+        meestal 1 à 3 werkdagen in België en Nederland.
+      </p>
+      {season && (
+        <p class="mt-4 rounded-xl bg-blush p-4 font-bold">
+          {season.title}: {season.text} {SITE.giftDeadline}.
+        </p>
+      )}
+      <p class="mt-4">
+        <a href="/cadeau/kerstcadeau/" class="font-bold text-brand underline">
+          Het wijnspel als kerstcadeau
+        </a>
+      </p>
+      <p class="mt-2">
+        <a href="/blog/vijf-cadeaus-die-iedereen-geeft-en-een-dat-bijblijft/" class="font-bold text-brand underline">
+          Cadeaugids: vijf cadeaus die iedereen geeft, en één dat bijblijft
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Vragen -->
+  <section class="section-y" aria-labelledby="faq-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="faq-title" class="h2">
+        Vragen over cadeau geven
+      </h2>
+      <div class="mt-4">
+        <Faq items={faq} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

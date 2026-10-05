@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Faq from '@/components/ui/Faq.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import { getProducts, mainProducts } from '@/lib/content';
+import { SITE, shippingLine } from '@/lib/site';
+import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
+import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
+
+// Evergreen: no year in the URL, the title or the H1, so this page keeps working every December.
+const path = '/cadeau/kerstcadeau/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Cadeau', path: '/cadeau/' },
+  { name: 'Kerstcadeau', path },
+];
+const title = 'Kerstcadeau: het wijnspel met twee flessen wijn';
+const description =
+  'Een kerstcadeau dat blijft hangen: het wijnspel met twee flessen wijn (75 cl). Samen blind proeven in plaats van nog een fles onder de boom.';
+
+const products = mainProducts(await getProducts());
+const season = SITE.giftSeason === 'kerst';
+
+const faq = [
+  {
+    question: 'Wanneer bestel ik best voor kerst?',
+    answer:
+      'Hoe vroeger, hoe rustiger. Bestel je voor 12u, dan vertrekt je pakket dezelfde dag en is het er meestal binnen 1 à 3 werkdagen. In december is het drukker bij de post, dus wacht niet tot de laatste week.',
+  },
+  {
+    question: 'Kan ik het rechtstreeks naar iemand anders laten sturen?',
+    answer:
+      'Ja. Vul bij het afrekenen het adres van de ontvanger in als leveradres. Jij krijgt de bevestiging en het trackingnummer.',
+  },
+  {
+    question: 'Is dit ook een goed cadeau voor Secret Santa?',
+    answer:
+      'Ja, zeker als de groep samen aan tafel zit. Eén box is een avond voor 2 tot 6 spelers, dus het cadeau wordt meteen samen uitgepakt en gespeeld.',
+  },
+  {
+    question: 'Wat als de ontvanger niets van wijn kent?',
+    answer:
+      'Dat is geen bezwaar. Het spel leert je kijken, ruiken en proeven terwijl je speelt, en de helft van de punten verdien je met quizvragen.',
+  },
+  {
+    question: 'Wat als het cadeau niet in de smaak valt?',
+    answer: `${SITE.guarantee} ${SITE.guaranteeDetails}`,
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[webPage({ path, title, description, type: 'CollectionPage' }), faqPage(path, faq), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+
+  <section class="container-site grid items-center gap-6 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
+    <div>
+      <h1 class="h1">Het wijnspel als kerstcadeau</h1>
+      <p class="mt-3 text-lg">
+        Onder de boom ligt al genoeg chocolade. Geef een avond samen: twee flessen wijn van 75 cl, blind geproefd, met
+        een spel errond voor 2 tot 6 spelers.
+      </p>
+      <div class="mt-5">
+        <a href="#boxen" class="btn-primary">
+          Bekijk de boxen
+        </a>
+      </div>
+      <p class="mt-3 text-sm">{shippingLine()}</p>
+      {season && SITE.giftDeadline && (
+        <p class="mt-3 rounded-xl bg-blush p-3 font-bold">Op tijd onder de boom: bestel voor {SITE.giftDeadline}.</p>
+      )}
+    </div>
+    <Image
+      src={giftImage}
+      alt="Iemand pakt een Flavory-wijnspel uit het cadeaupapier"
+      widths={[360, 540, 720]}
+      sizes="(min-width: 768px) 24rem, calc(100vw - 2rem)"
+      class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover md:max-w-sm"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </section>
+
+  <section class="section-y bg-white" aria-labelledby="waarom-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="waarom-title" class="h2">
+        Waarom dit onder de boom past
+      </h2>
+      <ul class="mt-5 grid gap-4">
+        <li class="rounded-xl bg-blush px-4 py-3">
+          <h3 class="font-sans text-lg font-bold">Je geeft tijd samen</h3>
+          <p class="mt-1 text-sm">
+            Een fles is in een kwartier leeg. Dit is een avond van 60 tot 90 minuten waarin iedereen meedoet, ook wie
+            niets van wijn weet.
+          </p>
+        </li>
+        <li class="rounded-xl bg-blush px-4 py-3">
+          <h3 class="font-sans text-lg font-bold">Geen cadeaustress</h3>
+          <p class="mt-1 text-sm">
+            Je hoeft niet te weten welke wijn iemand lekker vindt. Je kiest rood of wit, de twee flessen zitten in de
+            doos en de rest regelt het spel.
+          </p>
+        </li>
+        <li class="rounded-xl bg-blush px-4 py-3">
+          <h3 class="font-sans text-lg font-bold">Ook voor Secret Santa</h3>
+          <p class="mt-1 text-sm">
+            Trek je een naam van iemand die je amper kent? Dan is een avond proeven een veiliger gok dan de zoveelste
+            geurkaars.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="boxen" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
+    <div class="container-site">
+      <h2 id="boxen-title" class="h2 text-center">
+        Kies je kerstcadeau
+      </h2>
+      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
+        {products.map((product) => (
+          <li>
+            <ProductCard product={product} />
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-center">
+        <a href="/cadeau/" class="font-bold text-brand underline">
+          Alle cadeau-ideeën van Flavory
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section-y" aria-labelledby="faq-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="faq-title" class="h2">
+        Vragen over het kerstcadeau
+      </h2>
+      <div class="mt-4">
+        <Faq items={faq} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

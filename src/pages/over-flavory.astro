@@ -3,8 +3,8 @@ import { Image, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
-import { absoluteUrl, SITE } from '@/lib/site';
-import { breadcrumbs, person, webPage } from '@/components/seo/schema';
+import { absoluteUrl, PRESS, SITE } from '@/lib/site';
+import { breadcrumbs, organizationExtra, person, webPage } from '@/components/seo/schema';
 
 const path = '/over-flavory/';
 const crumbs = [
@@ -29,30 +29,42 @@ const people = await Promise.all(
     }),
   ),
 );
+const stores = (await getCollection('stores')).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
 
 <BaseLayout
   title={title}
   description={description}
   path={path}
-  schema={[webPage({ path, title, description, type: 'AboutPage' }), ...people, breadcrumbs(crumbs)]}
+  schema={[
+    webPage({ path, title, description, type: 'AboutPage' }),
+    organizationExtra({
+      subjectOf: PRESS.map((item) => ({
+        '@type': 'Article',
+        headline: item.title,
+        url: item.url,
+        datePublished: item.date,
+        publisher: { '@type': 'Organization', name: item.source },
+      })),
+    }),
+    ...people,
+    breadcrumbs(crumbs),
+  ]}
 >
   <Breadcrumbs items={crumbs} />
   <article class="container-site max-w-3xl py-8 md:py-12">
     <h1 class="h1">Over Flavory</h1>
-    <div class="prose-flavory mt-6 text-lg">
+    <p class="lead mt-4">
+      Wij zijn Bart en Thomas, de makers van Flavory, het Belgische wijnspel uit Bazel. We maakten het omdat we wijn
+      wilden leren proeven zonder cursus of dikke boeken: gewoon met vrienden aan tafel.
+    </p>
+    <div class="prose-flavory mt-6">
+      <h2>Hoe het begon</h2>
       <p>
-        Alle ingrediënten voor het etentje liggen in je winkelkar, en ook de dessertchocolade heb je al gevonden. Nu nog
-        de wijn. Je loopt door de gangen vol flessen uit verschillende landen.{' '}
-        <strong>Wat een overaanbod. Je voelt je compleet overdonderd.</strong>
-      </p>
-      <p>
-        Hoe maak je nu een keuze? Kijk je naar de kleur, de druif of het land? Of doe je zoals altijd, en kies je de
-        fles met het mooiste etiket, op hoop van zegen?
-      </p>
-      <p>
-        <strong>Als je je ooit zo hebt gevoeld, ben je niet alleen.</strong> Enkele jaren geleden liet Bart zich door
-        exact die situatie inspireren. Het resultaat? Flavory. Het{' '}
+        Je staat in de supermarkt voor een rek vol flessen. Kijk je naar de kleur, de druif of het land? Of kies je,
+        zoals altijd, de fles met het mooiste etiket? Bart stond daar ook, en vond nergens een eenvoudige manier om meer
+        over wijn te leren. Dus maakte hij er zelf een: een spel waarbij je twee wijnen blind proeft en al spelend
+        ontdekt wat je lekker vindt. Het{' '}
         <a href="/blog/het-prille-begin-van-flavory-anno-2017/">prille begin van Flavory</a> lees je op onze blog.
       </p>
     </div>
@@ -77,8 +89,12 @@ const people = await Promise.all(
         <p class="mt-3">
           "Interesse voor wijn heb ik altijd gehad, maar ik miste een laagdrempelige manier om er meer over te leren.
           Liefst van al bleef het nog een beetje leuk ook. En wie weet zat er wel een competitief element in? Toen ik
-          dat nergens vond, heb ik het maar zelf ontwikkeld. En zo zit jij nu op deze website. Wel een box kopen ook,
-          hé?"
+          dat nergens vond, heb ik het maar zelf ontwikkeld."
+        </p>
+        <p class="mt-3">
+          <a href="/over-flavory/bart/" class="font-bold text-brand underline">
+            Meer over Bart
+          </a>
         </p>
       </div>
       <div id="thomas" class="scroll-mt-28 rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
@@ -93,28 +109,42 @@ const people = await Promise.all(
         )}
         <h3 class="h4 mt-4 text-center">Thomas, het businessbrein</h3>
         <p class="mt-3">
-          "Mijn passie voor ondernemen combineren met mijn liefde voor wijn: die kans grijp ik met beide handen. Waar
-          Bart de wijnranken plantte, zorg ik enthousiast mee voor extra zon en regen. Samen bottelen we de perfecte
-          beleving voor elke wijnliefhebber!"
+          "Mijn passie voor ondernemen combineren met mijn liefde voor wijn: die kans grijp ik met beide handen."
         </p>
       </div>
     </div>
   </section>
 
-  <section class="container-site max-w-3xl py-8">
+  <section class="container-site max-w-3xl py-8" aria-labelledby="feiten-title">
     <div class="rounded-[var(--radius-card)] bg-blush p-6">
-      <h2 class="h4">Flavory in het kort</h2>
+      <h2 id="feiten-title" class="h4">
+        Flavory in het kort
+      </h2>
       <dl class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-[auto_1fr]">
+        <dt class="font-bold">Opgericht</dt>
+        <dd>{SITE.foundingDate}</dd>
         <dt class="font-bold">Bedrijf</dt>
         <dd>{SITE.legalName}</dd>
         <dt class="font-bold">Adres</dt>
         <dd>
           {SITE.address.street}, {SITE.address.postalCode} {SITE.address.city}
         </dd>
-        <dt class="font-bold">BTW</dt>
+        <dt class="font-bold">Btw-nummer</dt>
         <dd>BE 0757.810.421</dd>
-        <dt class="font-bold">Opgericht</dt>
-        <dd>{SITE.foundingDate}</dd>
+        {SITE.customers && (
+          <>
+            <dt class="font-bold">Klanten</dt>
+            <dd>{SITE.customers}</dd>
+          </>
+        )}
+        {stores.length > 0 && (
+          <>
+            <dt class="font-bold">Verkooppunten</dt>
+            <dd>
+              {stores.length} winkels: {stores.map((s) => `${s.data.name} (${s.data.city})`).join(', ')}
+            </dd>
+          </>
+        )}
         <dt class="font-bold">Contact</dt>
         <dd>
           <a href={`mailto:${SITE.email}`} class="text-brand underline">
@@ -130,5 +160,27 @@ const people = await Promise.all(
         .
       </p>
     </div>
+  </section>
+
+  <section class="container-site max-w-3xl py-8" aria-labelledby="pers-title">
+    <h2 id="pers-title" class="h2">
+      Over ons geschreven
+    </h2>
+    <ul class="mt-4 space-y-4">
+      {PRESS.map((item) => (
+        <li class="rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
+          <p class="text-sm text-muted">
+            {item.source} · {item.dateLabel}
+          </p>
+          <h3 class="h4 mt-1">{item.title}</h3>
+          {item.quote && <blockquote class="mt-3 border-l-4 border-brand pl-4 italic">"{item.quote}"</blockquote>}
+          <p class="mt-3">
+            <a href={item.url} class="font-bold text-brand underline">
+              Lees het artikel bij {item.source}
+            </a>
+          </p>
+        </li>
+      ))}
+    </ul>
   </section>
 </BaseLayout>

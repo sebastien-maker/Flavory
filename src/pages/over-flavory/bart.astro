@@ -1,0 +1,103 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { getPosts, postPath } from '@/lib/content';
+import { absoluteUrl, authorPath, SITE } from '@/lib/site';
+import { breadcrumbs, person, webPage } from '@/components/seo/schema';
+
+// Author page. The Person schema of every blog article by Bart points here (authorPath in src/lib/site.ts).
+const author = (await getEntry('authors', 'bart'))!;
+const path = authorPath(author.id);
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Over Flavory', path: '/over-flavory/' },
+  { name: author.data.name, path },
+];
+const title = 'Bart Claessens: oprichter van Flavory';
+const description =
+  'Bart Claessens bedacht Flavory, het wijnspel uit Bazel. Lees wie hij is, hoe de wijnen voor de boxen gekozen worden en welke artikels hij schreef.';
+
+const posts = (await getPosts()).filter((p) => p.data.author.id === author.id).slice(0, 6);
+const photo = author.data.image!;
+const schemaImage = absoluteUrl((await getImage({ src: photo, width: 600, format: 'jpg' })).src);
+const personNode = person({
+  id: author.id,
+  name: author.data.name,
+  description: author.data.role,
+  image: schemaImage,
+  sameAs: author.data.sameAs,
+});
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  image={photo}
+  imageAlt={`Portret van ${author.data.name}`}
+  schema={[
+    { ...webPage({ path, title, description, type: 'ProfilePage' }), mainEntity: { '@id': personNode['@id'] } },
+    personNode,
+    breadcrumbs(crumbs),
+  ]}
+>
+  <Breadcrumbs items={crumbs} />
+  <article class="container-site max-w-3xl py-8 md:py-12">
+    <div class="grid items-center gap-6 sm:grid-cols-[auto_1fr]">
+      <Image
+        src={photo}
+        alt={`Portret van ${author.data.name}`}
+        widths={[240, 480]}
+        sizes="15rem"
+        class="mx-auto aspect-square w-full max-w-60 rounded-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div>
+        <h1 class="h1">{author.data.name}</h1>
+        <p class="lead mt-2">{author.data.role}</p>
+      </div>
+    </div>
+
+    <div class="prose-flavory mt-8">
+      <p>{author.data.bio}</p>
+
+      <h2>Hoe de wijnen gekozen worden</h2>
+      <p>
+        We kiezen alleen wijnen waar we zelf achter staan. Voor elk duel zoeken we twee flessen die het karakter van hun
+        druif duidelijk laten proeven, zodat je het verschil ook blind kunt vinden. Lekker, maar vooral ook leerzaam.
+      </p>
+      <p>
+        In Standaard zitten twee flessen wijn (75 cl) die dat verschil helder tonen. In Premium zitten twee duurdere
+        flessen, met meer diepgang. Het spel is in beide hetzelfde.
+      </p>
+      <p>
+        {SITE.guarantee} Meer over de keuze tussen de boxen lees je in de <a href="/faq/">veelgestelde vragen</a>.
+      </p>
+    </div>
+
+    {posts.length > 0 && (
+      <section class="mt-10" aria-labelledby="artikels-title">
+        <h2 id="artikels-title" class="h2">
+          Artikels van Bart
+        </h2>
+        <ul class="mt-4 divide-y divide-line">
+          {posts.map((post) => (
+            <li class="py-3">
+              <a href={postPath(post.id)} class="font-bold hover:text-brand hover:underline">
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-4">
+          <a href="/blog/" class="font-bold text-brand underline">
+            Alle blogberichten
+          </a>
+        </p>
+      </section>
+    )}
+  </article>
+</BaseLayout>

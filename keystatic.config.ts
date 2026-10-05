@@ -315,6 +315,15 @@ export default config({
         body: fields.text({ label: 'Review', multiline: true, validation: { isRequired: true } }),
         product: fields.relationship({ label: 'Product', collection: 'products' }),
         date: fields.date({ label: 'Datum' }),
+        theme: fields.select({
+          label: 'Thema op de reviewpagina',
+          options: [
+            { label: 'Het spel', value: 'spel' },
+            { label: 'De wijn en de avond', value: 'avond' },
+            { label: 'De klantenservice', value: 'service' },
+          ],
+          defaultValue: 'spel',
+        }),
         order: fields.integer({ label: 'Volgorde', defaultValue: 0 }),
       },
     }),

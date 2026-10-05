@@ -166,6 +166,8 @@ const reviews = defineCollection({
     body: z.string(),
     product: reference('products').optional(),
     date: z.coerce.date().optional(),
+    // Heading on /reviews/ under which the review is shown.
+    theme: z.enum(['spel', 'avond', 'service']).default('spel'),
     order: z.number().int().default(0),
   }),
 });

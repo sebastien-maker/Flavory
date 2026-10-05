@@ -4,7 +4,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Stars from '@/components/ui/Stars.astro';
 import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
 import { getReviews } from '@/lib/content';
-import { breadcrumbs, webPage } from '@/components/seo/schema';
+import { aggregateRating, breadcrumbs, organizationExtra, reviewNodes, webPage } from '@/components/seo/schema';
 
 const path = '/reviews/';
 const crumbs = [
@@ -15,13 +15,27 @@ const title = 'Reviews: wat spelers zeggen over Flavory';
 const description =
   'Lees wat spelers vinden van het wijnspel van Flavory: gezellige avonden, lekkere wijnen en veel bijgeleerd. Bekijk de ervaringen en de Trustpilot-score.';
 const reviews = await getReviews();
+
+// One H2 per theme (field "Thema op de reviewpagina" in the CMS); a theme without reviews is left out.
+const themes = [
+  { key: 'spel', heading: 'Over het spel' },
+  { key: 'avond', heading: 'Over de wijn en de avond' },
+  { key: 'service', heading: 'Over de klantenservice' },
+]
+  .map((theme) => ({ ...theme, reviews: reviews.filter((r) => r.data.theme === theme.key) }))
+  .filter((theme) => theme.reviews.length > 0);
 ---
 
 <BaseLayout
   title={title}
   description={description}
   path={path}
-  schema={[webPage({ path, title, description }), breadcrumbs(crumbs)]}
+  schema={[
+    webPage({ path, title, description }),
+    // Every review on this page, with the Trustpilot score as the aggregate.
+    organizationExtra({ aggregateRating: aggregateRating(), review: reviewNodes(reviews.map((r) => r.data)) }),
+    breadcrumbs(crumbs),
+  ]}
 >
   <Breadcrumbs items={crumbs} />
   <section class="container-site py-8 md:py-12">
@@ -29,24 +43,29 @@ const reviews = await getReviews();
     <div class="mt-4">
       <TrustpilotBadge />
     </div>
-    <ul class="mt-8 columns-1 gap-4 md:columns-2 lg:columns-3">
-      {reviews.map(({ data }) => (
-        <li class="mb-4 break-inside-avoid">
-          <figure class="rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
-            <div class="flex items-center gap-2">
-              <Stars rating={data.rating} />
-              <span class="text-sm font-bold">{data.rating}/5</span>
-            </div>
-            <blockquote class="mt-3">
-              {data.title && <p class="font-bold">{data.title}</p>}
-              <p class="mt-1">{data.body}</p>
-            </blockquote>
-            <figcaption class="mt-4 font-bold">{data.author}</figcaption>
-          </figure>
-        </li>
-      ))}
-    </ul>
-    <p class="mt-8 text-center">
+    {themes.map((theme) => (
+      <>
+        <h2 class="h2 mt-10">{theme.heading}</h2>
+        <ul class="mt-4 grid items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {theme.reviews.map(({ data }) => (
+            <li>
+              <figure class="rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line">
+                <div class="flex items-center gap-2">
+                  <Stars rating={data.rating} />
+                  <span class="text-sm font-bold">{data.rating}/5</span>
+                </div>
+                <blockquote class="mt-3">
+                  {data.title && <p class="font-bold">{data.title}</p>}
+                  <p class="mt-1">{data.body}</p>
+                </blockquote>
+                <figcaption class="mt-4 font-bold">{data.author}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </>
+    ))}
+    <p class="mt-10 text-center">
       <a href="/shop/" class="btn-primary">
         Probeer het zelf
       </a>

@@ -7,7 +7,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import { getPosts, getRelatedPosts, postPath, readingMinutes, PILLAR_LABELS, type Post } from '@/lib/content';
-import { absoluteUrl, formatDate } from '@/lib/site';
+import { absoluteUrl, authorPath, formatDate } from '@/lib/site';
 import { article, breadcrumbs, person } from '@/components/seo/schema';
 
 export const getStaticPaths = (async () => {
@@ -82,7 +82,7 @@ const schemaImage = absoluteUrl(
         {author && (
           <span>
             Door{' '}
-            <a href="/over-flavory/" class="font-bold text-ink hover:underline">
+            <a href={authorPath(author.id)} class="font-bold text-ink hover:underline">
               {author.data.name}
             </a>
           </span>

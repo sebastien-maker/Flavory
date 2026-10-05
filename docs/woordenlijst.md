@@ -2,11 +2,19 @@
 
 Deze afspraken gelden voor elke tekst op flavory.wine: pagina's, productteksten, blogtitels, knoppen, e-mails en metateksten.
 
+## Het aanbod
+
+- Twee hoofdboxen, elk in **Standaard** en **Premium**:
+  - Wit wijnspel: **Chardonnay of Sauvignon Blanc?**
+  - Rood wijnspel: **Merlot of Cabernet Sauvignon?**
+- **Italië of Spanje** is restvoorraad, zolang de voorraad strekt. Het is nooit een variant van de rode box.
+- Zeg **Standaard**, nooit "Regular".
+
 ## Hoe we de dingen noemen
 
 - Het product heet **het wijnspel**. Dat is onze merkterm.
 - De categorie heet **wijnproeverij thuis**.
-- Een box heet naar zijn duel, bijvoorbeeld **Italië of Spanje**.
+- Een box heet naar zijn duel, bijvoorbeeld **Merlot of Cabernet Sauvignon**.
 
 ## Niet gebruiken
 

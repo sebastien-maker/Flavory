@@ -129,10 +129,10 @@ export default config({
             formula: fields.select({
               label: 'Formule',
               options: [
-                { label: 'Regular', value: 'Regular' },
+                { label: 'Standaard', value: 'Standaard' },
                 { label: 'Premium', value: 'Premium' },
               ],
-              defaultValue: 'Regular',
+              defaultValue: 'Standaard',
             }),
             price: fields.number({ label: 'Prijs (€)', step: 0.01, validation: { isRequired: true, min: 0 } }),
             sku: fields.text({ label: 'SKU', validation: { isRequired: true } }),

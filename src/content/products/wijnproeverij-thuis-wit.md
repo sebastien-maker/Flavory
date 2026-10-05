@@ -9,7 +9,7 @@ definition: "Het witte wijnspel van Flavory is een blinde wijnproeverij voor thu
 variants:
   - id: chardonnay-sauvignon-regular
     duel: "Chardonnay vs Sauvignon Blanc"
-    formula: Regular
+    formula: Standaard
     price: 59.9
     sku: "B002N Chardonnay/SB (6151305126156)-1-1"
     gtin13: "6151305126156"

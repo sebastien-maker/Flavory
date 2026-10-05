@@ -9,7 +9,7 @@ definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thui
 variants:
   - id: merlot-cabernet-regular
     duel: "Merlot vs Cabernet Sauvignon"
-    formula: Regular
+    formula: Standaard
     price: 59.9
     sku: "TMP-ROOD-MCS-REG"
     wooId: 15718
@@ -25,7 +25,7 @@ variants:
     available: false
   - id: italie-spanje-regular
     duel: "Italië vs Spanje"
-    formula: Regular
+    formula: Standaard
     price: 59.9
     sku: "B003N It/Sp (6151306865801)-1"
     gtin13: "6151306865801"

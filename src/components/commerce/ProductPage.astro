@@ -23,7 +23,7 @@ import {
   resolvePosts,
   type Product,
 } from '@/lib/content';
-import { SITE, absoluteUrl, formatPrice, pricePerPerson } from '@/lib/site';
+import { SITE, absoluteUrl, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
@@ -284,6 +284,7 @@ const schemaImages = await Promise.all(
         <p class="mt-4 text-3xl font-bold" data-price-display aria-live="polite">
           {initial ? formatPrice(initial.price) : 'Tijdelijk uitverkocht'}
         </p>
+        <p class="mt-1 text-sm">{shippingLine()}</p>
         <p class="mt-1 text-sm text-muted">
           Inclusief btw en twee flessen wijn
           {initial && (

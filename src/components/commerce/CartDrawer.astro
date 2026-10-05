@@ -1,5 +1,5 @@
 ---
-import { SITE } from '@/lib/site';
+import { SITE, shippingLine } from '@/lib/site';
 
 // Fallback when online checkout is unavailable. Without an e-mail address the link would be empty,
 // so we point to the contact page instead.
@@ -46,7 +46,8 @@ const contact = SITE.email
         <span>Subtotaal</span>
         <span data-cart-subtotal></span>
       </div>
-      <p class="mt-1 text-xs text-muted">Inclusief btw. Verzendkosten zie je bij het afrekenen.</p>
+      <p class="mt-1 text-xs text-muted">Inclusief btw.</p>
+      <p class="mt-2 text-sm" data-cart-shipping>{shippingLine()}</p>
       <button type="button" data-cart-checkout class="btn-primary mt-4 w-full">
         Afrekenen
       </button>
@@ -97,7 +98,7 @@ const contact = SITE.email
   import { cart, MAX_QTY, type CartLine } from '@/lib/commerce/cart';
   import { checkoutProvider, createCheckoutUrl } from '@/lib/commerce/checkout';
   import { analyticsIds, track } from '@/lib/analytics';
-  import { SITE, formatPrice } from '@/lib/site';
+  import { SITE, formatPrice, shippingLine } from '@/lib/site';
 
   const dialog = document.getElementById('cart-drawer') as HTMLDialogElement;
   const $ = <T extends HTMLElement>(sel: string, root: ParentNode = dialog) => root.querySelector<T>(sel)!;
@@ -124,6 +125,8 @@ const contact = SITE.email
     $('[data-cart-progress]').textContent =
       count === 0 ? '' : toGo > 0 ? `Nog ${toGo} box en je verzending is gratis!` : 'Je verzending is gratis!';
     $('[data-cart-progress]').hidden = count === 0;
+    // Shipping: the real amount, or free once the cart reaches the threshold.
+    $('[data-cart-shipping]').textContent = toGo > 0 ? shippingLine() : 'Gratis verzending';
     $('[data-cart-subtotal]').textContent = formatPrice(lines.reduce((s, l) => s + l.price * l.quantity, 0));
 
     linesEl.replaceChildren(

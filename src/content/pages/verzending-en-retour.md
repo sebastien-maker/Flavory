@@ -17,7 +17,7 @@ Bestellingen worden meestal binnen **1 à 3 werkdagen** geleverd. Zodra je pakke
 
 ## Verzendkosten
 
-**Vanaf 2 boxen is de verzending gratis.** Voor een bestelling van één box zie je de verzendkosten in je winkelmandje, vóór je betaalt.
+Voor één box betaal je **€ 7,50** verzendkosten, in België en in Nederland. **Vanaf 2 boxen is de verzending gratis.** Je ziet het bedrag ook in je winkelmandje, vóór je betaalt.
 
 ## Leeftijd
 

@@ -33,7 +33,7 @@ export const SITE = {
     minDays: 1,
     maxDays: 3,
     freeFromBoxes: 2,
-    // Standard rate for one box (current checkout, BE). Free from `freeFromBoxes` boxes.
+    // Rate for one box, the same for Belgium and the Netherlands. Free from `freeFromBoxes` boxes.
     rate: 7.5,
   },
   returnDays: 14,
@@ -93,6 +93,10 @@ export const FORMULAS = {
   Standaard: 'Heerlijke, eerlijke wijn',
   Premium: 'Twee duurdere flessen met meer diepgang',
 } as const;
+
+/** One line about shipping, used in the cart, on product pages and in the shipping page intro. */
+export const shippingLine = () =>
+  `Verzending ${formatPrice(SITE.shipping.rate)} in België en Nederland, gratis vanaf ${SITE.shipping.freeFromBoxes} boxen.`;
 
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(value);

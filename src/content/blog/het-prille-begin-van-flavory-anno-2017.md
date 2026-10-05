@@ -11,6 +11,8 @@ heroAlt: "Het prille begin van Flavory (anno 2017)"
 pillar: wijnproeverij-thuis
 relatedProduct: wijnproeverij-thuis-rood
 ---
+_Het idee ontstond in 2017. Flavory bestaat als bedrijf sinds 2021._
+
 Het begon allemaal met een WhatsApp-berichtje van Zjef, een goede vriend:
 
 _“Vanavond blind wijn proeven bij mij thuis!”_
@@ -53,4 +55,4 @@ Saint-Émilion is een bekende wijnstreek in Bordeaux. Wijnen uit die streek zijn
 -   Een goede fles kan top zijn. Een goedkope kan… wel wat lastig doordrinken zijn
 
   
-Wat begon als een speelse passie in 2017, groeide uit tot een compleet assortiment wijnboxen die je eenvoudig online kan bestellen. Zin in een gezellige avond vol smaak en spel? Ontdek dan onze [rode wijnboxen](/shop/rode-wijn/) en [witte wijnboxen](/shop/witte-wijn/). Elk pakket is zorgvuldig samengesteld en bevat het unieke Flavory-wijnspel, met of zonder wijn. Leuk om te geven, nog leuker om samen te beleven. Bekijk het volledige aanbod in onze [shop](/shop/).
+Wat in 2017 begon als een speelse passie, werd in 2021 een bedrijf. Vandaag is Flavory een assortiment wijnboxen dat je gewoon online bestelt. Zin in een gezellige avond vol smaak en spel? Ontdek dan onze [rode wijnboxen](/shop/rode-wijn/) en [witte wijnboxen](/shop/witte-wijn/). In elke box zitten het wijnspel en twee flessen wijn (75 cl). Leuk om te geven, nog leuker om samen te beleven. Bekijk het volledige aanbod in onze [shop](/shop/).

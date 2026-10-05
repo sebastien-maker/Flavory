@@ -4,23 +4,29 @@ import Stars from './Stars.astro';
 
 interface Props {
   tone?: 'dark' | 'light';
+  /** The review count is small for now, so we only show it where it is asked for. */
+  showCount?: boolean;
+  class?: string;
 }
 
-const { tone = 'dark' } = Astro.props;
+const { tone = 'dark', showCount = false, class: className } = Astro.props;
 const score = String(SITE.rating.value).replace('.', ',');
 ---
 
 <a
   href={SITE.social.trustpilot}
   rel="noopener"
+  target="_blank"
   class:list={[
     'inline-flex flex-wrap items-center gap-2 text-sm hover:underline',
     tone === 'light' ? 'text-white' : 'text-ink',
+    className,
   ]}
+  style="--color-star: #00b67a"
 >
   <Stars rating={SITE.rating.value} class="text-lg" />
   <span>
-    <strong>{score}/5</strong> op basis van {SITE.rating.count} reviews op
+    <strong>{score}/5</strong>{showCount ? ` op basis van ${SITE.rating.count} reviews op` : ' op'}
   </span>
   <img
     src={tone === 'light' ? '/images/trustpilot-white.svg' : '/images/trustpilot-dark.svg'}

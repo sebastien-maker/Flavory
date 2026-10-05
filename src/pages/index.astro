@@ -10,7 +10,7 @@ import { clearanceProducts, fromPrice, getProducts, getPosts, mainProducts, prod
 import { SITE, formatPrice } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 import heroPhoto from '@/assets/images/site/hero-zakjes.jpg';
-import loopPoster from '@/assets/images/site/flavory-loop-poster.webp';
+import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import pouringPhoto from '@/assets/images/site/inschenken.jpg';
 import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
 // Small accent next to the steps; the drawing also sits on the box sleeve.
@@ -228,9 +228,9 @@ const audiences = [
       </div>
       <!-- Mood clip, only loaded once it scrolls into view. -->
       <LazyVideo
-        src="/media/flavory-loop.mp4"
-        poster={loopPoster}
-        label="Sfeerbeelden van vrienden die Flavory spelen"
+        src="/media/flavory-avond-vrienden.mp4"
+        poster={clipPoster}
+        label="Sfeerbeelden: vrienden proeven samen wijn aan een tafel met kaarsen"
         class="mt-8 aspect-video w-full rounded-[var(--radius-card)] object-cover"
       />
     </div>

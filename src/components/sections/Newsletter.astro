@@ -1,5 +1,10 @@
 ---
 // Netlify Forms: submissions appear under Forms > nieuwsbrief. Connect to the mailing tool later.
+interface Props {
+  heading?: string;
+}
+
+const { heading = 'Schrijf je in voor de nieuwsbrief' } = Astro.props;
 ---
 
 <section class="section-y container-site" aria-labelledby="newsletter-title">
@@ -7,7 +12,7 @@
     <div class="grid gap-6 md:grid-cols-2 md:items-center">
       <div>
         <h2 id="newsletter-title" class="h3">
-          Schrijf je in voor de nieuwsbrief
+          {heading}
         </h2>
       </div>
       <form

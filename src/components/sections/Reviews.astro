@@ -6,11 +6,24 @@ import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
 interface Props {
   heading?: string;
   limit?: number;
+  /** Pick specific reviews by file name, in this order. */
+  authors?: string[];
+  /** One line under the reviews, e.g. the guarantee. */
+  note?: string;
   class?: string;
 }
 
-const { heading = 'Wat spelers zeggen', limit = 6, class: className = 'section-y bg-blush' } = Astro.props;
-const reviews = (await getReviews()).slice(0, limit);
+const {
+  heading = 'Wat spelers zeggen',
+  limit = 6,
+  authors,
+  note,
+  class: className = 'section-y bg-blush',
+} = Astro.props;
+const all = await getReviews();
+const reviews = authors
+  ? authors.flatMap((id) => all.filter((r) => r.id === id))
+  : all.slice(0, limit);
 ---
 
 <section class={className} aria-labelledby="reviews-title">
@@ -38,6 +51,7 @@ const reviews = (await getReviews()).slice(0, limit);
         </li>
       ))}
     </ul>
+    {note && <p class="mt-4 text-center font-bold">{note}</p>}
     <p class="mt-4 text-center">
       <a href="/reviews/" class="btn-outline">
         Alle reviews

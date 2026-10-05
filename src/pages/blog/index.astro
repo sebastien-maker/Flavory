@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import PostCard from '@/components/blog/PostCard.astro';
@@ -37,6 +37,17 @@ const pillars = Object.entries(PILLAR_LABELS)
     posts: posts.filter((p) => p.data.pillar === key),
   }))
   .filter((group) => group.posts.length > 0);
+
+// Row thumbnails are shown at 96 x 72 px, so one 192 x 144 source is enough. A plain <img> without
+// srcset keeps this long list inside the HTML budget (rule 8).
+const thumbs = new Map(
+  await Promise.all(
+    posts.map(
+      async (post) =>
+        [post.id, (await getImage({ src: post.data.heroImage, width: 192, height: 144, fit: 'cover' })).src] as const,
+    ),
+  ),
+);
 ---
 
 <BaseLayout
@@ -120,7 +131,7 @@ const pillars = Object.entries(PILLAR_LABELS)
           {group.posts.map((post) => (
             <li>
               <a href={postPath(post.id)} class="post-row group">
-                <Image src={post.data.heroImage} alt="" width={192} height={144} fit="cover" />
+                <img src={thumbs.get(post.id)} alt="" width="192" height="144" loading="lazy" decoding="async" />
                 <span class="min-w-0">
                   <b>{post.data.title}</b>
                   <small>{readingMinutes(post.body)} min lezen</small>

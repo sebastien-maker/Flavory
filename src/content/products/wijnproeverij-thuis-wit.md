@@ -45,8 +45,6 @@ images:
     alt: "Twee glazen witte wijn op het proefformulier tijdens een blinde wijnproeverij thuis"
   - src: "../../assets/images/products/wijnproeverij-thuis-wit/04-inschenken.jpg"
     alt: "Witte wijn wordt ingeschonken uit een anonieme fles aan een tafel met proefformulieren"
-  - src: "../../assets/images/products/wijnproeverij-thuis-wit/02-hoe-speel-je.webp"
-    alt: "Flavory-box met de zes spelstappen: uitnodigen, inschenken, proeven, tips verzamelen, ontmaskeren en winnen"
 usps:
   - "Inclusief twee flessen witte wijn (75 cl)"
   - "Fun en leerzaam: wie wint het spel en is de grootste sommelier?"

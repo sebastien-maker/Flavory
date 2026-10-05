@@ -59,10 +59,6 @@ images:
     alt: "Twee anonieme flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg"
     alt: "Vrienden aan tafel onthullen welke rode wijn in fles A zat"
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/04-vergelijk.webp"
-    alt: "Speler ruikt aan twee glazen rode wijn om de geuren en smaken te vergelijken"
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02.webp"
-    alt: "Inhoud van de box: spelregels, infobrochures, proefformulieren, rolkaarten, tipkaartjes en twee stoffen wijnzakjes"
 usps:
   - "Inclusief twee flessen rode wijn (75 cl)"
   - "Fun en leerzaam: wie wint het spel en is de grootste sommelier?"

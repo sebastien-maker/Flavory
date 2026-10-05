@@ -41,8 +41,6 @@ images:
     alt: "Vrienden proeven cava en prosecco met het bubbelspel van Flavory"
   - src: "../../assets/images/products/bubbelbox/04-bubbelbox-3.jpg"
     alt: "Twee flessen schuimwijn in stoffen zakjes naast de Flavory bubbelbox"
-  - src: "../../assets/images/products/bubbelbox/06-trust.webp"
-    alt: "Reviews van spelers op Google en Trustpilot met foto's van enthousiaste klanten met hun Flavory-box"
 usps:
   - "Inclusief een herkenbare Italiaanse prosecco en een typische Spaanse cava"
   - "Ideaal voor een avond met 2 tot 6 vrienden of familieleden"

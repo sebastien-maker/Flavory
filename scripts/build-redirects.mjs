@@ -22,6 +22,8 @@ const CHECKOUT = 'https://www.flavory.wine';
 // The bubbles box is out of the range (draft); its URLs go to the shop until it returns.
 // Netlify only applies these non-forced rules when no page exists, so re-enabling the product needs no change here.
 const BUBBLES = '/shop/';
+// The old bubbles category and the comparison short link go to the comparison article.
+const CAVA_POST = '/blog/cava-of-prosecco/';
 
 // [from, to]. Order matters only for readability; Netlify uses the first match.
 const RULES = [
@@ -93,7 +95,7 @@ const RULES = [
   ['/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-premium-editie/', WHITE_WINE],
   ['/shop/witte-wijnspel-chardonnay-vs-sauvignon-blanc-proef-jij-het-verschil/', WHITE_WINE],
   ['/shop/bubbelbox/', BUBBLES],
-  ['/shop/bubbels/', BUBBLES],
+  ['/shop/bubbels/', CAVA_POST],
   ['/shop/cava-prosecco-box/', BUBBLES],
   ['/shop/bubbelspel-cava-vs-prosecco-proef-jij-het-verschil/', BUBBLES],
   ['/shop/rose-wijn-box/', '/shop/'],
@@ -103,7 +105,7 @@ const RULES = [
   ['/shop/flavory-business-pack-5-wijnboxen-aan-20-korting-excl-btw/', '/zakelijk/'],
 
   // Comparison short links (future comparison articles will take these over)
-  ['/cava-vs-prosecco', BUBBLES],
+  ['/cava-vs-prosecco', CAVA_POST],
   ['/merlot-vs-cabernet-sauvignon', RED],
   ['/chardonnay-vs-sauvignon-blanc', WHITE],
   ['/italie-vs-spanje', IT_ES],
@@ -111,7 +113,7 @@ const RULES = [
   // Categories and tags
   ['/shop/productcategorie/rode-wijn/', '/shop/rode-wijn/'],
   ['/shop/productcategorie/witte-wijn/', '/shop/witte-wijn/'],
-  ['/shop/productcategorie/bubbels/', BUBBLES],
+  ['/shop/productcategorie/bubbels/', CAVA_POST],
   ['/shop/productcategorie/bundels/', '/shop/'],
   ['/shop/productcategorie/geen-categorie/', '/shop/'],
   ['/shop/producttag/box/', '/shop/'],

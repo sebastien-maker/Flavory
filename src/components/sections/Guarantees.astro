@@ -4,7 +4,7 @@ interface Props {
 }
 
 const { class: className = 'section-y' } = Astro.props;
-const items = ['Gratis verzending vanaf 2 boxen', 'Voor 12u besteld, vandaag verzonden', 'Niet tevreden? Je krijgt je geld terug.'];
+const items = ['Gratis verzending vanaf 2 boxen', 'Voor 12u besteld, vandaag verzonden', SITE.guarantee];
 ---
 
 <section class={className} aria-labelledby="garanties-title">

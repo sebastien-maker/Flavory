@@ -23,9 +23,9 @@ Bestellingen worden meestal binnen **1 à 3 werkdagen** geleverd. Zodra je pakke
 
 Onze wijnboxen bevatten alcohol. Door te bestellen bevestig je dat je de wettelijke minimumleeftijd hebt: 16 jaar voor wijn in België, 18 jaar in Nederland. Voor bestellingen in Nederland wordt de leeftijd ook gecontroleerd bij de levering.
 
-## Niet tevreden? Geld terug
+## Niet tevreden? Je krijgt je geld terug
 
-Niet tevreden? Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug. Meer lees je in artikel 5bis van onze [algemene voorwaarden](/algemene-voorwaarden/).
+Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug. Meer lees je in artikel 5bis van onze [algemene voorwaarden](/algemene-voorwaarden/).
 
 ## Herroepingsrecht
 

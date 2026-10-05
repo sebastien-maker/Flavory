@@ -78,7 +78,7 @@ faq:
   - question: "Wat is de levertijd?"
     answer: "Bestellingen in België en Nederland worden meestal binnen 1 à 3 werkdagen geleverd. Je krijgt een verzendbevestiging met trackingnummer zodra je pakket onderweg is."
   - question: "Wat als ik niet tevreden ben?"
-    answer: "Niet tevreden? Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
+    answer: "Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
 relatedPosts:
   - wijnproeverij-date-night-chardonnay-of-sauvignon-blanc
   - blind-wijn-proeven

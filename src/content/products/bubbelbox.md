@@ -26,7 +26,7 @@ descriptions:
 
       **Na deze avond weet je precies waar je naar vraagt bij je volgende aperitief.** Wie de meeste juiste antwoorden geeft, gaat naar huis met het diploma van Grootste Wijnkenner.
 
-      _Niet tevreden? Dan krijg je gewoon je geld terug._
+      _Niet tevreden? Je krijgt je geld terug._
 category: bubbels
 playersMin: 2
 playersMax: 6

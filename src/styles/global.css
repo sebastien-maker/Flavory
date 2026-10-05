@@ -64,10 +64,6 @@
   --color-muted: #4a4a4a;
   --color-line: #e8ddd2;
   /* Light blue from the white wine box. */
-  --color-wine-white: #90d6e6;
-  --color-wine-white-dark: #6cc4d9;
-  /* Sticker orange, close to the round sticker on the box sleeve (darkened for white text). */
-  --color-sticker: #e2711d;
   --color-star: #f5a623;
   --color-success: #1f7a3a;
 
@@ -129,7 +125,7 @@
 }
 
 @utility btn {
-  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-center text-sm font-bold tracking-wide uppercase transition-colors;
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-center text-base font-bold transition-colors;
 }
 
 @utility card {
@@ -146,12 +142,6 @@
   }
   .btn-outline {
     @apply btn border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-white;
-  }
-  .btn-wine-white {
-    @apply btn bg-wine-white text-ink hover:bg-wine-white-dark;
-  }
-  .btn-white {
-    @apply btn bg-white text-brand hover:bg-blush;
   }
   .h1 {
     font-size: var(--text-h1);
@@ -170,21 +160,21 @@
   }
   /* Repeated patterns as named classes keep the HTML small (rule 8). */
   .nav-pill {
-    @apply inline-flex h-12 items-center justify-center rounded-full border-2 border-ink px-5 text-sm font-bold tracking-wide uppercase transition-colors hover:bg-ink hover:text-white lg:px-6;
+    @apply inline-flex h-12 items-center justify-center rounded-full border-2 border-ink px-5 text-base font-bold transition-colors hover:bg-ink hover:text-white lg:px-6;
   }
   .nav-pill-shop {
     @apply border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark;
   }
   .icon-circle {
-    @apply flex size-10 items-center justify-center rounded-full border-2 border-white hover:bg-white hover:text-brand;
+    @apply flex size-10 items-center justify-center rounded-full bg-ink text-white transition-colors hover:bg-brand;
   }
   /* relative: keeps the absolutely positioned sr-only step number inside the card, so it cannot
      escape the horizontal scroller and stretch the page (mobile zoomed out otherwise). */
   .step-card {
-    @apply relative flex flex-col overflow-hidden rounded-[var(--radius-card)] bg-brand p-4 text-white;
+    @apply card relative flex flex-col overflow-hidden p-4;
   }
   .step-card-compact {
-    @apply w-36 shrink-0 snap-start p-3 text-sm md:w-auto;
+    @apply p-3 text-sm;
   }
   .faq-summary {
     @apply flex cursor-pointer list-none items-center justify-between gap-4 py-4;
@@ -228,16 +218,13 @@
   .payments > li {
     @apply rounded bg-white p-0.5;
   }
-  .review-slide {
-    @apply w-[85%] shrink-0 snap-start md:w-auto;
-  }
   .link-list a:hover {
     text-decoration: underline;
   }
   /* Homepage hero: round gift sticker on the corner of the illustration, wiggles twice on load. */
   .gift-sticker {
     @apply absolute -top-4 -right-1 flex size-24 flex-col items-center justify-center rounded-full text-center font-display leading-none text-white shadow-md md:-top-6 md:-right-4 md:size-32;
-    background: var(--color-sticker);
+    background: var(--color-ink);
     outline: 2px dashed rgb(255 255 255 / 0.6);
     outline-offset: -6px;
     rotate: 12deg;

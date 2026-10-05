@@ -109,7 +109,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
           </a>
         )}
         {white && (
-          <a href={productPath(white.id)} class="btn-wine-white px-4">
+          <a href={productPath(white.id)} class="btn-outline px-4">
             Kies wit
           </a>
         )}
@@ -216,7 +216,7 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
   <HowItWorks />
 
   <!-- Voor wie -->
-  <section class="bg-brand text-white" aria-labelledby="voorwie-title">
+  <section class="bg-white" aria-labelledby="voorwie-title">
     <div class="section-y container-site grid items-center gap-8 md:grid-cols-2">
       <div>
         <h2 id="voorwie-title" class="h2">
@@ -229,11 +229,11 @@ const poster = await getImage({ src: loopPoster, width: 720, format: 'webp' });
             'Voor wie speelt om te winnen, of gewoon voor de gezelligheid',
             'Als cadeau of origineel relatiegeschenk',
           ].map((item) => (
-            <li class="rounded-xl bg-white/10 px-4 py-2.5 font-bold">{item}</li>
+            <li class="rounded-xl bg-blush px-4 py-2.5 font-bold">{item}</li>
           ))}
         </ul>
         <div class="mt-6">
-          <a href="/shop/" class="btn-white">
+          <a href="/shop/" class="btn-outline">
             Met wie speel jij?
           </a>
         </div>

@@ -51,8 +51,8 @@ playersMin: 2
 playersMax: 6
 order: 0
 images:
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-italie-of-spanje-box.webp"
-    alt: "Flavory rode wijnspel Italië versus Spanje met twee flessen in stoffen zakjes"
+  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-merlot-cabernet-box.webp"
+    alt: "Doos van het rode wijnspel Merlot of Cabernet Sauvignon, met twee flessen in stoffen zakjes ernaast"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
     alt: "Flavory rode wijnspel op tafel: blinde wijnproeverij thuis met Merlot en Cabernet Sauvignon"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg"

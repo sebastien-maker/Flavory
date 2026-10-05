@@ -8,7 +8,7 @@ export const SITE = {
   locale: 'nl',
   email: 'info@flavory.wine',
   vatId: 'BE0757810421',
-  foundingDate: '2017',
+  foundingDate: '2021',
   address: {
     street: 'Broedersstraat 15',
     postalCode: '9150',
@@ -37,9 +37,11 @@ export const SITE = {
     rate: 7.5,
   },
   returnDays: 14,
-  // The only guarantee we make; reuse this wording everywhere it is explained.
-  guarantee:
-    'Niet tevreden? Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.',
+  // The only guarantee we make. Use this wording wherever we claim it; the details below belong on
+  // the shipping/returns and terms pages.
+  guarantee: 'Niet tevreden? Je krijgt je geld terug.',
+  guaranteeDetails:
+    'Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.',
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',
   // PostHog project API key (public by design: it can only send events). EU cloud.

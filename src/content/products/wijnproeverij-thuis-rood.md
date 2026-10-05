@@ -42,7 +42,7 @@ descriptions:
   - group: landen
     heading: "Italië vs Spanje"
     text: |
-      Italië of Spanje: twee legendarische wijnlanden, twee totaal verschillende stijlen. In deze box zitten een typische Italiaanse en een herkenbare Spaanse rode wijn, anoniem verpakt. Aan jou en je gezelschap om te ontdekken welke fles uit welk land komt.
+      Italië of Spanje: twee wijnlanden, twee totaal verschillende stijlen. In deze box zitten een typische Italiaanse en een herkenbare Spaanse rode wijn, anoniem verpakt. Aan jou en je gezelschap om te ontdekken welke fles uit welk land komt.
 
       Het spel leidt je stap voor stap door de avond. Je leert kijken, ruiken en proeven, verzamelt tips met quizvragen en ontmaskert op het einde de twee wijnen. Wie de meeste punten heeft, is de wijnkenner aan tafel.
 category: rode-wijn
@@ -68,10 +68,10 @@ usps:
   - "Speelplezier voor 2 tot 6 personen"
   - "Geen voorkennis nodig"
   - "Gratis verzending vanaf 2 boxen"
-  - "Niet tevreden? Geld terug"
+  - "Niet tevreden? Je krijgt je geld terug."
 highlights:
   - title: "Leer twee rode wijnen herkennen,"
-    text: "twee beroemde druiven of twee legendarische wijnlanden."
+    text: "twee druiven of twee wijnlanden."
   - title: "Ontdek wat je zelf graag drinkt,"
     text: "en weet voortaan wat je moet kopen in de winkel of bestellen in een restaurant."
   - title: "Breng je vrienden of familie rond de tafel,"
@@ -81,7 +81,7 @@ highlights:
 boxContents:
   - "Een plezierig en eenvoudig spel voor 2 tot 6 personen. Geen vermoeiende handleiding, beloofd!"
   - "Professionele proefformulieren en infobrochures"
-  - "Wijntips en -tricks die je écht kunt gebruiken"
+  - "Wijntips die je meteen kunt gebruiken"
   - "Een mini-foodpairinggids als bonus"
   - "Twee stoffen zakjes om de wijnflessen anoniem te maken"
   - "Twee flessen rode wijn (75 cl)"

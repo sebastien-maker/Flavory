@@ -4,7 +4,7 @@ seoTitle: "Je Flavory-box nog niet gespeeld?"
 description: "Je Flavory-box staat nog in de kast? Nodig je vrienden uit met een van deze berichtjes en plan eindelijk je wijnproeverij thuis. Succes gegarandeerd."
 noindex: true
 ---
-Jij maakte de wijze beslissing om Flavory in huis te halen. De volgende stap: **het spel écht gaan spelen**. Hoog tijd dus om vrienden uit te nodigen en de wijnen te kraken. Hoe je ze zo snel mogelijk aan je deur krijgt? Stuur één van deze berichtjes. Succes gegarandeerd.
+Jij maakte de wijze beslissing om Flavory in huis te halen. De volgende stap: **het spel spelen**. Hoog tijd dus om vrienden uit te nodigen en de wijnen te kraken. Hoe je ze zo snel mogelijk aan je deur krijgt? Stuur één van deze berichtjes. Succes gegarandeerd.
 
 > "Ik heb twee supergoede flessen wijn in huis gehaald, maar met mijn gebrekkige kennis durf ik ze maar moeilijk alleen te proeven. Mag ik rekenen op jouw eindeloze expertise en o zo intuïtieve neus?"
 

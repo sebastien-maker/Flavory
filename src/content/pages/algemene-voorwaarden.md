@@ -15,7 +15,7 @@ b) Deze algemene voorwaarden hebben steeds voorrang op alle andersluidende voorw
 
 a) Wijnboxen
 
-De wijnboxen verkocht op deze website omvatten telkens twee flessen wijn (75 cl) en een spel om spelenderwijs de wijnen te ontdekken en te leren proeven. De wijnboxen zijn verkrijgbaar in een Regular- en een Premiumformule. Het spel is in beide formules identiek. In de Premiumformule zitten twee duurdere flessen wijn.
+De wijnboxen verkocht op deze website omvatten telkens twee flessen wijn (75 cl) en een spel om spelenderwijs de wijnen te ontdekken en te leren proeven. De wijnboxen zijn verkrijgbaar in een Standaard- en een Premiumformule. Het spel is in beide formules identiek. In de Premiumformule zitten twee duurdere flessen wijn.
 
 De selectie van deze wijnen gebeurt door FLAVORY en kan in geen geval grond zijn voor welke betwisting dan ook.
 

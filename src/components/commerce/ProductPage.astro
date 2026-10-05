@@ -43,7 +43,7 @@ const available = variants.length > 0;
 const minPrice = fromPrice(product);
 // The first option is preselected, so the buy button works straight away.
 const initial = variants[0];
-// Options grouped per duel, so Regular and Premium sit side by side.
+// Options grouped per duel, so Standaard and Premium sit side by side.
 const duels = [...new Set(variants.map((v) => v.duel))].map((name) => ({
   name,
   variants: variants.filter((v) => v.duel === name),

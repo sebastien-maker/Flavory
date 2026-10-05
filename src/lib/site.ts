@@ -90,7 +90,7 @@ export const FOOTER_NAV = [
 
 // Explanation shown under the option list on product pages.
 export const FORMULAS = {
-  Regular: 'Heerlijke, eerlijke wijn',
+  Standaard: 'Heerlijke, eerlijke wijn',
   Premium: 'Twee duurdere flessen met meer diepgang',
 } as const;
 

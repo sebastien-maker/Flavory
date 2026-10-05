@@ -27,7 +27,7 @@ const isGtin13 = (code: string) => {
 const variant = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
   duel: z.string(),
-  formula: z.enum(['Regular', 'Premium']),
+  formula: z.enum(['Standaard', 'Premium']),
   price: z.number().positive(),
   sku: z.string(),
   // Barcode of this exact box (with wine). The CMS saves an empty field as "".

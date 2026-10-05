@@ -9,7 +9,7 @@ definition: "De bubbelbox van Flavory is een blinde proeverij met twee meegeleve
 variants:
   - id: cava-prosecco-regular
     duel: "Cava vs Prosecco"
-    formula: Regular
+    formula: Standaard
     price: 64.9
     sku: "B005N Cava/Prosecco (6151308390370)"
     group: bubbels

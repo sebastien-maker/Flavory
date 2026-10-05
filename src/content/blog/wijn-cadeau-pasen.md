@@ -1,8 +1,8 @@
 ---
 title: "Wijn cadeau met Pasen: origineler dan chocolade"
 seoTitle: "Wijn cadeau met Pasen: origineler dan chocolade"
-description: "Op zoek naar een origineel wijn cadeau Pasen? Ontdek waaromeen fles uit Moldavië of Georgië meer indruk maakt danchocolade"
-excerpt: "Waarom chocolade-eieren geven als je ook een fles kunt meebrengen uit een land waar Pasen het allerbelangrijkste feest is? Een wijn cadeau met Pasen dat écht indruk maakt."
+description: "Op zoek naar een origineel wijncadeau met Pasen? Ontdek waarom een fles uit Moldavië of Georgië meer indruk maakt dan een doos chocolade."
+excerpt: "Waarom chocolade-eieren geven als je ook een fles kunt meebrengen uit een land waar Pasen het allerbelangrijkste feest is? Een wijncadeau met Pasen dat indruk maakt."
 pubDate: 2026-03-25
 author: bart
 heroImage: "../../assets/images/blog/wijn-cadeau-pasen.webp"

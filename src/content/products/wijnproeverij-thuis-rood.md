@@ -76,12 +76,12 @@ highlights:
   - title: "Win het spel"
     text: "door de wijnen te herkennen en leuke vragen juist te beantwoorden."
 boxContents:
-  - "Een plezierig en eenvoudig spel voor 2 tot 6 personen. Geen vermoeiende handleiding, beloofd!"
-  - "Professionele proefformulieren en infobrochures"
+  - "Twee flessen rode wijn (75 cl)"
+  - "Het wijnspel voor 2 tot 6 personen"
+  - "Proefformulieren en infobrochures"
   - "Wijntips die je meteen kunt gebruiken"
   - "Een mini-foodpairinggids als bonus"
   - "Twee stoffen zakjes om de wijnflessen anoniem te maken"
-  - "Twee flessen rode wijn (75 cl)"
 faq:
   - question: "Moet ik iets van wijn afweten?"
     answer: "Nee. Je moet wijn gewoon lekker vinden. De rest leer je al spelend."

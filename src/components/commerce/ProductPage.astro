@@ -23,7 +23,7 @@ import {
   resolvePosts,
   type Product,
 } from '@/lib/content';
-import { FORMULAS, SITE, absoluteUrl, formatPrice, pricePerPerson } from '@/lib/site';
+import { SITE, absoluteUrl, formatPrice, pricePerPerson } from '@/lib/site';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
@@ -37,17 +37,26 @@ const { product } = Astro.props;
 const { data } = product;
 const path = productPath(product.id);
 const category = await getEntry(data.category);
-// Sold-out options are left out completely (not shown as disabled).
-const variants = availableVariants(product);
-const available = variants.length > 0;
+// Every option stays visible; a sold-out one is shown as such and cannot be picked, so the box
+// never silently switches to another duel.
+const variants = data.variants;
+const buyable = variants.filter((v) => v.available);
+const available = buyable.length > 0;
 const minPrice = fromPrice(product);
-// The first option is preselected, so the buy button works straight away.
-const initial = variants[0];
+// The first option that can be bought is preselected, so the buy button works straight away.
+const initial = buyable[0];
 // Options grouped per duel, so Standaard and Premium sit side by side.
 const duels = [...new Set(variants.map((v) => v.duel))].map((name) => ({
   name,
   variants: variants.filter((v) => v.duel === name),
 }));
+// When the standard box is sold out, point to the box that is still in stock (leftover stock).
+const standardSoldOut = variants.some((v) => v.formula === 'Standaard' && !v.available);
+const alternative = standardSoldOut
+  ? (await getProducts()).find(
+      (p) => p.id !== product.id && p.data.category.id === data.category.id && availableVariants(p).length > 0,
+    )
+  : undefined;
 const perPersonLabel = (price: number) => `${pricePerPerson(price, data.playersMax)} per persoon met ${data.playersMax} spelers`;
 
 const crumbs = [
@@ -121,7 +130,7 @@ const schemaImages = await Promise.all(
       name: data.name,
       description: data.definition,
       offers: data.variants.map((v) => ({
-        name: `${v.duel} · ${v.formula}`,
+        name: `${data.name} (${v.formula})`,
         sku: realSku(v.sku),
         gtin13: v.gtin13,
         price: v.price,
@@ -204,12 +213,13 @@ const schemaImages = await Promise.all(
 
     <!-- Buy box: name, option list, price and button come first (mobile first) -->
     <div>
-      <h1 class="h3 text-brand">{data.h1}</h1>
+      {data.badge && <p class="badge inline-block bg-ink text-white">{data.badge}</p>}
+      <h1 class="h3 mt-1 text-brand">{data.h1}</h1>
       <ReviewHighlight href="#reviews-title" class="mt-1" />
 
       <form data-add-to-cart data-variant-form id="bestellen" class="mt-4 scroll-mt-28" method="post" action="#">
         <input type="hidden" name="handle" value={initial ? `${product.id}:${initial.id}` : ''} />
-        <input type="hidden" name="name" value={initial ? `${data.name} (${initial.duel} · ${initial.formula})` : ''} />
+        <input type="hidden" name="name" value={initial ? `${data.name} (${initial.formula})` : ''} />
         <input type="hidden" name="price" value={initial?.price ?? ''} />
         <input type="hidden" name="image" value={cover.thumb.src} />
         <input type="hidden" name="url" value={path} />
@@ -223,34 +233,52 @@ const schemaImages = await Promise.all(
               <p class="mb-3 font-bold">{duel.name}</p>
               <div class="grid grid-cols-2 gap-2">
                 {duel.variants.map((v) => (
-                  <label class="variant-tile">
+                  <label class:list={['variant-tile', !v.available && 'is-sold-out']}>
                     <input
                       type="radio"
                       name="variant"
                       value={v.id}
                       checked={v.id === initial?.id}
+                      disabled={!v.available}
                       required
                       class="sr-only"
                       data-handle={`${product.id}:${v.id}`}
-                      data-name={`${data.name} (${v.duel} · ${v.formula})`}
-                      data-label={`${v.duel} · ${v.formula}`}
+                      data-name={`${data.name} (${v.formula})`}
+                      data-label={v.formula}
                       data-price={v.price}
                       data-group={v.group}
                       data-woo-id={v.wooId}
                     />
-                    {v.formula === 'Premium' && <span class="tile-badge">Meest populair</span>}
+                    {v.available && v.formula === 'Premium' && <span class="tile-badge">Meest populair</span>}
                     <span class="flex items-center justify-between gap-2">
                       <span class="font-bold">{v.formula}</span>
-                      <span class="tile-dot" aria-hidden="true" />
+                      {v.available && <span class="tile-dot" aria-hidden="true" />}
                     </span>
-                    <span class="font-bold" data-tile-price>{formatPrice(v.price)}</span>
-                    <span class="text-xs leading-snug text-muted">{FORMULAS[v.formula]}</span>
+                    {v.available ? (
+                      <span class="font-bold" data-tile-price>{formatPrice(v.price)}</span>
+                    ) : (
+                      <span class="font-bold">Tijdelijk uitverkocht</span>
+                    )}
                   </label>
                 ))}
               </div>
             </div>
           ))}
+          {variants.length > 1 && (
+            <p class="mt-3 text-sm text-muted">
+              Het spel is hetzelfde; Premium heeft twee duurdere flessen met meer diepgang.
+            </p>
+          )}
         </fieldset>
+        {alternative && (
+          <p class="mt-3 rounded-xl bg-blush p-3 text-sm">
+            Standaard is tijdelijk uitverkocht. Wel beschikbaar:{' '}
+            <a class="font-bold underline" href={productPath(alternative.id)}>
+              {alternative.data.name}
+            </a>
+            .
+          </p>
+        )}
         {data.stockNote && <p class="mt-3 text-sm text-muted">{data.stockNote}</p>}
 
         <p class="mt-4 text-3xl font-bold" data-price-display aria-live="polite">
@@ -298,7 +326,7 @@ const schemaImages = await Promise.all(
       <div class="flex items-center gap-3">
         <div class="min-w-0 flex-1">
           <p class="truncate text-sm font-bold" data-sticky-label>
-            {initial ? `${initial.duel} · ${initial.formula}` : data.name}
+            {initial ? `${data.name} · ${initial.formula}` : data.name}
           </p>
           <p class="text-sm" data-sticky-price>
             {formatPrice(initial?.price ?? minPrice)}

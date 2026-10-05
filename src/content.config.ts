@@ -54,6 +54,10 @@ const products = defineCollection({
       duel: z.string().describe('Short summary of the duels on product cards'),
       // One line under the option list: what is for sale right now.
       stockNote: z.string().optional(),
+      // Small label on the card and the product page, e.g. "Zolang de voorraad strekt".
+      badge: z.string().optional(),
+      // Leftover stock: shown apart from the two main boxes, never on the home page as a card.
+      clearance: z.boolean().default(false),
       cardTagline: z.string(),
       definition: z.string().describe('Two-sentence definition block for AI citability'),
       variants: z.array(variant).min(1),

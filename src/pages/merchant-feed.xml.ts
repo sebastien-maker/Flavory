@@ -24,7 +24,7 @@ export const GET: APIRoute = async () => {
       const fields: [string, string | undefined][] = [
         ['g:id', `${product.id}-${v.id}`],
         ['g:item_group_id', product.id],
-        ['g:title', `${data.name}: ${v.duel} (${v.formula})`],
+        ['g:title', `${data.name} (${v.formula})`],
         ['g:description', data.definition],
         ['g:link', `${absoluteUrl(productPath(product.id))}?box=${v.id}`],
         ['g:image_link', images[0]],

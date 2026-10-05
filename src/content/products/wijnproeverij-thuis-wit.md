@@ -1,14 +1,13 @@
 ---
-name: "Wit wijnspel met 2 wijnen"
-h1: "Wit wijnspel met 2 wijnen"
-seoTitle: "Wijnproeverij thuis wit: Chardonnay of Sauvignon?"
+name: "Wit wijnspel: Chardonnay of Sauvignon Blanc"
+h1: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
+seoTitle: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
 seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Chardonnay of Sauvignon Blanc"
-stockNote: "Nu te koop: Chardonnay of Sauvignon Blanc in Standaard. Premium is tijdelijk uitverkocht."
 cardTagline: "Twee witte wijnen, blind geproefd. Wie wordt de wijnkenner aan tafel?"
 definition: "Het witte wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Chardonnay en een Sauvignon Blanc. Voor 2 tot 6 spelers."
 variants:
-  - id: chardonnay-sauvignon-regular
+  - id: chardonnay-sauvignon-standaard
     duel: "Chardonnay of Sauvignon Blanc"
     formula: Standaard
     price: 59.9

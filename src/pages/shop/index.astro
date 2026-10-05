@@ -4,11 +4,13 @@ import ProductCard from '@/components/commerce/ProductCard.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import Reviews from '@/components/sections/Reviews.astro';
-import { getCategories, getProducts, productPath, categoryPath } from '@/lib/content';
+import { clearanceProducts, getProducts, mainProducts, productPath } from '@/lib/content';
+import { formatPrice } from '@/lib/site';
 import { breadcrumbs, itemList, webPage } from '@/components/seo/schema';
 
 const products = await getProducts();
-const categories = await getCategories();
+const main = mainProducts(products);
+const clearance = clearanceProducts(products);
 const crumbs = [
   { name: 'Home', path: '/' },
   { name: 'Shop', path: '/shop/' },
@@ -38,24 +40,32 @@ const description =
       Organiseer thuis een wijnproeverij met het wijnspel en twee flessen wijn, voor 2 tot 6 spelers.
       Ideaal als cadeau, meestal geleverd binnen 1 à 3 werkdagen.
     </p>
-    <nav aria-label="Categorieën" class="mt-6">
-      <ul class="flex flex-wrap gap-2">
-        {categories.map((c) => (
+    <ul class="mt-8 grid max-w-3xl gap-4 sm:grid-cols-2">
+      {main.map((product, i) => (
+        <li>
+          <ProductCard product={product} headingLevel="h2" eager={i < 2} />
+        </li>
+      ))}
+    </ul>
+
+    {clearance.length > 0 && (
+      <ul class="mt-6 max-w-3xl space-y-2">
+        {clearance.map((product) => (
           <li>
-            <a href={categoryPath(c.id)} class="btn-outline min-h-10 py-2">
-              {c.data.name}
+            <a
+              href={productPath(product.id)}
+              class="card flex flex-wrap items-center justify-between gap-2 p-4 hover:ring-ink"
+            >
+              <span>
+                <span class="font-bold">{product.data.name}</span>
+                <span class="block text-sm text-muted">Zolang de voorraad strekt</span>
+              </span>
+              <span class="font-bold">{formatPrice(product.data.variants[0]!.price)}</span>
             </a>
           </li>
         ))}
       </ul>
-    </nav>
-    <ul class="mt-8 grid max-w-3xl gap-4 sm:grid-cols-2">
-      {products.map((product, i) => (
-        <li>
-          <ProductCard product={product} headingLevel="h2" eager={i < 3} />
-        </li>
-      ))}
-    </ul>
+    )}
   </section>
 
   <section class="section-y container-site grid gap-10 md:grid-cols-2">

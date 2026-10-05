@@ -1,42 +1,36 @@
 ---
-name: "Rood wijnspel: Merlot of Cabernet Sauvignon"
-h1: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
-seoTitle: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
-seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Merlot tegen een Cabernet Sauvignon en ontdek het verschil. Voor 2 tot 6 spelers, zonder voorkennis."
-duel: "Merlot of Cabernet Sauvignon"
-cardTagline: "Twee rode druiven, blind geproefd. Wie wordt de wijnkenner aan tafel?"
-definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Merlot en een Cabernet Sauvignon, voor 2 tot 6 spelers."
+name: "Rood wijnspel: Italië of Spanje"
+h1: "Rood wijnspel: Italië of Spanje?"
+seoTitle: "Wijnspel Italië of Spanje: rode wijnbox"
+seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Italiaanse tegen een Spaanse rode wijn. Voor 2 tot 6 spelers, zolang de voorraad strekt."
+duel: "Italië of Spanje"
+badge: "Zolang de voorraad strekt"
+clearance: true
+stockNote: "Dit is restvoorraad: op is op. Daarna blijft het rode wijnspel bestaan met Merlot of Cabernet Sauvignon."
+cardTagline: "Twee wijnlanden tegenover elkaar. Welke fles komt uit Italië?"
+definition: "Italië of Spanje is een rood wijnspel van Flavory met twee flessen wijn: een Italiaanse en een Spaanse rode wijn die je blind tegen elkaar proeft, voor 2 tot 6 spelers."
 variants:
-  - id: merlot-cabernet-standaard
-    duel: "Merlot of Cabernet Sauvignon"
+  - id: italie-spanje-standaard
+    duel: "Italië of Spanje"
     formula: Standaard
     price: 59.9
-    sku: "TMP-ROOD-MCS-REG"
-    wooId: 15718
-    group: druiven
-    available: false
-  - id: merlot-cabernet-premium
-    duel: "Merlot of Cabernet Sauvignon"
-    formula: Premium
-    price: 74.9
-    sku: "TMP-ROOD-MCS-PREM"
-    wooId: 2842
-    group: druiven
-    available: false
+    sku: "B003N It/Sp (6151306865801)-1"
+    gtin13: "6151306865801"
+    wooId: 13647
+    group: landen
+    available: true
 descriptions:
-  - group: druiven
-    heading: "Merlot of Cabernet Sauvignon"
+  - group: landen
+    heading: "Italië of Spanje"
     text: |
-      Wat is het verschil tussen Merlot en Cabernet Sauvignon? Na dit spel weet je het voorgoed. Je schenkt twee rode wijnen blind uit, proeft ze samen met je vrienden of familie en probeert te ontmaskeren welke fles welke druif bevat.
+      Italië of Spanje: twee wijnlanden, twee totaal verschillende stijlen. In deze box zitten een typische Italiaanse en een herkenbare Spaanse rode wijn, anoniem verpakt. Aan jou en je gezelschap om te ontdekken welke fles uit welk land komt.
 
-      Het spel neemt je stap voor stap mee: je leert kijken, ruiken en proeven zoals een sommelier, zonder moeilijke vaktermen. De sommelier van dienst leidt het proeven, de spelleider houdt de quiz in goede banen en wie de meeste punten verzamelt, mag zich de wijnkenner van de avond noemen.
+      Het spel leidt je stap voor stap door de avond. Je leert kijken, ruiken en proeven, verzamelt tips met quizvragen en ontmaskert op het einde de twee wijnen. Wie de meeste punten heeft, is de wijnkenner aan tafel.
 category: rode-wijn
 playersMin: 2
 playersMax: 6
-order: 0
+order: 2
 images:
-  - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-merlot-cabernet-box.webp"
-    alt: "Doos van het rode wijnspel Merlot of Cabernet Sauvignon, met twee flessen in stoffen zakjes ernaast"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
     alt: "Rood wijnspel van Flavory op tafel, met twee flessen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg"
@@ -45,14 +39,14 @@ images:
     alt: "Vrienden aan tafel onthullen welke rode wijn in fles A zat"
 usps:
   - "Inclusief twee flessen rode wijn (75 cl)"
-  - "Fun en leerzaam: wie wint het spel en is de grootste sommelier?"
+  - "Een Italiaanse tegen een Spaanse rode wijn"
   - "Speelplezier voor 2 tot 6 personen"
   - "Geen voorkennis nodig"
   - "Gratis verzending vanaf 2 boxen"
   - "Niet tevreden? Je krijgt je geld terug."
 highlights:
-  - title: "Leer twee rode wijnen herkennen,"
-    text: "twee druiven of twee wijnlanden."
+  - title: "Proef het verschil tussen twee landen,"
+    text: "een Italiaanse en een Spaanse rode wijn naast elkaar."
   - title: "Ontdek wat je zelf graag drinkt,"
     text: "en weet voortaan wat je moet kopen in de winkel of bestellen in een restaurant."
   - title: "Breng je vrienden of familie rond de tafel,"
@@ -67,10 +61,10 @@ boxContents:
   - "Een mini-foodpairinggids als bonus"
   - "Twee stoffen zakjes om de wijnflessen anoniem te maken"
 faq:
+  - question: "Hoelang blijft deze box beschikbaar?"
+    answer: "Zolang de voorraad strekt. Italië of Spanje is restvoorraad: als hij op is, komt hij niet terug. Het rode wijnspel blijft wel bestaan met Merlot of Cabernet Sauvignon."
   - question: "Moet ik iets van wijn afweten?"
     answer: "Nee. Je moet wijn gewoon lekker vinden. De rest leer je al spelend."
-  - question: "Ik ben al een wijnkenner. Heb ik er dan nog iets aan?"
-    answer: "Ah, oom Willem. We verwachtten je al. Wijnproeven is geen exacte wetenschap, en hoe meer je erover weet, hoe interessanter het wordt. Bovendien verzamel je de helft van de punten met quizvragen, niet met proeven. Alles is dus mogelijk."
   - question: "Hoelang duurt een spelletje Flavory?"
     answer: "Reken op 60 tot 90 minuten. Tenzij oom Willem meespeelt: dan hang je er een hele avond aan."
   - question: "Wat is de levertijd?"
@@ -78,7 +72,7 @@ faq:
   - question: "Wat als ik niet tevreden ben?"
     answer: "Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
 relatedPosts:
-  - blind-wijn-proeven
   - italiaanse-rode-wijnen
+  - blind-wijn-proeven
   - welke-wijn-bij-welk-gerecht-spiekbriefje
 ---

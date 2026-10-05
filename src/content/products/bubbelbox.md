@@ -8,7 +8,7 @@ cardTagline: "Na dit spel zeg je nooit meer cava tegen prosecco."
 definition: "De bubbelbox van Flavory is een blinde proeverij met twee meegeleverde schuimwijnen: een typische Spaanse cava en een herkenbare Italiaanse prosecco. De box kost €64,90 en bevat alles voor een feestelijk spel met 2 tot 6 spelers."
 variants:
   - id: cava-prosecco-regular
-    duel: "Cava vs Prosecco"
+    duel: "Cava of Prosecco"
     formula: Standaard
     price: 64.9
     sku: "B005N Cava/Prosecco (6151308390370)"
@@ -16,7 +16,7 @@ variants:
     available: false
 descriptions:
   - group: bubbels
-    heading: "Cava vs Prosecco"
+    heading: "Cava of Prosecco"
     text: |
       **Twee bruisende klassiekers uit Zuid-Europa.** Cava uit Spanje en prosecco uit Italië: allebei feestelijk, maar totaal verschillend in stijl en smaak. Welke is jouw favoriet?
 

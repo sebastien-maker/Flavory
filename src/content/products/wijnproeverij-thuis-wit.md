@@ -10,7 +10,7 @@ variants:
   - id: chardonnay-sauvignon-standaard
     duel: "Chardonnay of Sauvignon Blanc"
     formula: Standaard
-    price: 49.9
+    price: 59.9
     sku: "B002N Chardonnay/SB (6151305126156)-1-1"
     gtin13: "6151305126156"
     wooId: 19757

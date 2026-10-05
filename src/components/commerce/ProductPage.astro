@@ -226,6 +226,7 @@ const schemaImages = await Promise.all(
     <div>
       {data.badge && <p class="badge inline-block bg-ink text-white">{data.badge}</p>}
       <h1 class="h3 mt-1 text-brand">{data.h1}</h1>
+      {data.intro && <p class="mt-2">{data.intro}</p>}
       <ReviewHighlight href="#reviews-title" class="mt-1" />
 
       <form data-add-to-cart data-variant-form id="bestellen" class="mt-4 scroll-mt-28" method="post" action="#">

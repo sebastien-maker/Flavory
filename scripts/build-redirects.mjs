@@ -12,8 +12,8 @@ const RED = '/shop/wijnproeverij-thuis-rood/';
 const WHITE = '/shop/wijnproeverij-thuis-wit/';
 // Q4 range: only red and white boxes with wine. The former Italy/Spain and white-wine-box pages are merged into them.
 const WHITE_WINE = WHITE;
-// Leftover stock has its own page. When it sells out, point these back to RED.
-const IT_ES = '/shop/italie-of-spanje/';
+// Italië of Spanje is sold as a duel on the red box page (since 6 Oct 2026).
+const IT_ES = RED;
 const SHOP = '/shop/';
 const VRIENDINNEN_POST = '/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie/';
 const B2B = '/zakelijk/';
@@ -55,10 +55,7 @@ const RULES = [
     '/blog/start-to-wijnkelder-welke-types-wijn-moet-je-altijd-in-huis-hebben/',
   ],
   // WordPress duplicates of the "wijnavond met vriendinnen" post: to the original.
-  [
-    '/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie-dupliceren/',
-    VRIENDINNEN_POST,
-  ],
+  ['/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie-dupliceren/', VRIENDINNEN_POST],
   ['/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-dan-therapie-dupliceren/', VRIENDINNEN_POST],
   ...['2024-is', '2024-is-2', '2024-is-2-2', '2025-is', '2025-is-2', '2025-is-3', '2025-is-w2'].map((s) => [
     `/5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-${s}/`,
@@ -79,6 +76,7 @@ const RULES = [
   ['/shop/mijn-account/*', `${CHECKOUT}/shop/mijn-account/:splat`],
 
   // Products: renamed and legacy slugs (SITE-STRUCTURE §3)
+  ['/shop/italie-of-spanje/', IT_ES],
   ['/shop/valentijn-wine-tasting-game-italie-of-spanje-10-korting/', IT_ES],
   ['/shop/legendarische-wijnlanden-rood/', IT_ES],
   ['/shop/wijnspel-italie-vs-spanje-proef-jij-het-verschil/', IT_ES],
@@ -157,10 +155,7 @@ const RULES = [
     '/blog/start-to-wijnkelder-welke-types-wijn-moet-je-altijd-in-huis-hebben/',
   ],
   ['/de/blog/', '/blog/'],
-  [
-    '/de/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie-dupliceren/',
-    VRIENDINNEN_POST,
-  ],
+  ['/de/blog/waarom-een-wijnavond-met-vriendinnen-soms-belangrijker-is-dan-therapie-dupliceren/', VRIENDINNEN_POST],
   ['/de/blog/*', '/blog/:splat'],
   ['/de/shop/cava-oder-prosecco/', BUBBLES],
   ['/de/shop/cava-oder-prosecco-kopie/', BUBBLES],

@@ -194,6 +194,12 @@ export default config({
           fields.object({
             group: fields.text({ label: 'Tekstgroep', validation: { isRequired: true } }),
             heading: fields.text({ label: 'Tussentitel', validation: { isRequired: true } }),
+            lead: fields.text({
+              label: 'Regel onder het duel bij de keuze',
+              description: 'Eén of twee zinnen, bv. of het duel nu verkrijgbaar is. Leeg laten mag.',
+              multiline: true,
+              validation: { isRequired: false },
+            }),
             text: fields.text({ label: 'Tekst (markdown)', multiline: true, validation: { isRequired: true } }),
           }),
           {

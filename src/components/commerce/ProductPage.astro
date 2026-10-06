@@ -19,6 +19,7 @@ import {
   productPath,
   categoryPath,
   realSku,
+  variantName,
   type Product,
 } from '@/lib/content';
 import { FORMULAS, SITE, absoluteUrl, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
@@ -50,10 +51,14 @@ const initial = buyable[0];
 const replayFaq = (await getEntry('faq', 'opnieuw-spelen'))?.data;
 const faq = [...(replayFaq ? [replayFaq] : []), ...data.faq];
 // Options grouped per duel, so Standaard and Premium sit side by side.
-const duels = [...new Set(variants.map((v) => v.duel))].map((name) => ({
-  name,
-  variants: variants.filter((v) => v.duel === name),
-}));
+const duels = [...new Set(variants.map((v) => v.duel))].map((name) => {
+  const group = variants.find((v) => v.duel === name)?.group;
+  return {
+    name,
+    variants: variants.filter((v) => v.duel === name),
+    lead: data.descriptions.find((d) => d.group === group)?.lead,
+  };
+});
 // When the standard box is sold out, point to the box that is still in stock (leftover stock).
 const standardSoldOut = variants.some((v) => v.formula === 'Standaard' && !v.available);
 const alternative = standardSoldOut
@@ -146,7 +151,7 @@ const schemaImages = await Promise.all(
       name: data.name,
       description: data.definition,
       offers: data.variants.map((v) => ({
-        name: `${data.name} (${v.formula})`,
+        name: variantName(product, v),
         sku: realSku(v.sku),
         gtin13: v.gtin13,
         price: v.price,
@@ -280,7 +285,7 @@ const schemaImages = await Promise.all(
       <div class:list={['rounded-[var(--radius-card)] p-5 md:p-6', theme.zone]}>
         {data.badge && <p class="badge mb-2 inline-block bg-ink text-white">{data.badge}</p>}
         <h1 class="h2">{data.h1}</h1>
-        <p class:list={['mt-1 text-lg italic', theme.line]}>{data.duel}</p>
+        {duels.length === 1 && <p class:list={['mt-1 text-lg italic', theme.line]}>{data.duel}</p>}
         {data.intro && <p class="mt-3">{data.intro}</p>}
       </div>
 
@@ -293,7 +298,7 @@ const schemaImages = await Promise.all(
         action="#"
       >
         <input type="hidden" name="handle" value={initial ? `${product.id}:${initial.id}` : ''} />
-        <input type="hidden" name="name" value={initial ? `${data.name} (${initial.formula})` : ''} />
+        <input type="hidden" name="name" value={initial ? variantName(product, initial) : ''} />
         <input type="hidden" name="price" value={initial?.price ?? ''} />
         <input type="hidden" name="image" value={cover.thumb.src} />
         <input type="hidden" name="url" value={path} />
@@ -303,8 +308,13 @@ const schemaImages = await Promise.all(
         <fieldset disabled={!available}>
           <legend class="text-sm font-bold">Je box</legend>
           {duels.map((duel) => (
-            <div class="mt-3">
-              {duels.length > 1 && <p class="mb-3 font-bold">{duel.name}</p>}
+            <div class="mt-4">
+              {duels.length > 1 && (
+                <>
+                  <p class:list={['text-lg italic', theme.line]}>{duel.name}</p>
+                  {duel.lead && <p class="mt-1 mb-3 text-sm">{duel.lead}</p>}
+                </>
+              )}
               <div class="grid gap-2.5">
                 {duel.variants.map((v) => (
                   <label class:list={['variant-tile', !v.available && 'is-sold-out']}>
@@ -317,8 +327,8 @@ const schemaImages = await Promise.all(
                       required
                       class="sr-only"
                       data-handle={`${product.id}:${v.id}`}
-                      data-name={`${data.name} (${v.formula})`}
-                      data-label={v.formula}
+                      data-name={variantName(product, v)}
+                      data-label={duels.length > 1 ? `${v.duel} · ${v.formula}` : v.formula}
                       data-price={v.price}
                       data-group={v.group}
                       data-woo-id={v.wooId}
@@ -392,7 +402,7 @@ const schemaImages = await Promise.all(
       <div class="flex items-center gap-3">
         <div class="min-w-0 flex-1">
           <p class="truncate text-sm font-bold" data-sticky-label>
-            {initial ? `${data.name} · ${initial.formula}` : data.name}
+            {initial ? `${data.name} · ${duels.length > 1 ? `${initial.duel} · ` : ''}${initial.formula}` : data.name}
           </p>
           <p class="text-sm" data-sticky-price>
             {formatPrice(initial?.price ?? minPrice)}

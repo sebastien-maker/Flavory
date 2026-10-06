@@ -70,7 +70,15 @@ const products = defineCollection({
       definition: z.string().describe('Two-sentence definition block for AI citability'),
       variants: z.array(variant).min(1),
       descriptions: z
-        .array(z.object({ group: z.string(), heading: z.string(), text: z.string() }))
+        .array(
+          z.object({
+            group: z.string(),
+            heading: z.string(),
+            // One or two sentences under the duel heading in the option list.
+            lead: z.string().optional(),
+            text: z.string(),
+          }),
+        )
         .min(1)
         .describe('First entry is shown until the visitor picks an option'),
       category: reference('categories'),

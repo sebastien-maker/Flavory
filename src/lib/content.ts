@@ -14,6 +14,11 @@ export type Variant = Product['data']['variants'][number];
 // Options that can be bought; sold-out options are not shown at all.
 export const availableVariants = (product: Product): Variant[] => product.data.variants.filter((v) => v.available);
 export const isAvailable = (product: Product) => availableVariants(product).length > 0;
+// Name of one option for the cart, the schema and the feed: with the duel when the box has more than one.
+export const variantName = (product: Product, v: Variant) =>
+  new Set(product.data.variants.map((x) => x.duel)).size > 1
+    ? `${product.data.name}: ${v.duel} (${v.formula})`
+    : `${product.data.name} (${v.formula})`;
 // Placeholder SKUs ("TMP-…") stay out of structured data and the Merchant Center feed until Shopify has the real one.
 export const realSku = (sku: string) => (/^TMP-/i.test(sku) ? undefined : sku);
 

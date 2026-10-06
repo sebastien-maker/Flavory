@@ -28,6 +28,8 @@ descriptions:
 
       Het spel leidt je stap voor stap door de avond. Je leert kijken, ruiken en proeven, verzamelt tips met quizvragen en ontmaskert op het einde de twee wijnen. Wie de meeste punten heeft, is de wijnkenner aan tafel.
 category: rode-wijn
+# Sold as a duel on the red box page (wijnproeverij-thuis-rood) since 6 Oct 2026; kept for its copy.
+draft: true
 playersMin: 2
 playersMax: 6
 order: 2

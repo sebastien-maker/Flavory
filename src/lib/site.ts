@@ -25,7 +25,7 @@ export const SITE = {
   },
   // The review score shown on the site and in the schema: the Google Business Profile (6 Oct 2026).
   // Trustpilot (4.5, 31 reviews) keeps its badge in the footer only.
-  rating: { value: 4.9, count: 47, source: 'Google', url: 'https://maps.google.com/?cid=5961443323084044479' },
+  rating: { value: 4.9, count: 47, source: 'Google Reviews', url: 'https://maps.google.com/?cid=5961443323084044479' },
   // Short quote from a real review (src/content/reviews/charlotte.yaml), shown next to the rating.
   featuredReview: { quote: 'Tweede box is al besteld en de derde staat op mijn lijstje!', author: 'Charlotte' },
   // Orders placed before this hour (Brussels time) on working days ship the same day.

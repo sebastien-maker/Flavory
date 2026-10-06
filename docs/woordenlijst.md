@@ -7,7 +7,7 @@ Deze afspraken gelden voor elke tekst op flavory.wine: pagina's, productteksten,
 - Twee hoofdboxen, elk in **Standaard** en **Premium**:
   - Wit wijnspel: **Chardonnay of Sauvignon Blanc?**
   - Rood wijnspel: **Merlot of Cabernet Sauvignon?**
-- **Italië of Spanje** is restvoorraad, zolang de voorraad strekt. Het is nooit een variant van de rode box.
+- **Italië of Spanje** staat als duel op de rode productpagina, als eerste zolang Merlot of Cabernet Sauvignon uitverkocht is, met "zolang de voorraad strekt". Het woord "restvoorraad" gebruiken we niet op de site.
 - Zeg **Standaard**, nooit "Regular".
 
 ## Hoe we de dingen noemen

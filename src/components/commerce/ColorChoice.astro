@@ -1,65 +1,85 @@
 ---
-// The first choice is the colour only: two cards side by side, also on mobile.
-// The duel (Chardonnay of Sauvignon Blanc, …) is introduced on the product page.
+// The first choice is the colour only: two cards side by side, also on mobile (design artboard
+// "5A · Wit of rood: naast elkaar"). The duel is introduced on the product page.
+// In this choice the colour follows the wine (docs/design-richtlijnen.md): light blue for white, red for red.
 import { Image } from 'astro:assets';
 import { clearanceProducts, colourChoices, fromPrice, isAvailable, productPath, type Product } from '@/lib/content';
-import { SITE, formatPrice } from '@/lib/site';
+import { formatPrice } from '@/lib/site';
+import whitePackshot from '@/assets/images/products/packshot-wit-zakjes.jpg';
+import redPackshot from '@/assets/images/products/packshot-rood-zakjes.jpg';
 
 interface Props {
   /** All products; the cards pick the box per colour that is for sale now. */
   products: Product[];
-  headingLevel?: 'h2' | 'h3';
+  heading?: string;
   eager?: boolean;
   class?: string;
 }
 
-const { products, headingLevel: Heading = 'h3', eager = false, class: className } = Astro.props;
-const choices = colourChoices(products);
+const { products, heading = 'Witte of rode wijn?', eager = false, class: className } = Astro.props;
+
+// The packshot belongs to the colour, not to the box the card leads to.
+const STYLES = {
+  Wit: {
+    title: 'Witte wijn',
+    cta: 'Kies wit',
+    image: whitePackshot,
+    alt: 'Wit wijnspel: de doos met twee flessen wijn in zakjes A en B',
+    line: 'text-wine-white-text',
+    button: 'bg-wine-white text-ink',
+  },
+  Rood: {
+    title: 'Rode wijn',
+    cta: 'Kies rood',
+    image: redPackshot,
+    alt: 'Rood wijnspel: de doos met twee flessen wijn in zakjes A en B',
+    line: 'text-wine-red-text',
+    button: 'bg-brand text-white',
+  },
+};
+const choices = colourChoices(products).map((choice) => ({ ...choice, style: STYLES[choice.label] }));
 // Leftover stock gets its own line, unless a card already leads to it.
 const clearance = clearanceProducts(products).filter((p) => !choices.some((c) => c.product.id === p.id));
 ---
 
 <div class:list={['max-w-3xl', className]}>
-  <ul class="grid grid-cols-2 gap-3 sm:gap-4">
-    {choices.map(({ label, product }) => {
-      const cover = product.data.images[0]!;
+  <h2 id="boxen-title" class="h2 text-center">
+    {heading}
+  </h2>
+  <p class="mt-2 text-center">Elk wijnspel: het spel en twee flessen wijn van 75 cl, inbegrepen in de prijs.</p>
+  <ul class="mt-6 grid grid-cols-2 gap-3">
+    {choices.map(({ product, style }) => {
       const soldOut = !isAvailable(product);
       return (
         <li>
-          <article class="card-link group p-3 sm:p-4">
-            <div class="relative aspect-square overflow-hidden rounded-xl bg-cream">
-              <Image
-                src={cover.src}
-                alt={cover.alt}
-                width={480}
-                height={480}
-                widths={[240, 360, 720]}
-                sizes="(min-width: 768px) 22rem, 45vw"
-                class="size-full object-cover"
-                loading={eager ? 'eager' : 'lazy'}
-              />
-              {soldOut && <span class="badge absolute top-2 left-2 bg-white ring-1 ring-line">Uitverkocht</span>}
-            </div>
-            <div class="mt-3 flex flex-1 flex-col">
-              <Heading class:list={['text-2xl font-bold', Heading === 'h3' && 'font-sans']}>{label}</Heading>
-              <p class="mt-1 text-sm">Spel + 2 flessen wijn (75 cl)</p>
-              <p class="text-sm font-bold">
-                {soldOut ? 'Tijdelijk uitverkocht' : `vanaf ${formatPrice(fromPrice(product))}`}
+          <a href={productPath(product.id)} class="choice-card">
+            <Image
+              src={style.image}
+              alt={style.alt}
+              width={480}
+              height={480}
+              widths={[240, 360, 720]}
+              sizes="(min-width: 768px) 23rem, 45vw"
+              class="aspect-square w-full object-cover"
+              loading={eager ? 'eager' : 'lazy'}
+            />
+            <div class="flex flex-1 flex-col px-3 py-3.5">
+              <h3 class="text-[1.5rem] leading-none">{style.title}</h3>
+              <p class:list={['mt-2 text-[0.8125rem] leading-[1.35] italic', style.line]}>
+                {product.data.choiceLine ?? `${product.data.duel}: proef jij het verschil?`}
               </p>
-              <p class="mt-1 text-sm text-muted">{product.data.duel}</p>
-              <div class="mt-auto pt-3">
-                <a
-                  href={productPath(product.id)}
-                  class:list={[
-                    'btn min-h-10 w-full px-3 py-2 after:absolute after:inset-0',
-                    soldOut ? 'bg-line text-muted' : 'bg-brand text-white group-hover:bg-brand-dark',
-                  ]}
-                >
-                  Kies {label.toLowerCase()}
-                </a>
-              </div>
+              <p class="mt-2.5 mb-3.5 text-[0.8125rem] text-muted">
+                {soldOut ? (
+                  'Tijdelijk uitverkocht'
+                ) : (
+                  <>
+                    vanaf <strong class="text-base text-ink">{formatPrice(fromPrice(product))}</strong>
+                  </>
+                )}
+              </p>
+              <p class:list={['choice-button', soldOut ? 'bg-line text-muted' : style.button]}>{style.cta}</p>
             </div>
-          </article>
+          </a>
         </li>
       );
     })}
@@ -72,5 +92,10 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
       </a>
     </p>
   ))}
-  <p class="mt-4 text-center text-sm">Goede, eerlijke wijnen, door ons geselecteerd. {SITE.guarantee}</p>
+  <!-- "Niet lekker?" is the wording for this spot only; the guarantee elsewhere is SITE.guarantee. -->
+  <p class="mt-6 text-center text-sm text-muted">
+    Goede, eerlijke wijnen, door ons geselecteerd.
+    <br />
+    Niet lekker? Je krijgt je geld terug.
+  </p>
 </div>

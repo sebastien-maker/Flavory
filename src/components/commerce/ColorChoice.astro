@@ -16,7 +16,7 @@ interface Props {
   class?: string;
 }
 
-const { products, heading = 'Witte of rode wijn?', eager = false, class: className } = Astro.props;
+const { products, heading = 'Kies je box', eager = false, class: className } = Astro.props;
 
 // The packshot belongs to the colour, not to the box the card leads to.
 const STYLES = {
@@ -46,7 +46,7 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
   <h2 id="boxen-title" class="h2 text-center">
     {heading}
   </h2>
-  <p class="mt-2 text-center">Elk wijnspel: het spel en twee flessen wijn van 75 cl, inbegrepen in de prijs.</p>
+  <p class="mt-2 text-center">Een wijnspel en twee heerlijke, blinde wijnen (2 × 75 cl).</p>
   <ul class="mt-6 grid grid-cols-2 gap-3">
     {choices.map(({ product, style }) => {
       const soldOut = !isAvailable(product);
@@ -63,7 +63,7 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
               class="aspect-square w-full object-cover"
               loading={eager ? 'eager' : 'lazy'}
             />
-            <div class="flex flex-1 flex-col px-3 py-3.5">
+            <div class="flex flex-1 flex-col px-3 py-3.5 text-center">
               <h3 class="text-[1.5rem] leading-none">{style.title}</h3>
               <p class:list={['mt-2 text-[0.8125rem] leading-[1.35] italic', style.line]}>
                 {product.data.choiceLine ?? `${product.data.duel}: proef jij het verschil?`}

@@ -23,7 +23,8 @@ const score = String(SITE.rating.value).replace('.', ',');
   <Stars rating={SITE.rating.value} class="text-lg" />
   <span>
     <strong>{score}/5</strong>
-    {showCount ? ` op basis van ${SITE.rating.count} reviews op ` : ' op '}
-    <strong>{SITE.rating.source}</strong>
+    {showCount ? ` op basis van ${SITE.rating.count} reviews op` : ' op'}
   </span>
+  <img src="/images/google-g.svg" alt="" width="48" height="48" loading="lazy" decoding="async" class="size-4" />
+  <strong>{SITE.rating.source}</strong>
 </a>

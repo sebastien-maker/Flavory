@@ -9,6 +9,8 @@ export const SITE = {
   email: 'info@flavory.wine',
   vatId: 'BE0757810421',
   foundingDate: '2021',
+  // Number of customers for 'Flavory in het kort', for example 'meer dan 2.000'. Empty: the row is left out.
+  customers: '' as string,
   address: {
     street: 'Broedersstraat 15',
     postalCode: '9150',
@@ -91,6 +93,23 @@ export const FOOTER_NAV = [
       { href: '/algemene-voorwaarden/', label: 'Algemene voorwaarden' },
       { href: '/privacybeleid/', label: 'Privacybeleid' },
     ],
+  },
+] as const;
+
+// Authors with their own page; the others are introduced on /over-flavory/.
+export const authorPath = (id: string) => (id === 'bart' ? '/over-flavory/bart/' : '/over-flavory/');
+
+// Press about Flavory: the block "Over ons geschreven" on /over-flavory/, one line on /zakelijk/ and
+// subjectOf in the Organization schema. Never on the home page.
+export const PRESS = [
+  {
+    title: 'Flavory: lessen in flessen',
+    source: 'Acerta',
+    date: '2025-11-05',
+    dateLabel: 'november 2025',
+    url: 'https://www.acerta.be/nl/inspiratie/flavory-lessen-flessen',
+    // A short quote from the article. Empty: the block shows no quote.
+    quote: '' as string,
   },
 ] as const;
 

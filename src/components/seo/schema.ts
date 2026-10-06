@@ -1,5 +1,5 @@
 // JSON-LD builders (CLAUDE.md rule 4). Every page passes its graph to <SeoHead schema={...}>.
-import { SITE, absoluteUrl } from '@/lib/site';
+import { SITE, absoluteUrl, authorPath } from '@/lib/site';
 
 type Thing = Record<string, unknown>;
 
@@ -40,6 +40,40 @@ export function organization(): Thing {
     founder: { '@id': `${SITE.url}/over-flavory/#bart` },
     sameAs: Object.values(SITE.social),
   };
+}
+
+/** Extra facts about the organization on one page; merges with the sitewide node through its @id. */
+export function organizationExtra(extra: Thing): Thing {
+  return { '@type': 'Organization', '@id': ORG_ID, ...extra };
+}
+
+type ReviewInput = {
+  author: string;
+  rating: number;
+  body: string;
+  title?: string | undefined;
+  date?: Date | undefined;
+};
+
+export function aggregateRating(): Thing {
+  return {
+    '@type': 'AggregateRating',
+    ratingValue: SITE.rating.value,
+    reviewCount: SITE.rating.count,
+    bestRating: 5,
+    worstRating: 1,
+  };
+}
+
+export function reviewNodes(reviews: ReviewInput[]): Thing[] {
+  return reviews.map((r) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: r.author },
+    reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+    ...(r.title ? { name: r.title } : {}),
+    ...(r.date ? { datePublished: r.date.toISOString().slice(0, 10) } : {}),
+    reviewBody: r.body,
+  }));
 }
 
 export function website(): Thing {
@@ -97,7 +131,7 @@ export interface ProductSchemaInput {
   offers: { name: string; sku?: string | undefined; gtin13?: string | undefined; price: number; available: boolean }[];
   images: string[];
   category: string;
-  reviews: { author: string; rating: number; body: string; title?: string | undefined }[];
+  reviews: ReviewInput[];
 }
 
 export function product(p: ProductSchemaInput): Thing {
@@ -160,20 +194,8 @@ export function product(p: ProductSchemaInput): Thing {
             hasMerchantReturnPolicy: { '@id': returnPolicy['@id'] },
           }),
     })),
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: SITE.rating.value,
-      reviewCount: SITE.rating.count,
-      bestRating: 5,
-      worstRating: 1,
-    },
-    review: p.reviews.slice(0, 3).map((r) => ({
-      '@type': 'Review',
-      author: { '@type': 'Person', name: r.author },
-      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
-      ...(r.title ? { name: r.title } : {}),
-      reviewBody: r.body,
-    })),
+    aggregateRating: aggregateRating(),
+    review: reviewNodes(p.reviews.slice(0, 3)),
   };
 }
 
@@ -202,7 +224,7 @@ export function person(opts: {
     '@id': `${SITE.url}/over-flavory/#${opts.id}`,
     name: opts.name,
     description: opts.description,
-    url: absoluteUrl('/over-flavory/'),
+    url: absoluteUrl(authorPath(opts.id)),
     worksFor: { '@id': ORG_ID },
     ...(opts.image ? { image: opts.image } : {}),
     ...(opts.sameAs?.length ? { sameAs: opts.sameAs } : {}),
@@ -233,7 +255,7 @@ export function article(opts: {
       '@type': 'Person',
       '@id': `${SITE.url}/over-flavory/#${opts.authorId}`,
       name: opts.authorName,
-      url: absoluteUrl('/over-flavory/'),
+      url: absoluteUrl(authorPath(opts.authorId)),
     },
     publisher: { '@id': ORG_ID },
   };

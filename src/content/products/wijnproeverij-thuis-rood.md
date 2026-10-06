@@ -12,7 +12,7 @@ variants:
   - id: italie-spanje-standaard
     duel: "Italië of Spanje"
     formula: Standaard
-    price: 49.9
+    price: 59.9
     sku: "B003N It/Sp (6151306865801)-1"
     gtin13: "6151306865801"
     wooId: 13647

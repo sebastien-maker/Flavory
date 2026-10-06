@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Stars from '@/components/ui/Stars.astro';
-import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
+import RatingBadge from '@/components/ui/RatingBadge.astro';
 import { getReviews } from '@/lib/content';
 import { aggregateRating, breadcrumbs, organizationExtra, reviewNodes, webPage } from '@/components/seo/schema';
 
@@ -41,7 +41,7 @@ const themes = [
   <section class="container-site py-8 md:py-12">
     <h1 class="h1">Wat spelers zeggen over Flavory</h1>
     <div class="mt-4">
-      <TrustpilotBadge />
+      <RatingBadge />
     </div>
     {themes.map((theme) => (
       <>

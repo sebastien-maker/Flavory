@@ -22,8 +22,8 @@ export const mainProducts = (products: Product[]) => products.filter((p) => !p.d
 export const clearanceProducts = (products: Product[]) => products.filter((p) => p.data.clearance && isAvailable(p));
 
 // The first choice on the home page, /shop/ and the gift pages is the colour. Per colour the card leads
-// to the first box that can be bought, in the manual order from the CMS (so the red card moves from
-// Merlot of Cabernet Sauvignon to Italië of Spanje when the first is sold out). Nothing in stock: the first box.
+// to the main box (the first non-clearance box in the manual order from the CMS), also when it is sold
+// out: that page then points to the leftover stock (Italië of Spanje).
 const COLOURS = [
   { label: 'Wit', category: 'witte-wijn' },
   { label: 'Rood', category: 'rode-wijn' },
@@ -31,7 +31,7 @@ const COLOURS = [
 export function colourChoices(products: Product[]) {
   return COLOURS.flatMap(({ label, category }) => {
     const boxes = products.filter((p) => p.data.category.id === category).sort((a, b) => a.data.order - b.data.order);
-    const product = boxes.find(isAvailable) ?? boxes[0];
+    const product = boxes.find((p) => !p.data.clearance) ?? boxes[0];
     return product ? [{ label, product }] : [];
   });
 }

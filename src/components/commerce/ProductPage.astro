@@ -4,7 +4,7 @@ import { getEntry } from 'astro:content';
 import { marked } from 'marked';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
-import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
+import RatingBadge from '@/components/ui/RatingBadge.astro';
 import Faq from '@/components/ui/Faq.astro';
 import PaymentIcons from './PaymentIcons.astro';
 import { SHORT_STEPS } from '@/lib/steps';
@@ -41,6 +41,8 @@ const category = await getEntry(data.category);
 const variants = data.variants;
 const buyable = variants.filter((v) => v.available);
 const available = buyable.length > 0;
+// A sold-out main box comes back; leftover stock (clearance) does not.
+const soldOutLabel = data.clearance ? 'Tijdelijk uitverkocht' : 'Binnenkort weer verkrijgbaar';
 const minPrice = fromPrice(product);
 // The first option that can be bought is preselected, so the buy button works straight away.
 const initial = buyable[0];
@@ -239,7 +241,7 @@ const schemaImages = await Promise.all(
         ))}
       </ol>
       <p class="mt-3 text-center">
-        <TrustpilotBadge />
+        <RatingBadge />
       </p>
       <ul class="mt-3 hidden gap-2 overflow-x-auto pb-1 md:flex" aria-label="Kies een foto of het filmpje">
         {slides.map((slide, i) => (
@@ -328,8 +330,8 @@ const schemaImages = await Promise.all(
                         <span class="block text-sm text-muted">{FORMULAS[v.formula]}</span>
                       </span>
                     </span>
-                    <span class="shrink-0 text-right font-bold" data-tile-price>
-                      {v.available ? formatPrice(v.price) : 'Tijdelijk uitverkocht'}
+                    <span class="ml-auto max-w-[45%] text-right font-bold" data-tile-price>
+                      {v.available ? formatPrice(v.price) : soldOutLabel}
                     </span>
                   </label>
                 ))}
@@ -344,12 +346,12 @@ const schemaImages = await Promise.all(
           )}
         </fieldset>
         {alternative && (
-          <p class="mt-3 rounded-xl bg-blush p-3 text-sm">
-            Standaard is tijdelijk uitverkocht. Wel beschikbaar:{' '}
-            <a class="font-bold underline" href={productPath(alternative.id)}>
+          <p class="mt-3 rounded-xl bg-white p-4 text-sm ring-1 ring-line">
+            Nu wel verkrijgbaar:{' '}
+            <a class="font-bold text-brand underline" href={productPath(alternative.id)}>
               {alternative.data.name}
             </a>
-            .
+            . Zolang de voorraad strekt.
           </p>
         )}
         {data.stockNote && <p class="mt-3 text-sm text-muted">{data.stockNote}</p>}
@@ -360,7 +362,7 @@ const schemaImages = await Promise.all(
           data-buy-button
           disabled={!available}
         >
-          {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : 'Tijdelijk uitverkocht'}
+          {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : soldOutLabel}
         </button>
         <p class="mt-4 text-sm">
           Eén avond wijnproeverij thuis voor {data.playersMin} tot {data.playersMax} personen, met twee flessen wijn (75

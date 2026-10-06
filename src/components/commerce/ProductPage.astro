@@ -1,17 +1,17 @@
 ---
-import { getImage } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import { marked } from 'marked';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
-import ReviewHighlight from '@/components/ui/ReviewHighlight.astro';
+import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
 import Faq from '@/components/ui/Faq.astro';
 import PaymentIcons from './PaymentIcons.astro';
-import ProductCard from './ProductCard.astro';
 import { SHORT_STEPS } from '@/lib/steps';
 import Reviews from '@/components/sections/Reviews.astro';
 import {
   availableVariants,
+  colourChoices,
   fromPrice,
   getProducts,
   getReviews,
@@ -21,7 +21,8 @@ import {
   realSku,
   type Product,
 } from '@/lib/content';
-import { SITE, absoluteUrl, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
+import { FORMULAS, SITE, absoluteUrl, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
+import { COLOUR_STYLES, colourOf } from '@/lib/colour-choice';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
@@ -112,7 +113,11 @@ const descriptions = data.descriptions.map((d) => {
     more: marked.parse(rest.join('\n\n'), { async: false }),
   };
 });
-const others = (await getProducts()).filter((p) => p.id !== product.id);
+// The page follows the colour of the wine: title zone, chosen option and buy button.
+const colour = colourOf(data.category.id);
+const theme = COLOUR_STYLES[colour];
+// Chose the wrong colour? The other colour's box, as on the home page.
+const other = colourChoices(await getProducts()).find((c) => c.label !== colour);
 // Comparison article about the two wines in this box, when there is one.
 const comparison = data.comparisonPost ? await getEntry(data.comparisonPost) : undefined;
 const reviews = (await getReviews()).map((r) => r.data);
@@ -158,40 +163,83 @@ const schemaImages = await Promise.all(
   <section class="container-site grid gap-6 py-4 md:grid-cols-2 md:gap-8 md:py-10 lg:gap-12">
     <!-- Gallery: CSS scroll-snap; thumbnails on larger screens, swipe on mobile -->
     <div class="min-w-0" data-gallery>
-      <ul
-        class="flex snap-x snap-mandatory overflow-x-auto rounded-[var(--radius-card)] bg-white [scrollbar-width:none]"
-        data-gallery-track
-        data-lazy-root
-        aria-label="Productfoto's"
-      >
+      <div class="relative">
+        <ul
+          class="flex snap-x snap-mandatory scroll-smooth overflow-x-auto rounded-[var(--radius-card)] bg-white [scrollbar-width:none]"
+          data-gallery-track
+          data-lazy-root
+          aria-label="Productfoto's"
+        >
+          {slides.map((slide, i) => (
+            <li class="w-full shrink-0 snap-center" id={`foto-${i + 1}`}>
+              {slide.kind === 'video' ? (
+                <LazyVideo
+                  src={clip.src}
+                  poster={clip.poster}
+                  label={clip.label}
+                  class="aspect-square h-auto w-full object-cover"
+                />
+              ) : (
+                <img
+                  src={slide.main.src}
+                  srcset={slide.main.srcSet.attribute}
+                  sizes={gallerySizes}
+                  width="720"
+                  height="720"
+                  alt={slide.alt}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : undefined}
+                  decoding="async"
+                  class="aspect-square w-full object-cover"
+                />
+              )}
+            </li>
+          ))}
+        </ul>
+        <button type="button" class="gallery-arrow left-3" data-gallery-prev aria-label="Vorige foto">
+          <svg
+            class="size-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M15 5l-7 7 7 7" />
+          </svg>
+        </button>
+        <button type="button" class="gallery-arrow right-3" data-gallery-next aria-label="Volgende foto">
+          <svg
+            class="size-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+      <ol class="mt-3 flex justify-center gap-1.5 md:hidden" aria-label="Foto's">
         {slides.map((slide, i) => (
-          <li class="w-full shrink-0 snap-center" id={`foto-${i + 1}`}>
-            {slide.kind === 'video' ? (
-              <LazyVideo
-                src={clip.src}
-                poster={clip.poster}
-                label={clip.label}
-                class="aspect-square h-auto w-full object-cover"
-              />
-            ) : (
-              <img
-                src={slide.main.src}
-                srcset={slide.main.srcSet.attribute}
-                sizes={gallerySizes}
-                width="720"
-                height="720"
-                alt={slide.alt}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                fetchpriority={i === 0 ? 'high' : undefined}
-                decoding="async"
-                class="aspect-square w-full object-cover"
-              />
-            )}
+          <li>
+            <button
+              type="button"
+              class="gallery-dot"
+              data-gallery-dot={i}
+              aria-current={i === 0 ? 'true' : 'false'}
+              aria-label={slide.label}
+            />
           </li>
         ))}
-      </ul>
-      <p class="mt-2 text-center text-xs text-muted md:hidden" aria-hidden="true">
-        Swipe voor een filmpje en {slides.length - 2} foto's
+      </ol>
+      <p class="mt-3 text-center">
+        <TrustpilotBadge />
       </p>
       <ul class="mt-3 hidden gap-2 overflow-x-auto pb-1 md:flex" aria-label="Kies een foto of het filmpje">
         {slides.map((slide, i) => (
@@ -227,12 +275,21 @@ const schemaImages = await Promise.all(
 
     <!-- Buy box: name, option list, price and button come first (mobile first) -->
     <div>
-      {data.badge && <p class="badge inline-block bg-ink text-white">{data.badge}</p>}
-      <h1 class="h3 mt-1 text-brand">{data.h1}</h1>
-      {data.intro && <p class="mt-2">{data.intro}</p>}
-      <ReviewHighlight href="#reviews-title" class="mt-1" />
+      <div class:list={['rounded-[var(--radius-card)] p-5 md:p-6', theme.zone]}>
+        {data.badge && <p class="badge mb-2 inline-block bg-ink text-white">{data.badge}</p>}
+        <h1 class="h2">{data.h1}</h1>
+        <p class:list={['mt-1 text-lg italic', theme.line]}>{data.duel}</p>
+        {data.intro && <p class="mt-3">{data.intro}</p>}
+      </div>
 
-      <form data-add-to-cart data-variant-form id="bestellen" class="mt-4 scroll-mt-28" method="post" action="#">
+      <form
+        data-add-to-cart
+        data-variant-form
+        id="bestellen"
+        class:list={['mt-6 scroll-mt-28', theme.tiles]}
+        method="post"
+        action="#"
+      >
         <input type="hidden" name="handle" value={initial ? `${product.id}:${initial.id}` : ''} />
         <input type="hidden" name="name" value={initial ? `${data.name} (${initial.formula})` : ''} />
         <input type="hidden" name="price" value={initial?.price ?? ''} />
@@ -242,11 +299,11 @@ const schemaImages = await Promise.all(
         <input type="hidden" name="woo_id" value={initial?.wooId ?? ''} />
 
         <fieldset disabled={!available}>
-          <legend class="text-sm font-bold">Kies je box</legend>
+          <legend class="text-sm font-bold">Je box</legend>
           {duels.map((duel) => (
             <div class="mt-3">
-              <p class="mb-3 font-bold">{duel.name}</p>
-              <div class="grid grid-cols-2 gap-2">
+              {duels.length > 1 && <p class="mb-3 font-bold">{duel.name}</p>}
+              <div class="grid gap-2.5">
                 {duel.variants.map((v) => (
                   <label class:list={['variant-tile', !v.available && 'is-sold-out']}>
                     <input
@@ -264,18 +321,16 @@ const schemaImages = await Promise.all(
                       data-group={v.group}
                       data-woo-id={v.wooId}
                     />
-                    {v.available && v.formula === 'Premium' && <span class="tile-badge">Meest populair</span>}
-                    <span class="flex items-center justify-between gap-2">
-                      <span class="font-bold">{v.formula}</span>
-                      {v.available && <span class="tile-dot" aria-hidden="true" />}
-                    </span>
-                    {v.available ? (
-                      <span class="font-bold" data-tile-price>
-                        {formatPrice(v.price)}
+                    <span class="flex items-center gap-3">
+                      <span class="tile-dot" aria-hidden="true" />
+                      <span>
+                        <span class="block font-bold">{v.formula}</span>
+                        <span class="block text-sm text-muted">{FORMULAS[v.formula]}</span>
                       </span>
-                    ) : (
-                      <span class="font-bold">Tijdelijk uitverkocht</span>
-                    )}
+                    </span>
+                    <span class="shrink-0 text-right font-bold" data-tile-price>
+                      {v.available ? formatPrice(v.price) : 'Tijdelijk uitverkocht'}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -283,7 +338,8 @@ const schemaImages = await Promise.all(
           ))}
           {variants.length > 1 && (
             <p class="mt-3 text-sm text-muted">
-              Het spel is hetzelfde; Premium heeft twee duurdere flessen met meer diepgang.
+              Het spel is in beide boxen hetzelfde. Standaard of Premium: in allebei zitten wijnen die we zelf graag
+              drinken.
             </p>
           )}
         </fieldset>
@@ -298,25 +354,23 @@ const schemaImages = await Promise.all(
         )}
         {data.stockNote && <p class="mt-3 text-sm text-muted">{data.stockNote}</p>}
 
-        <p class="mt-4 text-3xl font-bold" data-price-display aria-live="polite">
-          {initial ? formatPrice(initial.price) : 'Tijdelijk uitverkocht'}
-        </p>
-        <p class="mt-1 text-sm">
-          Eén avond wijnproeverij thuis voor {data.playersMin} tot {data.playersMax} personen, met twee flessen wijn (75
-          cl). Vanaf{' '}
-          <strong data-price-per-person data-players={data.playersMax}>
-            {pricePerPerson(initial?.price ?? minPrice, data.playersMax)}
-          </strong>{' '}
-          per persoon.
-        </p>
-        <p class="mt-1 text-sm text-muted">
-          Een avond duurt 60 tot 90 minuten. Daarna ken je de antwoorden, dus elke box speel je één keer. Zin in nog een
-          avond? Kies een ander duel.
-        </p>
-
-        <button type="submit" class="btn-primary mt-4 w-full" data-buy-button disabled={!available}>
+        <button
+          type="submit"
+          class:list={['btn mt-4 w-full', available ? theme.button : 'bg-line text-muted']}
+          data-buy-button
+          disabled={!available}
+        >
           {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : 'Tijdelijk uitverkocht'}
         </button>
+        <p class="mt-4 text-sm">
+          Eén avond wijnproeverij thuis voor {data.playersMin} tot {data.playersMax} personen, met twee flessen wijn (75
+          cl), vanaf{' '}
+          <span data-price-per-person data-players={data.playersMax}>
+            {pricePerPerson(initial?.price ?? minPrice, data.playersMax)}
+          </span>{' '}
+          per persoon. Een avond duurt 60 tot 90 minuten. Daarna ken je de antwoorden, dus elke box speel je één keer.
+          Zin in nog een avond? Kies een ander duel.
+        </p>
         <p class="mt-2 text-sm text-muted">
           {shippingLine()} {SITE.guarantee}
         </p>
@@ -342,7 +396,7 @@ const schemaImages = await Promise.all(
             {formatPrice(initial?.price ?? minPrice)}
           </p>
         </div>
-        <button type="button" class="btn-primary min-h-11 py-2" data-sticky-button>
+        <button type="button" class:list={['btn min-h-11 py-2', theme.button]} data-sticky-button>
           In winkelmandje
         </button>
       </div>
@@ -355,7 +409,6 @@ const schemaImages = await Promise.all(
       <h2 id="proeven-title" class="h2">
         Wat je proeft
       </h2>
-      <p class="mt-3 border-l-4 border-brand pl-4">{data.definition}</p>
       {descriptions.map((d, i) => (
         <div data-description={d.group} hidden={initial ? d.group !== initial.group : i !== 0}>
           <div class="prose-flavory mt-4" set:html={d.intro} />
@@ -451,17 +504,27 @@ const schemaImages = await Promise.all(
           </a>
         </p>
       )}
-      {others.length > 0 && (
-        <>
-          <h3 class="h3 mt-10">Andere duels</h3>
-          <ul class="mt-4 grid gap-4 sm:grid-cols-2">
-            {others.map((p) => (
-              <li>
-                <ProductCard product={p} />
-              </li>
-            ))}
-          </ul>
-        </>
+      {other && (
+        <a
+          href={productPath(other.product.id)}
+          class="mt-10 flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-white p-3 transition-shadow hover:shadow-md"
+        >
+          <Image
+            src={COLOUR_STYLES[other.label].image}
+            alt=""
+            width={160}
+            height={160}
+            class="size-20 shrink-0 rounded-xl object-cover"
+          />
+          <span>
+            <span class="block font-display text-xl font-bold">
+              Liever {other.label === 'Wit' ? 'witte' : 'rode'} wijn?
+            </span>
+            <span class:list={['mt-1 block text-sm italic', COLOUR_STYLES[other.label].line]}>
+              {other.product.data.choiceLine ?? `${other.product.data.duel}: proef jij het verschil?`}
+            </span>
+          </span>
+        </a>
       )}
     </div>
   </section>
@@ -476,18 +539,30 @@ const schemaImages = await Promise.all(
   const root = document.querySelector<HTMLElement>('[data-gallery]');
   const track = root?.querySelector<HTMLElement>('[data-gallery-track]');
   const thumbs = [...(root?.querySelectorAll<HTMLAnchorElement>('[data-gallery-thumb]') ?? [])];
+  const dots = [...(root?.querySelectorAll<HTMLButtonElement>('[data-gallery-dot]') ?? [])];
   if (track) {
+    // Assigning scrollLeft animates through the track's scroll-smooth; scrollTo() with 'smooth' stalls on a
+    // snap container in some browsers.
+    const goTo = (i: number) => {
+      track.scrollLeft = track.clientWidth * i;
+    };
+    const current = () => Math.round(track.scrollLeft / track.clientWidth);
+    const count = track.children.length;
     thumbs.forEach((thumb, i) =>
       thumb.addEventListener('click', (e) => {
         e.preventDefault();
-        track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+        goTo(i);
       }),
     );
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+    root?.querySelector('[data-gallery-prev]')?.addEventListener('click', () => goTo((current() - 1 + count) % count));
+    root?.querySelector('[data-gallery-next]')?.addEventListener('click', () => goTo((current() + 1) % count));
     track.addEventListener(
       'scroll',
       () => {
-        const index = Math.round(track.scrollLeft / track.clientWidth);
-        thumbs.forEach((t, i) => t.setAttribute('aria-current', String(i === index)));
+        const index = current();
+        for (const list of [thumbs, dots])
+          list.forEach((el, i) => el.setAttribute('aria-current', String(i === index)));
       },
       { passive: true },
     );
@@ -497,7 +572,6 @@ const schemaImages = await Promise.all(
   const form = document.querySelector<HTMLFormElement>('[data-variant-form]');
   const radios = [...(form?.querySelectorAll<HTMLInputElement>('input[name="variant"]') ?? [])];
   const button = form?.querySelector<HTMLButtonElement>('[data-buy-button]');
-  const priceDisplay = form?.querySelector<HTMLElement>('[data-price-display]');
   const perPerson = form?.querySelector<HTMLElement>('[data-price-per-person]');
   const players = Number(perPerson?.dataset.players);
   const stickyPrice = document.querySelector<HTMLElement>('[data-sticky-price]');
@@ -517,7 +591,6 @@ const schemaImages = await Promise.all(
     setField('name', option.dataset.name ?? '');
     setField('price', String(price));
     setField('woo_id', option.dataset.wooId ?? '');
-    if (priceDisplay) priceDisplay.textContent = formatPrice(price);
     if (perPerson && players) perPerson.textContent = pricePerPerson(price, players);
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
     if (stickyPrice) stickyPrice.textContent = formatPrice(price);

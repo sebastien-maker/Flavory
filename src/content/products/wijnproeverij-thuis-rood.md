@@ -1,7 +1,7 @@
 ---
 name: "Rood wijnspel: Merlot of Cabernet Sauvignon"
-h1: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
-intro: "Merlot en Cabernet Sauvignon: twee legendarische rode druiven. Ken je ze van naam, maar heb je geen idee wat het verschil is? Dan is dit je kans."
+h1: "Rode wijnspel"
+intro: "Merlot en Cabernet Sauvignon kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen. Proef ze één keer blind naast elkaar, en je haalt ze nooit meer door elkaar."
 seoTitle: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Merlot tegen een Cabernet Sauvignon en ontdek het verschil. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Merlot of Cabernet Sauvignon"

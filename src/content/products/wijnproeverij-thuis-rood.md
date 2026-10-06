@@ -12,7 +12,7 @@ variants:
   - id: italie-spanje-standaard
     duel: "Italië of Spanje"
     formula: Standaard
-    price: 49.9
+    price: 59.9
     sku: "B003N It/Sp (6151306865801)-1"
     gtin13: "6151306865801"
     wooId: 13647
@@ -29,7 +29,7 @@ variants:
   - id: merlot-cabernet-premium
     duel: "Merlot of Cabernet Sauvignon"
     formula: Premium
-    price: 74.9
+    price: 79.9
     sku: "TMP-ROOD-MCS-PREM"
     wooId: 2842
     group: druiven

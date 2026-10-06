@@ -2,7 +2,7 @@
 // Shipping (incl. free from 2 boxes) and returns are set in Merchant Center itself, not per item.
 import type { APIRoute } from 'astro';
 import { getImage } from 'astro:assets';
-import { getProducts, productPath, realSku } from '@/lib/content';
+import { getProducts, productPath, realSku, variantName } from '@/lib/content';
 import { SITE, absoluteUrl } from '@/lib/site';
 
 const escape = (value: string) =>
@@ -24,7 +24,7 @@ export const GET: APIRoute = async () => {
       const fields: [string, string | undefined][] = [
         ['g:id', `${product.id}-${v.id}`],
         ['g:item_group_id', product.id],
-        ['g:title', `${data.name} (${v.formula})`],
+        ['g:title', variantName(product, v)],
         ['g:description', data.definition],
         ['g:link', `${absoluteUrl(productPath(product.id))}?box=${v.id}`],
         ['g:image_link', images[0]],
@@ -36,8 +36,12 @@ export const GET: APIRoute = async () => {
         ['g:mpn', v.gtin13 ? undefined : sku],
         ['g:product_type', `Wijnspel > ${data.name}`],
       ];
-      const lines = fields.filter(([, value]) => value).map(([tag, value]) => `      <${tag}>${escape(value!)}</${tag}>`);
-      lines.push(...images.slice(1).map((src) => `      <g:additional_image_link>${escape(src)}</g:additional_image_link>`));
+      const lines = fields
+        .filter(([, value]) => value)
+        .map(([tag, value]) => `      <${tag}>${escape(value!)}</${tag}>`);
+      lines.push(
+        ...images.slice(1).map((src) => `      <g:additional_image_link>${escape(src)}</g:additional_image_link>`),
+      );
       items.push(`    <item>\n${lines.join('\n')}\n    </item>`);
     }
   }

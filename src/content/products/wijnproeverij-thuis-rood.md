@@ -1,14 +1,23 @@
 ---
-name: "Rood wijnspel: Merlot of Cabernet Sauvignon"
+name: "Rood wijnspel"
 h1: "Rode wijnspel"
-intro: "Merlot en Cabernet Sauvignon kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen. Proef ze één keer blind naast elkaar, en je haalt ze nooit meer door elkaar."
+intro: "Twee rode wijnen, blind geproefd met vrienden of familie. Nu met Italië of Spanje; Merlot of Cabernet Sauvignon komt binnenkort terug."
 seoTitle: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Merlot tegen een Cabernet Sauvignon en ontdek het verschil. Voor 2 tot 6 spelers, zonder voorkennis."
-duel: "Merlot of Cabernet Sauvignon"
+duel: "Italië of Spanje"
 cardTagline: "Twee rode druiven, blind geproefd. Wie wordt de wijnkenner aan tafel?"
-choiceLine: "Merlot of Cabernet Sauvignon: proef jij het verschil?"
+choiceLine: "Italiaanse of Spaanse wijn: proef jij het verschil?"
 definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Merlot en een Cabernet Sauvignon, voor 2 tot 6 spelers."
 variants:
+  - id: italie-spanje-standaard
+    duel: "Italië of Spanje"
+    formula: Standaard
+    price: 49.9
+    sku: "B003N It/Sp (6151306865801)-1"
+    gtin13: "6151306865801"
+    wooId: 13647
+    group: landen
+    available: true
   - id: merlot-cabernet-standaard
     duel: "Merlot of Cabernet Sauvignon"
     formula: Standaard
@@ -26,8 +35,16 @@ variants:
     group: druiven
     available: false
 descriptions:
+  - group: landen
+    heading: "Italië of Spanje"
+    lead: "Een Italiaanse en een Spaanse rode wijn: twee wijnlanden die iedereen kent. Proef ze blind naast elkaar en ontdek welke fles uit welk land komt. Nu verkrijgbaar, zolang de voorraad strekt."
+    text: |
+      Italië of Spanje: twee wijnlanden, twee totaal verschillende stijlen. In deze box zitten een typische Italiaanse en een herkenbare Spaanse rode wijn, anoniem verpakt. Aan jou en je gezelschap om te ontdekken welke fles uit welk land komt.
+
+      Het spel leidt je stap voor stap door de avond. Je leert kijken, ruiken en proeven, verzamelt tips met quizvragen en ontmaskert op het einde de twee wijnen. Wie de meeste punten heeft, is de wijnkenner aan tafel.
   - group: druiven
     heading: "Merlot of Cabernet Sauvignon"
+    lead: "Merlot en Cabernet Sauvignon kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen. Binnenkort weer verkrijgbaar."
     text: |
       Wat is het verschil tussen Merlot en Cabernet Sauvignon? Na dit spel weet je het voorgoed. Je schenkt twee rode wijnen blind uit, proeft ze samen met je vrienden of familie en probeert te ontmaskeren welke fles welke druif bevat.
 
@@ -39,6 +56,8 @@ order: 0
 images:
   - src: "../../assets/images/products/packshot-rood-zakjes.jpg"
     alt: "Rood wijnspel: de doos met twee flessen wijn in zakjes A en B"
+  - src: "../../assets/images/products/italie-of-spanje/01-box.jpg"
+    alt: "Doos van het rode wijnspel Italië of Spanje, met de sticker Italië vs Spanje"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-merlot-cabernet-box.webp"
     alt: "Doos van het rode wijnspel Merlot of Cabernet Sauvignon, met twee flessen in stoffen zakjes ernaast"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"

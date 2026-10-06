@@ -3,7 +3,7 @@
 // "5A · Wit of rood: naast elkaar"). The duel is introduced on the product page.
 // In this choice the colour follows the wine (docs/design-richtlijnen.md): light blue for white, red for red.
 import { Image } from 'astro:assets';
-import { clearanceProducts, colourChoices, fromPrice, isAvailable, productPath, type Product } from '@/lib/content';
+import { clearanceProducts, colourChoices, fromPrice, productPath, type Product } from '@/lib/content';
 import { formatPrice } from '@/lib/site';
 import { COLOUR_STYLES } from '@/lib/colour-choice';
 
@@ -31,7 +31,6 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
   </p>
   <ul class="mt-6 grid grid-cols-2 gap-3">
     {choices.map(({ product, style }) => {
-      const soldOut = !isAvailable(product);
       return (
         <li>
           <a href={productPath(product.id)} class="choice-card">
@@ -51,15 +50,9 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
                 {product.data.choiceLine ?? `${product.data.duel}: proef jij het verschil?`}
               </p>
               <p class="mt-2.5 mb-3.5 text-[0.8125rem] text-muted">
-                {soldOut ? (
-                  'Tijdelijk uitverkocht'
-                ) : (
-                  <>
-                    vanaf <strong class="text-base text-ink">{formatPrice(fromPrice(product))}</strong>
-                  </>
-                )}
+                vanaf <strong class="text-base text-ink">{formatPrice(fromPrice(product))}</strong>
               </p>
-              <p class:list={['choice-button', soldOut ? 'bg-line text-muted' : style.button]}>{style.cta}</p>
+              <p class:list={['choice-button', style.button]}>{style.cta}</p>
             </div>
           </a>
         </li>
@@ -68,7 +61,7 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
   </ul>
   {clearance.map((product) => (
     <p class="mt-4 text-center text-sm">
-      Zolang de voorraad strekt:{' '}
+      Nu te koop, zolang de voorraad strekt:{' '}
       <a href={productPath(product.id)} class="font-bold underline">
         {product.data.name}
       </a>

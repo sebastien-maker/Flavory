@@ -1,7 +1,7 @@
 ---
 import { getReviews } from '@/lib/content';
 import Stars from '@/components/ui/Stars.astro';
-import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
+import RatingBadge from '@/components/ui/RatingBadge.astro';
 
 interface Props {
   heading?: string;
@@ -32,7 +32,7 @@ const reviews = authors
       {heading}
     </h2>
     <div class="mt-3 flex justify-center">
-      <TrustpilotBadge />
+      <RatingBadge />
     </div>
     <ul class="mt-6 grid items-start gap-3 md:grid-cols-3 md:gap-4">
       {reviews.map(({ data }) => (

@@ -1,0 +1,30 @@
+---
+// The review score from SITE.rating (Google), with a link to the profile. Trustpilot keeps its own
+// badge in the footer (TrustpilotBadge.astro).
+import { SITE } from '@/lib/site';
+import Stars from './Stars.astro';
+
+interface Props {
+  /** The review count is small; show it only where it is asked for. */
+  showCount?: boolean;
+  class?: string;
+}
+
+const { showCount = false, class: className } = Astro.props;
+const score = String(SITE.rating.value).replace('.', ',');
+---
+
+<a
+  href={SITE.rating.url}
+  rel="noopener"
+  target="_blank"
+  class:list={['inline-flex flex-wrap items-center gap-2 text-sm text-ink hover:underline', className]}
+>
+  <Stars rating={SITE.rating.value} class="text-lg" />
+  <span>
+    <strong>{score}/5</strong>
+    {showCount ? ` op basis van ${SITE.rating.count} reviews op` : ' op'}
+  </span>
+  <img src="/images/google-g.svg" alt="" width="48" height="48" loading="lazy" decoding="async" class="size-4" />
+  <strong>{SITE.rating.source}</strong>
+</a>

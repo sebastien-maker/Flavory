@@ -21,6 +21,21 @@ export const realSku = (sku: string) => (/^TMP-/i.test(sku) ? undefined : sku);
 export const mainProducts = (products: Product[]) => products.filter((p) => !p.data.clearance);
 export const clearanceProducts = (products: Product[]) => products.filter((p) => p.data.clearance && isAvailable(p));
 
+// The first choice on the home page, /shop/ and the gift pages is the colour. Per colour the card leads
+// to the first box that can be bought, in the manual order from the CMS (so the red card moves from
+// Merlot of Cabernet Sauvignon to Italië of Spanje when the first is sold out). Nothing in stock: the first box.
+const COLOURS = [
+  { label: 'Wit', category: 'witte-wijn' },
+  { label: 'Rood', category: 'rode-wijn' },
+] as const;
+export function colourChoices(products: Product[]) {
+  return COLOURS.flatMap(({ label, category }) => {
+    const boxes = products.filter((p) => p.data.category.id === category).sort((a, b) => a.data.order - b.data.order);
+    const product = boxes.find(isAvailable) ?? boxes[0];
+    return product ? [{ label, product }] : [];
+  });
+}
+
 export const fromPrice = (product: Product) =>
   Math.min(...(isAvailable(product) ? availableVariants(product) : product.data.variants).map((v) => v.price));
 

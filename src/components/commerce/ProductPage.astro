@@ -22,7 +22,7 @@ import {
   realSku,
   type Product,
 } from '@/lib/content';
-import { SITE, absoluteUrl, formatPrice, shippingLine } from '@/lib/site';
+import { SITE, absoluteUrl, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
@@ -44,6 +44,9 @@ const available = buyable.length > 0;
 const minPrice = fromPrice(product);
 // The first option that can be bought is preselected, so the buy button works straight away.
 const initial = buyable[0];
+// One box is one evening; the FAQ entry about playing again comes first on every product page.
+const replayFaq = (await getEntry('faq', 'opnieuw-spelen'))?.data;
+const faq = [...(replayFaq ? [replayFaq] : []), ...data.faq];
 // Options grouped per duel, so Standaard and Premium sit side by side.
 const duels = [...new Set(variants.map((v) => v.duel))].map((name) => ({
   name,
@@ -149,7 +152,7 @@ const schemaImages = await Promise.all(
       reviews,
     }),
     breadcrumbs(crumbs),
-    faqPage(path, data.faq),
+    faqPage(path, faq.slice(0, 5)),
   ]}
 >
   <Breadcrumbs items={crumbs} />
@@ -228,6 +231,7 @@ const schemaImages = await Promise.all(
     <div>
       {data.badge && <p class="badge inline-block bg-ink text-white">{data.badge}</p>}
       <h1 class="h3 mt-1 text-brand">{data.h1}</h1>
+      {data.intro && <p class="mt-2">{data.intro}</p>}
       <ReviewHighlight href="#reviews-title" class="mt-1" />
 
       <form data-add-to-cart data-variant-form id="bestellen" class="mt-4 scroll-mt-28" method="post" action="#">
@@ -302,7 +306,16 @@ const schemaImages = await Promise.all(
           {initial ? <Price price={initial.price} regularPrice={initial.regularPrice} /> : 'Tijdelijk uitverkocht'}
         </p>
         <p class="mt-1 text-sm">
-          Spel + 2 flessen van 75 cl · {data.playersMin} tot {data.playersMax} spelers · 60 tot 90 minuten
+          Eén avond wijnproeverij thuis voor {data.playersMin} tot {data.playersMax} personen, met twee flessen wijn (75
+          cl). Vanaf{' '}
+          <strong data-price-per-person data-players={data.playersMax}>
+            {pricePerPerson(initial?.price ?? minPrice, data.playersMax)}
+          </strong>{' '}
+          per persoon.
+        </p>
+        <p class="mt-1 text-sm text-muted">
+          Een avond duurt 60 tot 90 minuten. Daarna ken je de antwoorden, dus elke box speel je één keer. Zin in nog een
+          avond? Kies een ander duel.
         </p>
 
         <button type="submit" class="btn-primary mt-4 w-full" data-buy-button disabled={!available}>
@@ -415,7 +428,7 @@ const schemaImages = await Promise.all(
         Veelgestelde vragen
       </h2>
       <div class="mt-4">
-        <Faq items={data.faq.slice(0, 5)} />
+        <Faq items={faq.slice(0, 5)} />
       </div>
       <p class="mt-4 text-sm">
         Nog een vraag? Bekijk alle{' '}
@@ -459,7 +472,7 @@ const schemaImages = await Promise.all(
 </BaseLayout>
 
 <script>
-  import { formatPrice } from '@/lib/site';
+  import { formatPrice, pricePerPerson } from '@/lib/site';
   import { WOO_API_PROXY, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
   import { renderPrice } from '@/lib/commerce/price';
   import { track as trackEvent } from '@/lib/analytics';
@@ -490,6 +503,8 @@ const schemaImages = await Promise.all(
   const radios = [...(form?.querySelectorAll<HTMLInputElement>('input[name="variant"]') ?? [])];
   const button = form?.querySelector<HTMLButtonElement>('[data-buy-button]');
   const priceDisplay = form?.querySelector<HTMLElement>('[data-price-display]');
+  const perPerson = form?.querySelector<HTMLElement>('[data-price-per-person]');
+  const players = Number(perPerson?.dataset.players);
   const stickyPrice = document.querySelector<HTMLElement>('[data-sticky-price]');
   const stickyLabel = document.querySelector<HTMLElement>('[data-sticky-label]');
   const stickyButton = document.querySelector<HTMLButtonElement>('[data-sticky-button]');
@@ -511,6 +526,7 @@ const schemaImages = await Promise.all(
     setField('regular_price', regularPrice ? String(regularPrice) : '');
     setField('woo_id', option.dataset.wooId ?? '');
     if (priceDisplay) renderPrice(priceDisplay, price, regularPrice);
+    if (perPerson && players) perPerson.textContent = pricePerPerson(price, players);
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
     if (stickyPrice) stickyPrice.textContent = formatPrice(price);
     if (stickyLabel) stickyLabel.textContent = option.dataset.label ?? '';

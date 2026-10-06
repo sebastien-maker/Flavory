@@ -3,8 +3,8 @@ import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Faq from '@/components/ui/Faq.astro';
-import ProductCard from '@/components/commerce/ProductCard.astro';
-import { clearanceProducts, getProducts, mainProducts, productPath } from '@/lib/content';
+import ColorChoice from '@/components/commerce/ColorChoice.astro';
+import { getProducts } from '@/lib/content';
 import { SITE, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
@@ -19,8 +19,6 @@ const description =
   'Geef een wijnbox cadeau: het wijnspel met twee flessen wijn (75 cl). Een avond samen proeven in plaats van één fles. Geleverd in België en Nederland.';
 
 const allProducts = await getProducts();
-const products = mainProducts(allProducts);
-const clearance = clearanceProducts(allProducts);
 
 const reasons = [
   {
@@ -132,24 +130,7 @@ const faq = [
   <!-- De boxen -->
   <section id="boxen" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
     <div class="container-site">
-      <h2 id="boxen-title" class="h2 text-center">
-        Welke box geef je cadeau?
-      </h2>
-      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
-        {products.map((product) => (
-          <li>
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
-      {clearance.map((product) => (
-        <p class="mt-4 text-center text-sm">
-          Zolang de voorraad strekt:{' '}
-          <a href={productPath(product.id)} class="font-bold underline">
-            {product.data.name}
-          </a>
-        </p>
-      ))}
+      <ColorChoice products={allProducts} class="mx-auto" />
     </div>
   </section>
 

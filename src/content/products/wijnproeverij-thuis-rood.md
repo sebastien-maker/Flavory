@@ -1,10 +1,12 @@
 ---
 name: "Rood wijnspel: Merlot of Cabernet Sauvignon"
 h1: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
+intro: "Merlot en Cabernet Sauvignon: twee legendarische rode druiven. Ken je ze van naam, maar heb je geen idee wat het verschil is? Dan is dit je kans."
 seoTitle: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Merlot tegen een Cabernet Sauvignon en ontdek het verschil. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Merlot of Cabernet Sauvignon"
 cardTagline: "Twee rode druiven, blind geproefd. Wie wordt de wijnkenner aan tafel?"
+choiceLine: "Merlot of Cabernet Sauvignon: proef jij het verschil?"
 definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Merlot en een Cabernet Sauvignon, voor 2 tot 6 spelers."
 variants:
   - id: merlot-cabernet-standaard
@@ -35,6 +37,8 @@ playersMin: 2
 playersMax: 6
 order: 0
 images:
+  - src: "../../assets/images/products/packshot-rood-zakjes.jpg"
+    alt: "Rood wijnspel: de doos met twee flessen wijn in zakjes A en B"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-merlot-cabernet-box.webp"
     alt: "Doos van het rode wijnspel Merlot of Cabernet Sauvignon, met twee flessen in stoffen zakjes ernaast"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
@@ -79,6 +83,7 @@ faq:
     answer: "Bestellingen in België en Nederland worden meestal binnen 1 à 3 werkdagen geleverd. Je krijgt een verzendbevestiging met trackingnummer zodra je pakket onderweg is."
   - question: "Wat als ik niet tevreden ben?"
     answer: "Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
+comparisonPost: merlot-of-cabernet-sauvignon
 relatedPosts:
   - blind-wijn-proeven
   - italiaanse-rode-wijnen

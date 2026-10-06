@@ -1,16 +1,13 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProductCard from '@/components/commerce/ProductCard.astro';
+import ColorChoice from '@/components/commerce/ColorChoice.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import Reviews from '@/components/sections/Reviews.astro';
-import { clearanceProducts, getProducts, mainProducts, productPath } from '@/lib/content';
-import Price from '@/components/commerce/Price.astro';
+import { getProducts, productPath } from '@/lib/content';
 import { breadcrumbs, itemList, webPage } from '@/components/seo/schema';
 
 const products = await getProducts();
-const main = mainProducts(products);
-const clearance = clearanceProducts(products);
 const crumbs = [
   { name: 'Home', path: '/' },
   { name: 'Shop', path: '/shop/' },
@@ -47,34 +44,7 @@ const description =
       </a>
       .
     </p>
-    <ul class="mt-8 grid max-w-3xl gap-4 sm:grid-cols-2">
-      {main.map((product, i) => (
-        <li>
-          <ProductCard product={product} headingLevel="h2" eager={i < 2} />
-        </li>
-      ))}
-    </ul>
-
-    {clearance.length > 0 && (
-      <ul class="mt-6 max-w-3xl space-y-2">
-        {clearance.map((product) => (
-          <li>
-            <a
-              href={productPath(product.id)}
-              class="card flex flex-wrap items-center justify-between gap-2 p-4 hover:ring-ink"
-            >
-              <span>
-                <span class="font-bold">{product.data.name}</span>
-                <span class="block text-sm text-muted">Zolang de voorraad strekt</span>
-              </span>
-              <span class="font-bold">
-                <Price price={product.data.variants[0]!.price} regularPrice={product.data.variants[0]!.regularPrice} />
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    )}
+    <ColorChoice products={products} eager class="mt-10" />
   </section>
 
   <section class="section-y container-site grid gap-10 md:grid-cols-2">

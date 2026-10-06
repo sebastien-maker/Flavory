@@ -1,6 +1,7 @@
 ---
 name: "Rood wijnspel: Italië of Spanje"
 h1: "Rood wijnspel: Italië of Spanje?"
+intro: "Italië en Spanje: twee legendarische wijnlanden. Proef jij het verschil?"
 seoTitle: "Wijnspel Italië of Spanje: rode wijnbox"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Italiaanse tegen een Spaanse rode wijn. Voor 2 tot 6 spelers, zolang de voorraad strekt."
 duel: "Italië of Spanje"
@@ -8,6 +9,7 @@ badge: "Zolang de voorraad strekt"
 clearance: true
 stockNote: "Dit is restvoorraad: op is op. Daarna blijft het rode wijnspel bestaan met Merlot of Cabernet Sauvignon."
 cardTagline: "Twee wijnlanden tegenover elkaar. Welke fles komt uit Italië?"
+choiceLine: "Italiaanse of Spaanse wijn: proef jij het verschil?"
 definition: "Italië of Spanje is een rood wijnspel van Flavory met twee flessen wijn: een Italiaanse en een Spaanse rode wijn die je blind tegen elkaar proeft, voor 2 tot 6 spelers."
 variants:
   - id: italie-spanje-standaard

@@ -3,8 +3,8 @@ import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Faq from '@/components/ui/Faq.astro';
-import ProductCard from '@/components/commerce/ProductCard.astro';
-import { getProducts, mainProducts } from '@/lib/content';
+import ColorChoice from '@/components/commerce/ColorChoice.astro';
+import { getProducts } from '@/lib/content';
 import { SITE, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
@@ -20,7 +20,7 @@ const title = 'Kerstcadeau: het wijnspel met twee flessen wijn';
 const description =
   'Een kerstcadeau dat blijft hangen: het wijnspel met twee flessen wijn (75 cl). Samen blind proeven in plaats van nog een fles onder de boom.';
 
-const products = mainProducts(await getProducts());
+const products = await getProducts();
 const season = SITE.giftSeason === 'kerst';
 
 const faq = [
@@ -120,16 +120,7 @@ const faq = [
 
   <section id="boxen" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
     <div class="container-site">
-      <h2 id="boxen-title" class="h2 text-center">
-        Kies je kerstcadeau
-      </h2>
-      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
-        {products.map((product) => (
-          <li>
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
+      <ColorChoice products={products} heading="Kies je kerstcadeau" class="mx-auto" />
       <p class="mt-6 text-center">
         <a href="/cadeau/" class="font-bold text-brand underline">
           Alle cadeau-ideeën van Flavory

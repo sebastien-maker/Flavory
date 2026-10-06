@@ -56,6 +56,8 @@ const products = defineCollection({
     z.object({
       name: z.string(),
       h1: z.string(),
+      // One or two sentences right under the H1 that introduce the duel.
+      intro: z.string().optional(),
       seoTitle,
       seoDescription,
       duel: z.string().describe('Short summary of the duels on product cards'),
@@ -66,6 +68,8 @@ const products = defineCollection({
       // Leftover stock: shown apart from the two main boxes, never on the home page as a card.
       clearance: z.boolean().default(false),
       cardTagline: z.string(),
+      // Italic line on the colour card (wit of rood), e.g. "Italiaanse of Spaanse wijn: proef jij het verschil?".
+      choiceLine: z.string().optional(),
       definition: z.string().describe('Two-sentence definition block for AI citability'),
       variants: z.array(variant).min(1),
       descriptions: z
@@ -167,6 +171,8 @@ const reviews = defineCollection({
     body: z.string(),
     product: reference('products').optional(),
     date: z.coerce.date().optional(),
+    // Heading on /reviews/ under which the review is shown.
+    theme: z.enum(['spel', 'avond', 'service']).default('spel'),
     order: z.number().int().default(0),
   }),
 });

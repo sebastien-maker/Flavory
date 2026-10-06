@@ -1,10 +1,12 @@
 ---
 name: "Wit wijnspel: Chardonnay of Sauvignon Blanc"
 h1: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
+intro: "Chardonnay en Sauvignon Blanc: twee legendarische witte wijnen. Ken je ze van naam, maar heb je geen idee wat het verschil is? Dan is dit je kans."
 seoTitle: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
 seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Chardonnay of Sauvignon Blanc"
 cardTagline: "Twee witte wijnen, blind geproefd. Wie wordt de wijnkenner aan tafel?"
+choiceLine: "Chardonnay of Sauvignon Blanc: proef jij het verschil?"
 definition: "Het witte wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Chardonnay en een Sauvignon Blanc. Voor 2 tot 6 spelers."
 variants:
   - id: chardonnay-sauvignon-standaard
@@ -36,6 +38,8 @@ playersMin: 2
 playersMax: 6
 order: 1
 images:
+  - src: "../../assets/images/products/packshot-wit-zakjes.jpg"
+    alt: "Wit wijnspel: de doos met twee flessen wijn in zakjes A en B"
   - src: "../../assets/images/products/wijnproeverij-thuis-wit/01-box.webp"
     alt: "Flavory witte wijnspel: interactieve wijnproeverij thuis met Chardonnay en Sauvignon Blanc"
   - src: "../../assets/images/products/wijnproeverij-thuis-wit/01b-flessen-in-zakjes.jpg"
@@ -78,7 +82,7 @@ faq:
     answer: "Bestellingen in België en Nederland worden meestal binnen 1 à 3 werkdagen geleverd. Je krijgt een verzendbevestiging met trackingnummer zodra je pakket onderweg is."
   - question: "Wat als ik niet tevreden ben?"
     answer: "Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
-comparisonPost: wijnproeverij-date-night-chardonnay-of-sauvignon-blanc
+comparisonPost: chardonnay-of-sauvignon-blanc
 relatedPosts:
   - wijnproeverij-date-night-chardonnay-of-sauvignon-blanc
   - blind-wijn-proeven

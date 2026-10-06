@@ -100,6 +100,12 @@ export default config({
           },
         }),
         h1: fields.text({ label: 'H1', validation: { isRequired: true } }),
+        intro: fields.text({
+          label: 'Intro onder de H1',
+          description: 'Eén of twee zinnen die het duel voorstellen. Leeg laten mag.',
+          multiline: true,
+          validation: { isRequired: false },
+        }),
         seoTitle,
         seoDescription: seoDescription(),
         duel: fields.text({
@@ -123,6 +129,12 @@ export default config({
           validation: { isRequired: false },
         }),
         cardTagline: fields.text({ label: 'Tekst op productkaart', validation: { isRequired: true } }),
+        choiceLine: fields.text({
+          label: 'Vraag op de kleurkaart',
+          description:
+            'Cursieve regel op de kaart Witte wijn of Rode wijn, bv. "Merlot of Cabernet Sauvignon: proef jij het verschil?"',
+          validation: { isRequired: false },
+        }),
         definition: fields.text({
           label: 'Definitieblok',
           description: 'Twee zinnen: wat is het, wat kost het, voor wie. Wordt ook gebruikt in schema.',
@@ -153,7 +165,8 @@ export default config({
             sku: fields.text({ label: 'SKU', validation: { isRequired: true } }),
             wooId: fields.integer({
               label: 'WooCommerce-product-ID',
-              description: 'Het nummer in de adresbalk als je het product bewerkt (post=…). Nodig om te kunnen afrekenen.',
+              description:
+                'Het nummer in de adresbalk als je het product bewerkt (post=…). Nodig om te kunnen afrekenen.',
             }),
             gtin13: fields.text({
               label: 'GTIN-13 (EAN-barcode)',
@@ -308,6 +321,15 @@ export default config({
         body: fields.text({ label: 'Review', multiline: true, validation: { isRequired: true } }),
         product: fields.relationship({ label: 'Product', collection: 'products' }),
         date: fields.date({ label: 'Datum' }),
+        theme: fields.select({
+          label: 'Thema op de reviewpagina',
+          options: [
+            { label: 'Het spel', value: 'spel' },
+            { label: 'De wijn en de avond', value: 'avond' },
+            { label: 'De klantenservice', value: 'service' },
+          ],
+          defaultValue: 'spel',
+        }),
         order: fields.integer({ label: 'Volgorde', defaultValue: 0 }),
       },
     }),

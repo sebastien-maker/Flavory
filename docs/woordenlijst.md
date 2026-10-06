@@ -22,12 +22,15 @@ Deze afspraken gelden voor elke tekst op flavory.wine: pagina's, productteksten,
 - wijnproefspel
 - Hét
 - beroemde
-- legendarisch
 - ultiem
 - dé
 - écht
 - uniek
 - Engelse woorden. "Shop" mag als menulabel blijven tot we daarover beslissen.
+
+## Alleen op één plek
+
+- **legendarisch** mag alleen in de intro van een productpagina, om het duel voor te stellen ("twee legendarische witte wijnen"). Nergens anders, en nooit in titels.
 
 ## Altijd vermelden
 

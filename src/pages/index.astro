@@ -1,25 +1,24 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProductCard from '@/components/commerce/ProductCard.astro';
+import ColorChoice from '@/components/commerce/ColorChoice.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import TrustpilotBadge from '@/components/ui/TrustpilotBadge.astro';
-import { clearanceProducts, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
+import { fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
 import { SITE, formatPrice } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 import heroPhoto from '@/assets/images/site/hero-proeven.jpg';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import pouringPhoto from '@/assets/images/site/inschenken.jpg';
 import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
-// Small accent next to the steps; the drawing also sits on the box sleeve.
+// Drawing under the steps; it also sits on the box sleeve.
 import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
 
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
-const clearance = clearanceProducts(allProducts);
 const lowestPrice = Math.min(...products.map(fromPrice));
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
@@ -88,10 +87,10 @@ const audiences = [
   <!-- Hero -->
   <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
     <div>
-      <h1 class="h1">Het wijnspel dat je leert proeven</h1>
+      <h1 class="h1">Het spel dat je wijn leert proeven</h1>
       <p class="mt-3 text-lg leading-snug md:text-xl">
-        Twee lekkere wijnen, anoniem in een zakje. Je leert ze proeven en herkent het verschil. De twee flessen van 75
-        cl zitten in de doos.
+        Twee flessen wijn zonder etiket en één spel voor vrienden of familie. Proef blind, raad welke wijn welke is.
+        Geen voorkennis nodig.
       </p>
       <div class="mt-5">
         <a href="#kies-je-box" class="btn-primary">
@@ -155,15 +154,13 @@ const audiences = [
           <Image
             src={sleeveIllustration}
             alt="Tekening van vier vrienden die samen wijn proeven"
-            widths={[160, 320]}
-            sizes="10rem"
-            class="mt-4 h-auto w-40"
+            widths={[320, 480, 640, 960]}
+            sizes="(min-width: 768px) 30rem, calc(100vw - 2rem)"
+            class="mx-auto mt-4 h-auto w-full max-w-[30rem]"
           />
         </div>
       </div>
-      <p class="mt-6 text-center font-bold">
-        2 tot 6 spelers · 60 tot 90 minuten · geen wijnkennis nodig · alleen glazen nodig
-      </p>
+      <p class="mt-6 text-center font-bold">2 tot 6 spelers · 60 tot 90 minuten · geen wijnkennis nodig</p>
       <p class="mt-4 text-center">
         <a href="/hoe-werkt-het/" class="btn-outline">
           De spelregels in 6 stappen
@@ -175,28 +172,7 @@ const audiences = [
   <!-- Kies je box -->
   <section id="kies-je-box" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
     <div class="container-site">
-      <h2 id="boxen-title" class="h2 text-center">
-        Kies je box
-      </h2>
-      <p class="mx-auto mt-2 max-w-2xl text-center">
-        Kies wit of rood, en daarna standaard of premium. Elke box bevat het volledige spel en twee flessen wijn van 75
-        cl.
-      </p>
-      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
-        {products.map((product) => (
-          <li>
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
-      {clearance.map((product) => (
-        <p class="mt-4 text-center text-sm">
-          Zolang de voorraad strekt:{' '}
-          <a href={productPath(product.id)} class="font-bold underline">
-            {product.data.name}
-          </a>
-        </p>
-      ))}
+      <ColorChoice products={allProducts} class="mx-auto" />
     </div>
   </section>
 

@@ -115,8 +115,8 @@ export const PRESS = [
 
 // Explanation shown under the option list on product pages.
 export const FORMULAS = {
-  Standaard: 'Heerlijke, eerlijke wijn',
-  Premium: 'Twee duurdere flessen met meer diepgang',
+  Standaard: 'Twee heerlijke wijnen die het verschil duidelijk laten proeven',
+  Premium: 'Twee duurdere wijnen met meer diepgang',
 } as const;
 
 /** One line about shipping, used in the cart, on product pages and in the shipping page intro. */

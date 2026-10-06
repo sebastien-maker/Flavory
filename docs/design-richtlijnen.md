@@ -18,6 +18,7 @@ In de kaarten "Witte wijn" en "Rode wijn" volgt de kleur de wijn:
 - Wit: knop lichtblauw `#8fd5e4` (`--color-wine-white`) met zwarte tekst, accenttekst `#1f6f86`.
 - Rood: knop `#d60021` (`--color-brand`) met witte tekst, accenttekst `#b8001c`.
 - De kaarten gebruiken de maten van artboard 5A: titel 24 px, knop 15 px, de cursieve regel en "vanaf" 13 px.
+- Op de productpagina loopt de kleur door: de titelzone in een lichte tint, de gekozen box en de knop "In winkelmandje" in de kleur van de wijn (artboard 2B).
 
 Buiten die keuze blijft rood de enige accentkleur.
 

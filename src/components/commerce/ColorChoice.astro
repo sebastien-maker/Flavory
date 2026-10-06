@@ -5,8 +5,7 @@
 import { Image } from 'astro:assets';
 import { clearanceProducts, colourChoices, fromPrice, isAvailable, productPath, type Product } from '@/lib/content';
 import { formatPrice } from '@/lib/site';
-import whitePackshot from '@/assets/images/products/packshot-wit-zakjes.jpg';
-import redPackshot from '@/assets/images/products/packshot-rood-zakjes.jpg';
+import { COLOUR_STYLES } from '@/lib/colour-choice';
 
 interface Props {
   /** All products; the cards pick the box per colour that is for sale now. */
@@ -18,26 +17,7 @@ interface Props {
 
 const { products, heading = 'Kies je box', eager = false, class: className } = Astro.props;
 
-// The packshot belongs to the colour, not to the box the card leads to.
-const STYLES = {
-  Wit: {
-    title: 'Witte wijn',
-    cta: 'Kies wit',
-    image: whitePackshot,
-    alt: 'Wit wijnspel: de doos met twee flessen wijn in zakjes A en B',
-    line: 'text-wine-white-text',
-    button: 'bg-wine-white text-ink',
-  },
-  Rood: {
-    title: 'Rode wijn',
-    cta: 'Kies rood',
-    image: redPackshot,
-    alt: 'Rood wijnspel: de doos met twee flessen wijn in zakjes A en B',
-    line: 'text-wine-red-text',
-    button: 'bg-brand text-white',
-  },
-};
-const choices = colourChoices(products).map((choice) => ({ ...choice, style: STYLES[choice.label] }));
+const choices = colourChoices(products).map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }));
 // Leftover stock gets its own line, unless a card already leads to it.
 const clearance = clearanceProducts(products).filter((p) => !choices.some((c) => c.product.id === p.id));
 ---

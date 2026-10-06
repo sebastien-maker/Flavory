@@ -46,7 +46,9 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
   <h2 id="boxen-title" class="h2 text-center">
     {heading}
   </h2>
-  <p class="mt-2 text-center">Een wijnspel en twee heerlijke, blinde wijnen (2 × 75 cl).</p>
+  <p class="mt-2 text-center">
+    Een wijnproeverij voor één avond: het spel en twee heerlijke, blinde wijnen (2 × 75 cl).
+  </p>
   <ul class="mt-6 grid grid-cols-2 gap-3">
     {choices.map(({ product, style }) => {
       const soldOut = !isAvailable(product);

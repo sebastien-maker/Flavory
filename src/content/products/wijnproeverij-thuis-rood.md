@@ -20,7 +20,7 @@ variants:
   - id: merlot-cabernet-premium
     duel: "Merlot of Cabernet Sauvignon"
     formula: Premium
-    price: 74.9
+    price: 79.9
     sku: "TMP-ROOD-MCS-PREM"
     wooId: 2842
     group: druiven

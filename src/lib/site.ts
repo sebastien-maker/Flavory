@@ -23,8 +23,9 @@ export const SITE = {
     youtube: 'https://www.youtube.com/@flavory-wine',
     trustpilot: 'https://nl.trustpilot.com/review/flavory.wine',
   },
-  // Trustpilot aggregate (audit 16 Sep 2026). Replace with the scheduled sync once the API key exists.
-  rating: { value: 4.5, count: 31, source: 'Trustpilot' },
+  // The review score shown on the site and in the schema: the Google Business Profile (6 Oct 2026).
+  // Trustpilot (4.5, 31 reviews) keeps its badge in the footer only.
+  rating: { value: 4.9, count: 47, source: 'Google', url: 'https://maps.google.com/?cid=5961443323084044479' },
   // Short quote from a real review (src/content/reviews/charlotte.yaml), shown next to the rating.
   featuredReview: { quote: 'Tweede box is al besteld en de derde staat op mijn lijstje!', author: 'Charlotte' },
   // Orders placed before this hour (Brussels time) on working days ship the same day.

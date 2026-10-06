@@ -80,6 +80,37 @@ export default config({
           itemLabel: (props) => props.value ?? 'Kies een artikel',
           validation: { length: { max: 4 } },
         }),
+        proefkaart: fields.object(
+          {
+            titel: fields.text({ label: 'Kop', description: 'Leeg laten geeft "[links] en [rechts] naast elkaar".' }),
+            links: fields.text({ label: 'Wijn links', description: 'Bv. Chardonnay' }),
+            rechts: fields.text({ label: 'Wijn rechts', description: 'Bv. Sauvignon Blanc' }),
+            rijen: fields.array(
+              fields.object({
+                kenmerk: fields.text({ label: 'Kenmerk', validation: { isRequired: true } }),
+                icoon: fields.select({
+                  label: 'Tekening',
+                  options: [
+                    { label: 'Druiventros', value: 'druif' },
+                    { label: 'Oog (kleur)', value: 'oog' },
+                    { label: 'Neus (geur)', value: 'neus' },
+                    { label: 'Mond (smaak)', value: 'mond' },
+                    { label: 'Wijnblad (streek)', value: 'blad' },
+                    { label: 'Bord en bestek (eten)', value: 'bord' },
+                  ],
+                  defaultValue: 'druif',
+                }),
+                links: fields.text({ label: 'Wijn links', multiline: true }),
+                rechts: fields.text({ label: 'Wijn rechts', multiline: true }),
+              }),
+              { label: 'Rijen', itemLabel: (props) => props.fields.kenmerk.value || 'Nieuwe rij' },
+            ),
+          },
+          {
+            label: 'Proefkaart',
+            description: 'Vergelijking met tekeningen onderaan het artikel. Geen rijen = geen proefkaart.',
+          },
+        ),
         draft: fields.checkbox({ label: 'Concept (niet publiceren)', defaultValue: false }),
         content: markdown('src/assets/images/blog', '../../assets/images/blog/'),
       },

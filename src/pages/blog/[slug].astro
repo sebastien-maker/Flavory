@@ -5,6 +5,7 @@ import { getEntry, render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import PostCard from '@/components/blog/PostCard.astro';
+import Proefkaart from '@/components/blog/Proefkaart.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import { getPosts, getRelatedPosts, postPath, readingMinutes, PILLAR_LABELS, type Post } from '@/lib/content';
 import { absoluteUrl, authorPath, formatDate } from '@/lib/site';
@@ -121,6 +122,15 @@ const schemaImage = absoluteUrl(
       <div class="prose-flavory text-base md:text-lg">
         <Content />
       </div>
+
+      {data.proefkaart && data.proefkaart.rijen.length > 0 && data.proefkaart.links && data.proefkaart.rechts && (
+        <Proefkaart
+          titel={data.proefkaart.titel}
+          links={data.proefkaart.links}
+          rechts={data.proefkaart.rechts}
+          rijen={data.proefkaart.rijen}
+        />
+      )}
 
       {product && (
         <aside class="mt-12 rounded-[var(--radius-card)] bg-blush p-6" aria-labelledby="box-title">

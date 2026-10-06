@@ -143,6 +143,23 @@ const blog = defineCollection({
         .optional(),
       relatedProduct: reference('products').optional(),
       related: z.array(reference('blog')).max(4).default([]),
+      proefkaart: z
+        .object({
+          titel: z.string().default(''),
+          links: z.string().default(''),
+          rechts: z.string().default(''),
+          rijen: z
+            .array(
+              z.object({
+                kenmerk: z.string(),
+                icoon: z.enum(['druif', 'oog', 'neus', 'mond', 'blad', 'bord']),
+                links: z.string(),
+                rechts: z.string(),
+              }),
+            )
+            .default([]),
+        })
+        .optional(),
       draft: z.boolean().default(false),
     }),
 });

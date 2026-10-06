@@ -113,17 +113,6 @@ export const PRESS = [
   },
 ] as const;
 
-// Business orders: price per box for the table on /zakelijk/. A price of 0 hides the table.
-export const BUSINESS_PRICES = {
-  // One line under the table, for example 'Prijzen excl. btw, voor de Standaard-box.'
-  note: '' as string,
-  tiers: [
-    { boxes: 10, price: 0 },
-    { boxes: 25, price: 0 },
-    { boxes: 50, price: 0 },
-  ],
-};
-
 // Explanation shown under the option list on product pages.
 export const FORMULAS = {
   Standaard: 'Heerlijke, eerlijke wijn',

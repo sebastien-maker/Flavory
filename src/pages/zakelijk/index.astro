@@ -6,7 +6,7 @@ import ContactForm from '@/components/forms/ContactForm.astro';
 import Faq from '@/components/ui/Faq.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import { getFaq, getProducts, isAvailable, mainProducts } from '@/lib/content';
-import { BUSINESS_PRICES, PRESS, formatPrice } from '@/lib/site';
+import { PRESS } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-geven.jpg';
 
@@ -34,8 +34,6 @@ const faq = [
   ...(await getFaq('zakelijk')).map((f) => f.data),
 ];
 const products = mainProducts(await getProducts()).filter(isAvailable);
-// The price table only shows once every tier has a price (src/lib/site.ts).
-const showPrices = BUSINESS_PRICES.tiers.every((tier) => tier.price > 0);
 ---
 
 <BaseLayout
@@ -139,42 +137,16 @@ const showPrices = BUSINESS_PRICES.tiers.every((tier) => tier.price > 0);
     </section>
   )}
 
-  {showPrices && (
-    <section class="container-site py-8" aria-labelledby="prijs-title">
-      <h2 id="prijs-title" class="h3">
-        Prijs per stuk
-      </h2>
-      <div class="prose-flavory mt-4 max-w-md">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Aantal boxen</th>
-              <th scope="col">Prijs per stuk</th>
-            </tr>
-          </thead>
-          <tbody>
-            {BUSINESS_PRICES.tiers.map((tier) => (
-              <tr>
-                <th scope="row" class="font-normal">
-                  {tier.boxes} boxen
-                </th>
-                <td class="font-bold">{formatPrice(tier.price)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {BUSINESS_PRICES.note && <p class="mt-3 text-sm text-muted">{BUSINESS_PRICES.note}</p>}
-    </section>
-  )}
-
   <section id="offerte" class="container-site scroll-mt-28 py-8 md:py-12" aria-labelledby="offerte-title">
     <div class="grid gap-8 rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line md:grid-cols-[1fr_2fr] md:p-10">
       <div>
         <h2 id="offerte-title" class="h3">
           Vraag een vrijblijvende offerte aan
         </h2>
-        <p class="mt-3">Vul het formulier in en we bezorgen je zo snel mogelijk een offerte op maat.</p>
+        <p class="mt-3">
+          Vul het formulier in en we bezorgen je zo snel mogelijk een offerte op maat. De prijs per stuk hangt af van
+          het aantal en van je keuze: de wijnspellen zijn er met of zonder wijn.
+        </p>
         {PRESS.map((item) => (
           <p class="mt-3 text-sm">
             <a href={item.url} class="text-brand underline">

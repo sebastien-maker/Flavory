@@ -29,7 +29,9 @@ export const GET: APIRoute = async () => {
         ['g:link', `${absoluteUrl(productPath(product.id))}?box=${v.id}`],
         ['g:image_link', images[0]],
         ['g:availability', v.available ? 'in_stock' : 'out_of_stock'],
-        ['g:price', `${v.price.toFixed(2)} EUR`],
+        // During a promotion: the regular price in g:price, the price to pay in g:sale_price.
+        ['g:price', `${(v.regularPrice ?? v.price).toFixed(2)} EUR`],
+        ['g:sale_price', v.regularPrice ? `${v.price.toFixed(2)} EUR` : undefined],
         ['g:condition', 'new'],
         ['g:brand', SITE.name],
         ['g:gtin', v.gtin13],

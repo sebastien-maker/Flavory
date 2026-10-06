@@ -7,6 +7,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import RatingBadge from '@/components/ui/RatingBadge.astro';
 import Faq from '@/components/ui/Faq.astro';
 import PaymentIcons from './PaymentIcons.astro';
+import Price from './Price.astro';
 import { SHORT_STEPS } from '@/lib/steps';
 import Reviews from '@/components/sections/Reviews.astro';
 import {
@@ -300,6 +301,7 @@ const schemaImages = await Promise.all(
         <input type="hidden" name="handle" value={initial ? `${product.id}:${initial.id}` : ''} />
         <input type="hidden" name="name" value={initial ? variantName(product, initial) : ''} />
         <input type="hidden" name="price" value={initial?.price ?? ''} />
+        <input type="hidden" name="regular_price" value={initial?.regularPrice ?? ''} />
         <input type="hidden" name="image" value={cover.thumb.src} />
         <input type="hidden" name="url" value={path} />
         <input type="hidden" name="quantity" value="1" />
@@ -330,6 +332,7 @@ const schemaImages = await Promise.all(
                       data-name={variantName(product, v)}
                       data-label={duels.length > 1 ? `${v.duel} · ${v.formula}` : v.formula}
                       data-price={v.price}
+                      data-regular-price={v.regularPrice}
                       data-group={v.group}
                       data-woo-id={v.wooId}
                     />
@@ -341,7 +344,7 @@ const schemaImages = await Promise.all(
                       </span>
                     </span>
                     <span class="ml-auto max-w-[45%] text-right font-bold" data-tile-price>
-                      {v.available ? formatPrice(v.price) : soldOutLabel}
+                      {v.available ? <Price price={v.price} regularPrice={v.regularPrice} /> : soldOutLabel}
                     </span>
                   </label>
                 ))}
@@ -545,6 +548,7 @@ const schemaImages = await Promise.all(
 <script>
   import { formatPrice, pricePerPerson } from '@/lib/site';
   import { WOO_API_PROXY, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
+  import { renderPrice } from '@/lib/commerce/price';
   import { track as trackEvent } from '@/lib/analytics';
 
   // Gallery thumbnails scroll the track instead of jumping the page.
@@ -599,9 +603,11 @@ const schemaImages = await Promise.all(
     const option = radios.find((r) => r.checked);
     if (!form || !button || !option) return;
     const price = Number(option.dataset.price);
+    const regularPrice = Number(option.dataset.regularPrice) || undefined;
     setField('handle', option.dataset.handle ?? '');
     setField('name', option.dataset.name ?? '');
     setField('price', String(price));
+    setField('regular_price', regularPrice ? String(regularPrice) : '');
     setField('woo_id', option.dataset.wooId ?? '');
     if (perPerson && players) perPerson.textContent = pricePerPerson(price, players);
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
@@ -645,9 +651,11 @@ const schemaImages = await Promise.all(
           const live = stock.get(Number(radio.dataset.wooId));
           if (!live) continue;
           radio.dataset.price = String(live.price);
+          if (live.regularPrice) radio.dataset.regularPrice = String(live.regularPrice);
+          else delete radio.dataset.regularPrice;
           const tile = radio.closest('label');
           const price = tile?.querySelector('[data-tile-price]');
-          if (price) price.textContent = formatPrice(live.price);
+          if (price) renderPrice(price, live.price, live.regularPrice);
           radio.disabled = !live.buyable;
           tile?.classList.toggle('is-sold-out', !live.buyable);
         }

@@ -122,6 +122,7 @@ const contact = SITE.email
   import { WOO_URL } from '@/lib/commerce/woo';
   import { analyticsIds, track } from '@/lib/analytics';
   import { SITE, formatPrice, shippingLine } from '@/lib/site';
+  import { renderPrice } from '@/lib/commerce/price';
 
   const dialog = document.getElementById('cart-drawer') as HTMLDialogElement;
   const $ = <T extends HTMLElement>(sel: string, root: ParentNode = dialog) => root.querySelector<T>(sel)!;
@@ -160,7 +161,7 @@ const contact = SITE.email
         const name = $<HTMLAnchorElement>('[data-line-name]', node);
         name.href = line.url;
         name.textContent = line.name;
-        $('[data-line-price]', node).textContent = formatPrice(line.price);
+        renderPrice($('[data-line-price]', node), line.price, line.regularPrice);
         $('[data-line-qty]', node).textContent = String(line.quantity);
         $('[data-line-dec]', node).addEventListener('click', () => cart.setQuantity(line.handle, line.quantity - 1));
         const inc = $<HTMLButtonElement>('[data-line-inc]', node);
@@ -212,6 +213,7 @@ const contact = SITE.email
         handle: String(data.get('handle')),
         name: String(data.get('name')),
         price: Number(data.get('price')),
+        regularPrice: Number(data.get('regular_price')) || undefined,
         image: String(data.get('image')),
         url: String(data.get('url')),
         wooId: Number(data.get('woo_id')) || undefined,

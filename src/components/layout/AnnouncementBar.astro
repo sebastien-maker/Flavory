@@ -1,9 +1,23 @@
 ---
 import { SITE } from '@/lib/site';
+
+// During a campaign the bar carries the promotion in one sentence and links to its page.
+const campaign = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
 ---
 
 <div class="border-b border-line bg-cream text-ink">
-  <p class="container-site flex min-h-9 items-center justify-center py-2 text-center text-xs leading-tight font-bold whitespace-nowrap">
-    {SITE.announcement}
+  <p
+    class:list={[
+      'container-site flex min-h-9 items-center justify-center py-2 text-center text-xs leading-tight font-bold',
+      !campaign && 'whitespace-nowrap',
+    ]}
+  >
+    {campaign ? (
+      <a href="/black-friday/" class="underline underline-offset-2">
+        {campaign}
+      </a>
+    ) : (
+      SITE.announcement
+    )}
   </p>
 </div>

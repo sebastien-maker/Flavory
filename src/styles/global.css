@@ -264,6 +264,10 @@
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;
   }
+  /* Price before the discount, next to the sale price (Price.astro and lib/commerce/price.ts). */
+  .price-old {
+    @apply mr-1.5 font-normal text-muted;
+  }
   .payments > li {
     @apply rounded bg-white p-0.5;
   }

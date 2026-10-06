@@ -128,7 +128,16 @@ export interface ProductSchemaInput {
   name: string;
   description: string;
   /** One Offer per purchasable option (duel + formula). */
-  offers: { name: string; sku?: string | undefined; gtin13?: string | undefined; price: number; available: boolean }[];
+  offers: {
+    name: string;
+    sku?: string | undefined;
+    gtin13?: string | undefined;
+    /** The price the customer pays now: the sale price during a promotion. */
+    price: number;
+    /** Last day of a promotion (YYYY-MM-DD). Without one the offer is valid for a year. */
+    priceValidUntil?: string | undefined;
+    available: boolean;
+  }[];
   images: string[];
   category: string;
   reviews: ReviewInput[];
@@ -182,7 +191,7 @@ export function product(p: ProductSchemaInput): Thing {
       url,
       price: o.price.toFixed(2),
       priceCurrency: 'EUR',
-      priceValidUntil,
+      priceValidUntil: o.priceValidUntil ?? priceValidUntil,
       availability: o.available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       itemCondition: 'https://schema.org/NewCondition',
       seller: { '@id': ORG_ID },

@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import ProductCard from '@/components/commerce/ProductCard.astro';
+import Newsletter from '@/components/sections/Newsletter.astro';
+import { getProducts, mainProducts } from '@/lib/content';
+import { SITE, shippingLine } from '@/lib/site';
+import { breadcrumbs, webPage } from '@/components/seo/schema';
+import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
+
+// Evergreen: no year in the URL, the title or the H1. The page stays online all year, so it keeps its
+// ranking; SITE.campaign (src/lib/site.ts) switches between the running promotion and "it is over".
+const path = '/black-friday/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Black Friday', path },
+];
+const title = 'Black Friday: wijnspel met korting';
+const description =
+  'Black Friday bij Flavory: het wijnspel met twee flessen wijn (75 cl) met korting. Nu kopen, met kerst geven. Geleverd in België en Nederland.';
+
+// The cards show the sale price from WooCommerce next to the struck-through regular price.
+const products = mainProducts(await getProducts());
+const active = SITE.campaign === 'blackfriday';
+const { offer, endDate } = SITE.blackFriday;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  schema={[webPage({ path, title, description, type: 'CollectionPage' }), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+
+  <section class="container-site grid items-center gap-6 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
+    <div>
+      <h1 class="h1">Black Friday bij Flavory</h1>
+      {active ? (
+        <>
+          {offer && <p class="mt-3 text-lg font-bold">{offer}</p>}
+          <p class="mt-3 text-lg">
+            In elke box zitten het wijnspel en twee flessen wijn van 75 cl, voor een avond blind proeven met 2 tot 6
+            spelers.
+          </p>
+          {endDate && <p class="mt-3">De actie loopt tot en met {endDate}.</p>}
+        </>
+      ) : (
+        <p class="mt-3 text-lg">
+          De Black Friday-actie is voorbij. Het wijnspel met twee flessen wijn van 75 cl koop je het hele jaar aan de
+          gewone prijs.
+        </p>
+      )}
+      <div class="mt-5">
+        <a href="#boxen" class="btn-primary">
+          Bekijk de boxen
+        </a>
+      </div>
+      <p class="mt-3 text-sm">{shippingLine()}</p>
+    </div>
+    <Image
+      src={giftImage}
+      alt="Iemand pakt een Flavory-wijnspel uit het cadeaupapier"
+      widths={[360, 540, 720]}
+      sizes="(min-width: 768px) 24rem, calc(100vw - 2rem)"
+      class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover md:max-w-sm"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </section>
+
+  <section id="boxen" class="section-y scroll-mt-24 bg-white" aria-labelledby="boxen-title">
+    <div class="container-site">
+      <h2 id="boxen-title" class="h2 text-center">
+        {active ? 'De twee boxen met actieprijs' : 'De twee boxen aan de gewone prijs'}
+      </h2>
+      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
+        {products.map((product) => (
+          <li>
+            <ProductCard product={product} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {active ? (
+    <section class="section-y" aria-labelledby="kerst-title">
+      <div class="container-site max-w-3xl">
+        <h2 id="kerst-title" class="h2">
+          Nu kopen, met kerst geven
+        </h2>
+        <p class="mt-3">
+          Bestel je kerstcadeau nu met korting en leg het in december onder de boom. Zo kies je rustig en mis je de
+          drukte bij de post.
+        </p>
+        {SITE.giftDeadline && <p class="mt-3 font-bold">Laatste besteldag voor kerst: {SITE.giftDeadline}.</p>}
+        <p class="mt-4">
+          <a href="/cadeau/kerstcadeau/" class="font-bold text-brand underline">
+            Het wijnspel als kerstcadeau
+          </a>
+        </p>
+      </div>
+    </section>
+  ) : (
+    <Newsletter heading="Volgend jaar als eerste weten" />
+  )}
+</BaseLayout>

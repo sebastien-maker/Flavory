@@ -44,6 +44,9 @@ const variant = z.object({
   // Links the option to one of the product's `descriptions`.
   group: z.string(),
   available: z.boolean().default(true),
+  // Promotion in WooCommerce: filled in at build time (src/lib/content.ts), never in the CMS.
+  regularPrice: z.number().positive().optional(),
+  saleEnd: z.string().optional(),
 });
 
 const products = defineCollection({

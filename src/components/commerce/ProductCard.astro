@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import type { Product } from '@/lib/content';
 import { isAvailable, productPath } from '@/lib/content';
-import { formatPrice } from '@/lib/site';
+import Price from './Price.astro';
 
 interface Props {
   product: Product;
@@ -16,7 +16,12 @@ const url = productPath(product.id);
 const soldOut = !isAvailable(product);
 const cover = data.images[0]!;
 // One line per formula, so you see the price and the stock of both before you click.
-const options = data.variants.map((v) => ({ formula: v.formula, price: v.price, available: v.available }));
+const options = data.variants.map((v) => ({
+  formula: v.formula,
+  price: v.price,
+  regularPrice: v.regularPrice,
+  available: v.available,
+}));
 ---
 
 <article class="card-link group p-4">
@@ -49,7 +54,7 @@ const options = data.variants.map((v) => ({ formula: v.formula, price: v.price, 
         <div class="flex items-baseline justify-between gap-2">
           <dt class="font-bold">{o.formula}</dt>
           <dd class:list={[o.available ? 'font-bold' : 'text-muted']}>
-            {o.available ? formatPrice(o.price) : 'Tijdelijk uitverkocht'}
+            {o.available ? <Price price={o.price} regularPrice={o.regularPrice} /> : 'Tijdelijk uitverkocht'}
           </dd>
         </div>
       ))}

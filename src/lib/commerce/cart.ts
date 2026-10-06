@@ -5,6 +5,8 @@ export interface CartLine {
   handle: string;
   name: string;
   price: number;
+  /** Only during a promotion: the price before the discount, shown struck through. */
+  regularPrice?: number | undefined;
   image: string;
   url: string;
   quantity: number;

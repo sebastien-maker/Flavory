@@ -47,8 +47,20 @@ export const SITE = {
     'Neem binnen 14 dagen na levering contact op via info@flavory.wine en we betalen je terug. Geopende flessen hoeven niet terug.',
   // Seasonal block on /cadeau/. Empty means no block at all. Set a season and the last order day
   // together, for example 'kerst' and 'maandag 22 december'.
+  // During the Black Friday campaign `giftDeadline` is also the last order day for Christmas on /black-friday/.
   giftSeason: '' as '' | 'kerst' | 'moederdag' | 'vaderdag',
   giftDeadline: '',
+  // Campaign. Empty means none. 'blackfriday' switches /black-friday/ to the running promotion and
+  // links the announcement bar to it. The sale prices themselves are set in WooCommerce.
+  campaign: '' as '' | 'blackfriday',
+  // Fill in together with campaign = 'blackfriday'.
+  blackFriday: {
+    // The promotion in one sentence, for example 'Black Friday: het wijnspel met 20% korting'.
+    // This is the only place where the discount is named.
+    offer: '' as string,
+    // Last day of the promotion, for example 'maandag 30 november'.
+    endDate: '' as string,
+  },
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',
   // PostHog project API key (public by design: it can only send events). EU cloud.
@@ -76,6 +88,7 @@ export const FOOTER_NAV = [
     links: [
       { href: '/hoe-werkt-het/', label: 'Hoe werkt het?' },
       { href: '/cadeau/', label: 'Cadeau' },
+      { href: '/black-friday/', label: 'Black Friday' },
       { href: '/over-flavory/', label: 'Over Flavory' },
       { href: '/reviews/', label: 'Reviews' },
       { href: '/blog/', label: 'Blog' },

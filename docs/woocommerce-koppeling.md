@@ -38,6 +38,17 @@ De lancering volgt `docs/lancering.md`. WordPress komt op **`www.flavory.wine`**
   - orderbevestiging
   - de aankoopmeting (`purchase`) in GA4
 
+## Promoties (kortingsprijzen)
+
+Een promotie stel je in WooCommerce in: vul bij het product de *actieprijs* in, en via *Inplannen* de begin- en einddatum. De site doet de rest:
+
+- **Op de site.** Kaarten, productpagina's en het winkelmandje tonen de gewone prijs doorstreept naast de actieprijs.
+- **Voor Google.** De productgegevens (Offer) en de merchant feed (`sale_price`) gebruiken de actieprijs.
+- **Einddatum.** De Store API van WooCommerce geeft de einddatum van een promotie niet mee. Versie 1.3.0 van de plugin *Flavory cart bridge* voegt ze toe (`extensions.flavory.sale_end`). Zet dus de nieuwe versie van `integrations/wordpress/flavory-cart-bridge.php` in `wp-content/mu-plugins/`. Zonder die versie werken de kortingsprijzen wel, maar blijft `priceValidUntil` op een jaar na de build staan.
+- **Na het einde van de promotie** moet de site opnieuw bouwen, anders blijft de actieprijs in de productgegevens en de feed staan. De prijs op de pagina zelf wordt wel in de browser ververst. Start een deploy in Netlify zolang de webhook hieronder er niet is.
+
+De campagnepagina `/black-friday/` en de aankondigingsbalk zet je aan met `SITE.campaign` in `src/lib/site.ts`.
+
 ## Nog te doen
 
 - **Cross-domain meting in GA4** voor `flavory.wine` en `www.flavory.wine`, zodat een aankoop aan de juiste bron wordt toegekend.

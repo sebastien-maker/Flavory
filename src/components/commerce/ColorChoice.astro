@@ -4,7 +4,7 @@
 // In this choice the colour follows the wine (docs/design-richtlijnen.md): light blue for white, red for red.
 import { Image } from 'astro:assets';
 import { clearanceProducts, colourChoices, fromPrice, productPath, type Product } from '@/lib/content';
-import { formatPrice } from '@/lib/site';
+import Price from '@/components/commerce/Price.astro';
 import { COLOUR_STYLES } from '@/lib/colour-choice';
 
 interface Props {
@@ -50,7 +50,13 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
                 {product.data.choiceLine ?? `${product.data.duel}: proef jij het verschil?`}
               </p>
               <p class="mt-2.5 mb-3.5 text-[0.8125rem] text-muted">
-                vanaf <strong class="text-base text-ink">{formatPrice(fromPrice(product))}</strong>
+                vanaf{' '}
+                <strong class="text-base text-ink">
+                  <Price
+                    price={fromPrice(product)}
+                    regularPrice={product.data.variants.find((v) => v.price === fromPrice(product))?.regularPrice}
+                  />
+                </strong>
               </p>
               <p class:list={['choice-button', style.button]}>{style.cta}</p>
             </div>

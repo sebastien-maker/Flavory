@@ -1,0 +1,63 @@
+---
+// Proefkaart: vergelijking van twee wijnen naast elkaar, met de Flavory-illustraties.
+// Gevoed vanuit het frontmatter-veld `proefkaart` van een blogartikel (bewerkbaar in Keystatic).
+import { Image } from 'astro:assets';
+import druif from '@/assets/images/illustraties/druif.png';
+import oog from '@/assets/images/illustraties/oog.png';
+import neus from '@/assets/images/illustraties/neus.png';
+import mond from '@/assets/images/illustraties/mond.png';
+import blad from '@/assets/images/illustraties/blad.png';
+import bord from '@/assets/images/illustraties/bord.png';
+
+const ICONEN = { druif, oog, neus, mond, blad, bord } as const;
+
+interface Rij {
+  kenmerk: string;
+  icoon: keyof typeof ICONEN;
+  links: string;
+  rechts: string;
+}
+interface Props {
+  titel?: string;
+  links: string;
+  rechts: string;
+  rijen: Rij[];
+}
+
+const { titel, links, rechts, rijen } = Astro.props;
+const kop = titel || `${links} en ${rechts} naast elkaar`;
+---
+
+<section class="mt-12" aria-labelledby="proefkaart-titel">
+  <h2 id="proefkaart-titel" class="h3">{kop}</h2>
+  <div class="mt-6 overflow-hidden rounded-[var(--radius-card)] bg-white ring-1 ring-line">
+    <div class="hidden grid-cols-[11rem_1fr_1fr] gap-4 border-b border-line bg-blush px-5 py-3 md:grid">
+      <span class="sr-only">Kenmerk</span>
+      <span aria-hidden="true"></span>
+      <p class="font-display text-lg font-bold">{links}</p>
+      <p class="font-display text-lg font-bold text-wine-white-text">{rechts}</p>
+    </div>
+    <ul>
+      {
+        rijen.map((rij) => (
+          <li class="grid gap-3 border-b border-line px-5 py-4 last:border-b-0 md:grid-cols-[11rem_1fr_1fr] md:gap-4">
+            <div class="flex items-center gap-3">
+              <span class="flex size-12 shrink-0 items-center justify-center">
+                <Image src={ICONEN[rij.icoon]} alt="" width={96} class="max-h-10 w-auto max-w-11 object-contain" />
+              </span>
+              <h3 class="font-display text-base font-bold">{rij.kenmerk}</h3>
+            </div>
+            <p class="text-sm md:text-base">
+              <span class="block text-xs font-bold tracking-wide uppercase md:hidden">{links}</span>
+              {rij.links}
+            </p>
+            <p class="text-sm md:text-base">
+              <span class="block text-xs font-bold tracking-wide text-wine-white-text uppercase md:hidden">{rechts}</span>
+              {rij.rechts}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

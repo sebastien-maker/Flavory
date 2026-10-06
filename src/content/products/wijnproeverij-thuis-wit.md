@@ -1,7 +1,7 @@
 ---
 name: "Wit wijnspel: Chardonnay of Sauvignon Blanc"
-h1: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
-intro: "Chardonnay en Sauvignon Blanc: twee legendarische witte wijnen. Ken je ze van naam, maar heb je geen idee wat het verschil is? Dan is dit je kans."
+h1: "Witte wijnspel"
+intro: "Chardonnay en Sauvignon Blanc kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen. Proef ze één keer blind naast elkaar, en je haalt ze nooit meer door elkaar."
 seoTitle: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
 seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Chardonnay of Sauvignon Blanc"
@@ -12,7 +12,7 @@ variants:
   - id: chardonnay-sauvignon-standaard
     duel: "Chardonnay of Sauvignon Blanc"
     formula: Standaard
-    price: 49.9
+    price: 59.9
     sku: "B002N Chardonnay/SB (6151305126156)-1-1"
     gtin13: "6151305126156"
     wooId: 19757
@@ -21,7 +21,7 @@ variants:
   - id: chardonnay-sauvignon-premium
     duel: "Chardonnay of Sauvignon Blanc"
     formula: Premium
-    price: 74.9
+    price: 79.9
     sku: "TMP-WIT-CSB-PREM"
     wooId: 7361
     group: druiven

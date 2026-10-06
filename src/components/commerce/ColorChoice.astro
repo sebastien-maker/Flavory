@@ -3,10 +3,9 @@
 // "5A · Wit of rood: naast elkaar"). The duel is introduced on the product page.
 // In this choice the colour follows the wine (docs/design-richtlijnen.md): light blue for white, red for red.
 import { Image } from 'astro:assets';
-import { clearanceProducts, colourChoices, fromPrice, isAvailable, productPath, type Product } from '@/lib/content';
+import { clearanceProducts, colourChoices, fromPrice, productPath, type Product } from '@/lib/content';
 import Price from '@/components/commerce/Price.astro';
-import whitePackshot from '@/assets/images/products/packshot-wit-zakjes.jpg';
-import redPackshot from '@/assets/images/products/packshot-rood-zakjes.jpg';
+import { COLOUR_STYLES } from '@/lib/colour-choice';
 
 interface Props {
   /** All products; the cards pick the box per colour that is for sale now. */
@@ -18,26 +17,7 @@ interface Props {
 
 const { products, heading = 'Kies je box', eager = false, class: className } = Astro.props;
 
-// The packshot belongs to the colour, not to the box the card leads to.
-const STYLES = {
-  Wit: {
-    title: 'Witte wijn',
-    cta: 'Kies wit',
-    image: whitePackshot,
-    alt: 'Wit wijnspel: de doos met twee flessen wijn in zakjes A en B',
-    line: 'text-wine-white-text',
-    button: 'bg-wine-white text-ink',
-  },
-  Rood: {
-    title: 'Rode wijn',
-    cta: 'Kies rood',
-    image: redPackshot,
-    alt: 'Rood wijnspel: de doos met twee flessen wijn in zakjes A en B',
-    line: 'text-wine-red-text',
-    button: 'bg-brand text-white',
-  },
-};
-const choices = colourChoices(products).map((choice) => ({ ...choice, style: STYLES[choice.label] }));
+const choices = colourChoices(products).map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }));
 // Leftover stock gets its own line, unless a card already leads to it.
 const clearance = clearanceProducts(products).filter((p) => !choices.some((c) => c.product.id === p.id));
 ---
@@ -51,7 +31,6 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
   </p>
   <ul class="mt-6 grid grid-cols-2 gap-3">
     {choices.map(({ product, style }) => {
-      const soldOut = !isAvailable(product);
       return (
         <li>
           <a href={productPath(product.id)} class="choice-card">
@@ -71,21 +50,15 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
                 {product.data.choiceLine ?? `${product.data.duel}: proef jij het verschil?`}
               </p>
               <p class="mt-2.5 mb-3.5 text-[0.8125rem] text-muted">
-                {soldOut ? (
-                  'Tijdelijk uitverkocht'
-                ) : (
-                  <>
-                    vanaf{' '}
-                    <strong class="text-base text-ink">
-                      <Price
-                        price={fromPrice(product)}
-                        regularPrice={product.data.variants.find((v) => v.price === fromPrice(product))?.regularPrice}
-                      />
-                    </strong>
-                  </>
-                )}
+                vanaf{' '}
+                <strong class="text-base text-ink">
+                  <Price
+                    price={fromPrice(product)}
+                    regularPrice={product.data.variants.find((v) => v.price === fromPrice(product))?.regularPrice}
+                  />
+                </strong>
               </p>
-              <p class:list={['choice-button', soldOut ? 'bg-line text-muted' : style.button]}>{style.cta}</p>
+              <p class:list={['choice-button', style.button]}>{style.cta}</p>
             </div>
           </a>
         </li>
@@ -94,7 +67,7 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
   </ul>
   {clearance.map((product) => (
     <p class="mt-4 text-center text-sm">
-      Zolang de voorraad strekt:{' '}
+      Nu te koop, zolang de voorraad strekt:{' '}
       <a href={productPath(product.id)} class="font-bold underline">
         {product.data.name}
       </a>

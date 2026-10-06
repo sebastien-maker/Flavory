@@ -53,6 +53,26 @@ const contact = SITE.email
       <button type="button" data-cart-checkout class="btn-primary mt-4 w-full">
         Afrekenen
       </button>
+      <!-- Shown from the click on 'Afrekenen' until the WooCommerce checkout has loaded (that takes seconds). -->
+      <div data-checkout-wait hidden class="checkout-wait" role="status" aria-live="polite">
+        <svg class="checkout-glass" viewBox="0 0 64 96" aria-hidden="true">
+          <defs>
+            <clipPath id="checkout-bowl">
+              <path d="M12 4h40v26c0 14-8 24-20 26C20 54 12 44 12 30z" />
+            </clipPath>
+          </defs>
+          <rect class="checkout-wine" x="0" y="0" width="64" height="60" clip-path="url(#checkout-bowl)" />
+          <path
+            d="M12 4h40v26c0 14-8 24-20 26C20 54 12 44 12 30zM32 56v30M18 88h28"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          />
+        </svg>
+        <p class="mt-5 text-lg font-bold">Even geduld</p>
+        <p class="mt-1 max-w-xs text-center">We schenken je winkelmandje over naar de betaalpagina.</p>
+      </div>
       <p data-cart-notice hidden class="mt-3 rounded-xl bg-white p-3 text-sm" role="status">
         Online afrekenen lukt nog niet voor een box in je winkelmandje. Bestellen kan intussen via{' '}
         <a class="text-brand underline" href={contact.href}>
@@ -99,6 +119,7 @@ const contact = SITE.email
 <script>
   import { cart, MAX_QTY, type CartLine } from '@/lib/commerce/cart';
   import { checkoutProvider, createCheckoutUrl } from '@/lib/commerce/checkout';
+  import { WOO_URL } from '@/lib/commerce/woo';
   import { analyticsIds, track } from '@/lib/analytics';
   import { SITE, formatPrice, shippingLine } from '@/lib/site';
   import { renderPrice } from '@/lib/commerce/price';
@@ -160,9 +181,21 @@ const contact = SITE.email
     items: lines.map((l) => ({ id: l.handle, name: l.name, price: l.price, quantity: l.quantity })),
   });
 
+  // The checkout lives on another host: connect to it as soon as the cart opens, so the hand-over is faster.
+  let preconnected = false;
+  const preconnect = () => {
+    if (preconnected || !WOO_URL) return;
+    preconnected = true;
+    const link = document.createElement('link');
+    link.rel = 'preconnect';
+    link.href = WOO_URL;
+    document.head.append(link);
+  };
+
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
     if (target.closest('[data-cart-open]')) {
+      preconnect();
       dialog.showModal();
       track('cart_viewed', cartProperties(cart.lines()));
     }
@@ -187,6 +220,7 @@ const contact = SITE.email
       },
       Number(data.get('quantity') ?? 1),
     );
+    preconnect();
     dialog.showModal();
     track('product_added_to_cart', {
       id: String(data.get('handle')),
@@ -204,13 +238,18 @@ const contact = SITE.email
     });
   });
 
-  $('[data-cart-checkout]').addEventListener('click', () => {
+  const checkoutButton = $<HTMLButtonElement>('[data-cart-checkout]');
+  const wait = $('[data-checkout-wait]');
+  checkoutButton.addEventListener('click', () => {
     const lines = cart.lines();
     const url = checkoutProvider === 'none' ? null : createCheckoutUrl(lines);
     if (!url) {
       $('[data-cart-notice]').hidden = false;
       return;
     }
+    // Waiting screen until the checkout page has loaded; the button cannot be pressed twice.
+    checkoutButton.disabled = true;
+    wait.hidden = false;
     window.dataLayer?.push({
       event: 'begin_checkout',
       ecommerce: {
@@ -230,6 +269,13 @@ const contact = SITE.email
     window.location.href = target.toString();
   });
 
+  // Back from the checkout with the page restored from the cache: hide the waiting screen again.
+  window.addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    wait.hidden = true;
+    checkoutButton.disabled = false;
+  });
+
   cart.subscribe(render);
   render(cart.lines());
 </script>
@@ -237,6 +283,46 @@ const contact = SITE.email
 <style>
   dialog[open] {
     animation: slide-in 0.25s ease-out;
+  }
+  .checkout-wait {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: var(--color-cream);
+  }
+  .checkout-wait[hidden] {
+    display: none;
+  }
+  .checkout-glass {
+    width: 4rem;
+    height: 6rem;
+    color: var(--color-ink);
+  }
+  /* The wine rises in the glass, over and over, until the checkout page takes over. */
+  .checkout-wine {
+    fill: var(--color-brand);
+    transform-origin: 32px 56px;
+    animation: pour 2.4s ease-in-out infinite;
+  }
+  @keyframes pour {
+    0% {
+      transform: translateY(56px);
+    }
+    70%,
+    100% {
+      transform: translateY(14px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .checkout-wine {
+      animation: none;
+      transform: translateY(14px);
+    }
   }
   @keyframes slide-in {
     from {

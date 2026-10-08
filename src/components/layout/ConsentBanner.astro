@@ -110,8 +110,17 @@ import { SITE } from '@/lib/site';
     };
 
     // Converge pixel (marketing attribution): the official snippet, but only after marketing consent.
+    // Converge treats a visitor without a consent call as "denied" and then forwards nothing to the ad
+    // platforms, so the choice is sent on every page load (and again when it changes).
     let convergeLoaded = false;
-    const loadConverge = () => {
+    const convergeConsent = (c) => {
+      window.cvg({
+        method: 'consent',
+        analytics: c.analytics ? 'granted' : 'denied',
+        marketing: c.marketing ? 'granted' : 'denied',
+      });
+    };
+    const loadConverge = (c) => {
       if (convergeLoaded || !convergePixelId) return;
       convergeLoaded = true;
       if (!window.cvg) {
@@ -123,6 +132,7 @@ import { SITE } from '@/lib/site';
         cvg.queue = [];
         window.cvg = cvg;
       }
+      convergeConsent(c);
       window.cvg({ method: 'track', eventName: '$page_load' });
       const s = document.createElement('script');
       s.async = true;
@@ -146,7 +156,8 @@ import { SITE } from '@/lib/site';
       });
       // Load after the page is idle so GTM never competes with LCP.
       if (c.analytics || c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadGtm);
-      if (c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadConverge);
+      if (convergeLoaded) convergeConsent(c);
+      else if (c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(() => loadConverge(c));
     };
 
     let stored = null;

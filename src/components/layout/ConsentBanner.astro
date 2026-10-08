@@ -1,5 +1,5 @@
 ---
-// Cookie consent (rule 8): GTM and everything behind it load only after explicit consent.
+// Cookie consent (rule 8): GTM, Converge and everything behind them load only after explicit consent.
 // Google Consent Mode v2 defaults are set to "denied" before GTM loads.
 import { SITE } from '@/lib/site';
 ---
@@ -47,7 +47,7 @@ import { SITE } from '@/lib/site';
   </form>
 </div>
 
-<script is:inline define:vars={{ gtmId: SITE.gtmId, posthogKey: SITE.posthogKey }}>
+<script is:inline define:vars={{ gtmId: SITE.gtmId, posthogKey: SITE.posthogKey, convergePixelId: SITE.convergePixelId }}>
   (() => {
     const KEY = 'flavory-consent-v1';
     window.dataLayer = window.dataLayer || [];
@@ -109,6 +109,27 @@ import { SITE } from '@/lib/site';
       document.head.appendChild(s);
     };
 
+    // Converge pixel (marketing attribution): the official snippet, but only after marketing consent.
+    let convergeLoaded = false;
+    const loadConverge = () => {
+      if (convergeLoaded || !convergePixelId) return;
+      convergeLoaded = true;
+      if (!window.cvg) {
+        // Queues calls until the pixel script has loaded, then hands them to cvg.process.
+        const cvg = (...args) => {
+          if (cvg.process) cvg.process(...args);
+          else cvg.queue.push(args);
+        };
+        cvg.queue = [];
+        window.cvg = cvg;
+      }
+      window.cvg({ method: 'track', eventName: '$page_load' });
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://static.runconverge.com/pixels/' + convergePixelId + '.js';
+      document.head.appendChild(s);
+    };
+
     const apply = (c) => {
       window.flavoryConsent = { analytics: !!c.analytics, marketing: !!c.marketing };
       if (c.analytics) {
@@ -125,6 +146,7 @@ import { SITE } from '@/lib/site';
       });
       // Load after the page is idle so GTM never competes with LCP.
       if (c.analytics || c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadGtm);
+      if (c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadConverge);
     };
 
     let stored = null;

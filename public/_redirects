@@ -45,6 +45,11 @@
 /shop/afrekenen/                                                                                               https://www.flavory.wine/shop/afrekenen/  301
 /shop/mijn-account/                                                                                            https://www.flavory.wine/shop/mijn-account/  301
 /shop/mijn-account/*                                                                                           https://www.flavory.wine/shop/mijn-account/:splat  301
+/checkout/                                                                                                     https://www.flavory.wine/shop/afrekenen/  301
+/afrekenen/                                                                                                    https://www.flavory.wine/shop/afrekenen/  301
+/cart/                                                                                                         https://www.flavory.wine/shop/winkelwagen/  301
+/winkelmand/                                                                                                   https://www.flavory.wine/shop/winkelwagen/  301
+/winkelwagen/                                                                                                  https://www.flavory.wine/shop/winkelwagen/  301
 /shop/italie-of-spanje/                                                                                        /shop/wijnproeverij-thuis-rood/  301
 /shop/valentijn-wine-tasting-game-italie-of-spanje-10-korting/                                                 /shop/wijnproeverij-thuis-rood/  301
 /shop/legendarische-wijnlanden-rood/                                                                           /shop/wijnproeverij-thuis-rood/  301

@@ -74,6 +74,12 @@ const RULES = [
   ['/shop/afrekenen/', `${CHECKOUT}/shop/afrekenen/`],
   ['/shop/mijn-account/', `${CHECKOUT}/shop/mijn-account/`],
   ['/shop/mijn-account/*', `${CHECKOUT}/shop/mijn-account/:splat`],
+  // Old cart and checkout addresses (links in mails and search results) go to the live checkout
+  ['/checkout/', `${CHECKOUT}/shop/afrekenen/`],
+  ['/afrekenen/', `${CHECKOUT}/shop/afrekenen/`],
+  ['/cart/', `${CHECKOUT}/shop/winkelwagen/`],
+  ['/winkelmand/', `${CHECKOUT}/shop/winkelwagen/`],
+  ['/winkelwagen/', `${CHECKOUT}/shop/winkelwagen/`],
 
   // Products: renamed and legacy slugs (SITE-STRUCTURE §3)
   ['/shop/italie-of-spanje/', IT_ES],

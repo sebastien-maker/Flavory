@@ -65,6 +65,8 @@ export const SITE = {
   gtmId: 'GTM-MPJ8DPDM',
   // PostHog project API key (public by design: it can only send events). EU cloud.
   posthogKey: 'phc_wyE7EYQB42WLwnUmp7u7b8WLJScYNe74mzLTLe452BM7',
+  // Converge pixel (marketing attribution), public by design. Loads only after marketing consent.
+  convergePixelId: '8hwM1G',
 } as const;
 
 export const NAV = [

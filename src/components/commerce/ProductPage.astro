@@ -293,6 +293,7 @@ const schemaImages = await Promise.all(
       <form
         data-add-to-cart
         data-variant-form
+        data-sold-out-label={soldOutLabel}
         id="bestellen"
         class:list={['mt-6 scroll-mt-28', theme.tiles]}
         method="post"
@@ -600,7 +601,7 @@ const schemaImages = await Promise.all(
   };
 
   function applyChoice() {
-    const option = radios.find((r) => r.checked);
+    const option = radios.find((r) => r.checked && !r.disabled);
     if (!form || !button || !option) return;
     const price = Number(option.dataset.price);
     const regularPrice = Number(option.dataset.regularPrice) || undefined;
@@ -615,6 +616,20 @@ const schemaImages = await Promise.all(
     if (stickyLabel) stickyLabel.textContent = option.dataset.label ?? '';
     for (const block of document.querySelectorAll<HTMLElement>('[data-description]')) {
       block.hidden = block.dataset.description !== option.dataset.group;
+    }
+  }
+
+  // Live stock can leave every option unbuyable, or make one buyable again: the button, the fieldset and the
+  // sticky bar follow. Without this the build-time state stays, and a sold-out box can reach the checkout.
+  const fieldset = form?.querySelector<HTMLFieldSetElement>('fieldset');
+  const stickyBar = document.querySelector<HTMLElement>('[data-sticky-buy]');
+  function setSoldOut(soldOut: boolean) {
+    if (!form || !button) return;
+    if (fieldset) fieldset.disabled = soldOut;
+    button.disabled = soldOut;
+    if (soldOut) {
+      button.textContent = form.dataset.soldOutLabel ?? 'Binnenkort weer verkrijgbaar';
+      if (stickyBar) stickyBar.hidden = true;
     }
   }
 
@@ -664,6 +679,7 @@ const schemaImages = await Promise.all(
           const next = radios.find((r) => !r.disabled);
           if (next) next.checked = true;
         }
+        setSoldOut(radios.every((r) => r.disabled));
         applyChoice();
       })
       .catch(() => {});

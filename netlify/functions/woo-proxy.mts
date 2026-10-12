@@ -3,6 +3,9 @@
 // handles such a proxy internally. A function fetches over the public internet and reaches Combell.
 // - /wp-json/* and /wc-api/*: partners such as Postalux (fulfilment) still call the API on flavory.wine.
 // - /woo-api/*: the browser's price and stock refresh (WooCommerce Store API).
+// Cookies: WordPress (its Converge plugin) sets a Converge ID cookie (__cvg_*) on every response. Passed on,
+// it would land on flavory.wine before the visitor consents to marketing cookies (rule 8), so it never goes
+// through. The price and stock refresh needs no cookies at all; /wp-json/* and /wc-api/* keep all others.
 
 const ORIGIN = 'https://www.flavory.wine';
 
@@ -12,9 +15,8 @@ const DROP_RESPONSE = ['content-encoding', 'content-length', 'transfer-encoding'
 
 export default async (request: Request): Promise<Response> => {
   const url = new URL(request.url);
-  const path = url.pathname.startsWith('/woo-api/')
-    ? url.pathname.replace(/^\/woo-api\//, '/wp-json/wc/store/v1/')
-    : url.pathname;
+  const isStoreApi = url.pathname.startsWith('/woo-api/');
+  const path = isStoreApi ? url.pathname.replace(/^\/woo-api\//, '/wp-json/wc/store/v1/') : url.pathname;
   const target = new URL(path + url.search, ORIGIN);
 
   const headers = new Headers(request.headers);
@@ -27,6 +29,12 @@ export default async (request: Request): Promise<Response> => {
 
   const responseHeaders = new Headers(upstream.headers);
   for (const name of DROP_RESPONSE) responseHeaders.delete(name);
+  responseHeaders.delete('set-cookie');
+  if (!isStoreApi) {
+    for (const cookie of upstream.headers.getSetCookie()) {
+      if (!cookie.trimStart().startsWith('__cvg_')) responseHeaders.append('set-cookie', cookie);
+    }
+  }
   responseHeaders.set('x-robots-tag', 'noindex');
   return new Response(upstream.body, { status: upstream.status, headers: responseHeaders });
 };

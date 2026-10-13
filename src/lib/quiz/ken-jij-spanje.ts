@@ -19,7 +19,7 @@ interface MapQuestion {
   place: string;
   lat: number;
   lon: number;
-  /** A tap within this distance counts as right: 200 km for a city, 100 km for a wine region (Bart, 13 Oct). */
+  /** A tap within this distance counts as right: 200 km for a city, 150 km for a wine region (Bart, 13 Oct). */
   radiusKm: number;
   fact: string;
 }
@@ -32,7 +32,7 @@ export const QUESTIONS_PER_LEVEL = 3;
 export const JOKERS = 1;
 
 const CITY_KM = 200;
-const REGION_KM = 100;
+const REGION_KM = 150;
 
 export const LEVELS: { name: string; questions: QuizQuestion[] }[] = [
   {

@@ -1,0 +1,757 @@
+---
+// "Ken jij Spanje?": how far do you get? Fifteen questions about Spain and Spanish wine in five levels, three
+// random questions out of five per level, one joker, then a final question for everyone and the red wine game
+// with Italië of Spanje. Questions live in src/lib/quiz/ken-jij-spanje.ts. Every question and fact is in the
+// HTML; the script only picks, shows and scores. No cookies, no third-party code: events go through the existing
+// analytics helper, which sends nothing without consent.
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import SpainMap from '@/components/quiz/SpainMap.astro';
+import SpainMapSymbol from '@/components/quiz/SpainMapSymbol.astro';
+import { FINAL_QUESTION, JOKERS, LEVELS, QUESTIONS_PER_LEVEL, TITLES, TOP_TITLE } from '@/lib/quiz/ken-jij-spanje';
+import { MAP_HEIGHT, MAP_WIDTH } from '@/lib/quiz/projection';
+import { SITE, absoluteUrl } from '@/lib/site';
+import { breadcrumbs, webPage } from '@/components/seo/schema';
+import shareImage from '@/assets/images/site/aan-tafel.jpg';
+import boxImage from '@/assets/images/products/italie-of-spanje/02-in-handen.jpg';
+
+const path = '/quiz/ken-jij-spanje/';
+const title = 'Ken jij Spanje? De quiz over Spaanse wijn';
+const description =
+  'Hoe ver geraak jij? 15 vragen over Spanje en Spaanse wijn, van heel makkelijk tot expert. Eén fout mag. Speel de quiz van Flavory.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Ken jij Spanje?', path },
+];
+// No UTM on the link to the box: an internal UTM would overwrite the real source (Instagram, LinkedIn) in Converge.
+const boxUrl = '/shop/wijnproeverij-thuis-rood/';
+// Shared links do get one, so plays from WhatsApp and the like are not counted as direct visits.
+const shareUrl = `${absoluteUrl(path)}?utm_source=delen&utm_medium=social&utm_campaign=ken-jij-spanje`;
+const total = LEVELS.length * QUESTIONS_PER_LEVEL;
+const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  image={shareImage}
+  imageAlt="Een speelster toont een fles rode wijn in een stoffen zakje met de letter A tijdens een blinde proeverij"
+  schema={[webPage({ path, title, description }), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <SpainMapSymbol />
+
+  <section class="container-site pt-4 pb-16" aria-labelledby="quiz-title">
+    <div
+      class="card quiz-card mx-auto max-w-xl p-5 sm:p-8"
+      data-quiz
+      data-share-url={shareUrl}
+      data-per-level={QUESTIONS_PER_LEVEL}
+      data-jokers={JOKERS}
+    >
+      <!-- Start -->
+      <div data-step="start">
+        <h1 id="quiz-title" class="h1 text-center">
+          Ken jij Spanje?
+        </h1>
+        <p class="lead mt-2 text-center text-balance">
+          Hoe ver geraak jij? {total} vragen, van heel makkelijk tot expert.
+        </p>
+        <p class="mt-1 text-center text-muted">Eén fout mag. Bij de tweede stopt het spel.</p>
+        <SpainMap class="mx-auto mt-6 max-w-sm" places={[portugal]} />
+        <button type="button" class="btn-primary mt-6 w-full" data-start>
+          Start de quiz
+        </button>
+        <noscript>
+          <p class="mt-4 text-center text-sm text-muted">Zet JavaScript aan om de quiz te spelen.</p>
+        </noscript>
+      </div>
+
+      <!-- The game: one question at a time, with a shared map, feedback and next button -->
+      <div data-step="play" hidden>
+        <div class="mb-6">
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-sm font-bold" data-count>
+              Vraag 1 van {total}
+            </p>
+            <p class="quiz-joker" data-joker>
+              Joker: nog {JOKERS}
+            </p>
+          </div>
+          <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-line">
+            <div class="h-full w-0 rounded-full bg-brand transition-[width] duration-300" data-bar></div>
+          </div>
+          <p class="mt-2 text-sm text-muted">
+            <span data-level-text>
+              Trap 1 van {LEVELS.length}: {LEVELS[0]?.name}
+            </span>
+            <span class="quiz-new-level" data-new-level hidden>
+              Nieuwe trap
+            </span>
+          </p>
+        </div>
+
+        {LEVELS.map((level, l) =>
+          level.questions.map((q) => (
+            <div
+              data-question={q.id}
+              data-level={l + 1}
+              data-level-name={level.name}
+              data-kind={q.kind}
+              data-place={q.kind === 'map' ? q.place : undefined}
+              data-lat={q.kind === 'map' ? q.lat : undefined}
+              data-lon={q.kind === 'map' ? q.lon : undefined}
+              data-radius={q.kind === 'map' ? q.radiusKm : undefined}
+              hidden
+            >
+              <h2 class="h3" tabindex="-1" data-title>
+                {q.kind === 'map' ? `Tik waar ${q.place} ligt.` : q.question}
+              </h2>
+              {q.kind === 'map' ? (
+                <p class="quiz-hint">Juist als je binnen {q.radiusKm} km tikt.</p>
+              ) : (
+                <ul class="quiz-options" data-options>
+                  {q.options.map((option, i) => (
+                    <li>
+                      <button type="button" class="quiz-option" data-option data-right={i === 0 ? '' : undefined}>
+                        {option}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <p data-fact hidden>
+                {q.fact}
+              </p>
+            </div>
+          )),
+        )}
+
+        <div class="quiz-tapmap mt-4" role="button" tabindex="0" aria-describedby="tapmap-help" data-tapmap hidden>
+          <SpainMap places={[portugal]} />
+          <div class="absolute inset-0" data-tap-line hidden>
+            <svg class="size-full" viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`} aria-hidden="true">
+              <line
+                stroke="#4a4a4a"
+                stroke-width="2"
+                stroke-dasharray="5 5"
+                stroke-linecap="round"
+                vector-effect="non-scaling-stroke"
+              ></line>
+            </svg>
+          </div>
+          <span class="quiz-mark quiz-mark-guess" data-tap-guess hidden></span>
+          <span class="quiz-mark quiz-mark-target" data-tap-target hidden>
+            <span class="quiz-mark-label" data-tap-label></span>
+          </span>
+          <span class="quiz-cursor" data-tap-cursor hidden></span>
+        </div>
+        <p id="tapmap-help" class="sr-only">
+          Tik of klik op de kaart. Met het toetsenbord: verplaats de cirkel met de pijltjes en kies met Enter.
+        </p>
+
+        <div class="quiz-feedback" tabindex="-1" data-feedback hidden>
+          <p class="font-bold" data-verdict></p>
+          <p data-distance hidden></p>
+          <p class="mt-1 font-bold text-brand" data-joker-note hidden></p>
+          <p class="mt-2" data-fact-text></p>
+        </div>
+        <button type="button" class="btn-primary mt-6 w-full" data-next hidden>
+          Volgende vraag
+        </button>
+      </div>
+
+      <!-- The final question, for everyone -->
+      <div data-step="final" hidden>
+        <p class="text-sm font-bold text-muted">De slotvraag</p>
+        <h2 class="h3 mt-2" tabindex="-1" data-title>
+          {FINAL_QUESTION.question}
+        </h2>
+        <p class="quiz-hint">Hier is geen fout antwoord.</p>
+        <ul class="quiz-options">
+          {FINAL_QUESTION.options.map((option) => (
+            <li>
+              <button type="button" class="quiz-option" data-final={option}>
+                {option}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Title, the box and sharing -->
+      <div data-step="result" hidden>
+        <p class="text-center text-sm font-bold text-muted" data-reached>
+          Je geraakte tot vraag 1 van {total}.
+        </p>
+        {TITLES.map((t) => (
+          <h2 class="h2 mt-1 text-center" tabindex="-1" data-title-from={t.from} hidden>
+            {t.title}
+          </h2>
+        ))}
+        <h2 class="h2 mt-1 text-center" tabindex="-1" data-title-top hidden>
+          {TOP_TITLE}
+        </h2>
+        <Image
+          src={boxImage}
+          alt="Een speelster toont de box Italië of Spanje van Flavory"
+          widths={[400, 600, 800]}
+          sizes="(min-width: 640px) 30rem, calc(100vw - 4.5rem)"
+          position="top"
+          class="mt-6 aspect-video w-full rounded-xl object-cover"
+        />
+        <p class="mt-6 text-lg font-bold">Probeer het thuis.</p>
+        <p class="mt-2">
+          In de box Italië of Spanje proef je een Spaanse en een Italiaanse rode wijn naast elkaar: twee flessen van
+          75&nbsp;cl, anoniem verpakt. Wie raadt welke fles uit welk land komt?
+        </p>
+        <a href={boxUrl} class="btn-primary mt-6 w-full" data-cta>
+          Bekijk de box
+        </a>
+        <button type="button" class="btn-outline mt-3 w-full" data-share>
+          Delen
+        </button>
+        <p class="mt-2 text-center text-sm" data-share-status aria-live="polite"></p>
+        <p class="mt-4 text-center">
+          <button type="button" class="font-bold text-brand underline" data-restart>
+            Opnieuw spelen
+          </button>
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-6 text-center text-xs text-muted">{SITE.ageNotice}</p>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .quiz-card {
+    scroll-margin-top: 4.5rem;
+  }
+  @media (min-width: 768px) {
+    .quiz-card {
+      scroll-margin-top: 7rem;
+    }
+  }
+  /* Focus moves to the question or the fact for screen readers; no ring around plain text. */
+  .quiz-card [data-title]:focus,
+  .quiz-card [data-title-from]:focus,
+  .quiz-card [data-title-top]:focus,
+  .quiz-feedback:focus {
+    outline: none;
+  }
+  .quiz-hint {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+  .quiz-joker {
+    flex-shrink: 0;
+    border: 1px solid var(--color-ink);
+    border-radius: 999px;
+    padding: 0 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.75;
+  }
+  .quiz-joker.is-used {
+    border-color: var(--color-line);
+    color: var(--color-muted);
+  }
+  .quiz-new-level {
+    margin-left: 0.5rem;
+    border-radius: 999px;
+    background: var(--color-blush);
+    padding: 0.125rem 0.5rem;
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+  .quiz-options {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .quiz-option {
+    display: flex;
+    width: 100%;
+    min-height: 3rem;
+    align-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    transition:
+      border-color 0.15s,
+      background-color 0.15s;
+  }
+  .quiz-option:not(:disabled):hover {
+    border-color: var(--color-ink);
+  }
+  .quiz-option:disabled {
+    cursor: default;
+  }
+  .quiz-option[data-state='correct'] {
+    border-color: var(--color-success);
+    background: color-mix(in srgb, var(--color-success) 10%, #fff);
+    box-shadow: inset 0 0 0 1px var(--color-success);
+  }
+  .quiz-option[data-state='wrong'] {
+    border-color: var(--color-brand);
+    background: var(--color-blush);
+    box-shadow: inset 0 0 0 1px var(--color-brand);
+  }
+  .quiz-option[data-state='dim'] {
+    opacity: 0.45;
+  }
+  /* A check or a cross after the answer, so the result does not rely on colour alone. */
+  .quiz-option[data-state='correct']::after,
+  .quiz-option[data-state='wrong']::after {
+    margin-left: auto;
+    padding-left: 0.75rem;
+    font-size: 1.125rem;
+  }
+  .quiz-option[data-state='correct']::after {
+    content: '✓' / '';
+    color: var(--color-success);
+  }
+  .quiz-option[data-state='wrong']::after {
+    content: '✗' / '';
+    color: var(--color-brand);
+  }
+
+  /* The map to tap on. */
+  .quiz-tapmap {
+    position: relative;
+    border-radius: 0.75rem;
+    cursor: crosshair;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .quiz-tapmap.is-locked {
+    cursor: default;
+  }
+  /* On a phone the map runs to the edges of the card: a larger map for a more precise tap (Bart, 13 Oct). */
+  @media (max-width: 639.98px) {
+    .quiz-card .quiz-tapmap {
+      margin-inline: -1.25rem;
+      border-radius: 0;
+    }
+    .quiz-card .quiz-tapmap .quiz-map {
+      border-radius: 0;
+    }
+  }
+  .quiz-mark,
+  .quiz-cursor {
+    position: absolute;
+    translate: -50% -50%;
+    border-radius: 999px;
+    pointer-events: none;
+  }
+  .quiz-mark-guess {
+    width: 1rem;
+    height: 1rem;
+    background: var(--color-ink);
+    box-shadow:
+      0 0 0 3px #fff,
+      0 0 0 4px var(--color-ink);
+  }
+  .quiz-mark-guess.is-wrong {
+    background: var(--color-brand);
+    box-shadow:
+      0 0 0 3px #fff,
+      0 0 0 4px var(--color-brand);
+  }
+  .quiz-mark-target {
+    width: 1.125rem;
+    height: 1.125rem;
+    background: var(--color-success);
+    box-shadow:
+      0 0 0 3px #fff,
+      0 0 0 4px var(--color-success);
+  }
+  .quiz-mark-label {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 0.5rem);
+    translate: 0 -50%;
+    border-radius: 0.375rem;
+    background: rgb(255 255 255 / 0.92);
+    padding: 0 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  /* The name of the right spot: beside it, or above or below it when the player's tap is in the way. */
+  .quiz-mark-label[data-side='left'] {
+    right: calc(100% + 0.5rem);
+    left: auto;
+  }
+  .quiz-mark-label[data-side='above'],
+  .quiz-mark-label[data-side='below'] {
+    left: 50%;
+    translate: -50% 0;
+  }
+  .quiz-mark-label[data-side='above'] {
+    top: auto;
+    bottom: calc(100% + 0.375rem);
+  }
+  .quiz-mark-label[data-side='below'] {
+    top: calc(100% + 0.375rem);
+  }
+  .quiz-mark-label[data-align='start'] {
+    left: -0.25rem;
+    translate: 0 0;
+  }
+  .quiz-mark-label[data-align='end'] {
+    right: -0.25rem;
+    left: auto;
+    translate: 0 0;
+  }
+  .quiz-cursor {
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 3px solid var(--color-brand);
+    background: rgb(255 255 255 / 0.4);
+  }
+  .quiz-feedback {
+    margin-top: 1.5rem;
+    border-radius: 0.75rem;
+    background: var(--color-cream);
+    padding: 1rem;
+  }
+</style>
+
+<script>
+  import { track } from '@/lib/analytics';
+  import { MAP_HEIGHT, MAP_WIDTH, distanceKm, project, unproject } from '@/lib/quiz/projection';
+
+  const root = document.querySelector<HTMLElement>('[data-quiz]');
+  if (root) initQuiz(root);
+
+  function shuffle<T>(items: T[]): T[] {
+    const list = [...items];
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j] as T, list[i] as T];
+    }
+    return list;
+  }
+
+  function initQuiz(root: HTMLElement) {
+    // The untouched quiz, to start again without reloading the page.
+    const initial = root.innerHTML;
+    const perLevel = Number(root.dataset.perLevel) || 3;
+    const jokers = Number(root.dataset.jokers) || 0;
+
+    let questions: HTMLElement[] = [];
+    let index = 0;
+    let mistakes = 0;
+    let finished = false;
+    let completed = false;
+    let locked = false;
+    let cursor = { x: 50, y: 50 };
+
+    const $ = <T extends Element = HTMLElement>(selector: string) => root.querySelector<T>(selector);
+    const motion = (): ScrollBehavior => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+    const reached = () => index + 1;
+
+    // Three random questions per level, levels in order, options in random order.
+    function pick() {
+      const levels = new Map<string, HTMLElement[]>();
+      for (const q of root.querySelectorAll<HTMLElement>('[data-question]')) {
+        const level = q.dataset.level ?? '';
+        levels.set(level, [...(levels.get(level) ?? []), q]);
+      }
+      questions = [...levels.keys()]
+        .sort((a, b) => Number(a) - Number(b))
+        .flatMap((level) => shuffle(levels.get(level) ?? []).slice(0, perLevel));
+      for (const q of questions) {
+        const list = q.querySelector('[data-options]');
+        if (list) list.append(...shuffle([...list.children]));
+      }
+    }
+
+    function showStep(name: string, focus?: HTMLElement | null) {
+      for (const step of root.querySelectorAll<HTMLElement>('[data-step]')) step.hidden = step.dataset.step !== name;
+      focus?.focus({ preventScroll: true });
+      if (root.getBoundingClientRect().top < 64) root.scrollIntoView({ behavior: motion(), block: 'start' });
+    }
+
+    function setText(selector: string, text: string) {
+      const el = $(selector);
+      if (el) el.textContent = text;
+    }
+
+    function updateJoker() {
+      const badge = $('[data-joker]');
+      if (!badge) return;
+      const left = Math.max(jokers - mistakes, 0);
+      badge.textContent = left > 0 ? `Joker: nog ${left}` : 'Joker op';
+      badge.classList.toggle('is-used', left === 0);
+    }
+
+    function showQuestion(i: number) {
+      const q = questions[i];
+      if (!q) return;
+      index = i;
+      locked = false;
+      for (const el of root.querySelectorAll<HTMLElement>('[data-question]')) el.hidden = el !== q;
+      const map = $('[data-tapmap]');
+      if (map) {
+        map.hidden = q.dataset.kind !== 'map';
+        map.classList.remove('is-locked');
+        map.setAttribute('aria-label', `Kaart van Spanje: kies waar ${q.dataset.place ?? ''} ligt`);
+        for (const el of map.querySelectorAll<HTMLElement>('[data-tap-line], .quiz-mark, .quiz-cursor')) {
+          el.hidden = true;
+        }
+        cursor = { x: 50, y: 50 };
+      }
+      const feedback = $('[data-feedback]');
+      const next = $('[data-next]');
+      if (feedback) feedback.hidden = true;
+      if (next) next.hidden = true;
+
+      setText('[data-count]', `Vraag ${i + 1} van ${questions.length}`);
+      setText(
+        '[data-level-text]',
+        `Trap ${q.dataset.level} van ${questions.length / perLevel}: ${q.dataset.levelName}`,
+      );
+      const newLevel = $('[data-new-level]');
+      if (newLevel) newLevel.hidden = i === 0 || i % perLevel !== 0;
+      const bar = $('[data-bar]');
+      if (bar) bar.style.width = `${((i + 1) / questions.length) * 100}%`;
+      updateJoker();
+      showStep('play', q.querySelector<HTMLElement>('[data-title]'));
+    }
+
+    // After an answer: verdict, joker, the fact and the way on.
+    function settle(q: HTMLElement, correct: boolean, km?: number) {
+      locked = true;
+      if (!correct) mistakes += 1;
+      const out = mistakes > jokers;
+      const last = index === questions.length - 1;
+      finished = out || last;
+      completed = last && !out;
+
+      setText('[data-verdict]', correct ? 'Juist!' : 'Net niet.');
+      const distance = $('[data-distance]');
+      if (distance) {
+        distance.hidden = km === undefined;
+        if (km !== undefined) distance.textContent = `Je zat er ${km < 1 ? 'minder dan 1' : km} km naast.`;
+      }
+      const note = $('[data-joker-note]');
+      if (note) {
+        note.hidden = correct;
+        note.textContent = out
+          ? 'Je joker was al op: hier stopt het spel.'
+          : last
+            ? 'Gelukkig had je je joker nog.'
+            : 'Je joker is op. De volgende fout is de laatste.';
+      }
+      setText('[data-fact-text]', q.querySelector('[data-fact]')?.textContent?.trim() ?? '');
+      updateJoker();
+
+      const next = $('[data-next]');
+      if (next) {
+        next.textContent = finished
+          ? 'Naar de slotvraag'
+          : (index + 1) % perLevel === 0
+            ? 'Naar de volgende trap'
+            : 'Volgende vraag';
+        next.hidden = false;
+      }
+      const feedback = $('[data-feedback]');
+      if (feedback) {
+        feedback.hidden = false;
+        feedback.focus({ preventScroll: true });
+      }
+      (next ?? feedback)?.scrollIntoView({ behavior: motion(), block: 'nearest' });
+      track('quiz_answered', {
+        question: q.dataset.question,
+        level: Number(q.dataset.level),
+        number: reached(),
+        correct,
+        ...(km !== undefined ? { distance_km: km } : {}),
+      });
+    }
+
+    function answerOption(option: HTMLButtonElement) {
+      const q = questions[index];
+      if (!q || locked || !q.contains(option)) return;
+      const correct = option.hasAttribute('data-right');
+      for (const o of q.querySelectorAll<HTMLButtonElement>('[data-option]')) {
+        o.disabled = true;
+        o.dataset.state = o.hasAttribute('data-right') ? 'correct' : o === option ? 'wrong' : 'dim';
+      }
+      option.setAttribute('aria-pressed', 'true');
+      settle(q, correct);
+    }
+
+    function place(el: HTMLElement | null, x: number, y: number) {
+      if (!el) return;
+      el.style.left = `${x}%`;
+      el.style.top = `${y}%`;
+      el.hidden = false;
+    }
+
+    // A tap on the map at x, y (percentages of the map).
+    function answerMap(x: number, y: number) {
+      const q = questions[index];
+      const map = $('[data-tapmap]');
+      if (!q || !map || locked || q.dataset.kind !== 'map') return;
+      const guess = unproject((x / 100) * MAP_WIDTH, (y / 100) * MAP_HEIGHT);
+      const target = { lat: Number(q.dataset.lat), lon: Number(q.dataset.lon) };
+      const km = Math.round(distanceKm(guess, target));
+      const correct = km <= Number(q.dataset.radius);
+      const spot = project(target.lat, target.lon);
+      const tx = (spot.x / MAP_WIDTH) * 100;
+      const ty = (spot.y / MAP_HEIGHT) * 100;
+
+      map.classList.add('is-locked');
+      const cursorEl = map.querySelector<HTMLElement>('[data-tap-cursor]');
+      if (cursorEl) cursorEl.hidden = true;
+      const guessEl = map.querySelector<HTMLElement>('[data-tap-guess]');
+      guessEl?.classList.toggle('is-wrong', !correct);
+      place(guessEl, x, y);
+      place(map.querySelector<HTMLElement>('[data-tap-target]'), tx, ty);
+      const label = map.querySelector<HTMLElement>('[data-tap-label]');
+      if (label) {
+        label.textContent = q.dataset.place ?? '';
+        // The name goes on the side away from the player's tap, unless the map edge is too close. Is the tap
+        // still in the way, the name moves above or below the spot.
+        let side = tx > 80 ? 'left' : tx < 20 ? 'right' : x > tx ? 'left' : 'right';
+        const inTheWay = (side === 'right' ? x > tx : x < tx) && Math.abs(y - ty) < 8;
+        if (inTheWay) side = (y > ty && ty > 10) || ty > 85 ? 'above' : 'below';
+        label.dataset.side = side;
+        label.dataset.align = side === 'above' || side === 'below' ? (tx < 20 ? 'start' : tx > 80 ? 'end' : '') : '';
+      }
+      const line = map.querySelector('line');
+      if (line) {
+        line.setAttribute('x1', String((x / 100) * MAP_WIDTH));
+        line.setAttribute('y1', String((y / 100) * MAP_HEIGHT));
+        line.setAttribute('x2', String(spot.x));
+        line.setAttribute('y2', String(spot.y));
+      }
+      const lineBox = map.querySelector<HTMLElement>('[data-tap-line]');
+      if (lineBox) lineBox.hidden = correct && km < 15;
+      settle(q, correct, km);
+    }
+
+    function moveCursor(dx: number, dy: number) {
+      const el = $('[data-tap-cursor]');
+      cursor = { x: Math.min(100, Math.max(0, cursor.x + dx)), y: Math.min(100, Math.max(0, cursor.y + dy)) };
+      place(el, cursor.x, cursor.y);
+    }
+
+    function goNext() {
+      if (finished) {
+        showStep('final', $('[data-step="final"] [data-title]'));
+        return;
+      }
+      showQuestion(index + 1);
+    }
+
+    function showResult(answer: string) {
+      const count = questions.length;
+      setText(
+        '[data-reached]',
+        completed ? `Je haalde alle ${count} vragen.` : `Je geraakte tot vraag ${reached()} van ${count}.`,
+      );
+      const titles = [...root.querySelectorAll<HTMLElement>('[data-title-from]')];
+      const top = $('[data-title-top]');
+      const title = completed ? top : titles.filter((t) => Number(t.dataset.titleFrom) <= reached()).pop();
+      for (const t of [...titles, top]) if (t) t.hidden = t !== title;
+      track('quiz_completed', { reached: reached(), completed, mistakes, answer });
+      showStep('result', title ?? null);
+    }
+
+    async function share() {
+      const status = $('[data-share-status]');
+      const url = root.dataset.shareUrl ?? location.href;
+      const text = `Ken jij Spanje? Ik geraakte tot vraag ${reached()} van ${questions.length} 🍷 Jij?`;
+      if (typeof navigator.share === 'function') {
+        try {
+          await navigator.share({ text, url });
+          track('quiz_shared', { method: 'share', reached: reached() });
+        } catch {
+          // Closed without sharing.
+        }
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(`${text} ${url}`);
+        if (status) status.textContent = 'Gekopieerd. Plak het in een bericht aan een vriend.';
+        track('quiz_shared', { method: 'copy', reached: reached() });
+      } catch {
+        if (status) status.textContent = `Kopieer deze link: ${url}`;
+      }
+    }
+
+    function start() {
+      mistakes = 0;
+      finished = false;
+      completed = false;
+      pick();
+      showQuestion(0);
+    }
+
+    root.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const target = event.target;
+      const find = <T extends HTMLElement = HTMLButtonElement>(selector: string) => target.closest<T>(selector);
+
+      if (find('[data-start]')) {
+        track('quiz_started');
+        return start();
+      }
+      const option = find('[data-option]');
+      if (option) return answerOption(option);
+      const map = find<HTMLElement>('[data-tapmap]');
+      if (map) {
+        // Keyboard answers come through keydown; a click here only counts when it has a real position.
+        if (event.detail > 0) {
+          const rect = map.getBoundingClientRect();
+          answerMap(((event.clientX - rect.left) / rect.width) * 100, ((event.clientY - rect.top) / rect.height) * 100);
+        }
+        return;
+      }
+      if (find('[data-next]')) return goNext();
+      const final = find('[data-final]');
+      if (final) return showResult(final.dataset.final ?? '');
+      if (find('[data-share]')) return void share();
+      if (find('[data-restart]')) {
+        root.innerHTML = initial;
+        track('quiz_restarted');
+        return start();
+      }
+      if (find<HTMLAnchorElement>('[data-cta]')) track('quiz_cta_clicked', { reached: reached(), completed });
+    });
+
+    // Keyboard on the map: arrows move a circle, Enter or Space answers.
+    root.addEventListener('keydown', (event) => {
+      if (!(event.target instanceof HTMLElement) || !event.target.matches('[data-tapmap]') || locked) return;
+      const step = event.shiftKey ? 10 : 2;
+      const moves: Record<string, [number, number]> = {
+        ArrowLeft: [-step, 0],
+        ArrowRight: [step, 0],
+        ArrowUp: [0, -step],
+        ArrowDown: [0, step],
+      };
+      const move = moves[event.key];
+      if (move) moveCursor(move[0], move[1]);
+      else if (event.key === 'Enter' || event.key === ' ') answerMap(cursor.x, cursor.y);
+      else return;
+      event.preventDefault();
+    });
+    root.addEventListener('focusin', (event) => {
+      if (event.target instanceof HTMLElement && event.target.matches('[data-tapmap]:focus-visible') && !locked) {
+        moveCursor(0, 0);
+      }
+    });
+  }
+</script>

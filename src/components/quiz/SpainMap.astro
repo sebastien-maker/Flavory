@@ -1,0 +1,60 @@
+---
+// Map of Spain for the quiz: the outline from SpainMapSymbol (once per page), without any dots, so the map
+// never gives an answer away. Names such as "Portugal" are laid over it as HTML.
+import { MAP_HEIGHT, MAP_WIDTH, mapPosition } from '@/lib/quiz/projection';
+
+interface Place {
+  label: string;
+  lat: number;
+  lon: number;
+  /** Read from bottom to top, for a long and narrow country. */
+  vertical?: boolean;
+}
+
+interface Props {
+  places?: Place[];
+  class?: string;
+}
+
+const { places = [], class: className } = Astro.props;
+---
+
+<div class:list={['quiz-map', className]} style={`aspect-ratio:${MAP_WIDTH}/${MAP_HEIGHT}`}>
+  <svg class="absolute inset-0 size-full" viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`} aria-hidden="true">
+    <use href="#map-iberia"></use>
+  </svg>
+  {places.map((place) => {
+    const { left, top } = mapPosition(place.lat, place.lon);
+    return (
+      <span
+        class:list={['map-name', place.vertical && 'map-vertical']}
+        style={`left:${left};top:${top}`}
+        aria-hidden="true"
+      >
+        {place.label}
+      </span>
+    );
+  })}
+</div>
+
+<style>
+  .quiz-map {
+    position: relative;
+    border-radius: 0.75rem;
+    background: var(--color-cream);
+  }
+  .map-name {
+    position: absolute;
+    translate: -50% -50%;
+    font-size: 0.875rem;
+    font-style: italic;
+    line-height: 1.5;
+    white-space: nowrap;
+    color: var(--color-muted);
+    pointer-events: none;
+  }
+  .map-vertical {
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+  }
+</style>

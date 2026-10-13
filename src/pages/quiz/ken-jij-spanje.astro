@@ -430,6 +430,10 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
   import { track } from '@/lib/analytics';
   import { MAP_HEIGHT, MAP_WIDTH, distanceKm, project, unproject } from '@/lib/quiz/projection';
 
+  // Anonymous record of every game (netlify/functions/quiz-log.mts): no IP, no cookies, nothing kept on the device.
+  const LOG_URL = '/.netlify/functions/quiz-log';
+  type Answer = { id: string; level: number; correct: boolean; km?: number };
+
   const root = document.querySelector<HTMLElement>('[data-quiz]');
   if (root) initQuiz(root);
 
@@ -455,10 +459,33 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
     let completed = false;
     let locked = false;
     let cursor = { x: 50, y: 50 };
+    // A random ID for this one game, only in memory: it links the events of one game, nothing more.
+    let game = '';
+    let answers: Answer[] = [];
+    let recorded = false;
 
     const $ = <T extends Element = HTMLElement>(selector: string) => root.querySelector<T>(selector);
     const motion = (): ScrollBehavior => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
     const reached = () => index + 1;
+
+    function record(event: string, data: Record<string, unknown> = {}) {
+      if (!game) return;
+      const body = JSON.stringify({ quiz: 'ken-jij-spanje', game, event, ...data });
+      // A beacon also arrives when the player leaves the page right away (the box, another app).
+      try {
+        if (navigator.sendBeacon(LOG_URL, new Blob([body], { type: 'text/plain' }))) return;
+      } catch {
+        // No beacon: try fetch below.
+      }
+      fetch(LOG_URL, { method: 'POST', body, keepalive: true }).catch(() => undefined);
+    }
+
+    function titleFor(): HTMLElement | null {
+      const titles = [...root.querySelectorAll<HTMLElement>('[data-title-from]')];
+      return completed
+        ? $('[data-title-top]')
+        : (titles.filter((t) => Number(t.dataset.titleFrom) <= reached()).pop() ?? null);
+    }
 
     // Three random questions per level, levels in order, options in random order.
     function pick() {
@@ -537,6 +564,18 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
       const last = index === questions.length - 1;
       finished = out || last;
       completed = last && !out;
+      const answer = { id: q.dataset.question ?? '', level: Number(q.dataset.level), correct };
+      answers.push(km === undefined ? answer : { ...answer, km });
+      if (finished) {
+        recorded = true;
+        record('end', {
+          answers,
+          reached: reached(),
+          completed,
+          mistakes,
+          title: titleFor()?.textContent?.trim() ?? '',
+        });
+      }
 
       setText('[data-verdict]', correct ? 'Juist!' : 'Net niet.');
       const distance = $('[data-distance]');
@@ -662,15 +701,15 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
         '[data-reached]',
         completed ? `Je haalde alle ${count} vragen.` : `Je geraakte tot vraag ${reached()} van ${count}.`,
       );
-      const titles = [...root.querySelectorAll<HTMLElement>('[data-title-from]')];
-      const top = $('[data-title-top]');
-      const title = completed ? top : titles.filter((t) => Number(t.dataset.titleFrom) <= reached()).pop();
-      for (const t of [...titles, top]) if (t) t.hidden = t !== title;
+      const title = titleFor();
+      for (const t of root.querySelectorAll<HTMLElement>('[data-title-from], [data-title-top]')) t.hidden = t !== title;
+      record('final', { answer });
       track('quiz_completed', { reached: reached(), completed, mistakes, answer });
-      showStep('result', title ?? null);
+      showStep('result', title);
     }
 
     async function share() {
+      record('share');
       const status = $('[data-share-status]');
       const url = root.dataset.shareUrl ?? location.href;
       const text = `Ken jij Spanje? Ik geraakte tot vraag ${reached()} van ${questions.length} 🍷 Jij?`;
@@ -696,6 +735,9 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
       mistakes = 0;
       finished = false;
       completed = false;
+      game = crypto.randomUUID();
+      answers = [];
+      recorded = false;
       pick();
       showQuestion(0);
     }
@@ -729,7 +771,17 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
         track('quiz_restarted');
         return start();
       }
-      if (find<HTMLAnchorElement>('[data-cta]')) track('quiz_cta_clicked', { reached: reached(), completed });
+      if (find<HTMLAnchorElement>('[data-cta]')) {
+        record('box');
+        track('quiz_cta_clicked', { reached: reached(), completed });
+      }
+    });
+
+    // A player who leaves halfway still counts: where people stop is worth knowing too.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && game && !recorded && answers.length > 0) {
+        record('progress', { answers, reached: reached() });
+      }
     });
 
     // Keyboard on the map: arrows move a circle, Enter or Space answers.

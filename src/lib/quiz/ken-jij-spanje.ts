@@ -19,7 +19,7 @@ interface MapQuestion {
   place: string;
   lat: number;
   lon: number;
-  /** A tap within this distance counts as right: 100 km for a city, 75 km for a wine region. */
+  /** A tap within this distance counts as right: 200 km for a city, 100 km for a wine region (Bart, 13 Oct). */
   radiusKm: number;
   fact: string;
 }
@@ -31,8 +31,8 @@ export const QUESTIONS_PER_LEVEL = 3;
 /** Mistakes allowed before the game stops. */
 export const JOKERS = 1;
 
-const CITY_KM = 100;
-const REGION_KM = 75;
+const CITY_KM = 200;
+const REGION_KM = 100;
 
 export const LEVELS: { name: string; questions: QuizQuestion[] }[] = [
   {
@@ -117,13 +117,14 @@ export const LEVELS: { name: string; questions: QuizQuestion[] }[] = [
         fact: 'Madrid ligt op zo’n 650 meter hoogte, midden op een hoogvlakte.',
       },
       {
-        // An island, not a city: 60 km covers all of Mallorca but not Menorca or Ibiza.
+        // Measured from the middle of the island: 100 km covers all of Mallorca and most of Menorca, not Ibiza.
+        // From Palma, Menorca would be 112 km or more away.
         id: 'mallorca',
         kind: 'map',
         place: 'Mallorca',
         lat: 39.62,
         lon: 2.98,
-        radiusKm: 60,
+        radiusKm: 100,
         fact: 'Ook op Mallorca maken ze wijn, onder meer rond Binissalem.',
       },
     ],

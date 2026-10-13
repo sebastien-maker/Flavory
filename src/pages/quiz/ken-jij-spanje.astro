@@ -334,6 +334,16 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
   .quiz-tapmap.is-locked {
     cursor: default;
   }
+  /* On a phone the map runs to the edges of the card: a larger map for a more precise tap (Bart, 13 Oct). */
+  @media (max-width: 639.98px) {
+    .quiz-card .quiz-tapmap {
+      margin-inline: -1.25rem;
+      border-radius: 0;
+    }
+    .quiz-card .quiz-tapmap .quiz-map {
+      border-radius: 0;
+    }
+  }
   .quiz-mark,
   .quiz-cursor {
     position: absolute;

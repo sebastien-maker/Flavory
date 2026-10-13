@@ -9,7 +9,7 @@ import keystatic from '@keystatic/astro';
 import tailwindcss from '@tailwindcss/vite';
 
 // Noindex pages never go in the sitemap (rule 7): static ones listed here, content pages read from frontmatter.
-const NOINDEX_PAGES = ['404', 'bedankt', 'win', 'partnership'];
+const NOINDEX_PAGES = ['404', 'bedankt', 'win', 'partnership', 'quiz/reglement'];
 const contentNoindex = readdirSync('src/content/pages')
   .filter((f) => /^noindex:\s*true/m.test(readFileSync(`src/content/pages/${f}`, 'utf8')))
   .map((f) => f.replace(/\.md$/, ''));

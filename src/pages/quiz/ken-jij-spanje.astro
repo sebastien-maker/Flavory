@@ -207,6 +207,62 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
           In de box Italië of Spanje proef je een Spaanse en een Italiaanse rode wijn naast elkaar: twee flessen van
           75&nbsp;cl, anoniem verpakt. Wie raadt welke fles uit welk land komt?
         </p>
+
+        <!-- The contest (src/lib/quiz/contest.ts), shown only while it runs -->
+        <div class="quiz-contest" data-contest hidden>
+          <h3 class="h4">Maak kans op een gratis box</h3>
+          <p class="mt-1 text-sm">Elke week trekken we één winnaar onder wie meedoet.</p>
+          <form class="mt-4 space-y-3" data-contest-form>
+            <label for="contest-email" class="block text-sm font-bold">
+              E-mailadres
+              <input
+                id="contest-email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                maxlength="254"
+                class="quiz-input"
+              />
+            </label>
+            <label class="quiz-check">
+              <input type="checkbox" name="adult" required />
+              <span>Ik ben 18 jaar of ouder</span>
+            </label>
+            <label class="quiz-check">
+              <input type="checkbox" name="rules" required />
+              <span>
+                Ik aanvaard het{' '}
+                <a href="/quiz/reglement/" target="_blank" rel="noopener" class="text-brand underline">
+                  wedstrijdreglement
+                </a>
+              </span>
+            </label>
+            <label class="quiz-check">
+              <input type="checkbox" name="newsletter" />
+              <span>Ik wil de nieuwsbrief van Flavory</span>
+            </label>
+            <button type="submit" class="btn-outline w-full" data-contest-submit>
+              Doe mee
+            </button>
+            <p class="text-sm font-bold text-brand" data-contest-message aria-live="polite"></p>
+          </form>
+          <div tabindex="-1" data-contest-done hidden>
+            <p class="font-bold">Je doet mee! Na elke ronde trekken we op maandag de winnaar.</p>
+            <p class="mt-2 text-sm">
+              Speelt een vriend via jouw link en doet die ook mee, dan krijg jij een extra kans, tot tien per week.
+            </p>
+            <label for="contest-link" class="mt-3 block text-sm font-bold">
+              Jouw link
+              <input id="contest-link" type="text" readonly class="quiz-input" data-contest-link />
+            </label>
+            <button type="button" class="btn-outline mt-3 w-full" data-contest-share>
+              Deel je link
+            </button>
+            <p class="mt-2 text-center text-sm" data-contest-status aria-live="polite"></p>
+          </div>
+        </div>
+
         <a href={boxUrl} class="btn-primary mt-6 w-full" data-cta>
           Bekijk de box
         </a>
@@ -214,6 +270,16 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
           Delen
         </button>
         <p class="mt-2 text-center text-sm" data-share-status aria-live="polite"></p>
+        <button type="button" class="btn-outline mt-3 w-full" data-story>
+          Deel je score in je story
+        </button>
+        <p class="mt-2 text-center text-sm text-muted">
+          <span data-story-hint="contest" hidden>
+            Tag @flavory.wine voor een extra kans.
+          </span>
+          <span data-story-hint="plain">Tag @flavory.wine in je story.</span>
+        </p>
+        <p class="mt-1 text-center text-sm" data-story-status aria-live="polite"></p>
         <p class="mt-4 text-center">
           <button type="button" class="font-bold text-brand underline" data-restart>
             Opnieuw spelen
@@ -418,6 +484,40 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
     border: 3px solid var(--color-brand);
     background: rgb(255 255 255 / 0.4);
   }
+  /* The contest on the result screen. */
+  .quiz-contest {
+    margin-top: 1.5rem;
+    border-radius: 0.75rem;
+    background: var(--color-cream);
+    padding: 1rem;
+  }
+  .quiz-input {
+    margin-top: 0.25rem;
+    display: block;
+    min-height: 3rem;
+    width: 100%;
+    border: 2px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+  }
+  .quiz-input:focus {
+    border-color: var(--color-ink);
+  }
+  .quiz-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+  .quiz-check input {
+    margin-top: 0.125rem;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    accent-color: var(--color-brand);
+  }
   .quiz-feedback {
     margin-top: 1.5rem;
     border-radius: 0.75rem;
@@ -429,10 +529,18 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
 <script>
   import { track } from '@/lib/analytics';
   import { MAP_HEIGHT, MAP_WIDTH, distanceKm, project, unproject } from '@/lib/quiz/projection';
+  import { REF_CODE, isOpen } from '@/lib/quiz/contest';
 
   // Anonymous record of every game (netlify/functions/quiz-log.mts): no IP, no cookies, nothing kept on the device.
   const LOG_URL = '/.netlify/functions/quiz-log';
   type Answer = { id: string; level: number; correct: boolean; km?: number };
+
+  // The contest (netlify/functions/quiz-contest.mts). Outside flavory.wine (deploy previews) it is always on, for testing.
+  const CONTEST_URL = '/.netlify/functions/quiz-contest';
+  const contestOn = () => isOpen() || location.hostname !== 'flavory.wine';
+  // The code of whoever invited this player (?ref=...), kept only in memory.
+  const ref = new URLSearchParams(location.search).get('ref');
+  const invitedBy = ref && REF_CODE.test(ref) ? ref : null;
 
   const root = document.querySelector<HTMLElement>('[data-quiz]');
   if (root) initQuiz(root);
@@ -703,6 +811,11 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
       );
       const title = titleFor();
       for (const t of root.querySelectorAll<HTMLElement>('[data-title-from], [data-title-top]')) t.hidden = t !== title;
+      const contest = $('[data-contest]');
+      if (contest) contest.hidden = !contestOn();
+      for (const hint of root.querySelectorAll<HTMLElement>('[data-story-hint]')) {
+        hint.hidden = (hint.dataset.storyHint === 'contest') !== contestOn();
+      }
       record('final', { answer });
       track('quiz_completed', { reached: reached(), completed, mistakes, answer });
       showStep('result', title);
@@ -729,6 +842,179 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
       } catch {
         if (status) status.textContent = `Kopieer deze link: ${url}`;
       }
+    }
+
+    // Entering the contest: e-mail and the two required boxes, then the personal invitation link.
+    async function enter(form: HTMLFormElement) {
+      if (!form.reportValidity()) return;
+      const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | null;
+      const message = form.querySelector('[data-contest-message]');
+      const button = form.querySelector<HTMLButtonElement>('[data-contest-submit]');
+      const say = (words: string) => {
+        if (message) message.textContent = words;
+      };
+      const newsletter = Boolean(field('newsletter')?.checked);
+      say('');
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Even geduld ...';
+      }
+      try {
+        const response = await fetch(CONTEST_URL, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            email: field('email')?.value ?? '',
+            adult: Boolean(field('adult')?.checked),
+            rules: Boolean(field('rules')?.checked),
+            newsletter,
+            reached: reached(),
+            completed,
+            title: titleFor()?.textContent?.trim() ?? '',
+            ref: invitedBy,
+          }),
+        });
+        const result = (await response.json().catch(() => ({}))) as { status?: string; code?: string };
+        if (result.status === 'ok' && result.code) {
+          showEntry(form, result.code);
+          track('quiz_contest_entered', { newsletter, invited: invitedBy !== null });
+          return;
+        }
+        say(
+          result.status === 'already'
+            ? 'Met dit e-mailadres doe je deze week al mee. Veel succes!'
+            : result.status === 'closed'
+              ? 'De wedstrijd loopt van 14 oktober tot en met 22 november 2026.'
+              : result.status === 'invalid'
+                ? 'Kijk je e-mailadres en de twee verplichte vinkjes nog eens na.'
+                : 'Dat lukte niet. Probeer het zo meteen opnieuw.',
+        );
+      } catch {
+        say('Dat lukte niet. Probeer het zo meteen opnieuw.');
+      }
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Doe mee';
+      }
+    }
+
+    function showEntry(form: HTMLFormElement, code: string) {
+      const link = `${location.origin}/quiz/ken-jij-spanje/?ref=${code}`;
+      const input = $<HTMLInputElement>('[data-contest-link]');
+      if (input) input.value = link;
+      form.hidden = true;
+      const done = $('[data-contest-done]');
+      if (done) {
+        done.hidden = false;
+        done.focus({ preventScroll: true });
+        done.scrollIntoView({ behavior: motion(), block: 'nearest' });
+      }
+    }
+
+    async function shareLink() {
+      const input = $<HTMLInputElement>('[data-contest-link]');
+      const status = $('[data-contest-status]');
+      const link = input?.value ?? '';
+      const text = 'Ken jij Spanje? Speel de quiz van Flavory en maak kans op een gratis box.';
+      if (typeof navigator.share === 'function') {
+        try {
+          await navigator.share({ text, url: link });
+        } catch {
+          // Closed without sharing.
+        }
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(`${text} ${link}`);
+        if (status) status.textContent = 'Gekopieerd. Stuur je link naar een vriend.';
+      } catch {
+        input?.select();
+        if (status) status.textContent = 'Kopieer je link hierboven.';
+      }
+    }
+
+    // The score as a story picture, 1080 by 1920: red, white, Montserrat, with Spain from the map on the page.
+    async function storyImage(): Promise<Blob | null> {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1920;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      await Promise.all([
+        document.fonts.load('700 100px Montserrat'),
+        document.fonts.load('500 60px Montserrat'),
+      ]).catch(() => undefined);
+      const red = getComputedStyle(document.documentElement).getPropertyValue('--color-brand').trim() || '#d60021';
+      const font = (weight: number, size: number) => `${weight} ${size}px Montserrat, Arial, sans-serif`;
+      // One centred line; the font shrinks until the line fits.
+      const line = (words: string, weight: number, size: number, y: number, color = '#fff') => {
+        let px = size;
+        ctx.font = font(weight, px);
+        while (ctx.measureText(words).width > 940 && px > 30) ctx.font = font(weight, (px -= 4));
+        ctx.fillStyle = color;
+        ctx.fillText(words, 540, y);
+      };
+      ctx.fillStyle = red;
+      ctx.fillRect(0, 0, 1080, 1920);
+      ctx.textAlign = 'center';
+
+      const scale = 820 / MAP_WIDTH;
+      ctx.save();
+      ctx.translate((1080 - MAP_WIDTH * scale) / 2, 700);
+      ctx.scale(scale, scale);
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 3 / scale;
+      ctx.strokeStyle = '#fff';
+      document.querySelectorAll('#map-iberia path').forEach((path, i) => {
+        const shape = new Path2D(path.getAttribute('d') ?? '');
+        ctx.fillStyle = i === 0 ? 'rgb(255 255 255 / 0.08)' : 'rgb(255 255 255 / 0.2)';
+        ctx.fill(shape);
+        ctx.stroke(shape);
+      });
+      ctx.restore();
+
+      const total = questions.length;
+      const title = titleFor()?.textContent?.trim() ?? '';
+      line('Ken jij Spanje?', 700, 112, 330);
+      line(completed ? 'Ik haalde alle' : 'Ik geraakte tot', 500, 64, 470);
+      line(completed ? `${total} vragen` : `vraag ${reached()} van ${total}`, 700, 132, 620);
+      ctx.font = font(700, 76);
+      const width = Math.min(ctx.measureText(title).width + 112, 960);
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.roundRect(540 - width / 2, 1390, width, 136, 68);
+      ctx.fill();
+      line(title, 700, 76, 1484, red);
+      line('Speel mee op flavory.wine', 700, 60, 1620);
+      line('@flavory.wine', 500, 52, 1694);
+      return new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+    }
+
+    async function shareStory() {
+      record('share');
+      const status = $('[data-story-status]');
+      const blob = await storyImage();
+      if (!blob) return;
+      const file = new File([blob], 'ken-jij-spanje.png', { type: 'image/png' });
+      if (navigator.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file] });
+          track('quiz_shared', { method: 'story', reached: reached() });
+        } catch {
+          // Closed without sharing.
+        }
+        return;
+      }
+      // No sharing of files (most computers): save the picture instead.
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = file.name;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30_000);
+      if (status) status.textContent = 'Het beeld staat bij je downloads. Zet het in je story en tag @flavory.wine.';
     }
 
     function start() {
@@ -766,6 +1052,8 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
       const final = find('[data-final]');
       if (final) return showResult(final.dataset.final ?? '');
       if (find('[data-share]')) return void share();
+      if (find('[data-contest-share]')) return void shareLink();
+      if (find('[data-story]')) return void shareStory();
       if (find('[data-restart]')) {
         root.innerHTML = initial;
         track('quiz_restarted');
@@ -774,6 +1062,13 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
       if (find<HTMLAnchorElement>('[data-cta]')) {
         record('box');
         track('quiz_cta_clicked', { reached: reached(), completed });
+      }
+    });
+
+    root.addEventListener('submit', (event) => {
+      if (event.target instanceof HTMLFormElement && event.target.matches('[data-contest-form]')) {
+        event.preventDefault();
+        void enter(event.target);
       }
     });
 

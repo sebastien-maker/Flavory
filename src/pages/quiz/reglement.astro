@@ -1,0 +1,42 @@
+---
+// The contest rules of the quiz. The text lives in one file, src/lib/quiz/wedstrijdreglement.md. Not in the menu,
+// not indexed (astro.config.mjs keeps it out of the sitemap).
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { Content, frontmatter } from '@/lib/quiz/wedstrijdreglement.md';
+import { breadcrumbs, webPage } from '@/components/seo/schema';
+import { formatDate } from '@/lib/site';
+
+const path = '/quiz/reglement/';
+const title = 'Wedstrijdreglement van de quiz';
+const description =
+  'Het reglement van de wedstrijd bij de quiz Ken jij Spanje? van Flavory: wie mag meedoen, hoe je extra kansen verdient, de prijs en de wekelijkse trekking.';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Ken jij Spanje?', path: '/quiz/ken-jij-spanje/' },
+  { name: 'Wedstrijdreglement', path },
+];
+const updated = frontmatter.updated ? new Date(frontmatter.updated) : undefined;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  noindex
+  schema={[webPage({ path, title, description }), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <article class="section-y container-site max-w-3xl">
+    <h1 class="h2">{frontmatter.title}</h1>
+    {updated && <p class="mt-2 text-sm text-muted">Laatst bijgewerkt op {formatDate(updated)}</p>}
+    <div class="prose-flavory mt-6">
+      <Content />
+    </div>
+    <p class="mt-8">
+      <a href="/quiz/ken-jij-spanje/" class="font-bold text-brand underline">
+        Terug naar de quiz
+      </a>
+    </p>
+  </article>
+</BaseLayout>

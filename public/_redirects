@@ -8,6 +8,8 @@
 /de/         reviews=:review      /reviews/  301!
 /de/         store=:store         /shop/  301!
 
+/quiz/                                                                                                         /quiz/ken-jij-spanje/  302
+/quiz                                                                                                          /quiz/ken-jij-spanje/  302
 /home/                                                                                                         /  301
 /home-2/                                                                                                       /  301
 /home-3/                                                                                                       /  301

@@ -24,9 +24,17 @@ const CHECKOUT = 'https://www.flavory.wine';
 const BUBBLES = '/shop/';
 // The old bubbles category and the comparison short link go to the comparison article.
 const CAVA_POST = '/blog/cava-of-prosecco/';
+// The quiz of the week. Instagram posts point to flavory.wine/quiz, so /quiz/ follows the quiz that runs now.
+// A new country: change this line. The redirect is temporary (302), so browsers and Google never keep it.
+const QUIZ_OF_THE_WEEK = '/quiz/ken-jij-spanje/';
 
-// [from, to]. Order matters only for readability; Netlify uses the first match.
+// [from, to] or [from, to, status]. The status is 301 unless a rule says otherwise.
+// Order matters only for readability; Netlify uses the first match.
 const RULES = [
+  // Short links that move: temporary on purpose
+  ['/quiz/', QUIZ_OF_THE_WEEK, 302],
+  ['/quiz', QUIZ_OF_THE_WEEK, 302],
+
   // Builder test pages and duplicates of the home page
   ...[
     '/home/',
@@ -227,7 +235,7 @@ function render() {
   ];
   for (const [from, param, to] of QUERY_RULES) lines.push(`${pad(from, 12)} ${pad(param, 20)} ${to}  301!`);
   lines.push('');
-  for (const [from, to] of RULES) lines.push(`${pad(from, 110)} ${to}  301`);
+  for (const [from, to, status = 301] of RULES) lines.push(`${pad(from, 110)} ${to}  ${status}`);
   return lines.join('\n') + '\n';
 }
 

@@ -1,0 +1,211 @@
+---
+// Map of Spain for the quiz: the outline from SpainMapSymbol (once per page) with dots laid over it as HTML,
+// so every dot is a real button with a large tap target. Elements marked data-reveal stay hidden until the
+// question is answered (see the script in src/pages/quiz/ken-jij-spanje.astro).
+import { MAP_HEIGHT, MAP_WIDTH, mapPosition } from '@/lib/quiz/iberia';
+
+type Side = 'left' | 'right' | 'top';
+
+interface Dot {
+  /** Answer value. Without it the dot is a small red accent, not a button. */
+  id?: string;
+  lat: number;
+  lon: number;
+  label?: string;
+  side?: Side;
+  /** Keep the label hidden until the question is answered. */
+  revealLabel?: boolean;
+  /** Accessible name when the label is hidden. */
+  ariaLabel?: string;
+}
+
+interface Place {
+  label: string;
+  lat: number;
+  lon: number;
+  /** A city gets a small dot with its name beside it; otherwise only the name is shown (a country, a river). */
+  city?: boolean;
+  side?: Side;
+  /** Shown only after the answer. */
+  reveal?: boolean;
+  /** Read from bottom to top, for a long and narrow country. */
+  vertical?: boolean;
+}
+
+interface Props {
+  dots?: Dot[];
+  places?: Place[];
+  /** Draw the Ebro after the answer. */
+  ebro?: boolean;
+  class?: string;
+}
+
+const { dots = [], places = [], ebro = false, class: className } = Astro.props;
+const at = (lat: number, lon: number) => {
+  const { left, top } = mapPosition(lat, lon);
+  return `left:${left};top:${top}`;
+};
+---
+
+<div class:list={['quiz-map', className]} style={`aspect-ratio:${MAP_WIDTH}/${MAP_HEIGHT}`}>
+  <svg class="absolute inset-0 size-full" viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`} aria-hidden="true">
+    <use href="#map-iberia"></use>
+  </svg>
+  {ebro && (
+    <div class="absolute inset-0" data-reveal hidden>
+      <svg class="size-full" viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`} aria-hidden="true">
+        <use href="#map-ebro"></use>
+      </svg>
+    </div>
+  )}
+  {places.map((place) => (
+    <span
+      class:list={['map-point', place.city ? 'map-city' : 'map-name', place.vertical && 'map-vertical']}
+      style={at(place.lat, place.lon)}
+      data-reveal={place.reveal ? '' : undefined}
+      hidden={place.reveal}
+    >
+      {place.city ? <span class={`map-label map-${place.side ?? 'right'}`}>{place.label}</span> : place.label}
+    </span>
+  ))}
+  {dots.map((dot) =>
+    dot.id ? (
+      <button
+        type="button"
+        class="map-point map-dot"
+        style={at(dot.lat, dot.lon)}
+        data-option={dot.id}
+        aria-label={dot.revealLabel || !dot.label ? dot.ariaLabel : undefined}
+      >
+        {dot.label && (
+          <span
+            class={`map-label map-${dot.side ?? 'right'}`}
+            data-reveal={dot.revealLabel ? '' : undefined}
+            hidden={dot.revealLabel}
+          >
+            {dot.label}
+          </span>
+        )}
+      </button>
+    ) : (
+      <span class="map-point map-accent" style={at(dot.lat, dot.lon)} aria-hidden="true" />
+    ),
+  )}
+</div>
+
+<style>
+  .quiz-map {
+    position: relative;
+    border-radius: 0.75rem;
+    background: var(--color-cream);
+  }
+  .map-point {
+    position: absolute;
+    translate: -50% -50%;
+  }
+
+  /* Answer dot: a 44px tap target with an 18px mark in the middle. */
+  .map-dot {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .map-dot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 999px;
+    background: var(--color-ink);
+    box-shadow:
+      0 0 0 3px #fff,
+      0 0 0 4px var(--color-ink);
+    transition:
+      transform 0.15s,
+      background-color 0.15s;
+  }
+  .map-dot:not(:disabled):hover::before,
+  .map-dot:focus-visible::before {
+    background: var(--color-brand);
+    transform: scale(1.2);
+  }
+  .map-dot:disabled {
+    cursor: default;
+  }
+  .map-dot[data-state='correct']::before {
+    background: var(--color-success);
+    box-shadow:
+      0 0 0 3px #fff,
+      0 0 0 4px var(--color-success);
+    transform: scale(1.25);
+  }
+  .map-dot[data-state='wrong']::before {
+    background: var(--color-brand);
+  }
+  .map-dot[data-state='dim'] {
+    opacity: 0.35;
+  }
+
+  /* Start screen: small red dots as an accent. */
+  .map-accent {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 999px;
+    background: var(--color-brand);
+    box-shadow: 0 0 0 2px #fff;
+  }
+
+  /* A city: a small black dot with its name beside it. */
+  .map-city {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--color-ink);
+    box-shadow: 0 0 0 2px #fff;
+  }
+  /* A country or a river: only the name. */
+  .map-name {
+    font-size: 0.875rem;
+    font-style: italic;
+    line-height: 1.5;
+    white-space: nowrap;
+    color: var(--color-muted);
+  }
+
+  .map-vertical {
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+  }
+
+  .map-label {
+    position: absolute;
+    border-radius: 0.375rem;
+    background: rgb(255 255 255 / 0.9);
+    padding: 0 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+    color: var(--color-ink);
+  }
+  .map-right,
+  .map-left {
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .map-right {
+    left: calc(50% + 0.75rem);
+  }
+  .map-left {
+    right: calc(50% + 0.75rem);
+  }
+  .map-top {
+    bottom: calc(50% + 0.625rem);
+    left: 50%;
+    translate: -50% 0;
+  }
+</style>

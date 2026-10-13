@@ -1,0 +1,674 @@
+---
+// "Ken jij Spanje?": a six-question quiz about Spanish wine for visitors from Instagram stories, ending at the
+// red wine game with Italië of Spanje. Every question, answer and fact is in the HTML; the script below only
+// shows one step at a time and keeps the score. No cookies, no third-party code: events go through the
+// existing analytics helper, which sends nothing without consent.
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import SpainMap from '@/components/quiz/SpainMap.astro';
+import SpainMapSymbol from '@/components/quiz/SpainMapSymbol.astro';
+import { REGIONS } from '@/lib/quiz/iberia';
+import { SITE, absoluteUrl } from '@/lib/site';
+import { breadcrumbs, webPage } from '@/components/seo/schema';
+import shareImage from '@/assets/images/site/aan-tafel.jpg';
+import boxImage from '@/assets/images/products/italie-of-spanje/02-in-handen.jpg';
+
+const path = '/quiz/ken-jij-spanje/';
+const title = 'Ken jij Spanje? De quiz over Spaanse wijn';
+const description =
+  'Zes vragen over Spaanse wijn, van Rioja tot cava. Ontdek in twee minuten hoe goed jij Spanje kent, ook zonder wijnkennis. Hoeveel scoor jij?';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Ken jij Spanje?', path },
+];
+const campaign = 'ken-jij-spanje';
+const boxUrl = `/shop/wijnproeverij-thuis-rood/?utm_source=quiz&utm_medium=quiz&utm_campaign=${campaign}`;
+const shareUrl = `${absoluteUrl(path)}?utm_source=delen&utm_medium=quiz&utm_campaign=${campaign}`;
+
+const { riasBaixas, rioja, penedes, priorat, laMancha, jerez } = REGIONS;
+const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
+
+const aromas = [
+  { id: 'vanille', label: 'Vanille en kokos' },
+  { id: 'citroen', label: 'Citroen en zeelucht' },
+  { id: 'aardbei', label: 'Aardbeiensnoep' },
+];
+const grapes = [
+  { id: 'tempranillo', label: 'Tempranillo' },
+  { id: 'merlot', label: 'Merlot' },
+  { id: 'pinot', label: 'Pinot Noir' },
+];
+const matchRegions = [
+  { id: 'jerez', label: 'Jerez' },
+  { id: 'rias-baixas', label: 'Rías Baixas' },
+  { id: 'priorat', label: 'Priorat' },
+];
+const matchWines = [
+  { id: 'sherry', label: 'Sherry', answer: 'jerez' },
+  { id: 'wit', label: 'Frisse witte wijn, lekker bij vis', answer: 'rias-baixas' },
+  { id: 'rood', label: 'Krachtige rode wijn van steile hellingen vol leisteen', answer: 'priorat' },
+];
+const blindAnswers = [
+  { id: 'ja', label: 'Ja, zeker', response: 'Dat horen we graag. Een blinde proeverij zal het uitwijzen.' },
+  {
+    id: 'misschien',
+    label: 'Misschien',
+    response: 'Eerlijk antwoord. Wie ze één keer naast elkaar proeft, merkt al snel het verschil.',
+  },
+  {
+    id: 'geen-idee',
+    label: 'Geen idee',
+    response: 'Dan wordt het tijd voor een test. Naast elkaar proeven is de snelste manier om het te leren.',
+  },
+];
+const results = [
+  {
+    band: 'top',
+    title: 'Spanjekenner met stip',
+    text: 'Kaart, druif en glas: jij kent Spanje door en door.',
+  },
+  {
+    band: 'mid',
+    title: 'Vakantiekenner',
+    text: 'Je vindt de weg in Spanje, en nu ken je er ook de wijnstreken van.',
+  },
+  {
+    band: 'low',
+    title: 'Tapasliefhebber',
+    text: 'Spanje leer je het best kennen aan tafel. En vijf weetjes heb je nu al op zak.',
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  image={shareImage}
+  imageAlt="Een speelster toont een fles rode wijn in een stoffen zakje met de letter A tijdens een blinde proeverij"
+  schema={[webPage({ path, title, description }), breadcrumbs(crumbs)]}
+>
+  <Breadcrumbs items={crumbs} />
+  <SpainMapSymbol />
+
+  <section class="container-site pt-4 pb-16" aria-labelledby="quiz-title">
+    <div class="card quiz-card mx-auto max-w-xl p-5 sm:p-8" data-quiz data-share-url={shareUrl}>
+      <div class="mb-6" data-quiz-progress hidden>
+        <p class="text-sm font-bold text-muted" data-quiz-count>
+          Vraag 1 van 6
+        </p>
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-line">
+          <div class="h-full w-0 rounded-full bg-brand transition-[width] duration-300" data-quiz-bar></div>
+        </div>
+      </div>
+
+      <!-- Start -->
+      <div data-step="start">
+        <h1 id="quiz-title" class="h1 text-center" tabindex="-1" data-step-title>
+          Ken jij Spanje?
+        </h1>
+        <p class="lead mt-2 text-center text-balance">Zes vragen, twee minuten. Wijnkennis heb je niet nodig.</p>
+        <SpainMap
+          class="mx-auto mt-6 max-w-sm"
+          dots={[riasBaixas, rioja, penedes, priorat, laMancha, jerez]}
+          places={[portugal]}
+        />
+        <button type="button" class="btn-primary mt-6 w-full" data-quiz-start>
+          Start de quiz
+        </button>
+        <noscript>
+          <p class="mt-4 text-center text-sm text-muted">Zet JavaScript aan om de quiz te spelen.</p>
+        </noscript>
+      </div>
+
+      <!-- 1. Barcelona -->
+      <div data-step="q1" data-kind="choice" data-answer="penedes" hidden>
+        <h2 class="h3" tabindex="-1" data-step-title>
+          Je zit op een terras in Barcelona. Welke wijnstreek ligt het dichtst bij?
+        </h2>
+        <p class="mt-2 text-sm text-muted">Kies een stip op de kaart.</p>
+        <SpainMap
+          class="mt-4"
+          dots={[
+            { id: 'rias-baixas', ...riasBaixas, label: riasBaixas.name },
+            { id: 'penedes', ...penedes, label: penedes.name, side: 'left' },
+            { id: 'la-mancha', ...laMancha, label: laMancha.name },
+            { id: 'jerez', ...jerez, label: jerez.name },
+          ]}
+          places={[portugal, { label: 'Barcelona', lat: 41.39, lon: 2.17, city: true, side: 'top', reveal: true }]}
+        />
+        <div class="quiz-feedback" tabindex="-1" data-feedback hidden>
+          <p class="font-bold" data-verdict></p>
+          <p class="mt-1">
+            Penedès ligt op nog geen uur rijden van Barcelona. Het grootste deel van alle cava, de Spaanse bubbels, komt
+            uit die streek.
+          </p>
+        </div>
+        <button type="button" class="btn-primary mt-6 w-full" data-next hidden>
+          Volgende vraag
+        </button>
+      </div>
+
+      <!-- 2. Rioja -->
+      <div data-step="q2" data-kind="choice" data-answer="noord" data-correct="Goed gezien!" hidden>
+        <h2 class="h3" tabindex="-1" data-step-title>
+          En waar ligt Rioja?
+        </h2>
+        <p class="mt-2 text-sm text-muted">Kies de stip waar jij Rioja verwacht.</p>
+        <SpainMap
+          class="mt-4"
+          ebro
+          dots={[
+            {
+              id: 'noord',
+              ...rioja,
+              label: rioja.name,
+              revealLabel: true,
+              ariaLabel: 'Stip in het noorden',
+            },
+            { id: 'west', lat: 39.2, lon: -6.4, ariaLabel: 'Stip in het westen' },
+            { id: 'oost', lat: 39.45, lon: -0.9, ariaLabel: 'Stip in het oosten' },
+            { id: 'zuid', lat: 37.3, lon: -4.0, ariaLabel: 'Stip in het zuiden' },
+          ]}
+          places={[portugal, { label: 'Ebro', lat: 41.1, lon: -0.5, reveal: true }]}
+        />
+        <div class="quiz-feedback" tabindex="-1" data-feedback hidden>
+          <p class="font-bold" data-verdict></p>
+          <p class="mt-1">
+            Rioja ligt in het noorden, langs de rivier de Ebro. Het is de bekendste wijnstreek van Spanje en kreeg in
+            1991 als eerste het hoogste Spaanse kwaliteitslabel.
+          </p>
+        </div>
+        <button type="button" class="btn-primary mt-6 w-full" data-next hidden>
+          Volgende vraag
+        </button>
+      </div>
+
+      <!-- 3. Rioja Reserva -->
+      <div data-step="q3" data-kind="choice" data-answer="vanille" hidden>
+        <h2 class="h3" tabindex="-1" data-step-title>
+          Je ruikt aan een glas Rioja Reserva. Wat ruik je vaak?
+        </h2>
+        <ul class="mt-4 grid gap-2">
+          {aromas.map((o) => (
+            <li>
+              <button type="button" class="quiz-option" data-option={o.id}>
+                {o.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div class="quiz-feedback" tabindex="-1" data-feedback hidden>
+          <p class="font-bold" data-verdict></p>
+          <p class="mt-1">
+            Vanille en kokos komen van het hout. Een Rioja Reserva rijpt minstens drie jaar, waarvan minstens een jaar
+            op eikenhouten vaten, in Rioja van oudsher vaak van Amerikaans eik.
+          </p>
+        </div>
+        <button type="button" class="btn-primary mt-6 w-full" data-next hidden>
+          Volgende vraag
+        </button>
+      </div>
+
+      <!-- 4. Tempranillo -->
+      <div data-step="q4" data-kind="choice" data-answer="tempranillo" data-correct="Helemaal juist!" hidden>
+        <h2 class="h3" tabindex="-1" data-step-title>
+          De rode druif die je in Spanje het vaakst tegenkomt, heet ...
+        </h2>
+        <ul class="mt-4 grid gap-2">
+          {grapes.map((o) => (
+            <li>
+              <button type="button" class="quiz-option" data-option={o.id}>
+                {o.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div class="quiz-feedback" tabindex="-1" data-feedback hidden>
+          <p class="font-bold" data-verdict></p>
+          <p class="mt-1">
+            Tempranillo, van het Spaanse woord temprano: vroeg. De druif is weken eerder rijp dan de meeste andere rode
+            druiven in Spanje, en ook in een Rioja speelt ze meestal de hoofdrol.
+          </p>
+        </div>
+        <button type="button" class="btn-primary mt-6 w-full" data-next hidden>
+          Volgende vraag
+        </button>
+      </div>
+
+      <!-- 5. Koppel de streek aan de wijn -->
+      <div data-step="q5" data-kind="match" hidden>
+        <h2 class="h3" tabindex="-1" data-step-title>
+          Welke wijn komt uit welke streek?
+        </h2>
+        <p class="mt-2 text-sm text-muted">Kies bij elke wijn een streek. Alle drie juist is een punt.</p>
+        <ul class="mt-4 space-y-4">
+          {matchWines.map((wine) => (
+            <li data-row={wine.id} data-answer={wine.answer}>
+              <p id={`wijn-${wine.id}`} class="font-bold">
+                {wine.label}
+              </p>
+              <div class="mt-2 grid grid-cols-3 gap-2" role="group" aria-labelledby={`wijn-${wine.id}`}>
+                {matchRegions.map((region) => (
+                  <button type="button" class="quiz-pill" data-pick={region.id} aria-pressed="false">
+                    {region.label}
+                  </button>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <button type="button" class="btn-primary mt-6 w-full" data-check disabled>
+          Controleer
+        </button>
+        <div class="quiz-feedback" tabindex="-1" data-feedback hidden>
+          <p class="font-bold" data-verdict></p>
+          <ul class="mt-2 space-y-2">
+            <li>
+              <b>Jerez:</b> het Engelse woord sherry komt van de naam van deze stad in het zuiden.
+            </li>
+            <li>
+              <b>Rías Baixas:</b> aan de Atlantische kust maken ze frisse witte wijn van de druif Albariño, lekker bij
+              vis en zeevruchten.
+            </li>
+            <li>
+              <b>Priorat:</b> de druiven groeien op steile hellingen vol leisteen. Net als Rioja kreeg Priorat het
+              hoogste Spaanse kwaliteitslabel.
+            </li>
+          </ul>
+        </div>
+        <button type="button" class="btn-primary mt-6 w-full" data-next hidden>
+          Laatste vraag
+        </button>
+      </div>
+
+      <!-- 6. Blind proeven, zonder fout antwoord -->
+      <div data-step="q6" data-kind="poll" hidden>
+        <h2 class="h3" tabindex="-1" data-step-title>
+          Spaanse of Italiaanse rode wijn: zou jij ze blind uit elkaar houden?
+        </h2>
+        <p class="mt-2 text-sm text-muted">Hier is geen fout antwoord.</p>
+        <ul class="mt-4 grid gap-2">
+          {blindAnswers.map((o) => (
+            <li>
+              <button type="button" class="quiz-option" data-option={o.id}>
+                {o.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div class="quiz-feedback" tabindex="-1" data-feedback hidden>
+          {blindAnswers.map((o) => (
+            <p data-response={o.id} hidden>
+              {o.response}
+            </p>
+          ))}
+        </div>
+        <button type="button" class="btn-primary mt-6 w-full" data-next hidden>
+          Bekijk je score
+        </button>
+      </div>
+
+      <!-- Score -->
+      <div data-step="result" hidden>
+        <p class="text-center text-sm font-bold text-muted">Jouw score</p>
+        <p class="mt-1 text-center text-lg font-bold">
+          <span class="text-3xl" data-score>
+            0
+          </span>{' '}
+          op 5
+        </p>
+        {results.map((r) => (
+          <div class="text-center" data-band={r.band} hidden>
+            <h2 class="h2 mt-2" tabindex="-1" data-step-title>
+              {r.title}
+            </h2>
+            <p class="mt-2">{r.text}</p>
+          </div>
+        ))}
+        <Image
+          src={boxImage}
+          alt="Een speelster toont de box Italië of Spanje van Flavory"
+          widths={[400, 600, 800]}
+          sizes="(min-width: 640px) 30rem, calc(100vw - 4.5rem)"
+          class="mt-6 aspect-video w-full rounded-xl object-cover object-[50%_15%]"
+        />
+        <p class="mt-6 text-lg font-bold">Herken je Spanje ook blind?</p>
+        <p class="mt-2">
+          In onze box Italië of Spanje proef je een Spaanse en een Italiaanse rode wijn naast elkaar: twee flessen van
+          75&nbsp;cl, anoniem verpakt. Wie raadt welke fles uit welk land komt?
+        </p>
+        <a href={boxUrl} class="btn-primary mt-6 w-full" data-quiz-cta>
+          Bekijk de box
+        </a>
+        <button type="button" class="btn-outline mt-3 w-full" data-quiz-share>
+          Daag een vriend uit
+        </button>
+        <p class="mt-2 text-center text-sm" data-share-status aria-live="polite"></p>
+        <p class="mt-4 text-center">
+          <button type="button" class="font-bold text-brand underline" data-quiz-restart>
+            Opnieuw spelen
+          </button>
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-6 text-center text-xs text-muted">{SITE.ageNotice}</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .quiz-card {
+    scroll-margin-top: 4.5rem;
+  }
+  @media (min-width: 768px) {
+    .quiz-card {
+      scroll-margin-top: 7rem;
+    }
+  }
+  /* Focus moves to the question or the fact for screen readers; no ring around plain text. */
+  .quiz-card :global([data-step-title]:focus),
+  .quiz-feedback:focus {
+    outline: none;
+  }
+  .quiz-option {
+    display: flex;
+    width: 100%;
+    min-height: 3rem;
+    align-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    transition:
+      border-color 0.15s,
+      background-color 0.15s;
+  }
+  .quiz-pill {
+    min-height: 2.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 0.375rem 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    transition:
+      border-color 0.15s,
+      background-color 0.15s;
+  }
+  .quiz-option:not(:disabled):hover,
+  .quiz-pill:not(:disabled):hover {
+    border-color: var(--color-ink);
+  }
+  .quiz-option:disabled,
+  .quiz-pill:disabled {
+    cursor: default;
+  }
+  .quiz-pill[aria-pressed='true'] {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .quiz-option[data-state='correct'],
+  .quiz-pill[data-state='correct'] {
+    border-color: var(--color-success);
+    background: color-mix(in srgb, var(--color-success) 10%, #fff);
+    box-shadow: inset 0 0 0 1px var(--color-success);
+    color: var(--color-ink);
+  }
+  .quiz-pill[data-state='correct'][aria-pressed='true'] {
+    background: var(--color-success);
+    color: #fff;
+  }
+  .quiz-option[data-state='wrong'],
+  .quiz-pill[data-state='wrong'] {
+    border-color: var(--color-brand);
+    background: var(--color-blush);
+    box-shadow: inset 0 0 0 1px var(--color-brand);
+    color: var(--color-ink);
+  }
+  .quiz-option[data-state='chosen'] {
+    border-color: var(--color-ink);
+    background: var(--color-cream);
+    box-shadow: inset 0 0 0 1px var(--color-ink);
+  }
+  .quiz-option[data-state='dim'],
+  .quiz-pill[data-state='dim'] {
+    opacity: 0.45;
+  }
+  /* A check or a cross after the answer, so the result does not rely on colour alone. */
+  .quiz-option[data-state='correct']::after,
+  .quiz-option[data-state='wrong']::after {
+    margin-left: auto;
+    padding-left: 0.75rem;
+    font-size: 1.125rem;
+  }
+  .quiz-option[data-state='correct']::after {
+    content: '✓' / '';
+    color: var(--color-success);
+  }
+  .quiz-option[data-state='wrong']::after {
+    content: '✗' / '';
+    color: var(--color-brand);
+  }
+  .quiz-feedback {
+    margin-top: 1.5rem;
+    border-radius: 0.75rem;
+    background: var(--color-cream);
+    padding: 1rem;
+  }
+  [data-check]:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+</style>
+
+<script>
+  import { track } from '@/lib/analytics';
+
+  const root = document.querySelector<HTMLElement>('[data-quiz]');
+  if (root) initQuiz(root);
+
+  function initQuiz(root: HTMLElement) {
+    // The untouched quiz, to start again without reloading the page.
+    const initial = root.innerHTML;
+    let score = 0;
+    let blind = '';
+
+    const motion = (): ScrollBehavior => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+    const steps = () => [...root.querySelectorAll<HTMLElement>('[data-step]')];
+    const questions = () => steps().filter((s) => s.dataset.kind);
+
+    function show(step: HTMLElement) {
+      for (const s of steps()) s.hidden = s !== step;
+      const index = questions().indexOf(step);
+      const progress = root.querySelector<HTMLElement>('[data-quiz-progress]');
+      if (progress) progress.hidden = index < 0;
+      if (index >= 0) {
+        const total = questions().length;
+        const count = root.querySelector('[data-quiz-count]');
+        const bar = root.querySelector<HTMLElement>('[data-quiz-bar]');
+        if (count) count.textContent = `Vraag ${index + 1} van ${total}`;
+        if (bar) bar.style.width = `${((index + 1) / total) * 100}%`;
+      }
+      const heading = [...step.querySelectorAll<HTMLElement>('[data-step-title]')].find((h) => !h.closest('[hidden]'));
+      heading?.focus({ preventScroll: true });
+      if (root.getBoundingClientRect().top < 64) root.scrollIntoView({ behavior: motion(), block: 'start' });
+    }
+
+    function verdict(step: HTMLElement, text: string) {
+      const el = step.querySelector('[data-verdict]');
+      if (el) el.textContent = text;
+    }
+
+    // After an answer: reveal the map details, the fact and the next button.
+    function finish(step: HTMLElement) {
+      for (const el of step.querySelectorAll('[data-reveal]')) el.removeAttribute('hidden');
+      const feedback = step.querySelector<HTMLElement>('[data-feedback]');
+      const next = step.querySelector<HTMLElement>('[data-next]');
+      if (next) next.hidden = false;
+      if (feedback) {
+        feedback.hidden = false;
+        feedback.focus({ preventScroll: true });
+      }
+      (next ?? feedback)?.scrollIntoView({ behavior: motion(), block: 'nearest' });
+    }
+
+    function answer(option: HTMLButtonElement) {
+      const step = option.closest<HTMLElement>('[data-step]');
+      if (!step || step.dataset.done) return;
+      step.dataset.done = 'true';
+      const value = option.dataset.option ?? '';
+      const options = [...step.querySelectorAll<HTMLButtonElement>('[data-option]')];
+      option.setAttribute('aria-pressed', 'true');
+
+      if (step.dataset.kind === 'poll') {
+        blind = value;
+        for (const o of options) {
+          o.disabled = true;
+          o.dataset.state = o === option ? 'chosen' : 'dim';
+        }
+        const response = step.querySelector<HTMLElement>(`[data-response="${value}"]`);
+        if (response) response.hidden = false;
+      } else {
+        const correct = value === step.dataset.answer;
+        if (correct) score += 1;
+        for (const o of options) {
+          o.disabled = true;
+          o.dataset.state = o.dataset.option === step.dataset.answer ? 'correct' : o === option ? 'wrong' : 'dim';
+        }
+        verdict(step, correct ? (step.dataset.correct ?? 'Juist!') : 'Net niet.');
+        track('quiz_answered', { question: step.dataset.step, correct });
+      }
+      finish(step);
+    }
+
+    // Matching: one region per wine. Picking a region that another wine already has, frees it there.
+    function pick(button: HTMLButtonElement) {
+      const step = button.closest<HTMLElement>('[data-step]');
+      const row = button.closest<HTMLElement>('[data-row]');
+      if (!step || !row || step.dataset.done) return;
+      const rows = [...step.querySelectorAll<HTMLElement>('[data-row]')];
+      const value = button.dataset.pick ?? '';
+      for (const r of rows) {
+        if (r !== row && r.dataset.selected === value) select(r, '');
+      }
+      select(row, value);
+      const check = step.querySelector<HTMLButtonElement>('[data-check]');
+      if (check) check.disabled = rows.some((r) => !r.dataset.selected);
+    }
+
+    function select(row: HTMLElement, value: string) {
+      if (value) row.dataset.selected = value;
+      else delete row.dataset.selected;
+      for (const b of row.querySelectorAll<HTMLElement>('[data-pick]')) {
+        b.setAttribute('aria-pressed', String(b.dataset.pick === value));
+      }
+    }
+
+    function check(button: HTMLButtonElement) {
+      const step = button.closest<HTMLElement>('[data-step]');
+      if (!step || step.dataset.done) return;
+      step.dataset.done = 'true';
+      const rows = [...step.querySelectorAll<HTMLElement>('[data-row]')];
+      let right = 0;
+      for (const row of rows) {
+        if (row.dataset.selected === row.dataset.answer) right += 1;
+        for (const b of row.querySelectorAll<HTMLButtonElement>('[data-pick]')) {
+          b.disabled = true;
+          const isAnswer = b.dataset.pick === row.dataset.answer;
+          b.dataset.state = isAnswer ? 'correct' : b.dataset.pick === row.dataset.selected ? 'wrong' : 'dim';
+        }
+      }
+      const all = right === rows.length;
+      if (all) score += 1;
+      verdict(
+        step,
+        all
+          ? 'Alle drie juist!'
+          : right === 0
+            ? 'Net niet.'
+            : `${right === 1 ? 'Eén' : right} van de ${rows.length} juist.`,
+      );
+      button.hidden = true;
+      track('quiz_answered', { question: step.dataset.step, correct: all, right });
+      finish(step);
+    }
+
+    function showResult(step: HTMLElement) {
+      const band = score === 5 ? 'top' : score >= 3 ? 'mid' : 'low';
+      const scoreEl = step.querySelector('[data-score]');
+      if (scoreEl) scoreEl.textContent = String(score);
+      for (const el of step.querySelectorAll<HTMLElement>('[data-band]')) el.hidden = el.dataset.band !== band;
+      track('quiz_completed', { score, blind });
+    }
+
+    function next(button: HTMLElement) {
+      const all = steps();
+      const current = button.closest<HTMLElement>('[data-step]');
+      const following = current ? all[all.indexOf(current) + 1] : undefined;
+      if (!following) return;
+      if (following.dataset.step === 'result') showResult(following);
+      show(following);
+    }
+
+    async function share() {
+      const status = root.querySelector('[data-share-status]');
+      const url = root.dataset.shareUrl ?? location.href;
+      const text = `Ik scoorde ${score} op 5 in de quiz Ken jij Spanje? van Flavory. Doe jij beter?`;
+      if (typeof navigator.share === 'function') {
+        try {
+          await navigator.share({ title: document.title, text, url });
+          track('quiz_shared', { method: 'share', score });
+        } catch {
+          // Closed without sharing.
+        }
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(`${text} ${url}`);
+        if (status) status.textContent = 'Link gekopieerd. Plak hem in een bericht aan een vriend.';
+        track('quiz_shared', { method: 'copy', score });
+      } catch {
+        if (status) status.textContent = `Kopieer deze link: ${url}`;
+      }
+    }
+
+    function restart() {
+      root.innerHTML = initial;
+      score = 0;
+      blind = '';
+      track('quiz_restarted');
+      const first = questions()[0];
+      if (first) show(first);
+    }
+
+    root.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const target = event.target;
+      const find = <T extends HTMLElement = HTMLButtonElement>(selector: string) => target.closest<T>(selector);
+
+      if (find('[data-quiz-start]')) {
+        track('quiz_started');
+        const first = questions()[0];
+        if (first) show(first);
+        return;
+      }
+      const option = find('[data-option]');
+      if (option) return answer(option);
+      const region = find('[data-pick]');
+      if (region) return pick(region);
+      const checkButton = find('[data-check]');
+      if (checkButton) return check(checkButton);
+      const nextButton = find('[data-next]');
+      if (nextButton) return next(nextButton);
+      if (find('[data-quiz-share]')) return void share();
+      if (find('[data-quiz-restart]')) return restart();
+      if (find<HTMLAnchorElement>('[data-quiz-cta]')) track('quiz_cta_clicked', { score });
+    });
+  }
+</script>

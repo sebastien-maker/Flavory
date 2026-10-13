@@ -33,7 +33,7 @@
     X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://www.clarity.ms; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' https:; frame-ancestors 'self'"
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://www.clarity.ms https://static.runconverge.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' https:; frame-ancestors 'self'"
 
 [[headers]]
   for = "/_astro/*"

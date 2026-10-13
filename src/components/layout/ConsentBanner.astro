@@ -1,6 +1,19 @@
 ---
-// Cookie consent (rule 8): GTM and everything behind it load only after explicit consent.
+// Cookie consent (rule 8): GTM, Converge and everything behind them load only after explicit consent.
 // Google Consent Mode v2 defaults are set to "denied" before GTM loads.
+//
+// Notes on the inline script below. They live here because an is:inline script ships as written on
+// every page and counts towards the 60 KB HTML budget (rule 8).
+// - GTM requires the real Arguments object for consent commands, hence gtag() pushes `arguments`.
+// - PostHog (EU cloud) loads through the same-origin proxy /ingest (netlify.toml), so blockers miss less.
+//   Recordings mask every input; nothing loads before analytics consent. A visitor who withdrew consent
+//   earlier and now gives it again is opted back in.
+// - Converge pixel (marketing attribution): the official snippet, but only after marketing consent.
+//   Converge wants the choice before the first track call, on every page load and again when it changes
+//   (docs.runconverge.com/sources/consent). The stub queues calls until the pixel script has loaded,
+//   then hands them to cvg.process.
+// - GTM, PostHog and Converge load when the page is idle, so they never compete with LCP.
+// - When localStorage is blocked, the choice applies to the current page view only.
 import { SITE } from '@/lib/site';
 ---
 
@@ -47,11 +60,10 @@ import { SITE } from '@/lib/site';
   </form>
 </div>
 
-<script is:inline define:vars={{ gtmId: SITE.gtmId, posthogKey: SITE.posthogKey }}>
+<script is:inline define:vars={{ gtmId: SITE.gtmId, posthogKey: SITE.posthogKey, convergePixelId: SITE.convergePixelId }}>
   (() => {
     const KEY = 'flavory-consent-v1';
     window.dataLayer = window.dataLayer || [];
-    // GTM requires the real Arguments object for consent commands.
     function gtag() {
       // eslint-disable-next-line prefer-rest-params
       window.dataLayer.push(arguments);
@@ -75,8 +87,6 @@ import { SITE } from '@/lib/site';
       document.head.appendChild(s);
     };
 
-    // PostHog (EU cloud) through the same-origin proxy /ingest (netlify.toml), so blockers miss less.
-    // Recordings mask every input; nothing loads before analytics consent.
     let posthogLoaded = false;
     const loadPosthog = () => {
       if (posthogLoaded || !posthogKey) return;
@@ -99,13 +109,39 @@ import { SITE } from '@/lib/site';
           capture_exceptions: true,
           session_recording: { maskAllInputs: true, maskTextSelector: '[data-ph-mask]' },
           loaded: (ph) => {
-            // A visitor who withdrew consent earlier and now gives it again is opted back in.
             if (ph.has_opted_out_capturing()) ph.opt_in_capturing();
             for (const [event, props] of window.flavoryAnalyticsQueue || []) ph.capture(event, props);
             window.flavoryAnalyticsQueue = [];
           },
         });
       };
+      document.head.appendChild(s);
+    };
+
+    let convergeLoaded = false;
+    const convergeConsent = (c) => {
+      window.cvg({
+        method: 'consent',
+        analytics: c.analytics ? 'granted' : 'denied',
+        marketing: c.marketing ? 'granted' : 'denied',
+      });
+    };
+    const loadConverge = (c) => {
+      if (convergeLoaded || !convergePixelId) return;
+      convergeLoaded = true;
+      if (!window.cvg) {
+        const cvg = (...args) => {
+          if (cvg.process) cvg.process(...args);
+          else cvg.queue.push(args);
+        };
+        cvg.queue = [];
+        window.cvg = cvg;
+      }
+      convergeConsent(c);
+      window.cvg({ method: 'track', eventName: '$page_load' });
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://static.runconverge.com/pixels/' + convergePixelId + '.js';
       document.head.appendChild(s);
     };
 
@@ -123,8 +159,9 @@ import { SITE } from '@/lib/site';
         ad_user_data: c.marketing ? 'granted' : 'denied',
         ad_personalization: c.marketing ? 'granted' : 'denied',
       });
-      // Load after the page is idle so GTM never competes with LCP.
       if (c.analytics || c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadGtm);
+      if (convergeLoaded) convergeConsent(c);
+      else if (c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(() => loadConverge(c));
     };
 
     let stored = null;
@@ -139,7 +176,7 @@ import { SITE } from '@/lib/site';
       try {
         localStorage.setItem(KEY, JSON.stringify(c));
       } catch {
-        // Storage blocked: consent applies to this page view only.
+        /* storage blocked */
       }
       apply(c);
       document.getElementById('consent-banner').hidden = true;

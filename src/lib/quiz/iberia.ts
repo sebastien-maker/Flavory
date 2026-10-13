@@ -1,37 +1,19 @@
 // A simplified map of Spain for the quiz. The outlines are traced by hand from coastal and border points
 // (latitude, longitude) and projected once at build time, so no map service or external file is involved.
 
+import { MAP_HEIGHT, MAP_WIDTH, project } from './projection';
+
+export { MAP_HEIGHT, MAP_WIDTH };
+
 type LatLon = readonly [number, number];
 
-// Map frame: the Iberian Peninsula plus the Balearic Islands.
-const NORTH = 44.0;
-const SOUTH = 35.8;
-const WEST = -9.7;
-const EAST = 4.5;
-// Units per degree of latitude; a degree of longitude is shorter at this latitude.
-const SCALE = 40;
-const LON_FACTOR = Math.cos((40 * Math.PI) / 180);
-
 const round = (n: number) => Math.round(n * 10) / 10;
-
-export const MAP_WIDTH = round((EAST - WEST) * LON_FACTOR * SCALE);
-export const MAP_HEIGHT = round((NORTH - SOUTH) * SCALE);
-
-function project([lat, lon]: LatLon): { x: number; y: number } {
-  return { x: round((lon - WEST) * LON_FACTOR * SCALE), y: round((NORTH - lat) * SCALE) };
-}
-
-/** Position of a point as a percentage of the map, for HTML elements laid over the SVG. */
-export function mapPosition(lat: number, lon: number): { left: string; top: string } {
-  const { x, y } = project([lat, lon]);
-  return { left: `${round((x / MAP_WIDTH) * 100)}%`, top: `${round((y / MAP_HEIGHT) * 100)}%` };
-}
 
 function line(points: readonly LatLon[], closed: boolean): string {
   const d = points
     .map((p, i) => {
-      const { x, y } = project(p);
-      return `${i === 0 ? 'M' : 'L'}${x} ${y}`;
+      const { x, y } = project(p[0], p[1]);
+      return `${i === 0 ? 'M' : 'L'}${round(x)} ${round(y)}`;
     })
     .join('');
   return closed ? `${d}Z` : d;
@@ -232,23 +214,6 @@ const IBIZA: LatLon[] = [
   [39.01, 1.28],
 ];
 
-// The Ebro, from its source in Cantabria past Logroño and Zaragoza to its delta.
-const EBRO: LatLon[] = [
-  [43.0, -4.15],
-  [42.85, -3.6],
-  [42.68, -2.95],
-  [42.58, -2.85],
-  [42.47, -2.45],
-  [42.31, -1.96],
-  [42.06, -1.6],
-  [41.65, -0.88],
-  [41.3, -0.15],
-  [41.3, 0.45],
-  [41.05, 0.55],
-  [40.81, 0.52],
-  [40.72, 0.8],
-];
-
 export const SPAIN_PATH = [
   line([...NORTH_COAST, ...PORTUGAL_BORDER, ...SOUTH_AND_EAST_COAST, ...FRANCE_BORDER], true),
   line(MALLORCA, true),
@@ -257,15 +222,3 @@ export const SPAIN_PATH = [
 ].join('');
 
 export const PORTUGAL_PATH = line([...PORTUGAL_BORDER, ...PORTUGAL_COAST], true);
-
-export const EBRO_PATH = line(EBRO, false);
-
-/** Wine regions in the quiz, with a point inside each region. */
-export const REGIONS = {
-  riasBaixas: { name: 'Rías Baixas', lat: 42.42, lon: -8.6 },
-  rioja: { name: 'Rioja', lat: 42.45, lon: -2.5 },
-  penedes: { name: 'Penedès', lat: 41.28, lon: 1.4 },
-  priorat: { name: 'Priorat', lat: 41.2, lon: 0.8 },
-  laMancha: { name: 'La Mancha', lat: 39.2, lon: -3.2 },
-  jerez: { name: 'Jerez', lat: 36.69, lon: -6.14 },
-} as const;

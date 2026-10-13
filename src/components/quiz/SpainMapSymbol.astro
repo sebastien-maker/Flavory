@@ -1,6 +1,6 @@
 ---
 // The outline of Spain, defined once per page and drawn by every SpainMap through <use>.
-import { EBRO_PATH, MAP_HEIGHT, MAP_WIDTH, PORTUGAL_PATH, SPAIN_PATH } from '@/lib/quiz/iberia';
+import { MAP_HEIGHT, MAP_WIDTH, PORTUGAL_PATH, SPAIN_PATH } from '@/lib/quiz/iberia';
 ---
 
 <svg class="absolute size-0 overflow-hidden" aria-hidden="true" focusable="false">
@@ -11,17 +11,6 @@ import { EBRO_PATH, MAP_HEIGHT, MAP_WIDTH, PORTUGAL_PATH, SPAIN_PATH } from '@/l
       fill="#ffffff"
       stroke="#000000"
       stroke-width="1.5"
-      stroke-linejoin="round"
-      vector-effect="non-scaling-stroke"
-    ></path>
-  </symbol>
-  <symbol id="map-ebro" viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}>
-    <path
-      d={EBRO_PATH}
-      fill="none"
-      stroke="#4a4a4a"
-      stroke-width="2.5"
-      stroke-linecap="round"
       stroke-linejoin="round"
       vector-effect="non-scaling-stroke"
     ></path>

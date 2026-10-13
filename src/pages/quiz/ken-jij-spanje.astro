@@ -571,6 +571,8 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
     let game = '';
     let answers: Answer[] = [];
     let recorded = false;
+    // The story picture, made as soon as the score is known: sharing must follow the tap quickly (iPhone).
+    let story: Promise<Blob | null> | null = null;
 
     const $ = <T extends Element = HTMLElement>(selector: string) => root.querySelector<T>(selector);
     const motion = (): ScrollBehavior => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
@@ -817,6 +819,7 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
         hint.hidden = (hint.dataset.storyHint === 'contest') !== contestOn();
       }
       record('final', { answer });
+      story = storyImage();
       track('quiz_completed', { reached: reached(), completed, mistakes, answer });
       showStep('result', title);
     }
@@ -993,7 +996,7 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
     async function shareStory() {
       record('share');
       const status = $('[data-story-status]');
-      const blob = await storyImage();
+      const blob = await (story ?? storyImage());
       if (!blob) return;
       const file = new File([blob], 'ken-jij-spanje.png', { type: 'image/png' });
       if (navigator.canShare?.({ files: [file] })) {

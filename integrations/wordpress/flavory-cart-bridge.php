@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Flavory cart bridge
  * Description: Neemt het winkelmandje van de nieuwe flavory.wine over in WooCommerce en stuurt door naar de checkout. Link: /?flavory_cart=13647:1,19757:2
- * Version: 1.3.0
+ * Version: 1.4.0
  * Requires Plugins: woocommerce
  *
  * Installeren: dit bestand in wp-content/mu-plugins/ zetten (dan staat het altijd aan), of als gewone plugin uploaden.
@@ -95,6 +95,73 @@ function flavory_is_checkout_only(): bool
     return $wp_host && $wp_host !== wp_parse_url(FLAVORY_SITE_URL, PHP_URL_HOST);
 }
 
+/**
+ * Dezelfde URL op de nieuwe site, met de volledige querystring (utm_*, ref, fbclid ...).
+ * Tot versie 1.3.0 viel alles na het vraagteken weg.
+ */
+function flavory_new_site_url(): string
+{
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+    $query = (string) ($_SERVER['QUERY_STRING'] ?? '');
+    // Nooit een regeleinde in een header.
+    return str_replace(["\r", "\n"], '', FLAVORY_SITE_URL . $path . ($query !== '' ? '?' . $query : ''));
+}
+
+/**
+ * Snelle weg, vóór WooCommerce en de andere plugins laden (scheelt ongeveer 1 s per bezoek via www).
+ * Alleen voor pagina's die zeker op de nieuwe site staan (home, quiz, shop, black-friday), en alleen
+ * met parameters van campagnes en de quiz. Al de rest (winkelmandje, kassa, account, /wp-json/,
+ * /wc-api/, ?flavory_cart=, ?wc-api= van Mollie, wp-admin ...) gaat de gewone weg hieronder.
+ */
+const FLAVORY_FAST_PATHS = '#^/(?:quiz(?:/.*)?|black-friday(?:/.*)?|shop/?|shop/(?!winkelwagen|afrekenen|mijn-account)[a-z0-9-]+/?)?$#';
+const FLAVORY_FAST_QUERY_KEYS = [
+    'ref', 'fbclid', 'gclid', 'gbraid', 'wbraid', 'dclid', 'msclkid', 'ttclid', 'twclid',
+    'li_fat_id', 'igshid', 'mc_cid', 'mc_eid', '_gl', 'srsltid',
+];
+
+function flavory_fast_redirect_applies(): bool
+{
+    if (PHP_SAPI === 'cli' || (defined('WP_ADMIN') && WP_ADMIN) || (defined('DOING_AJAX') && DOING_AJAX)
+        || (defined('DOING_CRON') && DOING_CRON)) {
+        return false;
+    }
+    if (!in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', ['GET', 'HEAD'], true)) {
+        return false;
+    }
+    $host = strtolower((string) preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? '')));
+    if ($host !== 'www.flavory.wine') {
+        return false;
+    }
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+    if (!preg_match(FLAVORY_FAST_PATHS, $path)) {
+        return false;
+    }
+    foreach (array_keys($_GET) as $key) {
+        $key = (string) $key;
+        if (strpos($key, 'utm_') !== 0 && !in_array($key, FLAVORY_FAST_QUERY_KEYS, true)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function flavory_fast_redirect(): void
+{
+    if (!flavory_fast_redirect_applies() || !flavory_is_checkout_only()) {
+        return;
+    }
+    header('X-Redirect-By: Flavory', true);
+    header('Location: ' . flavory_new_site_url(), true, 301);
+    exit;
+}
+
+// Als must-use plugin meteen na de mu-plugins; als gewone plugin zo vroeg mogelijk.
+if (did_action('muplugins_loaded')) {
+    add_action('plugins_loaded', 'flavory_fast_redirect', 0);
+} else {
+    add_action('muplugins_loaded', 'flavory_fast_redirect');
+}
+
 add_action('template_redirect', function () {
     if (!flavory_is_checkout_only() || !function_exists('is_checkout')) {
         return;
@@ -102,8 +169,7 @@ add_action('template_redirect', function () {
     if (is_cart() || is_checkout() || is_account_page() || is_wc_endpoint_url()) {
         return;
     }
-    $path = wp_parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
-    wp_redirect(FLAVORY_SITE_URL . $path, 301);
+    wp_redirect(flavory_new_site_url(), 301);
     exit;
 }, 1);
 

@@ -28,6 +28,16 @@ De plugin kan ook nu al op de huidige site staan. Zonder `?flavory_cart=` in de 
 
 De lancering volgt `docs/lancering.md`. WordPress komt op **`www.flavory.wine`**, en niet op `shop.flavory.wine`, omdat de server van Combell `www` al kent. Zo kan elke stap zonder hostingtoegang teruggedraaid worden.
 
+### Doorverwijzing van www naar de nieuwe site (versie 1.4.0)
+
+Na de lancering stuurt de plugin elke pagina op `www.flavory.wine` die niet bij de kassa hoort met een 301 naar dezelfde URL op `flavory.wine`. `www` wijst naar de server van Combell, niet naar Netlify: deze doorverwijzing gebeurt dus in WordPress, en een wijziging in de Netlify-code verandert er niets aan.
+
+- **Tot versie 1.3.0** viel de querystring weg (`utm_*`, `?ref=` van de quizwedstrijd, `fbclid`), en elke doorverwijzing kostte ongeveer 1 s omdat eerst heel WordPress en WooCommerce laadden.
+- **Vanaf versie 1.4.0** blijft de volledige querystring behouden. Voor de home, `/quiz/...`, `/shop/` met de productpagina's en `/black-friday/...`, met alleen campagneparameters (`utm_*`, `ref`, `fbclid`, `gclid` ...), gebeurt de doorverwijzing meteen na de mu-plugins, vóór WooCommerce laadt.
+- **Ongewijzigd:** winkelmandje, kassa en account (`/shop/winkelwagen/`, `/shop/afrekenen/`, `/shop/mijn-account/`), `/wp-json/` (Postalux), `/wc-api/` en `?wc-api=` (Mollie), `?flavory_cart=` en `wp-admin`.
+- **Installeren:** het bestand vervangen in `wp-content/mu-plugins/` (FTP of bestandsbeheer van Combell). Een merge op GitHub zet dit bestand **niet** op de server.
+- **Nakijken na installatie:** `curl -sI "https://www.flavory.wine/quiz?utm_source=test&ref=abc"` geeft `Location: https://flavory.wine/quiz?utm_source=test&ref=abc` en `X-Redirect-By: Flavory`; `https://www.flavory.wine/shop/afrekenen/` en `https://www.flavory.wine/wp-json/wc/store/v1/products` werken zoals voordien.
+
 ## Stap 4: testen
 
 - Bestel naar een Belgisch en een Nederlands adres, met Bancontact en iDEAL. Gebruik een kortingscode van 100% of de testmodus van de betaalprovider.

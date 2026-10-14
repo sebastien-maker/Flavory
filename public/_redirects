@@ -44,6 +44,7 @@
 /win/                                                                                                          /  301
 /shop/witte-wijnspel-chardonnay-of-sauvignon-blanc/                                                            /shop/wijnproeverij-thuis-wit/  301
 /shop/winkelwagen/                                                                                             https://www.flavory.wine/shop/winkelwagen/  301
+/shop/winkelmand/                                                                                              https://www.flavory.wine/shop/winkelwagen/  301
 /shop/afrekenen/                                                                                               https://www.flavory.wine/shop/afrekenen/  301
 /shop/mijn-account/                                                                                            https://www.flavory.wine/shop/mijn-account/  301
 /shop/mijn-account/*                                                                                           https://www.flavory.wine/shop/mijn-account/:splat  301

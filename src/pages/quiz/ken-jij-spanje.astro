@@ -500,6 +500,9 @@ const portugal = { label: 'Portugal', lat: 39.7, lon: -8.25, vertical: true };
     border-radius: 0.75rem;
     background: #fff;
     padding: 0.5rem 1rem;
+    /* At least 16px: iOS (also inside Instagram) zooms in on a field with smaller text. */
+    font-size: 1rem;
+    line-height: 1.5;
     font-weight: 500;
   }
   .quiz-input:focus {

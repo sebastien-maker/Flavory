@@ -4,13 +4,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
+import BlackFridayList from '@/components/sections/BlackFridayList.astro';
 import { getProducts, mainProducts } from '@/lib/content';
 import { SITE, shippingLine } from '@/lib/site';
 import { breadcrumbs, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
 
 // Evergreen: no year in the URL, the title or the H1. The page stays online all year, so it keeps its
-// ranking; SITE.campaign (src/lib/site.ts) switches between the running promotion and "it is over".
+// ranking; SITE.campaign (src/lib/site.ts) switches between "coming soon" (with the sign-up form of the
+// Black Friday list), the running promotion and "it is over". Title and description stay the same in all three.
 const path = '/black-friday/';
 const crumbs = [
   { name: 'Home', path: '/' },
@@ -23,6 +25,8 @@ const description =
 // The cards show the sale price from WooCommerce next to the struck-through regular price.
 const products = mainProducts(await getProducts());
 const active = SITE.campaign === 'blackfriday';
+// Before the promotion: no price, no percentage, only the promise to the list.
+const soon = SITE.campaign === 'blackfriday-soon';
 const { offer, endDate } = SITE.blackFriday;
 ---
 
@@ -46,17 +50,38 @@ const { offer, endDate } = SITE.blackFriday;
           </p>
           {endDate && <p class="mt-3">De actie loopt tot en met {endDate}.</p>}
         </>
+      ) : soon ? (
+        <>
+          <p class="mt-3 text-lg font-bold">Black Friday komt eraan</p>
+          <p class="mt-3 text-lg">
+            Op Black Friday krijgt het wijnspel met twee flessen wijn (75 cl) een actieprijs. Zet je op de Black
+            Friday-lijst: wij sturen je de Black Friday-prijs als eerste, een dag voor iedereen.
+          </p>
+        </>
       ) : (
         <p class="mt-3 text-lg">
           De Black Friday-actie is voorbij. Het wijnspel met twee flessen wijn van 75 cl koop je het hele jaar aan de
           gewone prijs.
         </p>
       )}
-      <div class="mt-5">
-        <a href="#boxen" class="btn-primary">
-          Bekijk de boxen
-        </a>
-      </div>
+      {soon ? (
+        <>
+          <div class="mt-5">
+            <BlackFridayList source="black-friday" />
+          </div>
+          <p class="mt-4">
+            <a href="#boxen" class="font-bold text-brand underline">
+              Bekijk de boxen
+            </a>
+          </p>
+        </>
+      ) : (
+        <div class="mt-5">
+          <a href="#boxen" class="btn-primary">
+            Bekijk de boxen
+          </a>
+        </div>
+      )}
       <p class="mt-3 text-sm">{shippingLine()}</p>
     </div>
     <Image
@@ -104,6 +129,6 @@ const { offer, endDate } = SITE.blackFriday;
       </div>
     </section>
   ) : (
-    <Newsletter heading="Volgend jaar als eerste weten" />
+    !soon && <Newsletter heading="Volgend jaar als eerste weten" />
   )}
 </BaseLayout>

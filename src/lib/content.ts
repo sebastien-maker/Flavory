@@ -14,6 +14,22 @@ export type Variant = Product['data']['variants'][number];
 // Options that can be bought; sold-out options are not shown at all.
 export const availableVariants = (product: Product): Variant[] => product.data.variants.filter((v) => v.available);
 export const isAvailable = (product: Product) => availableVariants(product).length > 0;
+
+/**
+ * Product photos in the CMS order, except the first one: when it shows the box of an option group that cannot
+ * be bought (`group` on the photo), the first photo of a group that can be bought becomes the main photo and
+ * the rest keeps its order. Availability comes from the build (CMS and WooCommerce), so the CMS order returns
+ * by itself once that box is back. Example: the red box page while Merlot of Cabernet Sauvignon is sold out.
+ */
+export function productImages(product: Product) {
+  const { images } = product.data;
+  const buyable = new Set(availableVariants(product).map((v) => v.group));
+  const first = images[0];
+  if (!first?.group || buyable.has(first.group)) return images;
+  const cover = images.findIndex((img) => img.group && buyable.has(img.group));
+  return cover < 1 ? images : [images[cover]!, ...images.filter((_, i) => i !== cover)];
+}
+
 // Name of one option for the cart, the schema and the feed: with the duel when the box has more than one.
 export const variantName = (product: Product, v: Variant) =>
   new Set(product.data.variants.map((x) => x.duel)).size > 1

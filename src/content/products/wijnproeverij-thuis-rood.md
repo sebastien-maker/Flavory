@@ -56,14 +56,18 @@ order: 0
 images:
   - src: "../../assets/images/products/packshot-rood-zakjes.jpg"
     alt: "Rood wijnspel: de doos met twee flessen wijn in zakjes A en B"
+    group: druiven
   - src: "../../assets/images/products/italie-of-spanje/01-box.jpg"
     alt: "Doos van het rode wijnspel Italië of Spanje, met de sticker Italië vs Spanje"
+    group: landen
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-merlot-cabernet-box.webp"
     alt: "Doos van het rode wijnspel Merlot of Cabernet Sauvignon, met twee flessen in stoffen zakjes ernaast"
+    group: druiven
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
     alt: "Rood wijnspel van Flavory op tafel, met twee flessen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-premium-doos.jpg"
     alt: "Premium-doos van het rode wijnspel Merlot of Cabernet Sauvignon op een houten kist"
+    group: druiven
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg"
     alt: "Twee anonieme flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg"

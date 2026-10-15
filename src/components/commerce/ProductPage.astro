@@ -17,6 +17,7 @@ import {
   getProducts,
   getReviews,
   postPath,
+  productImages,
   productPath,
   categoryPath,
   realSku,
@@ -75,9 +76,11 @@ const crumbs = [
   { name: data.name, path },
 ];
 
-// Images: first one is the LCP element.
+// Images: first one is the LCP element. It shows a box that can be bought (productImages), also in the cart,
+// the share image and the schema.
+const images = productImages(product);
 const gallery = await Promise.all(
-  data.images.map(async (img) => ({
+  images.map(async (img) => ({
     alt: img.alt,
     main: await getImage({
       src: img.src,
@@ -131,7 +134,7 @@ const comparison = data.comparisonPost ? await getEntry(data.comparisonPost) : u
 const reviews = (await getReviews()).map((r) => r.data);
 
 const schemaImages = await Promise.all(
-  data.images
+  images
     .slice(0, 3)
     .map(async (img) => absoluteUrl((await getImage({ src: img.src, width: 1200, format: 'jpg' })).src)),
 );
@@ -142,7 +145,7 @@ const schemaImages = await Promise.all(
   description={data.seoDescription}
   path={path}
   type="product"
-  image={data.images[0]!.src}
+  image={images[0]!.src}
   imageAlt={cover.alt}
   preloadImage={{ src: cover.main.src, srcset: cover.main.srcSet.attribute, sizes: gallerySizes }}
   schema={[

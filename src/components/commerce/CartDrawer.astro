@@ -119,7 +119,7 @@ const contact = SITE.email
 <script>
   import { cart, MAX_QTY, type CartLine } from '@/lib/commerce/cart';
   import { checkoutProvider, createCheckoutUrl } from '@/lib/commerce/checkout';
-  import { WOO_URL } from '@/lib/commerce/woo';
+  import { WOO_API_PROXY, WOO_URL, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
   import { analyticsIds, track } from '@/lib/analytics';
   import { SITE, formatPrice, shippingLine } from '@/lib/site';
   import { renderPrice } from '@/lib/commerce/price';
@@ -192,10 +192,26 @@ const contact = SITE.email
     document.head.append(link);
   };
 
+  // Live prices for the lines in the cart, at most once per page view. A line keeps the price of the moment it
+  // was added, so after a price change a returning visitor would see another price here than at checkout.
+  // Runs when a page loads with a filled cart (the drawer then usually opens with the right price) and when the
+  // cart opens. Same proxy as the product pages; a failed request changes nothing.
+  let repriced = false;
+  const reprice = () => {
+    const ids = [...new Set(cart.lines().flatMap((l) => (l.wooId ? [l.wooId] : [])))];
+    if (repriced || ids.length === 0) return;
+    repriced = true;
+    fetch(`${WOO_API_PROXY}${storeProductsPath(ids)}`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then((json: unknown) => cart.reprice(parseStoreProducts(json)))
+      .catch(() => {});
+  };
+
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
     if (target.closest('[data-cart-open]')) {
       preconnect();
+      reprice();
       dialog.showModal();
       track('cart_viewed', cartProperties(cart.lines()));
     }
@@ -221,6 +237,7 @@ const contact = SITE.email
       Number(data.get('quantity') ?? 1),
     );
     preconnect();
+    reprice();
     dialog.showModal();
     track('product_added_to_cart', {
       id: String(data.get('handle')),
@@ -278,6 +295,7 @@ const contact = SITE.email
 
   cart.subscribe(render);
   render(cart.lines());
+  reprice();
 </script>
 
 <style>

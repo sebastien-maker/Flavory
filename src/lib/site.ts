@@ -50,9 +50,12 @@ export const SITE = {
   // During the Black Friday campaign `giftDeadline` is also the last order day for Christmas on /black-friday/.
   giftSeason: '' as '' | 'kerst' | 'moederdag' | 'vaderdag',
   giftDeadline: '',
-  // Campaign. Empty means none. 'blackfriday' switches /black-friday/ to the running promotion and
-  // links the announcement bar to it. The sale prices themselves are set in WooCommerce.
-  campaign: '' as '' | 'blackfriday',
+  // Campaign. Empty means none: /black-friday/ then says the promotion is over.
+  // 'blackfriday-soon': /black-friday/ announces the promotion, without price or percentage, with the sign-up
+  // form of the Black Friday list (Netlify Forms, "black-friday-lijst"). The announcement bar does not change.
+  // 'blackfriday' switches /black-friday/ to the running promotion and links the announcement bar to it.
+  // The sale prices themselves are set in WooCommerce.
+  campaign: 'blackfriday-soon' as '' | 'blackfriday-soon' | 'blackfriday',
   // Fill in together with campaign = 'blackfriday'.
   blackFriday: {
     // The promotion in one sentence, for example 'Black Friday: het wijnspel met 20% korting'.

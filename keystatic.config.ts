@@ -255,6 +255,11 @@ export default config({
               validation: { isRequired: true },
             }),
             alt,
+            group: fields.text({
+              label: 'Box op de foto (tekstgroep)',
+              description:
+                'De tekstgroep van de keuze die op de foto staat, bv. "druiven". Is die keuze niet koopbaar, dan wordt de eerste foto van een koopbare keuze de hoofdfoto. Leeg laten voor een algemene foto.',
+            }),
           }),
           {
             label: "Foto's (eerste = hoofdfoto)",

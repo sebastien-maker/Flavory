@@ -92,6 +92,9 @@ const products = defineCollection({
           z.object({
             src: image(),
             alt: z.string().min(5, 'alt text is required'),
+            // The option group (variant `group`) whose box is in the photo; empty for a general photo.
+            // See productImages() in src/lib/content.ts. The CMS saves an empty field as "".
+            group: z.preprocess((v) => (v === '' || v === null ? undefined : v), z.string().optional()),
           }),
         )
         .min(1),

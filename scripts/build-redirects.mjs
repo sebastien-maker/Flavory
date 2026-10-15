@@ -79,6 +79,8 @@ const RULES = [
 
   // WooCommerce system pages: to the checkout on www
   ['/shop/winkelwagen/', `${CHECKOUT}/shop/winkelwagen/`],
+  // Not a WooCommerce page, but visitors land on it (Converge, 13/10). www sends it here.
+  ['/shop/winkelmand/', `${CHECKOUT}/shop/winkelwagen/`],
   ['/shop/afrekenen/', `${CHECKOUT}/shop/afrekenen/`],
   ['/shop/mijn-account/', `${CHECKOUT}/shop/mijn-account/`],
   ['/shop/mijn-account/*', `${CHECKOUT}/shop/mijn-account/:splat`],

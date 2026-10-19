@@ -1,5 +1,6 @@
 // Client-side cart state (localStorage). Framework-free to keep JS small (rule 8).
 // Checkout is delegated to a provider (src/lib/commerce/checkout.ts).
+import type { WooStock } from './woo';
 
 export interface CartLine {
   handle: string;
@@ -44,9 +45,30 @@ export const cart = {
   add(line: Omit<CartLine, 'quantity'>, quantity = 1) {
     const lines = read();
     const existing = lines.find((l) => l.handle === line.handle);
-    if (existing) existing.quantity = Math.min(MAX_QTY, existing.quantity + quantity);
-    else lines.push({ ...line, quantity: Math.min(MAX_QTY, quantity) });
+    if (existing) {
+      existing.quantity = Math.min(MAX_QTY, existing.quantity + quantity);
+      // The product page shows the live price; a line added earlier takes it over.
+      existing.price = line.price;
+      existing.regularPrice = line.regularPrice;
+    } else lines.push({ ...line, quantity: Math.min(MAX_QTY, quantity) });
     write(lines);
+  },
+  /**
+   * A line keeps the price of the moment it was added. After a price change in WooCommerce a returning
+   * visitor would see the old price here and another one at checkout, so lines take over the live price.
+   * Lines without a live price (no WooCommerce ID, or missing from the response) stay as they are.
+   */
+  reprice(stock: Map<number, WooStock>) {
+    const lines = read();
+    let changed = false;
+    for (const line of lines) {
+      const live = line.wooId ? stock.get(line.wooId) : undefined;
+      if (!live || (line.price === live.price && line.regularPrice === live.regularPrice)) continue;
+      line.price = live.price;
+      line.regularPrice = live.regularPrice;
+      changed = true;
+    }
+    if (changed) write(lines);
   },
   setQuantity(handle: string, quantity: number) {
     const lines = read()

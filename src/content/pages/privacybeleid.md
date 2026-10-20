@@ -12,7 +12,7 @@ Flavory BV, Broedersstraat 15, 9150 Bazel (BTW BE 0757.810.421) is verantwoordel
 - We verwerken je gegevens om je bestelling te leveren, je vragen te beantwoorden en, als je dat wilt, je onze nieuwsbrief te sturen.
 - Analytische en marketingcookies plaatsen we pas nadat je daarvoor toestemming gaf. Je kunt je keuze altijd aanpassen via **Cookie-instellingen** onderaan elke pagina.
 - Geef je toestemming voor analytische cookies, dan meten we met **PostHog** (servers in de EU) hoe bezoekers de site gebruiken: bekeken pagina's, klikken, scrollgedrag en opnames van sessies. Invoervelden worden in die opnames altijd gemaskeerd, en we koppelen de gegevens niet aan je naam of e-mailadres. Zo kunnen we de site verbeteren.
-- Geef je toestemming voor marketingcookies, dan gebruiken we ook **Microsoft Clarity** voor opnames van sessies en heatmaps, met dezelfde maskering van invoervelden en zonder koppeling aan je naam of e-mailadres. [CONCEPT, Kathleen kijkt na]
+- Geef je toestemming voor marketingcookies, dan gebruiken we ook **Microsoft Clarity** voor opnames van sessies en heatmaps, met dezelfde maskering van invoervelden en zonder koppeling aan je naam of e-mailadres.
 - We verkopen je gegevens nooit aan derden.
 - Je hebt het recht om je gegevens in te kijken, te laten verbeteren of te laten verwijderen. Mail daarvoor naar [info@flavory.wine](mailto:info@flavory.wine).
 

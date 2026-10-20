@@ -19,6 +19,8 @@ interface Window {
   flavoryConsent?: { analytics: boolean; marketing: boolean };
   /** Events waiting for PostHog to load (only after consent). */
   flavoryAnalyticsQueue?: [string, Record<string, unknown>][];
+  /** Microsoft Clarity, loaded by ConsentBanner.astro after marketing consent. */
+  clarity?: ((...args: unknown[]) => void) & { q?: unknown[][] };
   posthog?: {
     __loaded?: boolean;
     capture(event: string, properties?: Record<string, unknown>): void;

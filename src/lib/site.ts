@@ -70,6 +70,10 @@ export const SITE = {
   posthogKey: 'phc_wyE7EYQB42WLwnUmp7u7b8WLJScYNe74mzLTLe452BM7',
   // Converge pixel (marketing attribution), public by design. Loads only after marketing consent.
   convergePixelId: '8hwM1G',
+  // Microsoft Clarity project (session recordings and heatmaps), public by design. Loads only after
+  // marketing consent, like Converge (ConsentBanner.astro). Empty: Clarity never loads.
+  // The ID comes from the "Microsoft Clarity" tag in GTM container GTM-MPJ8DPDM (the old WordPress site).
+  clarityProjectId: 'tq3hpdi6eb' as string,
 } as const;
 
 export const NAV = [

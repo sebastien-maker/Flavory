@@ -10,7 +10,15 @@ const id = (field: string) => `${name}-${field}`;
 const input = 'mt-1 block min-h-12 w-full rounded-xl border-2 border-line bg-white px-4 py-2 focus:border-ink';
 ---
 
-<form name={name} method="POST" action="/bedankt/" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4">
+<form
+  name={name}
+  method="POST"
+  action="/bedankt/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  data-clarity-mask="True"
+  class="space-y-4"
+>
   <input type="hidden" name="form-name" value={name} />
   <p hidden>
     <label>

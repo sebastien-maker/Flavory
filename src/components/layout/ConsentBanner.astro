@@ -12,7 +12,11 @@
 //   Converge wants the choice before the first track call, on every page load and again when it changes
 //   (docs.runconverge.com/sources/consent). The stub queues calls until the pixel script has loaded,
 //   then hands them to cvg.process.
-// - GTM, PostHog and Converge load when the page is idle, so they never compete with LCP.
+// - Microsoft Clarity (session recordings, heatmaps) loads only after marketing consent, the same flag as
+//   Converge, and after it. It lives in the bundled script at the bottom (not inline, so it stays out of the
+//   HTML budget) and listens to the `flavory:consent` event that `apply` dispatches. Clarity masks every
+//   input in all masking modes; forms with personal data carry data-clarity-mask as well.
+// - GTM, PostHog, Converge and Clarity load when the page is idle, so they never compete with LCP.
 // - When localStorage is blocked, the choice applies to the current page view only.
 // - On a phone the banner stays low (about a quarter of the screen), so the page and the buy button stay usable.
 //   The title is for screen readers only, the categories open on "kies zelf", and refusing is one tap,
@@ -179,6 +183,7 @@ import { SITE } from '@/lib/site';
       if (c.analytics || c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadGtm);
       if (convergeLoaded) convergeConsent(c);
       else if (c.marketing) ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(() => loadConverge(c));
+      document.dispatchEvent(new CustomEvent('flavory:consent', { detail: window.flavoryConsent }));
     };
 
     let stored = null;
@@ -229,4 +234,46 @@ import { SITE } from '@/lib/site';
       });
     });
   })();
+</script>
+
+<script>
+  // Microsoft Clarity, only after marketing consent (see the notes at the top). Bundled, so it runs after the
+  // inline script above: it reads the choice that is already applied, then follows every change.
+  import { SITE } from '@/lib/site';
+
+  const projectId = SITE.clarityProjectId;
+  let loaded = false;
+  const idle = (fn: () => void) => ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(fn);
+  const consent = (granted: boolean) => {
+    const state = granted ? 'granted' : 'denied';
+    window.clarity?.('consentv2', { ad_Storage: state, analytics_Storage: state });
+  };
+  const load = () => {
+    if (loaded) return;
+    loaded = true;
+    if (!window.clarity) {
+      // The official stub: queue calls until the tag script has loaded.
+      const clarity = (...args: unknown[]) => {
+        (clarity.q ??= []).push(args);
+      };
+      clarity.q = [] as unknown[][];
+      window.clarity = clarity;
+    }
+    consent(true);
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.clarity.ms/tag/' + projectId;
+    document.head.appendChild(s);
+  };
+  const update = (c: Window['flavoryConsent']) => {
+    if (!projectId) return;
+    if (c?.marketing) idle(load);
+    else if (loaded) {
+      // Withdrawn: Clarity drops its cookies and stops for this page view; the next page load skips it.
+      consent(false);
+      window.clarity?.('stop');
+    }
+  };
+  update(window.flavoryConsent);
+  document.addEventListener('flavory:consent', (e) => update((e as CustomEvent<Window['flavoryConsent']>).detail));
 </script>

@@ -56,14 +56,18 @@ order: 0
 images:
   - src: "../../assets/images/products/packshot-rood-zakjes.jpg"
     alt: "Rood wijnspel: de doos met twee flessen wijn in zakjes A en B"
+    group: druiven
   - src: "../../assets/images/products/italie-of-spanje/01-box.jpg"
     alt: "Doos van het rode wijnspel Italië of Spanje, met de sticker Italië vs Spanje"
+    group: landen
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/02-merlot-cabernet-box.webp"
     alt: "Doos van het rode wijnspel Merlot of Cabernet Sauvignon, met twee flessen in stoffen zakjes ernaast"
+    group: druiven
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01-box.webp"
     alt: "Rood wijnspel van Flavory op tafel, met twee flessen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-premium-doos.jpg"
     alt: "Premium-doos van het rode wijnspel Merlot of Cabernet Sauvignon op een houten kist"
+    group: druiven
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg"
     alt: "Twee anonieme flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn"
   - src: "../../assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg"
@@ -96,10 +100,6 @@ faq:
     answer: "Nee. Je moet wijn gewoon lekker vinden. De rest leer je al spelend."
   - question: "Ik ben al een wijnkenner. Heb ik er dan nog iets aan?"
     answer: "Ah, oom Willem. We verwachtten je al. Wijnproeven is geen exacte wetenschap, en hoe meer je erover weet, hoe interessanter het wordt. Bovendien verzamel je de helft van de punten met quizvragen, niet met proeven. Alles is dus mogelijk."
-  - question: "Hoelang duurt een spelletje Flavory?"
-    answer: "Reken op 60 tot 90 minuten. Tenzij oom Willem meespeelt: dan hang je er een hele avond aan."
-  - question: "Wat is de levertijd?"
-    answer: "Bestellingen in België en Nederland worden meestal binnen 1 à 3 werkdagen geleverd. Je krijgt een verzendbevestiging met trackingnummer zodra je pakket onderweg is."
   - question: "Wat als ik niet tevreden ben?"
     answer: "Niet tevreden? Je krijgt je geld terug. Neem binnen 14 dagen na levering contact op via [info@flavory.wine](mailto:info@flavory.wine) en we betalen je terug. Geopende flessen hoeven niet terug."
 comparisonPost: merlot-of-cabernet-sauvignon

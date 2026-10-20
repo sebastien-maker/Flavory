@@ -17,13 +17,14 @@ import {
   getProducts,
   getReviews,
   postPath,
+  productImages,
   productPath,
   categoryPath,
   realSku,
   variantName,
   type Product,
 } from '@/lib/content';
-import { FORMULAS, SITE, absoluteUrl, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
+import { FORMULAS, SITE, absoluteUrl, formatPrice, pricePerPerson } from '@/lib/site';
 import { COLOUR_STYLES, colourOf } from '@/lib/colour-choice';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
@@ -60,6 +61,38 @@ const duels = [...new Set(variants.map((v) => v.duel))].map((name) => {
     lead: data.descriptions.find((d) => d.group === group)?.lead,
   };
 });
+// Only options that can be bought get a tile. Sold-out options collapse to one line under the tiles
+// (still in the form, so live stock can bring them back), which keeps the buy button high on the page.
+const openDuels = duels
+  .map((d) => ({ ...d, variants: d.variants.filter((v) => v.available) }))
+  .filter((d) => d.variants.length > 0);
+const soldOut = variants.filter((v) => !v.available);
+const soldOutSummary = [...new Set(soldOut.map((v) => v.duel))]
+  .map((duel) => {
+    const formulas = soldOut.filter((v) => v.duel === duel).map((v) => v.formula);
+    return duels.length > 1 ? `${duel}, ${formulas.join(' en ')}` : formulas.join(' en ');
+  })
+  .join('; ');
+// The duel name heads its tiles only when more than one duel can be bought; the H1 already names a single one.
+const tileGroups = [
+  ...openDuels.map((d) => ({
+    name: openDuels.length > 1 ? d.name : undefined,
+    lead: duels.length > 1 ? d.lead : undefined,
+    variants: d.variants,
+    soldOut: false,
+  })),
+  ...(soldOut.length > 0 ? [{ name: undefined, lead: undefined, variants: soldOut, soldOut: true }] : []),
+];
+// Title, H1 and schema name follow the box that can be bought, like the main photo: while one duel is
+// sold out and another is not, the page is named after the duel you can buy. The CMS title and H1 return
+// by themselves once every duel is buyable again (or none is).
+const buyableDuels = [...new Set(buyable.map((v) => v.duel))];
+const partial = duels.length > 1 && buyableDuels.length > 0 && buyableDuels.length < duels.length;
+const title = partial ? `${data.name}: ${buyableDuels.join(' of ')}` : data.seoTitle;
+const h1 = partial ? title : data.h1;
+const name = partial ? title : data.name;
+// One short review next to the buy button; the three full ones stay in the Reviews section.
+const featured = (await getEntry('reviews', 'nele'))?.data;
 // When the standard box is sold out, point to the box that is still in stock (leftover stock).
 const standardSoldOut = variants.some((v) => v.formula === 'Standaard' && !v.available);
 const alternative = standardSoldOut
@@ -75,9 +108,11 @@ const crumbs = [
   { name: data.name, path },
 ];
 
-// Images: first one is the LCP element.
+// Images: first one is the LCP element. It shows a box that can be bought (productImages), also in the cart,
+// the share image and the schema.
+const images = productImages(product);
 const gallery = await Promise.all(
-  data.images.map(async (img) => ({
+  images.map(async (img) => ({
     alt: img.alt,
     main: await getImage({
       src: img.src,
@@ -131,25 +166,25 @@ const comparison = data.comparisonPost ? await getEntry(data.comparisonPost) : u
 const reviews = (await getReviews()).map((r) => r.data);
 
 const schemaImages = await Promise.all(
-  data.images
+  images
     .slice(0, 3)
     .map(async (img) => absoluteUrl((await getImage({ src: img.src, width: 1200, format: 'jpg' })).src)),
 );
 ---
 
 <BaseLayout
-  title={data.seoTitle}
+  title={title}
   description={data.seoDescription}
   path={path}
   type="product"
-  image={data.images[0]!.src}
+  image={images[0]!.src}
   imageAlt={cover.alt}
   preloadImage={{ src: cover.main.src, srcset: cover.main.srcSet.attribute, sizes: gallerySizes }}
   schema={[
-    webPage({ path, title: data.h1, description: data.seoDescription, type: 'ItemPage' }),
+    webPage({ path, title: h1, description: data.seoDescription, type: 'ItemPage' }),
     productSchema({
       path,
-      name: data.name,
+      name,
       description: data.definition,
       offers: data.variants.map((v) => ({
         name: variantName(product, v),
@@ -246,9 +281,6 @@ const schemaImages = await Promise.all(
           </li>
         ))}
       </ol>
-      <p class="mt-3 text-center">
-        <RatingBadge />
-      </p>
       <ul class="mt-3 hidden gap-2 overflow-x-auto pb-1 md:flex" aria-label="Kies een foto of het filmpje">
         {slides.map((slide, i) => (
           <li class="shrink-0">
@@ -285,7 +317,7 @@ const schemaImages = await Promise.all(
     <div>
       <div class:list={['rounded-[var(--radius-card)] p-5 md:p-6', theme.zone]}>
         {data.badge && <p class="badge mb-2 inline-block bg-ink text-white">{data.badge}</p>}
-        <h1 class="h2">{data.h1}</h1>
+        <h1 class="h2">{h1}</h1>
         {duels.length === 1 && <p class:list={['mt-1 text-lg italic', theme.line]}>{data.duel}</p>}
         {data.intro && <p class="mt-3">{data.intro}</p>}
       </div>
@@ -310,16 +342,10 @@ const schemaImages = await Promise.all(
 
         <fieldset disabled={!available}>
           <legend class="text-sm font-bold">Je box</legend>
-          {duels.map((duel) => (
-            <div class="mt-4">
-              {duels.length > 1 && (
-                <>
-                  <p class:list={['text-lg italic', theme.line]}>{duel.name}</p>
-                  {duel.lead && <p class="mt-1 mb-3 text-sm">{duel.lead}</p>}
-                </>
-              )}
+          {tileGroups.map((group) => {
+            const tiles = (
               <div class="grid gap-2.5">
-                {duel.variants.map((v) => (
+                {group.variants.map((v) => (
                   <label class:list={['variant-tile', !v.available && 'is-sold-out']}>
                     <input
                       type="radio"
@@ -350,9 +376,23 @@ const schemaImages = await Promise.all(
                   </label>
                 ))}
               </div>
-            </div>
-          ))}
-          {variants.length > 1 && (
+            );
+            return group.soldOut ? (
+              <details class="mt-3 text-sm">
+                <summary class="cursor-pointer text-muted">
+                  {soldOutLabel}: {soldOutSummary}
+                </summary>
+                <div class="mt-2">{tiles}</div>
+              </details>
+            ) : (
+              <div class="mt-4">
+                {group.name && <p class:list={['text-lg italic', theme.line]}>{group.name}</p>}
+                {group.lead && <p class="mt-1 mb-3 text-sm">{group.lead}</p>}
+                {tiles}
+              </div>
+            );
+          })}
+          {buyable.length > 1 && (
             <p class="mt-3 text-sm text-muted">
               Het spel is in beide boxen hetzelfde. Standaard of Premium: in allebei zitten wijnen die we zelf graag
               drinken.
@@ -378,17 +418,26 @@ const schemaImages = await Promise.all(
         >
           {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : soldOutLabel}
         </button>
-        <p class="mt-4 text-sm">
-          Eén avond wijnproeverij thuis voor {data.playersMin} tot {data.playersMax} personen, met twee flessen wijn (75
-          cl), vanaf{' '}
+        <p class="mt-3 text-sm">
+          Inclusief 2 flessen wijn (75 cl). Verzending {formatPrice(SITE.shipping.rate)}, gratis vanaf{' '}
+          {SITE.shipping.freeFromBoxes} boxen. Niet tevreden? Geld terug. Levering {SITE.shipping.minDays} à{' '}
+          {SITE.shipping.maxDays} werkdagen.
+        </p>
+        <p class="mt-3 text-sm">
+          <RatingBadge />
+          {featured && (
+            <span class="mt-1 block">
+              <em>“{featured.title}”</em> · {featured.author}
+            </span>
+          )}
+        </p>
+        <p class="mt-4 text-sm text-muted">
+          Eén avond wijnproeverij thuis voor {data.playersMin} tot {data.playersMax} personen, vanaf{' '}
           <span data-price-per-person data-players={data.playersMax}>
             {pricePerPerson(initial?.price ?? minPrice, data.playersMax)}
           </span>{' '}
           per persoon. Een avond duurt 60 tot 90 minuten. Daarna ken je de antwoorden, dus elke box speel je één keer.
           Zin in nog een avond? Kies een ander duel.
-        </p>
-        <p class="mt-2 text-sm text-muted">
-          {shippingLine()} {SITE.guarantee}
         </p>
         <PaymentIcons class="mt-3 justify-center" />
         <p class="mt-3 text-xs text-muted">{SITE.ageNotice}</p>
@@ -396,26 +445,16 @@ const schemaImages = await Promise.all(
     </div>
   </section>
 
-  <!-- Sticky buy bar on mobile: adds the chosen box straight away -->
-  {available && (
+  <!-- Sticky buy bar on mobile, shown whenever the real button is out of view: adds the chosen box straight away -->
+  {available && initial && (
     <div
       class="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-cream/95 p-3 backdrop-blur md:hidden"
       data-sticky-buy
       hidden
     >
-      <div class="flex items-center gap-3">
-        <div class="min-w-0 flex-1">
-          <p class="truncate text-sm font-bold" data-sticky-label>
-            {initial ? `${data.name} · ${duels.length > 1 ? `${initial.duel} · ` : ''}${initial.formula}` : data.name}
-          </p>
-          <p class="text-sm" data-sticky-price>
-            {formatPrice(initial?.price ?? minPrice)}
-          </p>
-        </div>
-        <button type="button" class:list={['btn min-h-11 py-2', theme.button]} data-sticky-button>
-          In winkelmandje
-        </button>
-      </div>
+      <button type="button" class:list={['btn min-h-11 w-full py-2', theme.button]} data-sticky-button>
+        In winkelmandje · {formatPrice(initial.price)}
+      </button>
     </div>
   )}
 
@@ -546,6 +585,15 @@ const schemaImages = await Promise.all(
   </section>
 </BaseLayout>
 
+<style is:global>
+  /* Room under the page while the sticky buy bar is shown, so the end of the footer stays readable. */
+  @media (width < 48rem) {
+    body:has([data-sticky-buy]:not([hidden])) {
+      padding-bottom: 4.5rem;
+    }
+  }
+</style>
+
 <script>
   import { formatPrice, pricePerPerson } from '@/lib/site';
   import { WOO_API_PROXY, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
@@ -591,8 +639,6 @@ const schemaImages = await Promise.all(
   const button = form?.querySelector<HTMLButtonElement>('[data-buy-button]');
   const perPerson = form?.querySelector<HTMLElement>('[data-price-per-person]');
   const players = Number(perPerson?.dataset.players);
-  const stickyPrice = document.querySelector<HTMLElement>('[data-sticky-price]');
-  const stickyLabel = document.querySelector<HTMLElement>('[data-sticky-label]');
   const stickyButton = document.querySelector<HTMLButtonElement>('[data-sticky-button]');
 
   const setField = (name: string, value: string) => {
@@ -612,8 +658,7 @@ const schemaImages = await Promise.all(
     setField('woo_id', option.dataset.wooId ?? '');
     if (perPerson && players) perPerson.textContent = pricePerPerson(price, players);
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
-    if (stickyPrice) stickyPrice.textContent = formatPrice(price);
-    if (stickyLabel) stickyLabel.textContent = option.dataset.label ?? '';
+    if (stickyButton) stickyButton.textContent = button.textContent;
     for (const block of document.querySelectorAll<HTMLElement>('[data-description]')) {
       block.hidden = block.dataset.description !== option.dataset.group;
     }
@@ -689,11 +734,11 @@ const schemaImages = await Promise.all(
 
   stickyButton?.addEventListener('click', () => form?.requestSubmit());
 
-  // Show the sticky bar once the main button scrolls out of view.
+  // The sticky bar shows whenever the main button is out of view, above or below the screen.
   const bar = document.querySelector<HTMLElement>('[data-sticky-buy]');
   if (bar && button) {
     new IntersectionObserver(([entry]) => {
-      bar.hidden = !!entry && (entry.isIntersecting || entry.boundingClientRect.top > 0);
+      bar.hidden = !entry || entry.isIntersecting;
     }).observe(button);
   }
 </script>

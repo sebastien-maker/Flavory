@@ -1,0 +1,31 @@
+---
+// Success page of the Black Friday list form (Netlify Forms action). Not indexed, not in the sitemap.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { CONTEST } from '@/lib/quiz/contest';
+
+// The quiz of the contest that runs now (a direct link: internal links never go through a redirect).
+const quiz = `/quiz/${CONTEST.quiz}/`;
+---
+
+<BaseLayout
+  title="Je staat op de Black Friday-lijst"
+  description="Je staat op de Black Friday-lijst van Flavory. Op Black Friday sturen we je de prijs als eerste, een dag voor iedereen. Speel intussen de quiz van de week."
+  path="/black-friday/bedankt/"
+  noindex
+>
+  <section class="container-site max-w-2xl py-12 text-center md:py-20">
+    <h1 class="h1">Je staat op de lijst</h1>
+    <p class="lead mt-4">
+      Op Black Friday sturen we je de Black Friday-prijs als eerste, een dag voor iedereen. Hou je mailbox in de gaten.
+    </p>
+    <p class="mt-4">Tot dan: speel de quiz van de week en daag je vrienden uit.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href={quiz} class="btn-primary">
+        Speel de quiz
+      </a>
+      <a href="/shop/" class="btn-outline">
+        Bekijk de boxen
+      </a>
+    </div>
+  </section>
+</BaseLayout>

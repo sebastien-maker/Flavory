@@ -2,7 +2,7 @@
 title: "Privacybeleid"
 seoTitle: "Privacybeleid"
 description: "Hoe Flavory BV omgaat met je persoonsgegevens: welke gegevens we verzamelen bij bestellingen en formulieren, waarom, hoe lang en wat jouw rechten zijn."
-updatedDate: 2026-10-13
+updatedDate: 2026-10-15
 noindex: true
 ---
 Flavory BV, Broedersstraat 15, 9150 Bazel (BTW BE 0757.810.421) is verantwoordelijk voor de verwerking van je persoonsgegevens op flavory.wine.
@@ -18,6 +18,10 @@ Flavory BV, Broedersstraat 15, 9150 Bazel (BTW BE 0757.810.421) is verantwoordel
 ## Wedstrijd bij de quiz
 
 Doe je mee aan de wedstrijd bij onze quiz, dan bewaren we je e-mailadres, de ronde, het tijdstip van je deelname, je score, of je de nieuwsbrief wil ontvangen en via welke persoonlijke link je speelde. We gebruiken die gegevens alleen om de wedstrijd te organiseren: om je extra kansen te tellen, de winnaar te trekken en de winnaar te verwittigen. Ze staan bij onze hostingpartner Netlify, zonder IP-adres en zonder cookies. Na de laatste trekking, uiterlijk op 31 december 2026, verwijderen we ze, behalve als je de nieuwsbrief aanvinkte: dan bewaren we je e-mailadres daarvoor tot je je uitschrijft. Hoe de quiz gespeeld wordt (antwoorden, score, klikken), houden we anoniem bij, zonder gegevens die naar jou leiden. Meer in het [wedstrijdreglement](/quiz/reglement/).
+
+## Black Friday-lijst
+
+Zet je je op de Black Friday-lijst, dan bewaren we je e-mailadres, het tijdstip en de pagina waar je je inschreef. We gebruiken die gegevens alleen om je de Black Friday-prijs als eerste te mailen. Ze staan bij onze hostingpartner Netlify, die bij een inschrijving ook je IP-adres en je browser opslaat. Na de Black Friday-actie, uiterlijk op 31 december 2026, verwijderen we ze. Wil je eerder van de lijst af, mail dan naar [info@flavory.wine](mailto:info@flavory.wine).
 
 ## Volledig beleid
 

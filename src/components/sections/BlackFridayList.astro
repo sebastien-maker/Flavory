@@ -1,0 +1,68 @@
+---
+// Sign-up form for the Black Friday list (SITE.campaign = 'blackfriday-soon'). Netlify Forms: submissions appear
+// under Forms > black-friday-lijst, like the newsletter form. The hidden field `bron` says where the form was
+// filled in; a link can set it with ?bron=<name> (for example /black-friday/?bron=instagram).
+interface Props {
+  /** Where this form sits, for example 'black-friday' or 'productpagina-rood'. */
+  source: string;
+}
+
+const { source } = Astro.props;
+const id = `bf-list-${source}`;
+---
+
+<form
+  name="black-friday-lijst"
+  method="POST"
+  action="/black-friday/bedankt/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  data-bf-list
+  class="space-y-3"
+>
+  <input type="hidden" name="form-name" value="black-friday-lijst" />
+  <input type="hidden" name="bron" value={source} />
+  <p hidden>
+    <label>
+      Niet invullen: <input name="bot-field" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+  <div class="flex flex-col gap-2 sm:flex-row">
+    <label class="sr-only" for={`${id}-email`}>
+      E-mailadres
+    </label>
+    <input
+      id={`${id}-email`}
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="jouw@email.be"
+      class="min-h-12 flex-1 rounded-full border-2 border-ink bg-white px-5"
+    />
+    <button type="submit" class="btn-primary">
+      Zet me op de lijst
+    </button>
+  </div>
+  <label class="flex items-start gap-2 text-sm">
+    <input type="checkbox" name="toestemming" required class="mt-0.5 size-4 shrink-0 accent-brand" />
+    <span>
+      Ik wil de Black Friday-prijs als eerste per e-mail krijgen en ga akkoord met het{' '}
+      <a href="/privacybeleid/" class="underline">
+        privacybeleid
+      </a>
+      . Uitschrijven kan altijd.
+    </span>
+  </label>
+</form>
+
+<script>
+  // A link can name its source (?bron=instagram), so we see where sign-ups come from. Only short, plain names.
+  const source = new URLSearchParams(location.search).get('bron');
+  if (source && /^[a-z0-9-]{1,40}$/.test(source)) {
+    for (const form of document.querySelectorAll<HTMLFormElement>('form[data-bf-list]')) {
+      const field = form.elements.namedItem('bron');
+      if (field instanceof HTMLInputElement) field.value = source;
+    }
+  }
+</script>

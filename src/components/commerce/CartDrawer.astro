@@ -50,6 +50,15 @@ const contact = SITE.email
       <p class="mt-2 text-sm" data-cart-shipping>
         {shippingLine()}
       </p>
+      {SITE.checkoutNotice && (
+        <p class="mt-3 rounded-lg bg-cream px-3 py-2 text-sm" role="status">
+          {SITE.checkoutNotice} Liever niet wachten? Mail ons via{' '}
+          <a href={contact.href} class="underline">
+            {contact.label}
+          </a>
+          .
+        </p>
+      )}
       <button type="button" data-cart-checkout class="btn-primary mt-4 w-full">
         Afrekenen
       </button>

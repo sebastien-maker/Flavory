@@ -6,6 +6,17 @@ const notice = SITE.checkoutNotice;
 const campaign = !notice && SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
 ---
 
+{notice ? (
+  <div class="bg-[#f28c28] text-ink">
+    <p
+      role="status"
+      class="container-site flex items-center justify-center gap-2.5 py-3 text-center text-sm leading-snug font-bold"
+    >
+      <span aria-hidden="true" class="text-lg leading-none">⚠</span>
+      <span>{notice}</span>
+    </p>
+  </div>
+) : (
 <div class="border-b border-line bg-cream text-ink">
   <p
     class:list={[
@@ -13,9 +24,7 @@ const campaign = !notice && SITE.campaign === 'blackfriday' && SITE.blackFriday.
       !campaign && !notice && 'whitespace-nowrap',
     ]}
   >
-    {notice ? (
-      <span role="status">{notice}</span>
-    ) : campaign ? (
+    {campaign ? (
       <a href="/black-friday/" class="underline underline-offset-2">
         {campaign}
       </a>
@@ -24,3 +33,4 @@ const campaign = !notice && SITE.campaign === 'blackfriday' && SITE.blackFriday.
     )}
   </p>
 </div>
+)}

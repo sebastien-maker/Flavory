@@ -31,6 +31,10 @@ export const SITE = {
   // Orders placed before this hour (Brussels time) on working days ship the same day.
   shippingCutoffHour: 12,
   announcement: 'Gratis verzending vanaf 2 boxen',
+  // Temporary notice when the WooCommerce checkout is down. It replaces the announcement and shows in the cart.
+  // Empty string = no notice.
+  checkoutNotice:
+    'Afrekenen lukt tijdelijk niet door een storing bij onze webshop. Naar verwachting is dat vanavond opgelost.' as string,
   shipping: {
     countries: ['BE', 'NL'] as const,
     minDays: 1,

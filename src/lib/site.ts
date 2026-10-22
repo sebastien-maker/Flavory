@@ -33,8 +33,7 @@ export const SITE = {
   announcement: 'Gratis verzending vanaf 2 boxen',
   // Temporary notice when the WooCommerce checkout is down. It replaces the announcement and shows in the cart.
   // Empty string = no notice.
-  checkoutNotice:
-    'Afrekenen lukt even niet: een wereldwijd beveiligingslek legt onze kassa stil. Niet onze schuld, en vanavond normaal opgelost.' as string,
+  checkoutNotice: '' as string,
   shipping: {
     countries: ['BE', 'NL'] as const,
     minDays: 1,

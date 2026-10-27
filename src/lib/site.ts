@@ -34,6 +34,9 @@ export const SITE = {
   // Temporary notice when the WooCommerce checkout is down. It replaces the announcement and shows in the cart.
   // Empty string = no notice.
   checkoutNotice: '' as string,
+  // Restock message in the announcement bar on the homepage and the shop pages, linking to /shop/.
+  // A checkout notice or a running campaign goes first. Empty string = the normal announcement.
+  restock: 'Terug op voorraad: Merlot, Cabernet Sauvignon, Chardonnay en Sauvignon Blanc' as string,
   shipping: {
     countries: ['BE', 'NL'] as const,
     minDays: 1,

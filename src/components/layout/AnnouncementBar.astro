@@ -4,6 +4,9 @@ import { SITE } from '@/lib/site';
 // During a campaign the bar carries the promotion in one sentence and links to its page.
 const notice = SITE.checkoutNotice;
 const campaign = !notice && SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
+// The restock message only shows on the homepage and the shop pages.
+const path = Astro.url.pathname;
+const restock = !notice && !campaign && (path === '/' || path.startsWith('/shop/')) && SITE.restock;
 ---
 
 {notice ? (
@@ -14,6 +17,14 @@ const campaign = !notice && SITE.campaign === 'blackfriday' && SITE.blackFriday.
     >
       <span aria-hidden="true" class="text-lg leading-none">⚠</span>
       <span>{notice}</span>
+    </p>
+  </div>
+) : restock ? (
+  <div class="bg-ink text-white">
+    <p class="container-site flex min-h-9 items-center justify-center py-2 text-center text-xs leading-tight font-bold">
+      <a href="/shop/" class="underline underline-offset-2">
+        {restock}
+      </a>
     </p>
   </div>
 ) : (

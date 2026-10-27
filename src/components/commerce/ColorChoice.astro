@@ -34,16 +34,21 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
       return (
         <li>
           <a href={productPath(product.id)} class="choice-card">
-            <Image
-              src={style.image}
-              alt={style.alt}
-              width={480}
-              height={480}
-              widths={[240, 360, 720]}
-              sizes="(min-width: 768px) 23rem, 45vw"
-              class="aspect-square w-full object-cover"
-              loading={eager ? 'eager' : 'lazy'}
-            />
+            <div class="relative">
+              <Image
+                src={style.image}
+                alt={style.alt}
+                width={480}
+                height={480}
+                widths={[240, 360, 720]}
+                sizes="(min-width: 768px) 23rem, 45vw"
+                class="aspect-square w-full object-cover"
+                loading={eager ? 'eager' : 'lazy'}
+              />
+              {product.data.badge && (
+                <span class="badge absolute top-2 left-2 bg-ink text-white">{product.data.badge}</span>
+              )}
+            </div>
             <div class="flex flex-1 flex-col px-3 py-3.5 text-center">
               <h3 class="text-[1.5rem] leading-none">{style.title}</h3>
               <p class:list={['mt-2 text-[0.8125rem] leading-[1.35] italic', style.line]}>

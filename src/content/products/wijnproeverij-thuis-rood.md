@@ -1,14 +1,30 @@
 ---
 name: "Rood wijnspel"
 h1: "Rode wijnspel"
-intro: "Twee rode wijnen, blind geproefd met vrienden of familie. Nu met Italië of Spanje; Merlot of Cabernet Sauvignon komt binnenkort terug."
+intro: "Twee rode wijnen, blind geproefd met vrienden of familie. Merlot of Cabernet Sauvignon is terug op voorraad; Italië of Spanje zolang de voorraad strekt."
 seoTitle: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Merlot tegen een Cabernet Sauvignon en ontdek het verschil. Voor 2 tot 6 spelers, zonder voorkennis."
-duel: "Italië of Spanje"
+duel: "Merlot of Cabernet Sauvignon"
 cardTagline: "Twee rode druiven, blind geproefd. Wie wordt de wijnkenner aan tafel?"
-choiceLine: "Italiaanse of Spaanse wijn: proef jij het verschil?"
+choiceLine: "Merlot of Cabernet Sauvignon: proef jij het verschil?"
 definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Merlot en een Cabernet Sauvignon, voor 2 tot 6 spelers."
 variants:
+  - id: merlot-cabernet-standaard
+    duel: "Merlot of Cabernet Sauvignon"
+    formula: Standaard
+    price: 59.9
+    sku: "TMP-ROOD-MCS-REG"
+    wooId: 15718
+    group: druiven
+    available: true
+  - id: merlot-cabernet-premium
+    duel: "Merlot of Cabernet Sauvignon"
+    formula: Premium
+    price: 79.9
+    sku: "TMP-ROOD-MCS-PREM"
+    wooId: 2842
+    group: druiven
+    available: false
   - id: italie-spanje-standaard
     duel: "Italië of Spanje"
     formula: Standaard
@@ -18,23 +34,14 @@ variants:
     wooId: 13647
     group: landen
     available: true
-  - id: merlot-cabernet-standaard
-    duel: "Merlot of Cabernet Sauvignon"
-    formula: Standaard
-    price: 59.9
-    sku: "TMP-ROOD-MCS-REG"
-    wooId: 15718
-    group: druiven
-    available: false
-  - id: merlot-cabernet-premium
-    duel: "Merlot of Cabernet Sauvignon"
-    formula: Premium
-    price: 79.9
-    sku: "TMP-ROOD-MCS-PREM"
-    wooId: 2842
-    group: druiven
-    available: false
 descriptions:
+  - group: druiven
+    heading: "Merlot of Cabernet Sauvignon"
+    lead: "Merlot en Cabernet Sauvignon kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen. Terug op voorraad."
+    text: |
+      Wat is het verschil tussen Merlot en Cabernet Sauvignon? Na dit spel weet je het voorgoed. Je schenkt twee rode wijnen blind uit, proeft ze samen met je vrienden of familie en probeert te ontmaskeren welke fles welke druif bevat.
+
+      Het spel neemt je stap voor stap mee: je leert kijken, ruiken en proeven zoals een sommelier, zonder moeilijke vaktermen. De sommelier van dienst leidt het proeven, de spelleider houdt de quiz in goede banen en wie de meeste punten verzamelt, mag zich de wijnkenner van de avond noemen.
   - group: landen
     heading: "Italië of Spanje"
     lead: "Een Italiaanse en een Spaanse rode wijn: twee wijnlanden die iedereen kent. Proef ze blind naast elkaar en ontdek welke fles uit welk land komt. Nu verkrijgbaar, zolang de voorraad strekt."
@@ -42,13 +49,6 @@ descriptions:
       Italië of Spanje: twee wijnlanden, twee totaal verschillende stijlen. In deze box zitten een typische Italiaanse en een herkenbare Spaanse rode wijn, anoniem verpakt. Aan jou en je gezelschap om te ontdekken welke fles uit welk land komt.
 
       Het spel leidt je stap voor stap door de avond. Je leert kijken, ruiken en proeven, verzamelt tips met quizvragen en ontmaskert op het einde de twee wijnen. Wie de meeste punten heeft, is de wijnkenner aan tafel.
-  - group: druiven
-    heading: "Merlot of Cabernet Sauvignon"
-    lead: "Merlot en Cabernet Sauvignon kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen. Binnenkort weer verkrijgbaar."
-    text: |
-      Wat is het verschil tussen Merlot en Cabernet Sauvignon? Na dit spel weet je het voorgoed. Je schenkt twee rode wijnen blind uit, proeft ze samen met je vrienden of familie en probeert te ontmaskeren welke fles welke druif bevat.
-
-      Het spel neemt je stap voor stap mee: je leert kijken, ruiken en proeven zoals een sommelier, zonder moeilijke vaktermen. De sommelier van dienst leidt het proeven, de spelleider houdt de quiz in goede banen en wie de meeste punten verzamelt, mag zich de wijnkenner van de avond noemen.
 category: rode-wijn
 playersMin: 2
 playersMax: 6

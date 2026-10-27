@@ -5,6 +5,7 @@ intro: "Chardonnay en Sauvignon Blanc kent iedereen van naam. Toch zijn het twee
 seoTitle: "Wit wijnspel: Chardonnay of Sauvignon Blanc?"
 seoDescription: "Wijnproeverij thuis met het witte wijnspel en twee flessen wijn: proef blind Chardonnay en Sauvignon Blanc. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Chardonnay of Sauvignon Blanc"
+badge: "Terug op voorraad"
 cardTagline: "Twee witte wijnen, blind geproefd. Wie wordt de wijnkenner aan tafel?"
 choiceLine: "Chardonnay of Sauvignon Blanc: proef jij het verschil?"
 definition: "Het witte wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Chardonnay en een Sauvignon Blanc. Voor 2 tot 6 spelers."

@@ -4,6 +4,7 @@ seoTitle: "Wijnproeverij thuis organiseren: zo pak je het aan"
 description: "Een wijnproeverij thuis organiseren? Welke wijnen je kiest, hoe je ze blind maakt, wat er op tafel hoort en welke fout bijna iedereen maakt."
 excerpt: "Mijn eerste wijnproeverij thuis was een flater: zes flessen die op elkaar leken. Zo pak je het beter aan, van de keuze van de wijnen tot de tafel en de ene fout die bijna iedereen maakt."
 pubDate: 2026-10-26
+updatedDate: 2026-10-28
 author: bart
 heroImage: "../../assets/images/blog/wijnproeverij-thuis-flavory.jpg"
 heroAlt: "Vrienden rond een tafel met wijnglazen tijdens een wijnproeverij thuis"
@@ -16,6 +17,17 @@ related:
   - wijnproeverij-thuis-flavory
 ---
 **Kort antwoord:** kies twee of meer wijnen die duidelijk van elkaar verschillen, maak ze blind, zet goed licht, propere glazen, plat water en droog brood op tafel, en laat iedereen luidop zeggen wat hij proeft. De meeste proeverijen lopen niet mis op de wijn, maar op wijnen die te veel op elkaar lijken en op die ene persoon die alles al weet.
+
+## Wat heb je nodig?
+
+Voor je begint, een korte lijst. Alles wat hierop staat, heb je waarschijnlijk al in huis.
+
+- **Twee tot zes flessen wijn** die duidelijk van elkaar verschillen (stap 1).
+- **Zilverpapier of zakjes** om de flessen blind te maken (stap 2).
+- **Twee glazen per persoon**, zodat je de wijnen naast elkaar kan proeven.
+- **Plat water en droog brood** voor tussen de wijnen.
+- **Papier en een pen**, om je gok op te schrijven voor de flessen onthuld worden.
+- **Een uur tot anderhalf uur tijd.** Meer is niet nodig, en daarna kan je nog rustig verder drinken.
 
 ## Hoe het bij mij misliep
 
@@ -75,6 +87,8 @@ Er is geen ideaal aantal. Het hangt af van hoeveel je inschenkt.
 
 Schenk je stevige glazen, dan haal je ongeveer zeven glazen uit een fles. Voor een proeverij heb je dat niet nodig: schenk een bodempje, en je komt met één fles rond voor een veel grotere groep. Zo kan je met twaalf of veertien mensen proeven, en hou je wijn over voor een extra ronde.
 
+Ben je maar met z'n tweeën? Ook dan werkt een proeverij, op voorwaarde dat niet één van jullie alles al weet. Hoe je dat oplost, lees je in [Wijnproeverij voor twee](/blog/wijnproeven-op-date-night/).
+
 ## Stap 5: laat de tafel praten
 
 Een proeverij komt pas los als iedereen durft te zeggen wat hij denkt. Daar is één regel voor nodig: **iedereen mag zijn mening hebben.**
@@ -82,6 +96,18 @@ Een proeverij komt pas los als iedereen durft te zeggen wat hij denkt. Daar is �
 Bij wijn bestaat het grote gelijk niet. Er zijn wel feiten: sommige witte wijnen hebben gewoon meer zuren dan andere. Maar wijn proeven is voor een klein stuk feit en voor een groot stuk gevoel. Wie zegt "ik ruik aardbeien" heeft gelijk, ook als de buurman pruimen ruikt.
 
 Vraag dus niet "wat is dit?", maar "wat vind je ervan?" Fris of vol? Lang of kort in de mond? Welke van de twee zou je vanavond opendoen? Dan begint de discussie vanzelf, ook bij mensen die beweren dat ze niets van wijn kennen. Waarom twee mensen in hetzelfde glas iets anders proeven, lees je in [Waarom smaakt elke wijn anders?](/blog/waarom-smaakt-elke-wijn-anders/)
+
+## Zo verloopt de avond
+
+Een draaiboek helpt, zeker de eerste keer. Zo doe ik het:
+
+1. **Ontvangst.** Iedereen krijgt een glas water, de flessen staan al ingepakt op tafel.
+2. **Eerste wijn: kijken en ruiken.** Schenk een bodempje in. Iedereen kijkt naar de kleur, ruikt en schrijft één woord op.
+3. **Eerste wijn: proeven.** Fris of vol? Zoet of droog? Lang of kort in de mond? Nog niets verklappen.
+4. **Tweede wijn: hetzelfde.** Zet hem naast de eerste. Nu wordt het interessant: wat is het verschil?
+5. **De gok.** Iedereen schrijft op welke wijn welke is, of uit welk land hij komt.
+6. **De onthulling.** Haal het zilverpapier eraf. Wie had het juist?
+7. **Na het proeven: eten.** Nu mogen de kazen en de hapjes op tafel, en kiest iedereen zijn favoriet voor een tweede glas.
 
 ## De grootste fout: iemand weet het al
 

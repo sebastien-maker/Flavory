@@ -1,50 +1,62 @@
 ---
-title: "Wijnproeven op date night"
-seoTitle: "Date night met wijn: samen wijnproeven thuis"
-description: "Waarom datenight met wijnproeven slimmer is dan een zware wijncursus: romantische avond thuis, samen leren en lachen met Flavory Date Night."
-excerpt: "Als je op zoek bent naar leuke date night ideeën thuis en originele date night activiteiten voor koppels, dan is samen wijnproeven een heerlijk (en dankzij Flavory ook een laagdrempelige) optie. In plaats van weer op de zetel te belanden met Netflix, maak je er één van die datenight games voor twee van: glazen klaar, fles open en samen ontdekken wat jullie nu eigenlijk écht lekker vinden."
+title: "Wijnproeverij voor twee: samen wijnproeven op date night"
+seoTitle: "Wijnproeverij voor twee: samen proeven thuis"
+description: "Een wijnproeverij voor twee thuis: welke wijnen je kiest, hoe je ze blind maakt als je met z'n tweeën bent en waarom het beter werkt dan een wijncursus."
+excerpt: "Samen wijnproeven is een van de leukste avonden die je thuis kan plannen. Maar met z'n tweeën heb je één probleem: wie de wijn koopt, weet al wat er in de fles zit. Zo los je dat op, en zo maak je er een spel van."
 pubDate: 2025-11-17
+updatedDate: 2026-10-28
 author: bart
 heroImage: "../../assets/images/blog/wijnproeven-op-date-night.webp"
-heroAlt: "Wijnproeven op date night"
+heroAlt: "Een koppel proeft samen wijn aan tafel tijdens een wijnproeverij voor twee"
 pillar: wijnproeverij-thuis
 relatedProduct: wijnproeverij-thuis-rood
 ---
-## Samen wijnproeven. Gezellig, niet?
+**Kort antwoord:** kies twee wijnen die duidelijk van elkaar verschillen, laat elk van jullie er één kopen zonder het te verklappen, maak ze blind en proef ze naast elkaar. Schenk kleine glazen, praat over wat je proeft en schrijf je gok op voor je de flessen onthult. Zo is het een spel, en speelt niemand vals zonder het te willen.
 
-Je kan ook meteen samen een [WSET cursus bij WineWise](https://winewise.be/) volgen, maar dat loopt niet altijd goed af. Enkele jaren geleden volgde ik zelf een wijnopleiding. Rijen tafels, proefglazen, spuwbakken en mensen uit de horeca die hun diploma moesten halen, vormden het decor. Acht maandagavonden van twee uur, gevolgd door een pittig examen.
+## Waarom geen wijncursus?
 
-Vlak voor mij zaten echter geen obers of sommeliers in spe. Wel een jong koppel dat zich wilde voorbereiden op hun reis richting de Italiaanse wijngaarden.
+Je kan ook samen een [wijncursus bij WineWise](https://winewise.be/) volgen, maar dat loopt niet altijd goed af. Enkele jaren geleden volgde ik zelf een wijnopleiding. Rijen tafels, proefglazen, spuwbakken en mensen uit de horeca die hun diploma moesten halen. Acht maandagavonden van twee uur, gevolgd door een pittig examen.
 
-Ze waren er “omdat het leuk leek om samen iets te doen”. Een soort romantische date night onder fel wit licht (belangrijk om naar wijn te kunnen kijken). Ze waren net een weekend naar de Champagnestreek geweest. In de zomervakantie gingen ze samen naar Italië. Een wijncursus als voorbereiding leek een uitstekend idee.
+Vlak voor mij zat een jong koppel. Ze waren er "omdat het leuk leek om samen iets te doen". Ze waren net een weekend naar de Champagnestreek geweest, in de zomer gingen ze naar Italië, en een wijncursus leek een goede voorbereiding.
 
-Op papier: goed plan. In de realiteit: minder. Na die eerste les heb ik hen nooit meer teruggezien.
+Op papier: goed plan. In werkelijkheid: minder. Na de eerste les heb ik hen nooit meer teruggezien. De cursus ging diep, snel en lang, met theorie en examens. Perfect als je je in de wijnwereld wil onderdompelen. Niet de gezellige avond samen die zij voor ogen hadden.
 
-De cursus ging diep, snel en lang. Acht keer twee uur in een klaslokaal, met slides, theorie en examens. Perfect als je jezelf echt in de wijnwereld wil onderdompelen. Niet meteen de “gezellige datenight thuis met wijn” die ze voor ogen hadden. En eigenlijk ook wel een behoorlijk duur experiment voor een koppel dat na les één afhaakte.
+Je kan samen iets bijleren over wijn zonder dat het voelt als een schoolbank. Aan je eigen tafel, met twee flessen en een beetje spel.
 
-## Samen wijn ontdekken
+## Wijnproeverij voor twee: zo pak je het aan
 
-Veel koppels genieten graag samen van een glas wijn.  
-Op vakantie in Frankrijk, Italië of Spanje is een bezoekje aan een wijndomein bijna standaard. Je krijgt een rondleiding, hoort iets over druiven en terroir, proeft een paar glazen. Je knikt alsof je alles begrijpt, terwijl je eigenlijk vooral denkt hoe brak je kennis van het Frans wel is geworden en je weet dat je hier niks van gaat onthouden.
+Een proeverij voor twee werkt zoals een proeverij met vrienden, met één verschil: met z'n tweeën kan je niet doen alsof je het etiket niet gezien hebt. Daarom deze aanpak.
 
-Je nipt dapper van je glas en je zegt “lekker”. Maar stiekem zou je liever wat beter begrijpen waarover het gaat, en je neemt je voor om je ooit eens echt in wijn te verdiepen.Alleen: hoe kun je samen iets bijleren over wijn, zonder dat het voelt alsof je terug op de schoolbanken zit? Hoe maak je van een datenight thuis met wijn een gezellige, romantische én een beetje leerzaame avond?
+1. **Elk koopt één fles, in het geheim.** Spreek een thema af, bijvoorbeeld "een rode wijn uit een warm land" of "een witte wijn onder de 15 euro", en zeg elkaar niet wat je koopt. Zo weet elk van jullie hoogstens de helft.
+2. **Kies een contrast.** Twee wijnen die sterk op elkaar lijken, maken het moeilijk en saai. Twee verschillende druiven of twee landen maken het leuk. Inspiratie vind je in [Merlot of Cabernet Sauvignon](/blog/merlot-of-cabernet-sauvignon/) en [Chardonnay of Sauvignon Blanc](/blog/chardonnay-of-sauvignon-blanc/).
+3. **Maak de flessen blind.** Wikkel ze in zilverpapier, ontkurk ze op voorhand en geef ze een letter: A en B. Meer tips in [Blind wijn proeven](/blog/blind-wijn-proeven/).
+4. **Schenk kleine glazen.** Een bodempje volstaat. Zet beide wijnen naast elkaar, zodat je kan vergelijken.
+5. **Praat over wat je proeft.** Fris of vol? Fruitig of kruidig? Welke zou je vanavond opdrinken? Bij wijn bestaat het grote gelijk niet: als jij aardbeien ruikt en je partner pruimen, hebben jullie allebei gelijk.
+6. **Schrijf je gok op en onthul.** Welke fles is van wie? Welke druif, welk land? Wie het juist heeft, kiest de muziek of het dessert.
 
-## Speelse wijnproeverij voor 2
+### Hoeveel wijn heb je nodig?
 
-Een datenight wijnproeven doet eigenlijk veel meer dan gewoon “een glaasje drinken”. In plaats van naast elkaar naar een scherm te staren, ben je echt samen bezig: inschenken, ruiken, proeven, vergelijken, lachen om hoe verschillend jullie soms reageren op dezelfde wijn. Je merkt vanzelf wie er meer van frisse witte wijn houdt en wie stiekem fan is van voller en rijper. Zonder dat je in een klaslokaal zit, leer je ondertussen echt iets bij. Door blind te proeven en eenvoudige uitleg mee te krijgen, begin je de wijnwereld beter te begrijpen, zodat je op vakantie in Italië of Spanje niet meer compleet verloren loopt tussen al die rekken en wijnkaarten.
+Twee flessen van 75 cl is meer dan genoeg voor twee. Voor het proeven gebruik je maar een klein deel; de rest drink je erna bij het eten. Wat overblijft, bewaar je met een stop in de koelkast, ook de rode. Zo kan je de volgende dag nog eens proeven of de wijn veranderd is.
 
-Dat soort datenight games voor twee zorgt ook voor verhalen die je bijblijven. “Weet je nog, die avond dat jij dacht dat de goedkoopste wijn de duurste was?” Met de [Italië-Spanje box](/shop/wijnproeverij-thuis-rood/) van [Flavory](/) proef je je samen al spelend door twee klassieke wijnlanden, gewoon aan je eigen tafel.
+Wil je het stap voor stap uitgewerkt, met de tafel, het licht en de grootste fout? Lees dan [Wijnproeverij thuis organiseren](/blog/wijnproeverij-thuis-organiseren/).
 
-## Waarom een wijnspel voor koppels werkt
+## Waarom samen proeven werkt
 
-Een date night spel met wijn doet eigenlijk drie dingen tegelijk:
+Een wijnproeverij voor twee doet drie dingen tegelijk.
 
-Samen iets doen. In plaats van naast elkaar naar een scherm te staren, ben je echt met elkaar bezig. Je schenkt in, ruikt, proeft, noteert, lacht. Je ontdekt misschien dat jij meer van frisse witte wijn houdt, terwijl je partner stiekem fan is van voller en romiger.
+**Samen iets doen.** In plaats van naast elkaar naar een scherm te kijken, ben je met elkaar bezig: inschenken, ruiken, proeven, lachen om hoe verschillend jullie op dezelfde wijn reageren. Je ontdekt vanzelf wie van frisse witte wijn houdt en wie stiekem fan is van vol en rijp.
 
-Samen iets bijleren. Je hoeft geen les te volgen om een eerste stap te zetten in de wijnwereld. Door blind te proeven, proef je bewuster. Door eenvoudige uitleg leer je net genoeg om op vakantie niet meer verloren te lopen tussen al die rekken en wijnkaarten. Niet zwaar, wél nuttig.  
-  
-Een herinneringen maken. Dit soort leuke datenight ideeën voor thuis zorgt voor herinneringen. Flavory draait in de eerste plaats om verbinding en om samenzijn. Wijn is dus evenzeer een doel als een middel.
+**Samen iets bijleren.** Door blind te proeven, proef je bewuster. Je leert net genoeg om op vakantie niet meer verloren te lopen tussen de rekken en de wijnkaarten.
 
-## Flavory Date Night: wijncadeau voor jullie twee
+**Een herinnering maken.** "Weet je nog, die avond dat jij dacht dat de goedkoopste wijn de duurste was?" Zulke avonden blijven hangen, langer dan de zoveelste film.
 
-Dus als je volgende keer denkt: “We zouden nog eens een echte date night moeten plannen,” dan hoeft dat niet per se een restaurant of cinema te zijn.Tussen alle gezellige dingen om te doen met je partner zijn dit van die romantische avond ideeën die blijven hangen: een tafel vol wijn, wat kleine hapjes en tijd om echt met elkaar bezig te zijn. Zie het als één van jullie vaste datenight games voor twee: soms serieus proeven, soms gewoon keihard lachen om hoe verschillend jullie smaak blijkt te zijn.
+## Het wijnspel voor twee
+
+Wil je niet zelf op zoek naar twee flessen die goed tegen elkaar opwegen? Daarvoor bestaat [het wijnspel van Flavory](/hoe-werkt-het/). In de doos zitten twee flessen wijn (75 cl) die duidelijk van elkaar verschillen, elk in een stoffen zakje met een A of een B, en het spel om ze te proeven. Je speelt het vanaf twee spelers, dus jullie tweeën spelen allebei mee, zonder dat iemand iets weet.
+
+Kies het duel dat bij jullie past:
+
+- [Merlot of Cabernet Sauvignon?](/shop/wijnproeverij-thuis-rood/) als jullie van rode wijn houden.
+- [Chardonnay of Sauvignon Blanc?](/shop/wijnproeverij-thuis-wit/) als jullie liever wit drinken.
+
+Zoek je een cadeau voor een koppel? Ook dan is een avond samen proeven leuker dan nog een fles. Kijk bij [het wijnspel als cadeau](/cadeau/).

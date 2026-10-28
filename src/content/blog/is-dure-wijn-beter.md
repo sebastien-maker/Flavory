@@ -1,9 +1,10 @@
 ---
 title: "Is dure wijn beter?"
 seoTitle: "Is dure wijn beter dan goedkope wijn?"
-description: "Wat maakt wijn duur? Is dure wijn beter? Dat hangt af van je budget en hoeveel je geniet van het extra laagje diepgang in je glas."
+description: "Is dure wijn beter? Wat maakt wijn duur, en welke wijn smaakt duurder dan hij kost? Vijf streken en druiven die meer geven dan je ervoor betaalt."
 excerpt: "Wat maakt wijn duur? Is dure wijn beter? Dat hangt af van je budget en hoeveel je geniet van het extra laagje diepgang in je glas."
 pubDate: 2025-10-10
+updatedDate: 2026-10-28
 author: bart
 heroImage: "../../assets/images/blog/is-dure-wijn-beter.webp"
 heroAlt: "Is dure wijn beter?"
@@ -18,7 +19,7 @@ Deze week zag ik een Zuid-Afrikaanse chardonnay bij de [Aldi](https://www.aldi.b
 
 Wat mij opvalt: hoe kán dat eigenlijk, wijn maken voor die prijs? Je moet druiven plukken, persen, gisten, bottelen, etiketteren, vervoeren… En toch blijft de prijs onder die van een smos met kaas. Kaapse Pracht doet daar dan nog een Fair Trade-label bovenop. Hoe ze winst maken, is mij een raadsel.
 
-## Wat kost wijn écht?
+## Wat kost wijn eigenlijk?
 
 Er is een ondergrens. In een boeiende blog berekenden [De Wijnvaders](https://hartvoorwijn.nl/blog/wijnkennis/betaalbare-wijn/) dat onder de 5 euro de basisproductiekost amper gedekt is. Boven de 6 euro kan het net. Dan heb je waarschijnlijk een industriële wijn, geproduceerd in bulk, met een stevige dosis chemie, uit een streek waar alles mee zit: zon, schaal, efficiëntie.
 
@@ -32,6 +33,18 @@ Die stijging zet zich door tot een euro of 15. Daarna wordt het wat ingewikkelde
 
 Voor dure wijn is vaak extra moeite gedaan. Die extra moeite proef je, maar alleen als je getraind bent om het te proeven. Of als je er gewoon van houdt.
 
+## Welke wijn smaakt duurder dan hij kost?
+
+Wijn uit streken die minder bekend zijn dan hun buren, of uit druiven die niet in de mode zijn. Je betaalt dan voor wat er in de fles zit, niet voor de naam op het etiket. Vijf plekken waar ik zelf zoek:
+
+1. **Zuid-Italië.** Primitivo en Negroamaro uit Puglia: zacht, vol en rijp fruit, vaak onder de 12 euro.
+2. **Portugal.** Rode wijn uit de Douro of de Alentejo smaakt naar veel meer dan hij kost. Portugal is nog altijd een van de beste adressen voor wie op de prijs let.
+3. **Zuid-Frankrijk.** In de Languedoc maken wijnmakers wijn in de stijl van de Rhône, voor een fractie van de prijs.
+4. **Spanje buiten Rioja.** Garnacha uit Aragón of Monastrell uit Jumilla geven veel smaak voor weinig geld.
+5. **Crémant in plaats van champagne.** Crémant wordt op dezelfde manier gemaakt, met een tweede gisting in de fles, en kost vaak de helft.
+
+Wil je weten of een wijn duurder smaakt dan hij kost? Proef hem blind, naast een duurdere fles. Zonder etiket valt de prijs weg, en hoor je alleen nog wat je proeft. Hoe je dat aanpakt, lees je in [blind wijn proeven](/blog/blind-wijn-proeven/).
+
 Voorlopig verkies ik twee flessen van 15 euro in plaats van één van 30, maar waarschijnlijk verandert dat. Als ik ooit een succesvol ondernemer ben, en er valt iets te vieren, dan trek ik een fles van pakweg 68 euro open (zo oud is mijn vader geworden). En drink ik een glas, samen met mijn beste vriend. Daar kijk ik al naar uit.
 
-Je moet ergens beginnen. Nadenken bij wat je drinkt. Proberen te ruiken wat er te ruiken valt. Proeven met aandacht. Wijn wordt zoveel leuker als je een idee hebt van wat er in je glas zit. Daar zijn we bij [Flavory](/) van overtuigd. En daar willen we ook jou van overtuigen.
+Je moet ergens beginnen. Nadenken bij wat je drinkt. Proberen te ruiken wat er te ruiken valt. Proeven met aandacht. Wijn wordt zoveel leuker als je een idee hebt van wat er in je glas zit. Daar zijn we bij [Flavory](/) van overtuigd. En daar willen we ook jou van overtuigen. Met [het wijnspel](/shop/wijnproeverij-thuis-rood/) proef je twee wijnen blind naast elkaar, en ontdek je zelf wat het verschil maakt.

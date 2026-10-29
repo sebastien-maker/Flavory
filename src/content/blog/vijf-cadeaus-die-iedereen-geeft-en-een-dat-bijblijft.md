@@ -1,10 +1,10 @@
 ---
 title: "15 originele cadeaus voor wijnliefhebbers (en 5 die iedereen al geeft)"
-seoTitle: "Origineel cadeau voor wijnliefhebbers: 15 ideeën"
-description: "Origineel cadeau voor een wijnliefhebber nodig? Vijftien ideeën van klein tot groot, voor wie net begint en voor de kenner, met een prijsklasse per idee."
+seoTitle: "Wijncadeau: 15 originele ideeën voor elk budget"
+description: "Een origineel wijncadeau nodig? Vijftien ideeën van klein tot groot, voor wie net begint en voor de kenner, met een prijsklasse bij elk idee."
 excerpt: "Vijftien cadeaus voor wie van wijn houdt, van twee goede glazen tot een wijnstok op je naam. Met een prijsklasse bij elk idee."
 pubDate: 2025-10-29
-updatedDate: 2026-10-22
+updatedDate: 2026-10-28
 author: bart
 heroImage: "../../assets/images/blog/vijf-cadeaus-die-iedereen-geeft-en-een-dat-bijblijft.jpg"
 heroAlt: "Iemand scheurt het cadeaupapier open van een Flavory-wijnspel"
@@ -15,7 +15,7 @@ related:
   - het-prille-begin-van-flavory-anno-2017
   - welke-wijn-bij-welk-gerecht-spiekbriefje
 ---
-Het beste cadeau voor een wijnliefhebber is iets wat die zelf niet koopt: een ervaring om te delen, een fles met een verhaal of iets wat elke volgende fles beter maakt. Hieronder vind je vijftien ideeën, van klein tot groot, voor wie net begint en voor wie al een kelder vol heeft.
+Het beste wijncadeau is iets wat een wijnliefhebber zelf niet koopt: een ervaring om te delen, een fles met een verhaal of iets wat elke volgende fles beter maakt. Hieronder vind je vijftien ideeën, van klein tot groot, voor wie net begint en voor wie al een kelder vol heeft.
 
 Wie graag wijn drinkt, krijgt op elke verjaardag een fles. Meestal een goeie. Soms eentje met een strik rond de hals en een prijsstickertje dat er niet helemaal af is.
 

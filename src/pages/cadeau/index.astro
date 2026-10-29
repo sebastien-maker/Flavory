@@ -4,8 +4,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Faq from '@/components/ui/Faq.astro';
 import ColorChoice from '@/components/commerce/ColorChoice.astro';
-import { getProducts } from '@/lib/content';
-import { SITE, shippingLine } from '@/lib/site';
+import { fromPrice, getProducts, mainProducts } from '@/lib/content';
+import { SITE, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
 
@@ -19,6 +19,41 @@ const description =
   'Geef een wijnbox cadeau: het wijnspel met twee flessen wijn (75 cl). Een avond samen proeven in plaats van één fles. Geleverd in België en Nederland.';
 
 const allProducts = await getProducts();
+const products = mainProducts(allProducts);
+const lowestPrice = Math.min(...products.map(fromPrice));
+const playersMin = Math.min(...products.map((p) => p.data.playersMin));
+const playersMax = Math.max(...products.map((p) => p.data.playersMax));
+
+// Short answer at the top of the page: the sentence AI answers and Google snippets can quote as is.
+const shortAnswer = `Het wijnspel van Flavory is een origineel wijncadeau voor wie alles al heeft. In de doos zitten twee flessen wijn (75 cl) die je blind proeft, en een spel met quizvragen voor ${playersMin} tot ${playersMax} spelers. Je geeft geen fles, maar een avond samen, vanaf ${formatPrice(lowestPrice)}.`;
+
+// How the game compares to the gifts people usually consider. Keep it fair: no claims about other brands.
+const comparison = [
+  {
+    gift: 'Een fles wijn',
+    what: 'Eén fles, vaak snel opgedronken',
+    knowledge: 'Je moet de smaak van de ontvanger kennen',
+    together: 'Niet per se',
+  },
+  {
+    gift: 'Een wijnpakket of geschenkdoos',
+    what: 'Een paar flessen, soms met hapjes',
+    knowledge: 'Je moet de smaak van de ontvanger kennen',
+    together: 'Niet per se',
+  },
+  {
+    gift: 'Een wijncursus of proeverij met sommelier',
+    what: 'Een les of een avond met uitleg',
+    knowledge: 'Je moet een datum vinden die past',
+    together: 'Ja, op een vaste datum en plaats',
+  },
+  {
+    gift: 'Het wijnspel van Flavory',
+    what: 'Twee flessen wijn (75 cl) en een spel om ze blind te proeven',
+    knowledge: 'Geen voorkennis nodig, wit of rood volstaat als keuze',
+    together: `Ja, met ${playersMin} tot ${playersMax} spelers, thuis wanneer het past`,
+  },
+];
 
 const reasons = [
   {
@@ -44,6 +79,25 @@ const seasons = {
 const season = SITE.giftSeason ? seasons[SITE.giftSeason] : undefined;
 
 const faq = [
+  {
+    question: 'Wat is een origineel cadeau voor een wijnliefhebber?',
+    answer:
+      'Iets wat een wijnliefhebber zelf niet koopt. Een fles kiest die liever zelf, maar een avond waarop je samen blind proeft en raadt welke wijn welke is, organiseert bijna niemand voor zichzelf. Meer ideeën vind je in onze [cadeaugids met vijftien wijncadeaus](/blog/vijf-cadeaus-die-iedereen-geeft-en-een-dat-bijblijft/).',
+  },
+  {
+    question: 'Wat kost het wijnspel als cadeau?',
+    answer: `Vanaf ${formatPrice(lowestPrice)}, met twee flessen wijn (75 cl) erbij. Aan een volle tafel van ${playersMax} spelers is dat ${pricePerPerson(lowestPrice, playersMax)} per persoon. ${shippingLine()}`,
+  },
+  {
+    question: 'Is het ook een goed relatiegeschenk voor klanten of collega’s?',
+    answer:
+      'Ja. Bedrijven geven het wijnspel als eindejaarsgeschenk of relatiegeschenk, omdat het een moment geeft in plaats van nog een fles. Voor grotere aantallen maken we een [offerte op maat](/zakelijk/).',
+  },
+  {
+    question: 'Kan ik het aan een koppel geven?',
+    answer:
+      'Zeker. Het spel werkt vanaf twee spelers, dus een koppel speelt het samen op een rustige avond. Hoe dat verloopt, lees je in [wijnproeverij voor twee](/blog/wijnproeven-op-date-night/).',
+  },
   {
     question: 'Kan ik het cadeau rechtstreeks naar de ontvanger laten sturen?',
     answer:
@@ -116,6 +170,7 @@ const faq = [
       <h2 id="redenen-title" class="h2">
         Waarom een wijnbox een goed cadeau is
       </h2>
+      <p class="mt-3">{shortAnswer}</p>
       <ul class="mt-5 grid gap-4">
         {reasons.map((r) => (
           <li class="rounded-xl bg-blush px-4 py-3">
@@ -160,6 +215,49 @@ const faq = [
           Cadeaugids: vijf cadeaus die iedereen geeft, en één dat bijblijft
         </a>
       </p>
+    </div>
+  </section>
+
+  <!-- Vergelijking met andere wijncadeaus -->
+  <section class="section-y bg-blush" aria-labelledby="vergelijking-title">
+    <div class="container-site max-w-3xl">
+      <h2 id="vergelijking-title" class="h2">
+        Wijnspel of een ander wijncadeau?
+      </h2>
+      <p class="mt-3">
+        Twijfel je tussen een fles, een wijnpakket of een proeverij? Zo verschillen ze.
+      </p>
+      <!-- On phones every row becomes a block, each cell with its column name above it. -->
+      <table class="mt-5 w-full text-left text-sm">
+        <caption class="sr-only">Het wijnspel vergeleken met andere wijncadeaus</caption>
+        <thead class="max-md:sr-only">
+          <tr class="border-b border-line">
+            <th scope="col" class="py-2 pr-4">Cadeau</th>
+            <th scope="col" class="py-2 pr-4">Wat je geeft</th>
+            <th scope="col" class="py-2 pr-4">Waar je rekening mee houdt</th>
+            <th scope="col" class="py-2">Samen beleven</th>
+          </tr>
+        </thead>
+        <tbody>
+          {comparison.map((row) => (
+            <tr class="border-b border-line align-top max-md:block max-md:py-3">
+              <th scope="row" class="py-2 pr-4 font-bold max-md:block max-md:py-1 max-md:text-base">{row.gift}</th>
+              {[
+                ['Wat je geeft', row.what],
+                ['Waar je rekening mee houdt', row.knowledge],
+                ['Samen beleven', row.together],
+              ].map(([label, value]) => (
+                <td
+                  data-label={label}
+                  class="py-2 pr-4 max-md:block max-md:py-1 max-md:before:block max-md:before:text-muted max-md:before:content-[attr(data-label)]"
+                >
+                  {value}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </section>
 

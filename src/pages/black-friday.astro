@@ -2,12 +2,13 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Faq from '@/components/ui/Faq.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import BlackFridayList from '@/components/sections/BlackFridayList.astro';
 import { getProducts, mainProducts } from '@/lib/content';
 import { SITE, shippingLine } from '@/lib/site';
-import { breadcrumbs, webPage } from '@/components/seo/schema';
+import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
 
 // Evergreen: no year in the URL, the title or the H1. The page stays online all year, so it keeps its
@@ -28,13 +29,73 @@ const active = SITE.campaign === 'blackfriday';
 // Before the promotion: no price, no percentage, only the promise to the list.
 const soon = SITE.campaign === 'blackfriday-soon';
 const { offer, endDate } = SITE.blackFriday;
+const over = !active && !soon;
+
+// Black Friday is the day after the fourth Thursday of November. Computed at build time, so the date in the
+// text follows the year without anyone editing it (the year stays out of the URL, the title and the H1).
+const blackFriday = (year: number) => {
+  const firstOfNovember = new Date(Date.UTC(year, 10, 1));
+  const firstThursday = 1 + ((4 - firstOfNovember.getUTCDay() + 7) % 7);
+  return new Date(Date.UTC(year, 10, firstThursday + 21 + 1));
+};
+const thisYear = new Date().getFullYear();
+const bfDate = blackFriday(thisYear);
+const bfLabel = new Intl.DateTimeFormat('nl-BE', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(bfDate);
+
+const playersMin = Math.min(...products.map((p) => p.data.playersMin));
+const playersMax = Math.max(...products.map((p) => p.data.playersMax));
+const { minDays, maxDays } = SITE.shipping;
+
+// Visible questions, paired with the FAQPage schema. Answers follow the campaign state; no discount is named
+// before the promotion starts.
+const faq = over
+  ? []
+  : [
+      {
+        question: 'Wanneer is Black Friday?',
+        answer: `Black Friday valt dit jaar op ${bfLabel}. ${
+          active && endDate
+            ? `Onze actie loopt tot en met ${endDate}.`
+            : 'Wie op de Black Friday-lijst staat, krijgt onze actieprijs een dag eerder per e-mail.'
+        }`,
+      },
+      {
+        question: 'Hoeveel korting krijg ik op Black Friday?',
+        answer: active
+          ? `${offer ? `${offer}. ` : ''}Je ziet de actieprijs bij elke box, naast de gewone prijs.`
+          : 'Dat maken we bekend op Black Friday zelf. Sta je op de Black Friday-lijst, dan krijg je de prijs een dag voor iedereen.',
+      },
+      {
+        question: 'Kan ik op Black Friday een kerstcadeau kopen?',
+        answer:
+          'Ja, en dat is net slim: je koopt met korting en legt het cadeau in december onder de boom. De wijn blijft rustig goed tot kerst als je de doos op een koele plek bewaart, uit de zon. Meer tips in [het wijnspel als kerstcadeau](/cadeau/kerstcadeau/).',
+      },
+      {
+        question: 'Wat zit er in de box?',
+        answer: `Het wijnspel en twee flessen wijn (75 cl), elk in een stoffen zakje met een A of een B. Je proeft ze blind met ${playersMin} tot ${playersMax} spelers en hebt geen wijnkennis nodig. Je kiest tussen [rode wijn](/shop/wijnproeverij-thuis-rood/) en [witte wijn](/shop/wijnproeverij-thuis-wit/).`,
+      },
+      {
+        question: 'Hoe snel wordt mijn bestelling geleverd?',
+        answer: `Bestel je op een werkdag voor ${SITE.shippingCutoffHour}u, dan vertrekt je pakket dezelfde dag. Levering duurt meestal ${minDays} à ${maxDays} werkdagen in België en Nederland. ${shippingLine()}`,
+      },
+    ];
 ---
 
 <BaseLayout
   title={title}
   description={description}
   path={path}
-  schema={[webPage({ path, title, description, type: 'CollectionPage' }), breadcrumbs(crumbs)]}
+  schema={[
+    webPage({ path, title, description, type: 'CollectionPage' }),
+    ...(faq.length ? [faqPage(path, faq)] : []),
+    breadcrumbs(crumbs),
+  ]}
 >
   <Breadcrumbs items={crumbs} />
 
@@ -52,7 +113,7 @@ const { offer, endDate } = SITE.blackFriday;
         </>
       ) : soon ? (
         <>
-          <p class="mt-3 text-lg font-bold">Black Friday komt eraan</p>
+          <p class="mt-3 text-lg font-bold">Black Friday komt eraan: {bfLabel}</p>
           <p class="mt-3 text-lg">
             Op Black Friday krijgt het wijnspel met twee flessen wijn (75&nbsp;cl) een actieprijs. Zet je op de Black
             Friday-lijst: wij sturen je de Black Friday-prijs als eerste, een dag voor iedereen.
@@ -110,15 +171,16 @@ const { offer, endDate } = SITE.blackFriday;
     </div>
   </section>
 
-  {active ? (
+  {!over ? (
     <section class="section-y" aria-labelledby="kerst-title">
       <div class="container-site max-w-3xl">
         <h2 id="kerst-title" class="h2">
-          Nu kopen, met kerst geven
+          {active ? 'Nu kopen, met kerst geven' : 'Op Black Friday kopen, met kerst geven'}
         </h2>
         <p class="mt-3">
-          Bestel je kerstcadeau nu met korting en leg het in december onder de boom. Zo kies je rustig en mis je de
-          drukte bij de post.
+          {active
+            ? 'Bestel je kerstcadeau nu met korting en leg het in december onder de boom. Zo kies je rustig en mis je de drukte bij de post.'
+            : 'Koop je kerstcadeau op Black Friday met korting en leg het in december onder de boom. Zo kies je rustig en mis je de drukte bij de post.'}
         </p>
         {SITE.giftDeadline && <p class="mt-3 font-bold">Laatste besteldag voor kerst: {SITE.giftDeadline}.</p>}
         <p class="mt-4">
@@ -129,6 +191,19 @@ const { offer, endDate } = SITE.blackFriday;
       </div>
     </section>
   ) : (
-    !soon && <Newsletter heading="Volgend jaar als eerste weten" />
+    <Newsletter heading="Volgend jaar als eerste weten" />
+  )}
+
+  {faq.length > 0 && (
+    <section class="section-y bg-white" aria-labelledby="faq-title">
+      <div class="container-site max-w-3xl">
+        <h2 id="faq-title" class="h2">
+          Vragen over Black Friday
+        </h2>
+        <div class="mt-4">
+          <Faq items={faq} />
+        </div>
+      </div>
+    </section>
   )}
 </BaseLayout>

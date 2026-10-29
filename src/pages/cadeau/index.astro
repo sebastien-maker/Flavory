@@ -227,29 +227,37 @@ const faq = [
       <p class="mt-3">
         Twijfel je tussen een fles, een wijnpakket of een proeverij? Zo verschillen ze.
       </p>
-      <div class="mt-5 overflow-x-auto">
-        <table class="w-full text-left text-sm">
-          <caption class="sr-only">Het wijnspel vergeleken met andere wijncadeaus</caption>
-          <thead>
-            <tr class="border-b border-line">
-              <th scope="col" class="py-2 pr-4">Cadeau</th>
-              <th scope="col" class="py-2 pr-4">Wat je geeft</th>
-              <th scope="col" class="py-2 pr-4">Waar je rekening mee houdt</th>
-              <th scope="col" class="py-2">Samen beleven</th>
+      <!-- On phones every row becomes a block, each cell with its column name above it. -->
+      <table class="mt-5 w-full text-left text-sm">
+        <caption class="sr-only">Het wijnspel vergeleken met andere wijncadeaus</caption>
+        <thead class="max-md:sr-only">
+          <tr class="border-b border-line">
+            <th scope="col" class="py-2 pr-4">Cadeau</th>
+            <th scope="col" class="py-2 pr-4">Wat je geeft</th>
+            <th scope="col" class="py-2 pr-4">Waar je rekening mee houdt</th>
+            <th scope="col" class="py-2">Samen beleven</th>
+          </tr>
+        </thead>
+        <tbody>
+          {comparison.map((row) => (
+            <tr class="border-b border-line align-top max-md:block max-md:py-3">
+              <th scope="row" class="py-2 pr-4 font-bold max-md:block max-md:py-1 max-md:text-base">{row.gift}</th>
+              {[
+                ['Wat je geeft', row.what],
+                ['Waar je rekening mee houdt', row.knowledge],
+                ['Samen beleven', row.together],
+              ].map(([label, value]) => (
+                <td
+                  data-label={label}
+                  class="py-2 pr-4 max-md:block max-md:py-1 max-md:before:block max-md:before:text-muted max-md:before:content-[attr(data-label)]"
+                >
+                  {value}
+                </td>
+              ))}
             </tr>
-          </thead>
-          <tbody>
-            {comparison.map((row) => (
-              <tr class="border-b border-line align-top">
-                <th scope="row" class="py-2 pr-4 font-bold">{row.gift}</th>
-                <td class="py-2 pr-4">{row.what}</td>
-                <td class="py-2 pr-4">{row.knowledge}</td>
-                <td class="py-2">{row.together}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   </section>
 

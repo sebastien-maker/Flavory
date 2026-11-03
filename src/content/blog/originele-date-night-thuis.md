@@ -1,7 +1,7 @@
 ---
 title: "De beste wijnen voor een originele date night thuis"
-seoTitle: "Originele date night thuis: wijnen voor koppels"
-description: "Wil je een originele date night thuis organiseren? Ontdek de beste bubbels, rode en witte wijn voor een romantische avond met het Flavory wijnspel"
+seoTitle: "Originele date night thuis: welke wijn kies je?"
+description: "Een originele date night thuis? Zo kies je bubbels, rode en witte wijn voor een romantische avond, en zo maak je er samen een blinde proeverij van."
 excerpt: "Een romantische avond met je geliefde valt of staat met de juiste ambiance, lekker eten en natuurlijk: de perfecte wijn. Maar hoe kies je de juiste fles voor zo’n speciaal moment uit het enorme aanbod? We helpen je graag!"
 pubDate: 2026-03-12
 author: bart
@@ -44,7 +44,7 @@ Een romantische avond afsluiten met een dessertwijn is een cadeau op zich. Een w
 
 Wil je jouw date night echt uniek maken en originele activiteiten voor koppels in huis halen?. In plaats van gedachteloos een fles open te trekken, kun je er een speelse en interactieve avond van maken.
 
-Met het [**Flavory wijnproeverij spel**](/shop/) organiseer je eenvoudig een blinde wijnproeverij bij je thuis. Glazen klaar, fles open, en ontdekken maar!. Laat twee beroemde wijnlanden of druivensoorten tegen elkaar strijden en kom er geblinddoekt achter wat jullie nu eigenlijk écht lekker vinden. Ligt jullie smaak op één lijn, of mijlenver uit elkaar?.
+Met het [**rode wijnspel van Flavory**](/shop/wijnproeverij-thuis-rood/) organiseer je eenvoudig een blinde wijnproeverij bij je thuis. Glazen klaar, fles open, en ontdekken maar!. Laat twee beroemde wijnlanden of druivensoorten tegen elkaar strijden en kom er geblinddoekt achter wat jullie nu eigenlijk écht lekker vinden. Ligt jullie smaak op één lijn, of mijlenver uit elkaar?.
 
 Vergeet niet dat de beste wijn voor een romantische avond de wijn is die je deelt met je geliefde. Zorg voor mooie glazen, zet een zacht muziekje op, steek de kaarsen aan en geniet van elkaars gezelschap. Proost op de liefde!.
 

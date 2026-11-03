@@ -1,7 +1,7 @@
 ---
 title: "Cava of prosecco: wat is het verschil?"
 seoTitle: "Cava of prosecco: wat is het verschil?"
-description: "Cava of prosecco? Cava komt uit Spanje en is droog met fijne bubbels, prosecco komt uit Italië en is fruitiger. Met vergelijkingstabel en proeftips."
+description: "Cava is droog met fijne bubbels, prosecco fruitiger en zachter. Het verschil in één tabel, plus drie tips om ze blind uit elkaar te houden."
 excerpt: "Cava krijgt zijn bubbels in de fles, prosecco in een tank. Wat dat doet met de smaak, in één tabel, met drie tips om ze blind uit elkaar te houden."
 pubDate: 2026-10-05
 author: bart

@@ -1,7 +1,7 @@
 ---
 title: "Blind wijn proeven: je hersenen liegen altijd"
-seoTitle: "Blind wijn proeven: je hersenen liegen altijd"
-description: "Blind wijn proeven is moeilijker dan je denkt. Zelfs experts vergissen zich. Ontdek waarom je hersenen je foppen, en durf het zelf te testen."
+seoTitle: "Blind wijn proeven: waarom zelfs experts falen"
+description: "Blind wijn proeven is lastig: zelfs studenten oenologie proefden witte wijn als rode. Waarom je hersenen je foppen, en hoe je het zelf test."
 excerpt: "Blind wijn proeven klinkt makkelijk. Tot je het echt doet. Ontdek waarom zelfs wijnexperts de mist ingaan, en hoe Flavory er letterlijk uit ontstond."
 pubDate: 2026-04-01
 author: bart

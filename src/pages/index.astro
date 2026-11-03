@@ -24,9 +24,9 @@ const lowestPrice = Math.min(...products.map(fromPrice));
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
 const posts = (await getPosts()).filter((p) => featuredIds.includes(p.id));
 
-const title = 'Wijnproeverij thuis: het wijnspel voor vrienden | Flavory';
+const title = 'Wijnspel: proef twee wijnen blind met vrienden | Flavory';
 const description =
-  'Flavory is het wijnspel voor een wijnproeverij thuis: een pakket met twee wijnen om blind te proeven, voor 2 tot 6 spelers. Wie raadt welke wijn welke is?';
+  'Flavory is het wijnspel met twee flessen wijn in de doos: proef ze blind, beantwoord de quizvragen en ontdek wie het verschil proeft. Voor 2 tot 6 spelers.';
 
 const hero = await getImage({ src: heroPhoto, width: 900, widths: [360, 540, 720, 900], format: 'webp' });
 const heroSizes = '(min-width: 768px) 28rem, calc(100vw - 2rem)';

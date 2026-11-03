@@ -1,6 +1,6 @@
 ---
 title: "Wijnproeverij voor twee: samen wijnproeven op date night"
-seoTitle: "Wijnproeverij voor twee: samen proeven thuis"
+seoTitle: "Wijnproeverij voor twee: zo proef je samen blind"
 description: "Een wijnproeverij voor twee thuis: welke wijnen je kiest, hoe je ze blind maakt als je met z'n tweeën bent en waarom het beter werkt dan een wijncursus."
 excerpt: "Samen wijnproeven is een van de leukste avonden die je thuis kan plannen. Maar met z'n tweeën heb je één probleem: wie de wijn koopt, weet al wat er in de fles zit. Zo los je dat op, en zo maak je er een spel van."
 pubDate: 2025-11-17

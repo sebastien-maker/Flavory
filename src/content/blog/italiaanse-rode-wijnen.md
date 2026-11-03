@@ -1,14 +1,14 @@
 ---
 title: "Welke Italiaanse wijn moet je echt eens proeven?"
-seoTitle: "Italiaanse rode wijn: 5 klassiekers om te proeven"
-description: "Vind jij Italiaanse rode wijnen ook zo ingewikkeld? Wij zetten 5 betaalbare klassiekers op een rij waarmee je direct de smaak te pakken krijgt."
+seoTitle: "Beste Italiaanse rode wijn: 5 klassiekers"
+description: "Welke Italiaanse rode wijn moet je eens proeven? Vijf betaalbare klassiekers, van Chianti tot Etna Rosso, met wat je in het glas proeft en wat erbij past."
 excerpt: "Het wijnlandschap in Italië kan overweldigend lijken. Met deze vijf toegankelijke klassiekers ontdek je zonder keuzestress de lekkerste smaken van de laars."
 pubDate: 2026-03-05
 author: bart
 heroImage: "../../assets/images/blog/italiaanse-rode-wijnen.webp"
 heroAlt: "Welke Italiaanse wijn moet je echt eens proeven?"
 pillar: druiven-en-stijlen
-relatedProduct: wijnproeverij-thuis-wit
+relatedProduct: wijnproeverij-thuis-rood
 ---
 Als er één onderwerp in de wijnwereld is dat verwarrend, mysterieus en soms ronduit overweldigend kan zijn, dan is het wel Italië. Met al hun ingewikkelde wetten en ontelbare inheemse druivensoorten kun je een leven lang studeren en er nóg niet alles over weten. Maar laat je daardoor niet tegenhouden! **Italiaanse rode wijnen** bieden namelijk een fantastische ontdekkingstocht, zelfs (of juist) als je de snobistische vaktermen liever overslaat.
 
@@ -18,7 +18,7 @@ Om je op weg te helpen, hebben we vijf toegankelijke en betaalbare klassiekers (
 
 #### 1\. Sangiovese (Chianti Classico)
 
-Als je één Italiaanse druif moet kennen, is het de Sangiovese. Een [Chianti Classico](https://nl.wikipedia.org/wiki/Chianti_Classico) is sappig en barst van de frisse zuren met geuren van framboos, verse tijm en zelfs een vleugje leer. Dit is dé ultieme wijn om open te trekken naast een verse pepperoni pizza.
+Als je één Italiaanse druif moet kennen, is het de Sangiovese. Een [Chianti Classico](https://nl.wikipedia.org/wiki/Chianti_Classico) is sappig en barst van de frisse zuren met geuren van framboos, verse tijm en zelfs een vleugje leer. Dit is de wijn om open te trekken naast een verse pepperoni pizza.
 
 #### 2\. Barbera
 
@@ -38,7 +38,7 @@ We sluiten af op het eiland Sicilië, rechtstreeks van de flanken van een actiev
 
 ## Genieten zonder keuzestress
 
-Zin gekregen om nieuwe smaken te ontdekken, maar weet je niet waar je moet beginnen of wil je de supermarktstress vermijden? Je hoeft echt geen dure cursussen te volgen. Haal gewoon een [Flavory wijnbox Italië vs. Spanje](/shop/wijnproeverij-thuis-rood/) in huis. Trek ongecompliceerd de flessen open, speel ons blinde proefspel en ontdek samen met je date of je vrienden welke **Italiaanse rode wijnen** (of andere beroemde wijnlanden) nu eigenlijk écht jullie favoriet zijn. Proost!
+Zin gekregen om nieuwe smaken te ontdekken, maar weet je niet waar je moet beginnen of wil je de supermarktstress vermijden? Je hoeft echt geen dure cursussen te volgen. Haal gewoon het [rode wijnspel Italië of Spanje](/shop/wijnproeverij-thuis-rood/) in huis. Trek ongecompliceerd de flessen open, speel ons blinde proefspel en ontdek samen met je date of je vrienden welke **Italiaanse rode wijnen** (of andere beroemde wijnlanden) nu eigenlijk écht jullie favoriet zijn. Proost!
 
 ![Spiekbriefje voor welke wijn bij welk gerecht past
 ](../../assets/images/blog/italiaanse-rode-wijnen/image-95-1.webp)

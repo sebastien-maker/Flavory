@@ -204,7 +204,7 @@ const schemaImages = await Promise.all(
   <Breadcrumbs items={crumbs} />
 
   <section class="container-site grid gap-6 py-4 md:grid-cols-2 md:gap-8 md:py-10 lg:gap-12">
-    <!-- Gallery: CSS scroll-snap; thumbnails on larger screens, swipe on mobile -->
+    {/* Gallery: CSS scroll-snap; thumbnails on larger screens, swipe on mobile */}
     <div class="min-w-0" data-gallery>
       <div class="relative">
         <ul
@@ -313,7 +313,7 @@ const schemaImages = await Promise.all(
       </ul>
     </div>
 
-    <!-- Buy box: name, option list, price and button come first (mobile first) -->
+    {/* Buy box: name, option list, price and button come first (mobile first) */}
     <div>
       <div class:list={['rounded-[var(--radius-card)] p-5 md:p-6', theme.zone]}>
         {data.badge && <p class="badge mb-2 inline-block bg-ink text-white">{data.badge}</p>}

@@ -1,39 +1,51 @@
 ---
-title: "Het leukste kerstcadeau van 2025? Dat is het wijnspel van Flavory."
-seoTitle: "Leukste kerstcadeau: 5 redenen voor het wijnspel"
-description: "Op zoek naar het leukste kerstcadeau van 2025? Ontdek waarom de Flavory wijnproeverij het perfecte geschenk is. Gezellig, leerzaam en uniek."
-excerpt: "Flavory is hét origineelste wijncadeau. Een blinde wijnproeverij in spelvorm waarbij je twee beroemde wijnlanden of druiven tegen elkaar laat strijden. Wie van jouw vrienden of familie wordt de wijnkenner van de avond?"
+title: "Het leukste kerstcadeau van 2026? Dat is het wijnspel van Flavory."
+seoTitle: "Leukste kerstcadeau van 2026: het wijnspel"
+description: "Op zoek naar het leukste kerstcadeau van 2026? Vijf redenen waarom het wijnspel van Flavory onder de boom past: twee wijnen blind proeven, samen aan tafel."
+excerpt: "Twee wijnen blind proeven met vrienden of familie: vijf redenen waarom het wijnspel van Flavory het leukste kerstcadeau van 2026 is. Wie wordt de wijnkenner van de avond?"
 pubDate: 2025-12-07
-updatedDate: 2026-02-03
+updatedDate: 2026-11-05
 author: bart
 heroImage: "../../assets/images/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is.webp"
-heroAlt: "Het leukste kerstcadeau van 2025? Dat is het wijnspel van Flavory."
+heroAlt: "Het wijnspel van Flavory als kerstcadeau: de doos met twee flessen wijn"
 pillar: wijn-cadeau
 relatedProduct: wijnproeverij-thuis-rood
+listicle: true
 ---
-Ben je nog op zoek naar het **leukste kerstcadeau** van 2025 voor onder de boom?  Zoek niet verder. Je kan nu iets bijleren over wijn zonder een saaie cursus te volgen of dikke boeken te lezen. [Flavory’s blinde wijnproeverij](/) in de vorm van een spel is zonder twijfel de leukste manier om de wijnwereld te ontdekken. Twee beroemde wijnlanden of druiven worden anoniem tegenover elkaar geplaatst. Aan jou en je medespelers om ze te herkennen!
+Ben je nog op zoek naar het **leukste kerstcadeau** van 2026? Waarom bestaan er eigenlijk zoveel verschillende wijnen, en waarom betaal je voor de ene fles 5 euro en voor de andere 25? Wijn is toch wijn? Wij vinden van niet. Met het [wijnspel van Flavory](/) proef je twee wijnen blind tegen elkaar: twee druiven die iedereen kent, anoniem verpakt in een stoffen zakje. Aan jou en je medespelers om ze te herkennen. De twee flessen wijn (75 cl) zitten in de doos.
 
-## Waarom dit het leukste kerstcadeau van 2025 is om te geven
+## 5 redenen waarom het wijnspel onder de boom past
 
-Niks tegen sokken, boeken of cadeaubonnen, maar die heb je vorig jaar ook al gegeven. Dit jaar ben jij de origineelste kerstman. Als je zoekt naar het leukste kerstcadeau, wil je iets unieks. Je geeft met dit spel niet enkel wijn, maar ook het vooruitzicht van een gezellige avond cadeau. De box zelf ziet er alvast prachtig uit. Jouw cadeau zal in de smaak vallen, daar hoef je niet aan te twijfelen! En nu maar hopen dat je zelf ook wordt uitgenodigd om mee te spelen!
+### 1. Leuk om te geven én om te krijgen
 
-## Je leert alles over de fascinerende wereld van de wijn
+Niks tegen sokken, boeken of cadeaubonnen, maar die heb je vorig jaar ook al gegeven. Dit jaar ben jij de origineelste onder de kerstboom. Je geeft niet alleen wijn, maar ook het vooruitzicht van een gezellige avond. De doos ziet er bovendien prachtig uit. En nu maar hopen dat je zelf ook wordt uitgenodigd om mee te spelen.
 
-Van dit cadeau leer je ook echt iets. Wijnproeven, hoe doe je dat eigenlijk? Welke geuren kan je ruiken? Welke wijn drink je zelf het liefste? Wat is het verschil tussen een glas [merlot](https://nl.wikipedia.org/wiki/Merlot) en een glas [cabernet sauvignon](https://nl.wikipedia.org/wiki/Cabernet_Sauvignon)? Wedden dat je na het spelen mango kan ruiken in je glas chardonnay? Educatie én plezier maken dit tot het leukste kerstcadeau van het jaar.
+![Vrouw houdt de doos van het Flavory-wijnspel omhoog aan tafel](../../assets/images/blog/5-redenen-waarom-flavory-het-leukste-wijngeschenk-is/4d1b1049-2.webp)
 
-## Een garantie op een gezellige avond
+### 2. Je leert echt iets over wijn
 
-Dit wijnspel brengt familie en vrienden rond de tafel. Je hebt enkel nog wijnglazen nodig. De leukste gesprekken komen op gang, iedereen wordt betrokken. Dat je na één avond een echte wijnkenner bent, is overdreven. Maar dat je een superleuke avond gaat beleven die naar meer smaakt, dat is zeker. Je krijgt er trouwens een gratis ‘niet tevreden, geld terug’ – garantie bovenop.
+Wijnproeven, hoe doe je dat eigenlijk? Welke geuren ruik je? Welke wijn drink je zelf het liefst? Wat is het verschil tussen een glas [Merlot en een glas Cabernet Sauvignon](/blog/merlot-of-cabernet-sauvignon/)? Wedden dat je na het spel mango ruikt in je glas Chardonnay?
 
-## Je hoeft niet eens van spelletjes te houden
+![Speelster proeft met gesloten ogen een glas rode wijn tijdens het wijnspel](../../assets/images/blog/5-redenen-waarom-flavory-het-leukste-wijngeschenk-is/4d1b0714.webp)
 
-Je moet leuke quizvragen beantwoorden (hoeveel druiven zitten er in een glas wijn?) waardoor je tips kan verzamelen. De grote uitdaging zit hem in het herkennen van de wijnen (ruik jij chocolade?). Het spel begint dadelijk wanneer de doos wordt geopend, geen tijd te verliezen! Door die laagdrempeligheid vinden wij dit het leukste kerstcadeau voor zowel liefhebbers als kenners.
+### 3. Een gezellige avond, gegarandeerd
 
-## Wie wordt de winnaar van dit leukste kerstcadeau van 2025?
+Het wijnspel brengt familie en vrienden rond de tafel: 2 tot 6 spelers, een avond van 60 tot 90 minuten. Je hebt alleen nog wijnglazen nodig. De leukste gesprekken komen vanzelf op gang en iedereen doet mee. Dat je na één avond een volleerde wijnkenner bent, is overdreven. Dat je een avond beleeft die naar meer smaakt, is zeker. Niet tevreden? Je krijgt je geld terug.
 
-Spelen is leuk, maar winnen is nog veel leuker. Je hoeft niet de grootste kenner te zijn om uitgeroepen te worden tot wijnkenner van de avond. Met een goed ontwikkeld reukorgaan, frisse smaakpapillen en een beetje geluk kom je al een heel eind. En als je wint, waar ga je jouw diploma dan laten pronken?
+![Spelers vergelijken twee glazen rode wijn boven de proefformulieren](../../assets/images/blog/5-redenen-waarom-flavory-het-leukste-wijngeschenk-is/4d1b0905.webp)
 
-  
-Benieuwd welk wijngeschenk het beste past bij jouw gelegenheid? Bij Flavory kies je tussen een [rode wijnbox](/shop/rode-wijn/) en een [witte wijnbox](/shop/witte-wijn/), met of zonder wijn. Elke box bevat een uniek wijnspel dat zorgt voor een gezellige én leerzaame avond. Ideaal als cadeau, of om zelf van te genieten.
+### 4. Glasheldere spelregels
 
-![Flavory wijnspel het leukste kerstcadeau](../../assets/images/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/image-2025-10-16t145557.571.webp)
+Geen ingewikkelde handleiding, beloofd. Je beantwoordt leuke quizvragen (hoeveel druiven zitten er in een glas wijn?) en verzamelt zo tips. De grote uitdaging is de wijnen herkennen: ruik jij chocolade? Het spel begint zodra de doos opengaat.
+
+![Vrienden openen de doos van het Flavory-wijnspel aan een gedekte tafel](../../assets/images/blog/5-redenen-waarom-flavory-het-leukste-wijngeschenk-is/4d1b0603-1.webp)
+
+### 5. De winnaar is de wijnkenner van de avond
+
+Spelen is leuk, winnen is nog leuker. Je hoeft geen kenner te zijn om tot wijnkenner van de avond uitgeroepen te worden. Een goede neus, frisse smaakpapillen en een beetje geluk brengen je al ver. En als je wint: waar hang je je diploma op?
+
+![Lachende speler met een Flavory-sticker op zijn voorhoofd](../../assets/images/blog/5-redenen-waarom-flavory-het-leukste-wijngeschenk-is/4d1b1143.webp)
+
+## Rood of wit, Standaard of Premium
+
+Kies de [rode box](/shop/wijnproeverij-thuis-rood/) met Merlot of Cabernet Sauvignon, of de [witte box](/shop/wijnproeverij-thuis-wit/) met Chardonnay of Sauvignon Blanc. In elke box zitten het wijnspel en twee flessen wijn (75 cl). De Premium-boxen, met twee duurdere wijnen die meer diepgang hebben, zijn binnenkort verkrijgbaar. Meer ideeën vind je bij onze [kerstcadeaus](/cadeau/kerstcadeau/).

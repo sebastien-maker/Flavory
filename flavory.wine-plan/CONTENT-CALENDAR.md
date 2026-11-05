@@ -4,6 +4,15 @@ Uitgangspunten uit Search Console (12 maanden): december levert 33% van de jaark
 
 Cadans: 2 nieuwe of herschreven stukken per maand in fase 1–2, daarna 3 per maand. Elk stuk krijgt: doelzoekwoord, paginatype, interne links naar pijler + product, meta title/description, minstens één originele foto.
 
+## Logboek: wat we gedaan hebben
+
+Alles wat effectief gebeurt rond content, marketing en advertenties, nieuwste bovenaan. Zo ziet iedereen (ook Sébastien) wat er al gedaan is. Wie iets doet, vult hier één regel aan.
+
+| Datum | Wat | Waar | Wie |
+|---|---|---|---|
+| 5/11/2026 | Kerstlisticle "5 redenen" vernieuwd voor 2026: titel, tekst, de vijf originele foto's van de WooCommerce-listicle uit 2024 terug, Premium (binnenkort) vermeld, link vanaf de kerstpagina. URL ongewijzigd; de 7 oude WP-URL's (waar we vorig jaar mee adverteerden) sturen er via 301 naartoe. | [blogpost](https://flavory.wine/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/), /cadeau/kerstcadeau/ | Bart (met Claude) |
+| 5/11/2026 | Premium wit en rood staan op de productpagina's als "Binnenkort verkrijgbaar" (zichtbare tegel naast Standaard), voor Barts post over de standaard- en premiumwijnen. | [PR #90](https://github.com/sebastien-maker/Flavory/pull/90), /shop/wijnproeverij-thuis-wit/ en -rood/ | Bart (met Claude) |
+
 ## Oktober 2026 (vóór de kerstpiek: cadeau en producten eerst)
 
 | Week | Stuk | Type | Doelzoekwoord(en) | Bewijs uit GSC | Linkt naar |
@@ -22,6 +31,7 @@ Cadans: 2 nieuwe of herschreven stukken per maand in fase 1–2, daarna 3 per ma
 |---|---|---|---|---|---|
 | 1 | "Cava of Prosecco: wat is het verschil?" | Vergelijkingsartikel | cava of prosecco, cava prosecco, prosecco of cava | 102 + 239 + 129 + 74 vert., pos 9–12 | bubbelbox |
 | 1 | Bubbelbox productpagina herschrijven | Product | bubbels cadeau, cava proeverij | cava proeverij 52 vert. pos 9; categorie bubbels 1.254 vert. (nu redirect) | /shop/bubbels/ |
+| 2 | ✅ 5/11 gedaan. Kerstlisticle "5 redenen: het wijnspel is het leukste kerstcadeau" vernieuwen voor 2026. Bestaande post [/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-…/](../src/content/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is.md): de herwerkte versie van de WooCommerce-listicle uit 2024 waar we mee adverteerden. Titel, tussentitels en tekst naar 2026, foto's van de oude pagina terugzetten, Premium (binnenkort) vermelden, URL houden. Link vanaf /cadeau/kerstcadeau/. Klaar voor de advertenties starten. | Update | leukste kerstcadeau, wijnspel kerstcadeau | 7 oude WP-URL's (`/5-redenen-waarom-flavorys-wine-tasting-het-leukste-kerstcadeau-van-2024-is/` en varianten) sturen via 301 naar deze post; blog "5 redenen" 1.417 vert. pos 22; titel zegt nog "2025" | /cadeau/kerstcadeau/, rode en witte box |
 | 2 | Cadeaugids "15 originele cadeaus voor wijnliefhebbers" | Listicle | origineel cadeau wijnliefhebber, leuk wijn cadeau | leuk wijn cadeau 93 vert. pos 50; SERP is 100% listicles | /cadeau/wijncadeau/ |
 | 3 | "Wijnproeverij thuis organiseren: complete gids" | PIJLER 1 | wijnproeverij thuis, wijnproeven thuis, wijnproeverij thuis pakket | 73 + 158 + 240 + 508 vert., pos 29–57 | alle producten, hoe werkt het |
 | 4 | Kerst-e-mail/SEO-refresh: kerstpagina bijwerken met levertermijnen, laatste besteldatum | Update | laatste besteldatum kerst wijncadeau | december = 1.747 klikken | — |

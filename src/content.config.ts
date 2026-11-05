@@ -145,6 +145,7 @@ const blog = defineCollection({
         ])
         .optional(),
       relatedProduct: reference('products').optional(),
+      listicle: z.boolean().default(false),
       related: z.array(reference('blog')).max(4).default([]),
       proefkaart: z
         .object({

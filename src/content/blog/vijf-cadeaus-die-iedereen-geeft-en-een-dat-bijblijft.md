@@ -10,6 +10,7 @@ heroImage: "../../assets/images/blog/vijf-cadeaus-die-iedereen-geeft-en-een-dat-
 heroAlt: "Iemand scheurt het cadeaupapier open van een Flavory-wijnspel"
 pillar: wijn-cadeau
 relatedProduct: wijnproeverij-thuis-rood
+listicle: true
 related:
   - blind-wijn-proeven
   - het-prille-begin-van-flavory-anno-2017

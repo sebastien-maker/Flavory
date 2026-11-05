@@ -75,6 +75,11 @@ export default config({
         heroAlt: alt,
         pillar: fields.select({ label: 'Pijler', options: PILLARS, defaultValue: 'wijnproeverij-thuis' }),
         relatedProduct: fields.relationship({ label: 'Gerelateerd product', collection: 'products' }),
+        listicle: fields.checkbox({
+          label: 'Genummerde lijst (ItemList-schema)',
+          description: 'Aanvinken bij een lijstartikel met kopjes "1. …", "2. …" op niveau 3.',
+          defaultValue: false,
+        }),
         related: fields.array(fields.relationship({ label: 'Artikel', collection: 'blog' }), {
           label: 'Gerelateerde artikels (max. 4)',
           itemLabel: (props) => props.value ?? 'Kies een artikel',

@@ -9,7 +9,7 @@ import Proefkaart from '@/components/blog/Proefkaart.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import { getPosts, getRelatedPosts, postPath, readingMinutes, PILLAR_LABELS, type Post } from '@/lib/content';
 import { absoluteUrl, authorPath, formatDate } from '@/lib/site';
-import { article, breadcrumbs, person } from '@/components/seo/schema';
+import { article, breadcrumbs, itemList, person } from '@/components/seo/schema';
 
 export const getStaticPaths = (async () => {
   const posts = await getPosts();
@@ -23,7 +23,13 @@ interface Props {
 const { post } = Astro.props;
 const { data } = post;
 const path = postPath(post.id);
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+// Numbered h3 headings ("1. Twee goede wijnglazen") become the ItemList of a listicle.
+const listItems = data.listicle
+  ? headings
+      .filter((h) => h.depth === 3 && /^\d+\.\s/.test(h.text))
+      .map((h) => ({ name: h.text.replace(/^\d+\.\s+/, ''), path: `${path}#${h.slug}` }))
+  : [];
 const author = await getEntry(data.author);
 const product = data.relatedProduct ? await getEntry(data.relatedProduct) : undefined;
 const related = await getRelatedPosts(post, 3);
@@ -72,6 +78,7 @@ const schemaImage = absoluteUrl(
     }),
     ...(author ? [person({ id: author.id, name: author.data.name, description: author.data.role })] : []),
     breadcrumbs(crumbs),
+    ...(listItems.length ? [itemList(path, listItems)] : []),
   ]}
 >
   <Breadcrumbs items={crumbs} />

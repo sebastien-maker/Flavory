@@ -218,6 +218,12 @@ export default config({
               description: 'Uitvinken om de keuze volledig te verbergen.',
               defaultValue: true,
             }),
+            comingSoon: fields.checkbox({
+              label: 'Binnenkort verkrijgbaar',
+              description:
+                'Alleen als "Op voorraad" uit staat: de keuze blijft zichtbaar met "Binnenkort verkrijgbaar", maar kan nog niet gekozen worden.',
+              defaultValue: false,
+            }),
           }),
           {
             label: 'Keuzes (volgorde = volgorde in de keuzelijst)',

@@ -27,6 +27,7 @@ variants:
     wooId: 7361
     group: druiven
     available: false
+    comingSoon: true
 descriptions:
   - group: druiven
     heading: "Chardonnay of Sauvignon Blanc"

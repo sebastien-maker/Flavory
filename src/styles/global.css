@@ -236,6 +236,17 @@
   .variant-tile.is-sold-out {
     @apply cursor-not-allowed opacity-50;
   }
+  .variant-tile.is-coming-soon {
+    @apply cursor-default border-dashed hover:border-line;
+  }
+  .variant-tile.is-coming-soon .tile-dot {
+    @apply border-dashed;
+  }
+  .coming-soon-pill {
+    border-color: var(--tile-accent);
+    color: var(--tile-accent);
+    @apply inline-block rounded-full border px-3 py-1 text-[0.875rem] leading-tight font-bold;
+  }
   .tile-dot {
     @apply size-4 shrink-0 rounded-full border border-muted bg-white;
   }

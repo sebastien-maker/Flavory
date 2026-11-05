@@ -63,10 +63,13 @@ const duels = [...new Set(variants.map((v) => v.duel))].map((name) => {
 });
 // Only options that can be bought get a tile. Sold-out options collapse to one line under the tiles
 // (still in the form, so live stock can bring them back), which keeps the buy button high on the page.
+// An option that is coming soon keeps its tile next to the others, but cannot be picked yet.
+const comingSoonLabel = 'Binnenkort verkrijgbaar';
+const isComingSoon = (v: (typeof variants)[number]) => !v.available && v.comingSoon;
 const openDuels = duels
-  .map((d) => ({ ...d, variants: d.variants.filter((v) => v.available) }))
+  .map((d) => ({ ...d, variants: d.variants.filter((v) => v.available || isComingSoon(v)) }))
   .filter((d) => d.variants.length > 0);
-const soldOut = variants.filter((v) => !v.available);
+const soldOut = variants.filter((v) => !v.available && !isComingSoon(v));
 const soldOutSummary = [...new Set(soldOut.map((v) => v.duel))]
   .map((duel) => {
     const formulas = soldOut.filter((v) => v.duel === duel).map((v) => v.formula);
@@ -346,7 +349,12 @@ const schemaImages = await Promise.all(
             const tiles = (
               <div class="grid gap-2.5">
                 {group.variants.map((v) => (
-                  <label class:list={['variant-tile', !v.available && 'is-sold-out']}>
+                  <label
+                    class:list={[
+                      'variant-tile',
+                      isComingSoon(v) ? 'is-coming-soon' : !v.available && 'is-sold-out',
+                    ]}
+                  >
                     <input
                       type="radio"
                       name="variant"
@@ -362,6 +370,7 @@ const schemaImages = await Promise.all(
                       data-regular-price={v.regularPrice}
                       data-group={v.group}
                       data-woo-id={v.wooId}
+                      data-coming-soon={isComingSoon(v) ? '' : undefined}
                     />
                     <span class="flex items-center gap-3">
                       <span class="tile-dot" aria-hidden="true" />
@@ -371,7 +380,13 @@ const schemaImages = await Promise.all(
                       </span>
                     </span>
                     <span class="ml-auto max-w-[45%] text-right font-bold" data-tile-price>
-                      {v.available ? <Price price={v.price} regularPrice={v.regularPrice} /> : soldOutLabel}
+                      {v.available ? (
+                        <Price price={v.price} regularPrice={v.regularPrice} />
+                      ) : isComingSoon(v) ? (
+                        <span class="coming-soon-pill">{comingSoonLabel}</span>
+                      ) : (
+                        soldOutLabel
+                      )}
                     </span>
                   </label>
                 ))}
@@ -708,6 +723,8 @@ const schemaImages = await Promise.all(
       .then((json: unknown) => {
         const stock = parseStoreProducts(json);
         for (const radio of radios) {
+          // Not on sale yet, whatever WooCommerce says: the CMS decides when it opens.
+          if (radio.dataset.comingSoon !== undefined) continue;
           const live = stock.get(Number(radio.dataset.wooId));
           if (!live) continue;
           radio.dataset.price = String(live.price);

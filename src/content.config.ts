@@ -44,6 +44,8 @@ const variant = z.object({
   // Links the option to one of the product's `descriptions`.
   group: z.string(),
   available: z.boolean().default(true),
+  // Not on sale yet: shown as a visible "Binnenkort verkrijgbaar" tile instead of the collapsed sold-out line.
+  comingSoon: z.boolean().default(false),
   // Promotion in WooCommerce: filled in at build time (src/lib/content.ts), never in the CMS.
   regularPrice: z.number().positive().optional(),
   saleEnd: z.string().optional(),

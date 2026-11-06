@@ -23,7 +23,8 @@ variants:
     duel: "Chardonnay of Sauvignon Blanc"
     formula: Premium
     price: 79.9
-    sku: "TMP-WIT-CSB-PREM"
+    sku: "B002D Chardonnay/SB Premium (6151305774784)"
+    gtin13: "6151305774784"
     wooId: 7361
     group: druiven
     available: true

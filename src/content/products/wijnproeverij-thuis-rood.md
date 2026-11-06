@@ -14,7 +14,8 @@ variants:
     duel: "Merlot of Cabernet Sauvignon"
     formula: Standaard
     price: 59.9
-    sku: "TMP-ROOD-MCS-REG"
+    sku: "B001N Merlot/CS (6151300020091)-1"
+    gtin13: "6151300020091"
     wooId: 15718
     group: druiven
     available: true
@@ -22,7 +23,8 @@ variants:
     duel: "Merlot of Cabernet Sauvignon"
     formula: Premium
     price: 79.9
-    sku: "TMP-ROOD-MCS-PREM"
+    sku: "B001D Merlot/CS Premium (6151303964972)"
+    gtin13: "6151303964972"
     wooId: 2842
     group: druiven
     available: true

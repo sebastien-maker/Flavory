@@ -1,11 +1,10 @@
 ---
 name: "Rood wijnspel"
 h1: "Rode wijnspel"
-intro: "Twee rode wijnen, blind geproefd met vrienden of familie. Merlot of Cabernet Sauvignon is terug op voorraad; Italië of Spanje zolang de voorraad strekt."
+intro: "Twee rode wijnen, blind geproefd met vrienden of familie: Merlot of Cabernet Sauvignon, in Standaard of Premium. Italië of Spanje zolang de voorraad strekt."
 seoTitle: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Merlot tegen een Cabernet Sauvignon en ontdek het verschil. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Merlot of Cabernet Sauvignon"
-badge: "Terug op voorraad"
 cardTagline: "Twee rode druiven, blind geproefd. Wie wordt de wijnkenner aan tafel?"
 choiceLine: "Merlot of Cabernet Sauvignon: proef jij het verschil?"
 definition: "Het rode wijnspel van Flavory is een blinde wijnproeverij voor thuis, met het volledige spel en twee flessen wijn: een Merlot en een Cabernet Sauvignon, voor 2 tot 6 spelers."
@@ -40,7 +39,7 @@ variants:
 descriptions:
   - group: druiven
     heading: "Merlot of Cabernet Sauvignon"
-    lead: "Merlot en Cabernet Sauvignon kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen. Terug op voorraad."
+    lead: "Merlot en Cabernet Sauvignon kent iedereen van naam. Toch zijn het twee totaal verschillende wijnen."
     text: |
       Wat is het verschil tussen Merlot en Cabernet Sauvignon? Na dit spel weet je het voorgoed. Je schenkt twee rode wijnen blind uit, proeft ze samen met je vrienden of familie en probeert te ontmaskeren welke fles welke druif bevat.
 

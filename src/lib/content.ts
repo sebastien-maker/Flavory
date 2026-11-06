@@ -94,6 +94,8 @@ export async function getProducts(): Promise<Product[]> {
   for (const product of all) {
     for (const v of product.data.variants) {
       const live = v.wooId ? stock.get(v.wooId) : undefined;
+      // WooCommerce answered but does not list this product (not published yet): nobody can check it out.
+      if (!live && v.wooId && stock.size > 0) v.available = false;
       if (!live) continue;
       v.price = live.price;
       v.regularPrice = live.regularPrice;

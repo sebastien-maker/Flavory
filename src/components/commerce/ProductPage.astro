@@ -24,7 +24,7 @@ import {
   variantName,
   type Product,
 } from '@/lib/content';
-import { FORMULAS, SITE, absoluteUrl, formatPrice, pricePerPerson } from '@/lib/site';
+import { FORMULAS, PREMIUM_MARK, SITE, absoluteUrl, formatPrice, pricePerPerson } from '@/lib/site';
 import { COLOUR_STYLES, colourOf } from '@/lib/colour-choice';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
@@ -375,7 +375,14 @@ const schemaImages = await Promise.all(
                     <span class="flex items-center gap-3">
                       <span class="tile-dot" aria-hidden="true" />
                       <span>
-                        <span class="block font-bold">{v.formula}</span>
+                        <span class="block font-bold">
+                          {v.formula}
+                          {v.formula === 'Premium' && (
+                            <span class="premium-mark" aria-hidden="true">
+                              {PREMIUM_MARK}
+                            </span>
+                          )}
+                        </span>
                         <span class="block text-sm text-muted">{FORMULAS[v.formula]}</span>
                       </span>
                     </span>

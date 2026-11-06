@@ -36,7 +36,7 @@ export const SITE = {
   checkoutNotice: '' as string,
   // Restock message in the announcement bar on the homepage and the shop pages, linking to /shop/.
   // A checkout notice or a running campaign goes first. Empty string = the normal announcement.
-  restock: 'Terug op voorraad: Merlot, Cabernet Sauvignon, Chardonnay en Sauvignon Blanc' as string,
+  restock: '' as string,
   shipping: {
     countries: ['BE', 'NL'] as const,
     minDays: 1,
@@ -142,11 +142,25 @@ export const PRESS = [
   },
 ] as const;
 
+// Prices per box for companies on /zakelijk/, excluding VAT (Bart, 6 Nov 2026). The table shows both duels
+// with these three options; the quote form stays for numbers and personalisation.
+export const BUSINESS_PRICES = {
+  duels: ['Merlot of Cabernet Sauvignon', 'Chardonnay of Sauvignon Blanc'],
+  options: [
+    { name: 'Zonder wijn', detail: 'het wijnspel, de ontvanger kiest zelf twee flessen', price: 9.99 },
+    { name: 'Met wijn', detail: 'het wijnspel met twee flessen wijn (75 cl)', price: 29.99 },
+    { name: 'Premium', detail: 'het wijnspel met twee duurdere wijnen met meer diepgang', price: 44.99 },
+  ],
+  note: 'Prijzen per stuk, exclusief btw en verzending.',
+} as const;
+
 // Explanation shown under the option list on product pages.
 export const FORMULAS = {
   Standaard: 'Twee heerlijke wijnen die het verschil duidelijk laten proeven',
   Premium: 'Twee duurdere wijnen met meer diepgang',
 } as const;
+// Small star next to "Premium" on tiles and cards: a touch more shine, nothing louder.
+export const PREMIUM_MARK = '✦';
 
 /** One line about shipping, used in the cart, on product pages and in the shipping page intro. */
 export const shippingLine = () =>

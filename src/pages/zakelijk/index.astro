@@ -4,9 +4,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import ContactForm from '@/components/forms/ContactForm.astro';
 import Faq from '@/components/ui/Faq.astro';
-import ProductCard from '@/components/commerce/ProductCard.astro';
-import { getFaq, getProducts, isAvailable, mainProducts } from '@/lib/content';
-import { PRESS } from '@/lib/site';
+import { getFaq } from '@/lib/content';
+import { BUSINESS_PRICES, PREMIUM_MARK, PRESS, formatPrice } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-geven.jpg';
 
@@ -33,7 +32,6 @@ const faq = [
   },
   ...(await getFaq('zakelijk')).map((f) => f.data),
 ];
-const products = mainProducts(await getProducts()).filter(isAvailable);
 ---
 
 <BaseLayout
@@ -61,7 +59,7 @@ const products = mainProducts(await getProducts()).filter(isAvailable);
           <span class="text-brand" aria-hidden="true">
             ✓
           </span>{' '}
-          Twee geselecteerde wijnen en een compleet spel per box
+          Het wijnspel met of zonder wijn: Merlot of Cabernet Sauvignon, Chardonnay of Sauvignon Blanc
         </li>
         <li class="flex gap-2">
           <span class="text-brand" aria-hidden="true">
@@ -122,20 +120,45 @@ const products = mainProducts(await getProducts()).filter(isAvailable);
     </div>
   </section>
 
-  {products.length > 0 && (
-    <section class="container-site py-8" aria-labelledby="boxen-title">
-      <h2 id="boxen-title" class="h3">
-        Populair als relatiegeschenk
-      </h2>
-      <ul class="mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
-        {products.map((p) => (
-          <li>
-            <ProductCard product={p} />
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
+  <section class="container-site py-8" aria-labelledby="prijs-title">
+    <h2 id="prijs-title" class="h3">
+      Wat kost een wijnspel als relatiegeschenk?
+    </h2>
+    <p class="mt-3 max-w-2xl">
+      Je kiest per box een rood of een wit duel: {BUSINESS_PRICES.duels.join(' of ')}. Elk duel is er in drie
+      versies.
+    </p>
+    <div class="prose-flavory mt-4 max-w-2xl">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Versie</th>
+            <th scope="col">Wat zit erin?</th>
+            <th scope="col" class="text-right">
+              Prijs per stuk
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {BUSINESS_PRICES.options.map((o) => (
+            <tr>
+              <th scope="row" class="whitespace-nowrap">
+                {o.name}
+                {o.name === 'Premium' && (
+                  <span class="premium-mark" aria-hidden="true">
+                    {PREMIUM_MARK}
+                  </span>
+                )}
+              </th>
+              <td>{o.detail}</td>
+              <td class="text-right font-bold whitespace-nowrap">{formatPrice(o.price)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-sm text-muted">{BUSINESS_PRICES.note}</p>
+  </section>
 
   <section id="offerte" class="container-site scroll-mt-28 py-8 md:py-12" aria-labelledby="offerte-title">
     <div class="grid gap-8 rounded-[var(--radius-card)] bg-white p-6 ring-1 ring-line md:grid-cols-[1fr_2fr] md:p-10">
@@ -144,8 +167,8 @@ const products = mainProducts(await getProducts()).filter(isAvailable);
           Vraag een vrijblijvende offerte aan
         </h2>
         <p class="mt-3">
-          Vul het formulier in en we bezorgen je zo snel mogelijk een offerte op maat. De prijs per stuk hangt af van
-          het aantal en van je keuze: de wijnspellen zijn er met of zonder wijn.
+          Vul het formulier in en we bezorgen je zo snel mogelijk een offerte op maat, met de versie, het aantal en de
+          personalisatie die je kiest.
         </p>
         {PRESS.map((item) => (
           <p class="mt-3 text-sm">

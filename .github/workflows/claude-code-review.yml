@@ -1,6 +1,9 @@
 name: Code Review
 # Automatische review van elke pull request uit een branch in deze repo (fork-PR's krijgen geen secrets).
 # Reviewcriteria staan in CLAUDE.md. Authenticatie via CLAUDE_CODE_OAUTH_TOKEN (Barts abonnement).
+# De review is een gewone prompt (de aanpak uit docs/solutions.md van de action), geen plugin-commando:
+# het commando /code-review:code-review van de code-review-plugin faalt sinds Claude Code 2.1.317 meteen in
+# headless modus, waardoor elke run rood was sinds 3 nov 2026.
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
@@ -21,7 +24,19 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          plugin_marketplaces: "https://github.com/anthropics/claude-code.git"
-          plugins: "code-review@claude-code-plugins"
-          prompt: "/code-review:code-review --comment ${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
-          claude_args: '--allowedTools "mcp__github_inline_comment__create_inline_comment"'
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review deze pull request volgens de sectie "Bij review op een PR" in CLAUDE.md, in die volgorde:
+            SEO-regels 1 tot 8, redirects voor verwijderde of hernoemde URL's, schema-validiteit, toegankelijkheid,
+            performance-budget, geen secrets in de diff. Lees ook docs/design-richtlijnen.md en docs/woordenlijst.md
+            als de diff tekst of layout raakt.
+
+            De PR-branch staat al uitgecheckt in de werkmap. Haal de diff op met `gh pr diff`.
+            Meld elke bevinding als inline-opmerking met `mcp__github_inline_comment__create_inline_comment`
+            (met `confirmed: true`), in het Nederlands, kort, met een concreet voorstel. Geen bevindingen: plaats
+            dan één korte opmerking met `gh pr comment` dat de review niets vond. Plaats alleen GitHub-opmerkingen,
+            geen reviewtekst als antwoord.
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"

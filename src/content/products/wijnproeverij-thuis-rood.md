@@ -25,8 +25,7 @@ variants:
     sku: "TMP-ROOD-MCS-PREM"
     wooId: 2842
     group: druiven
-    available: false
-    comingSoon: true
+    available: true
   - id: italie-spanje-standaard
     duel: "Italië of Spanje"
     formula: Standaard

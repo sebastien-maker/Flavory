@@ -10,6 +10,7 @@ Alles wat effectief gebeurt rond content, marketing en advertenties, nieuwste bo
 
 | Datum | Wat | Waar | Wie |
 |---|---|---|---|
+| 6/11/2026 | Premium wit en rood te koop (24 stuks elk, € 79,90), met een klein sterretje bij "Premium" op tegels en kaarten. Zakelijke pagina: geen productkaarten (en dus geen Italië of Spanje) meer, maar een prijstabel per stuk excl. btw: zonder wijn € 9,99, met wijn € 29,99, Premium € 44,99, voor beide duels. Kerstlisticle zegt niet langer "binnenkort". WooCommerce: product 2842 en 7361 publiceren met voorraad 24 (Bart). | /shop/wijnproeverij-thuis-wit/ en -rood/, /zakelijk/ | Bart (met Claude) |
 | 5/11/2026 | Kerstlisticle "5 redenen" vernieuwd voor 2026: titel, tekst, de vijf originele foto's van de WooCommerce-listicle uit 2024 terug, Premium (binnenkort) vermeld, link vanaf de kerstpagina. URL ongewijzigd; de 7 oude WP-URL's (waar we vorig jaar mee adverteerden) sturen er via 301 naartoe. | [blogpost](https://flavory.wine/blog/op-zoek-naar-het-leukste-kerstcadeau-van-2025-ontdek-waarom-de-flavory-wijnproeverij-het-perfecte-geschenk-is/), /cadeau/kerstcadeau/ | Bart (met Claude) |
 | 5/11/2026 | Premium wit en rood staan op de productpagina's als "Binnenkort verkrijgbaar" (zichtbare tegel naast Standaard), voor Barts post over de standaard- en premiumwijnen. | [PR #90](https://github.com/sebastien-maker/Flavory/pull/90), /shop/wijnproeverij-thuis-wit/ en -rood/ | Bart (met Claude) |
 

@@ -26,8 +26,7 @@ variants:
     sku: "TMP-WIT-CSB-PREM"
     wooId: 7361
     group: druiven
-    available: false
-    comingSoon: true
+    available: true
 descriptions:
   - group: druiven
     heading: "Chardonnay of Sauvignon Blanc"

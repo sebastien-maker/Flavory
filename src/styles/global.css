@@ -247,6 +247,10 @@
     color: var(--tile-accent);
     @apply inline-block rounded-full border px-3 py-1 text-[0.875rem] leading-tight font-bold;
   }
+  /* The star after "Premium" (PREMIUM_MARK in src/lib/site.ts). */
+  .premium-mark {
+    @apply ml-0.5 text-[0.875em] text-brand;
+  }
   .tile-dot {
     @apply size-4 shrink-0 rounded-full border border-muted bg-white;
   }

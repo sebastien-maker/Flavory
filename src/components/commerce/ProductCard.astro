@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import type { Product } from '@/lib/content';
 import { isAvailable, productPath } from '@/lib/content';
 import Price from './Price.astro';
+import { PREMIUM_MARK } from '@/lib/site';
 
 interface Props {
   product: Product;
@@ -52,7 +53,14 @@ const options = data.variants.map((v) => ({
     <dl class="mt-3 space-y-1 text-sm">
       {options.map((o) => (
         <div class="flex items-baseline justify-between gap-2">
-          <dt class="font-bold">{o.formula}</dt>
+          <dt class="font-bold">
+            {o.formula}
+            {o.formula === 'Premium' && (
+              <span class="premium-mark" aria-hidden="true">
+                {PREMIUM_MARK}
+              </span>
+            )}
+          </dt>
           <dd class:list={[o.available ? 'font-bold' : 'text-muted']}>
             {o.available ? <Price price={o.price} regularPrice={o.regularPrice} /> : 'Tijdelijk uitverkocht'}
           </dd>

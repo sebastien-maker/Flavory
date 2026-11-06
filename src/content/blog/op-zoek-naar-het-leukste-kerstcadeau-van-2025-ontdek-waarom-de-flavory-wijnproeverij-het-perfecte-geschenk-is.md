@@ -48,4 +48,4 @@ Spelen is leuk, winnen is nog leuker. Je hoeft geen kenner te zijn om tot wijnke
 
 ## Rood of wit, Standaard of Premium
 
-Kies de [rode box](/shop/wijnproeverij-thuis-rood/) met Merlot of Cabernet Sauvignon, of de [witte box](/shop/wijnproeverij-thuis-wit/) met Chardonnay of Sauvignon Blanc. In elke box zitten het wijnspel en twee flessen wijn (75 cl). De Premium-boxen, met twee duurdere wijnen die meer diepgang hebben, zijn binnenkort verkrijgbaar. Meer ideeën vind je bij onze [kerstcadeaus](/cadeau/kerstcadeau/).
+Kies de [rode box](/shop/wijnproeverij-thuis-rood/) met Merlot of Cabernet Sauvignon, of de [witte box](/shop/wijnproeverij-thuis-wit/) met Chardonnay of Sauvignon Blanc. In elke box zitten het wijnspel en twee flessen wijn (75 cl). Wil je net iets meer? Kies dan de Premium-box, met twee duurdere wijnen die meer diepgang hebben. Meer ideeën vind je bij onze [kerstcadeaus](/cadeau/kerstcadeau/).

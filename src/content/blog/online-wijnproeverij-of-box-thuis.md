@@ -13,7 +13,7 @@ related:
   - wijnproeverij-thuis-organiseren
   - blind-wijn-proeven
   - wijnproeverij-thuis-flavory
-draft: true
+draft: false
 ---
 Bij een online wijnproeverij krijg je een pakket met kleine flesjes thuis, en op een vast uur proef je mee met een sommelier die via een videogesprek uitleg geeft. Met een box om thuis te proeven, zoals het wijnspel van Flavory, krijg je volle flessen en kies je zelf wanneer en met wie je proeft. Er kijkt niemand mee: de box zelf leidt het spel.
 
@@ -31,8 +31,6 @@ Beide zijn een wijnproeverij thuis. Het verschil zit in wie de avond leidt, hoev
 | Na afloop | De flesjes zijn leeg | Er blijft meestal wijn over voor bij het eten |
 | Past bij | Collega's op verschillende plaatsen, wie veel uitleg wil | Vrienden, familie of een koppel aan één tafel |
 
-<!-- VRAAG 1 AAN BART: eigen ervaring met een online proeverij (zie opzet in de chat). -->
-
 ## Wanneer kies je een online wijnproeverij?
 
 Een online proeverij is handig als je gezelschap niet aan één tafel kan zitten. Een team dat verspreid thuis werkt, of familie in verschillende landen, proeft zo toch samen. En wie veel wil leren over een streek of een wijnmaker, heeft aan een expert die live antwoordt meer dan aan een boekje.
@@ -43,7 +41,7 @@ Reken wel op een vast tijdstip en op een scherm in het midden van de tafel. En m
 
 Een box past beter als je met vrienden, familie of je partner aan één tafel zit en de avond zelf wil invullen. Niemand geeft les: je proeft, je praat, je twijfelt, en op het einde blijkt wie het bij het rechte eind had.
 
-<!-- VRAAG 2 AAN BART: wat mis je aan een online proeverij, wat doet de box beter? -->
+Het verschil met een online proeverij is dat het wijnspel een spel is, en een spel trekt drie soorten spelers aan tafel. Sommigen komen voor de gezelligheid: vrienden of familie samen rond een fles, en de wijn is de aanleiding. Anderen komen om te leren: ze willen weten waarom twee wijnen anders ruiken en smaken, en ontdekken dat terwijl ze proeven. En dan zijn er de competitieve spelers, die vooral willen winnen. In het wijnspel komen ze alle drie aan hun trekken, aan dezelfde tafel.
 
 In het wijnspel van Flavory zitten twee flessen wijn van 75 cl, elk in een stoffen zakje met een A of een B. Je proeft ze blind en raadt met quizvragen welke druif in welke fles zit, bijvoorbeeld [Merlot of Cabernet Sauvignon](/shop/wijnproeverij-thuis-rood/) of [Chardonnay of Sauvignon Blanc](/shop/wijnproeverij-thuis-wit/). Voorkennis heb je niet nodig. Hoe je zo'n avond aanpakt, lees je in [een wijnproeverij thuis organiseren](/blog/wijnproeverij-thuis-organiseren/).
 
@@ -61,7 +59,9 @@ Ja. Sommige aanbieders sturen kaas of charcuterie mee, bij andere zorg je er zel
 
 Bij een online proeverij hangt dat af van het aantal pakketten dat je bestelt. Het wijnspel van Flavory is gemaakt voor twee tot zes spelers aan één tafel.
 
-<!-- VRAAG 3 AAN BART: voor wie raad je de box af, en wie stuur je naar een online proeverij? -->
+### Voor wie is een online proeverij een betere keuze?
+
+Voor wie veel wil leren over één streek, één wijnhuis of één wijnmaker. Een sommelier die live je vragen beantwoordt, gaat dieper dan een spel. Het wijnspel leert je proeven en verschillen herkennen, maar het blijft een spel, geen les.
 
 ### Is een box thuis ook iets voor een bedrijf?
 

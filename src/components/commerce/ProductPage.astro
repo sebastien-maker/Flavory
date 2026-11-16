@@ -406,7 +406,8 @@ const schemaImages = await Promise.all(
                             </span>
                           )}
                         </span>
-                        <span class="block text-sm text-muted">{FORMULAS[v.formula]}</span>
+                        {/* Only Premium needs a word of explanation; it also keeps the page inside the HTML budget. */}
+                        {v.formula === 'Premium' && <span class="block text-sm text-muted">{FORMULAS.Premium}</span>}
                       </span>
                     </span>
                     <span class="ml-auto max-w-[45%] text-right font-bold" data-tile-price>

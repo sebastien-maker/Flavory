@@ -1,6 +1,10 @@
 ---
-import { SITE, shippingLine } from '@/lib/site';
+import { SITE } from '@/lib/site';
+import Countdown from '@/components/ui/Countdown.astro';
 
+// Running promotion (SITE.campaign): the offer and the time left stand at the top of the cart.
+const promo = !SITE.checkoutNotice && SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
+const { endDate, endsAt } = SITE.blackFriday;
 // Fallback when online checkout is unavailable. Without an e-mail address the link would be empty,
 // so we point to the contact page instead.
 const contact = SITE.email
@@ -30,9 +34,23 @@ const contact = SITE.email
       </button>
     </div>
 
+    {promo && (
+      <p class="bg-ink px-5 py-2 text-sm font-bold text-white">
+        {promo}
+        {endDate && (
+          <span class="block font-normal first-letter:uppercase">
+            {endsAt ? <Countdown endsAt={endsAt} fallback={`tot en met ${endDate}`} /> : `tot en met ${endDate}`}
+          </span>
+        )}
+      </p>
+    )}
+
     <p data-cart-progress class="bg-blush px-5 py-3 text-sm font-bold" aria-live="polite"></p>
 
     <ul data-cart-lines class="flex-1 divide-y divide-line overflow-y-auto px-5"></ul>
+
+    {/* One box in the cart: the box of the other colour, which makes shipping free. Filled in by the script. */}
+    <div data-cart-upsell hidden class="px-5 pb-4"></div>
 
     <div data-cart-empty hidden class="flex flex-1 flex-col items-center justify-center gap-4 px-5 text-center">
       <p class="font-display text-xl">Je winkelmandje is nog leeg.</p>
@@ -46,9 +64,12 @@ const contact = SITE.email
         <span>Subtotaal</span>
         <span data-cart-subtotal></span>
       </div>
-      <p class="mt-1 text-xs text-muted">Inclusief btw.</p>
-      <p class="mt-2 text-sm" data-cart-shipping>
-        {shippingLine()}
+      <div class="mt-1 flex items-center justify-between text-sm">
+        <span>Verzending in België en Nederland</span>
+        <span class="font-bold" data-cart-shipping></span>
+      </div>
+      <p class="mt-1 text-xs text-muted">
+        Inclusief btw. Gratis verzending vanaf {SITE.shipping.freeFromBoxes} boxen.
       </p>
       {SITE.checkoutNotice && (
         <p class="mt-3 rounded-lg bg-[#f28c28] px-3 py-2.5 text-sm font-bold text-ink" role="status">
@@ -130,13 +151,68 @@ const contact = SITE.email
   import { checkoutProvider, createCheckoutUrl } from '@/lib/commerce/checkout';
   import { WOO_API_PROXY, WOO_URL, parseStoreProducts, storeProductsPath } from '@/lib/commerce/woo';
   import { analyticsIds, track } from '@/lib/analytics';
-  import { SITE, formatPrice, shippingLine } from '@/lib/site';
+  import { SITE, formatPrice } from '@/lib/site';
   import { renderPrice } from '@/lib/commerce/price';
 
   const dialog = document.getElementById('cart-drawer') as HTMLDialogElement;
   const $ = <T extends HTMLElement>(sel: string, root: ParentNode = dialog) => root.querySelector<T>(sel)!;
   const linesEl = $('[data-cart-lines]');
   const template = document.getElementById('cart-line-template') as HTMLTemplateElement;
+
+  // The box the cart offers next to the one already in it (/cart-upsell.json, loaded when the cart opens).
+  interface Upsell extends Omit<CartLine, 'quantity'> {
+    colour: 'Wit' | 'Rood';
+    product: string;
+    duel: string;
+    buyable?: boolean;
+  }
+  const upsellEl = dialog.querySelector<HTMLElement>('[data-cart-upsell]');
+  const upsellButton = {
+    Wit: 'bg-wine-white text-ink hover:bg-wine-white-dark',
+    Rood: 'bg-brand text-white hover:bg-brand-dark',
+  };
+  let upsells: Upsell[] = [];
+
+  // With one box in the cart: offer the box of the other colour, which makes shipping free.
+  function renderUpsell(lines: CartLine[], count: number) {
+    if (!upsellEl) return;
+    const inCart = new Set(lines.map((l) => l.handle.split(':')[0]));
+    const offer =
+      count > 0 && count < SITE.shipping.freeFromBoxes
+        ? upsells.find((u) => !inCart.has(u.product) && u.buyable !== false)
+        : undefined;
+    upsellEl.hidden = !offer;
+    if (!offer) {
+      upsellEl.replaceChildren();
+      return;
+    }
+    const img = document.createElement('img');
+    img.src = offer.image;
+    img.alt = '';
+    img.width = 64;
+    img.height = 64;
+    img.className = 'size-16 shrink-0 rounded-lg object-cover';
+    const title = document.createElement('p');
+    title.className = 'font-bold leading-tight';
+    title.textContent = `Neem er ${offer.colour === 'Wit' ? 'wit' : 'rood'} bij: verzending gratis`;
+    const price = document.createElement('span');
+    renderPrice(price, offer.price, offer.regularPrice);
+    const detail = document.createElement('p');
+    detail.className = 'mt-1 text-sm';
+    detail.append(`${offer.duel}, `, price, `. Je spaart ${formatPrice(SITE.shipping.rate)}.`);
+    const text = document.createElement('div');
+    text.className = 'min-w-0 flex-1';
+    text.append(title, detail);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `btn min-h-10 shrink-0 px-4 py-2 text-sm ${upsellButton[offer.colour]}`;
+    button.textContent = 'Voeg toe';
+    button.addEventListener('click', () => addLine(offer));
+    const card = document.createElement('div');
+    card.className = 'flex items-center gap-3 rounded-xl bg-white p-3';
+    card.append(img, text, button);
+    upsellEl.replaceChildren(card);
+  }
 
   function render(lines: CartLine[]) {
     const count = lines.reduce((n, l) => n + l.quantity, 0);
@@ -159,8 +235,9 @@ const contact = SITE.email
       count === 0 ? '' : toGo > 0 ? `Nog ${toGo} box en je verzending is gratis!` : 'Je verzending is gratis!';
     $('[data-cart-progress]').hidden = count === 0;
     // Shipping: the real amount, or free once the cart reaches the threshold.
-    $('[data-cart-shipping]').textContent = toGo > 0 ? shippingLine() : 'Gratis verzending';
+    $('[data-cart-shipping]').textContent = toGo > 0 ? formatPrice(SITE.shipping.rate) : 'Gratis';
     $('[data-cart-subtotal]').textContent = formatPrice(lines.reduce((s, l) => s + l.price * l.quantity, 0));
+    renderUpsell(lines, count);
 
     linesEl.replaceChildren(
       ...lines.map((line) => {
@@ -216,16 +293,76 @@ const contact = SITE.email
       .catch(() => {});
   };
 
+  // The offer for the cart, at most once per page view, with live price and stock: the cart never offers a
+  // sold-out box or an old price. A failed request just means no offer.
+  let upsellsRequested = false;
+  const loadUpsells = () => {
+    if (upsellsRequested || !upsellEl) return;
+    upsellsRequested = true;
+    fetch('/cart-upsell.json')
+      .then((res) => (res.ok ? res.json() : []))
+      .then(async (items: Upsell[]) => {
+        const ids = items.flatMap((u) => (u.wooId ? [u.wooId] : []));
+        const res = ids.length > 0 ? await fetch(`${WOO_API_PROXY}${storeProductsPath(ids)}`) : undefined;
+        const stock = parseStoreProducts(res?.ok ? await res.json() : []);
+        for (const item of items) {
+          const live = item.wooId ? stock.get(item.wooId) : undefined;
+          if (!live) continue;
+          item.price = live.price;
+          item.regularPrice = live.regularPrice;
+          item.buyable = live.buyable;
+        }
+        upsells = items;
+        render(cart.lines());
+      })
+      .catch(() => {});
+  };
+
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
     if (target.closest('[data-cart-open]')) {
       preconnect();
       reprice();
+      loadUpsells();
       dialog.showModal();
       track('cart_viewed', cartProperties(cart.lines()));
     }
     if (target.closest('[data-cart-close]') || target === dialog) dialog.close();
   });
+
+  // Puts a box in the cart and opens the drawer: used by the add-to-cart forms and by the offer in the cart.
+  function addLine(line: Omit<CartLine, 'quantity'>, quantity = 1) {
+    cart.add(
+      {
+        handle: line.handle,
+        name: line.name,
+        price: line.price,
+        regularPrice: line.regularPrice,
+        image: line.image,
+        url: line.url,
+        wooId: line.wooId,
+      },
+      quantity,
+    );
+    preconnect();
+    reprice();
+    loadUpsells();
+    if (!dialog.open) dialog.showModal();
+    track('product_added_to_cart', {
+      id: line.handle,
+      name: line.name,
+      price: line.price,
+      ...cartProperties(cart.lines()),
+    });
+    window.dataLayer?.push({
+      event: 'add_to_cart',
+      ecommerce: {
+        currency: 'EUR',
+        value: line.price,
+        items: [{ item_id: line.handle, item_name: line.name, price: line.price }],
+      },
+    });
+  }
 
   // Add-to-cart forms: <form data-add-to-cart> with hidden inputs (see ProductPage.astro).
   document.addEventListener('submit', (e) => {
@@ -233,7 +370,7 @@ const contact = SITE.email
     if (!form) return;
     e.preventDefault();
     const data = new FormData(form);
-    cart.add(
+    addLine(
       {
         handle: String(data.get('handle')),
         name: String(data.get('name')),
@@ -245,23 +382,6 @@ const contact = SITE.email
       },
       Number(data.get('quantity') ?? 1),
     );
-    preconnect();
-    reprice();
-    dialog.showModal();
-    track('product_added_to_cart', {
-      id: String(data.get('handle')),
-      name: String(data.get('name')),
-      price: Number(data.get('price')),
-      ...cartProperties(cart.lines()),
-    });
-    window.dataLayer?.push({
-      event: 'add_to_cart',
-      ecommerce: {
-        currency: 'EUR',
-        value: Number(data.get('price')),
-        items: [{ item_id: data.get('handle'), item_name: data.get('name'), price: Number(data.get('price')) }],
-      },
-    });
   });
 
   const checkoutButton = $<HTMLButtonElement>('[data-cart-checkout]');

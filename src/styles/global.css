@@ -309,6 +309,14 @@
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;
   }
+  /* Box card on the home page (BoxShelf.astro): photo, price and the buttons. On a phone the photo is a
+     low band so three cards stay short; from md up it is a square. */
+  .box-card {
+    @apply flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-white;
+  }
+  .box-card-img {
+    @apply aspect-[16/10] w-full bg-[#fbf2e9] object-contain md:aspect-square;
+  }
   /* Price before the discount, next to the sale price (Price.astro and lib/commerce/price.ts). */
   .price-old {
     @apply mr-1.5 font-normal text-muted;

@@ -1,7 +1,7 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ColorChoice from '@/components/commerce/ColorChoice.astro';
+import BoxShelf from '@/components/commerce/BoxShelf.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
@@ -170,6 +170,13 @@ const audiences = [
     </div>
   </section>
 
+  <!-- Block 3: the boxes, each with its price and a button that puts it straight into the cart. -->
+  <section id="kies-je-box" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
+    <div class="container-site">
+      <BoxShelf products={allProducts} />
+    </div>
+  </section>
+
   <!-- Zo speel je Flavory -->
   <section class="section-y" aria-labelledby="spelen-title">
     <div class="container-site">
@@ -209,13 +216,6 @@ const audiences = [
           De spelregels in 6 stappen
         </a>
       </p>
-    </div>
-  </section>
-
-  <!-- Kies je box -->
-  <section id="kies-je-box" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
-    <div class="container-site">
-      <ColorChoice products={allProducts} class="mx-auto" />
     </div>
   </section>
 

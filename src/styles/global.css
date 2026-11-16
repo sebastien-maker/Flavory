@@ -327,6 +327,10 @@
   .price-old {
     @apply mr-1.5 font-normal text-muted;
   }
+  /* On an option tile the regular price stands above the sale price, so the explanation keeps its width. */
+  .variant-tile .price-old {
+    @apply mr-0 block text-sm;
+  }
   .payments > li {
     @apply rounded bg-white p-0.5;
   }

@@ -56,7 +56,12 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
               {product.data.badge && (
                 <span class="badge absolute top-2 left-2 bg-ink text-white">{product.data.badge}</span>
               )}
-              {promo && badge && <span class="bf-badge absolute top-2 right-2">Black Friday {badge}</span>}
+              {promo && badge && (
+                // Next to a badge of the box itself there is only room for the figure.
+                <span class="bf-badge absolute top-2 right-2">
+                  {product.data.badge ? badge : `Black Friday ${badge}`}
+                </span>
+              )}
             </div>
             <div class="flex flex-1 flex-col px-3 py-3.5 text-center">
               <h3 class="text-[1.5rem] leading-none">{style.title}</h3>

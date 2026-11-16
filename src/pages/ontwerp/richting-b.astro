@@ -1,0 +1,384 @@
+---
+// Design direction B, "De avond": the evening itself leads, darker and warmer. Prototype for Bart's choice, never shipped.
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import RatingBadge from '@/components/ui/RatingBadge.astro';
+import ShippingCutoff from '@/components/ui/ShippingCutoff.astro';
+import Price from '@/components/commerce/Price.astro';
+import { colourChoices, fromPrice, getProducts, mainProducts, productPath } from '@/lib/content';
+import { COLOUR_STYLES } from '@/lib/colour-choice';
+import { SITE } from '@/lib/site';
+import table from '@/assets/images/site/aan-tafel.jpg';
+import bags from '@/assets/images/site/flessen-in-zakjes.jpg';
+import pour from '@/assets/images/site/hero-proeverij.jpg';
+import reveal from '@/assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg';
+
+const products = await getProducts();
+const choices = colourChoices(products).map((c) => ({ ...c, style: COLOUR_STYLES[c.label] }));
+const lowestPrice = Math.min(...mainProducts(products).map(fromPrice));
+const red = choices.find((c) => c.label === 'Rood') ?? choices[0]!;
+const buttons = { Wit: 'Bekijk wit', Rood: 'Bekijk rood' } as const;
+const steps = [
+  {
+    img: bags,
+    alt: 'Twee flessen wijn in stoffen zakjes met de letters A en B, naast twee glazen rode wijn',
+    title: 'Schenk blind in',
+    text: 'De twee flessen zitten in stoffen zakjes. Niemand weet welke wijn in fles A of B zit.',
+  },
+  {
+    img: pour,
+    alt: 'Rode wijn wordt ingeschonken boven de proefformulieren van het spel',
+    title: 'Proef en speel',
+    text: 'Kijk, ruik en proef, en verzamel tips met de quizvragen.',
+  },
+  {
+    img: reveal,
+    alt: 'Een vrouw haalt de fles uit het zakje terwijl haar tafelgenoot toekijkt',
+    title: 'Ontmasker de wijnen',
+    text: 'Noteer je gok, onthul de flessen en kroon de winnaar.',
+  },
+];
+---
+
+<BaseLayout
+  title="Richting B"
+  description="Voorbeeld van ontwerprichting B voor de homepage van Flavory. Deze pagina is een proef en wordt niet gepubliceerd of geïndexeerd."
+  path="/ontwerp/richting-b/"
+  noindex
+>
+  <section class="b-hero">
+    <div class="b-wrap b-stage">
+      <Image
+        src={table}
+        alt="Vrienden aan tafel bij kaarslicht: iemand haalt een fles uit het stoffen zakje met de letter A"
+        widths={[720, 1080, 1600]}
+        sizes="(min-width: 1024px) 56rem, 100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="b-photo"
+      />
+      <div class="b-panel">
+        <h1 class="b-h1">Het wijnspel: twee wijnen blind proeven, thuis aan tafel</h1>
+        <p class="b-lead">
+          Het leukste cadeau voor iedereen die van wijn houdt. Met twee flessen wijn (75 cl) erbij, voor een avond met 2
+          tot 6 spelers.
+        </p>
+        <p class="b-price">
+          Vanaf{' '}
+          <b>
+            <Price price={lowestPrice} />
+          </b>
+        </p>
+        <ul class="b-actions">
+          {
+            choices.map(({ label, product, style }) => (
+              <li>
+                <a href={productPath(product.id)} class:list={['b-btn', style.button]}>
+                  {buttons[label]}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="b-ship">
+          <ShippingCutoff />
+          <p>Gratis verzending vanaf {SITE.shipping.freeFromBoxes} boxen</p>
+        </div>
+      </div>
+      <a href={productPath(red.product.id)} class="b-pack">
+        <Image
+          src={red.style.image}
+          alt={red.style.alt}
+          width={360}
+          height={360}
+          widths={[240, 360, 480]}
+          sizes="15rem"
+          loading="eager"
+          class="b-pack-img"
+        />
+        <span class="b-pack-cap">De speldoos en twee flessen wijn in zakjes A en B</span>
+      </a>
+    </div>
+    <div class="b-wrap b-trust">
+      <RatingBadge />
+      <p>{SITE.guarantee}</p>
+      <blockquote class="b-quote">
+        “Gewoon een box bestellen en glazen klaarzetten.” <cite>Ingrid</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="b-night" aria-labelledby="b-steps-title">
+    <div class="b-wrap">
+      <div class="b-night-head">
+        <h2 id="b-steps-title" class="b-h2">Een wijnproeverij thuis, in drie stappen</h2>
+        <p class="b-facts">2 tot 6 spelers · 60 tot 90 minuten · geen wijnkennis nodig</p>
+      </div>
+      <ol class="b-steps">
+        {
+          steps.map((step, i) => (
+            <li>
+              <Image
+                src={step.img}
+                alt={step.alt}
+                widths={[360, 540, 720]}
+                sizes="(min-width: 1024px) 25rem, 100vw"
+                class="b-step-img"
+              />
+              <p class="b-step-title">
+                <span class="b-num" aria-hidden="true">
+                  {i + 1}
+                </span>
+                {step.title}
+              </p>
+              <p class="b-step-text">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="b-more">
+        <a href="/hoe-werkt-het/" class="b-link">Bekijk een avond Flavory in 40 seconden</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  /* Prototype only: keep the consent banner out of the design screenshots. */
+  #consent-banner,
+  [data-consent-form] {
+    display: none !important;
+  }
+</style>
+
+<style>
+  .b-wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 84rem;
+    padding-inline: 1rem;
+  }
+  .b-hero {
+    padding-block: 0.75rem 2rem;
+  }
+  .b-stage {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+  }
+  .b-photo {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    border-radius: 1.25rem;
+    object-fit: cover;
+  }
+  .b-panel {
+    border-radius: 1.25rem;
+    background: white;
+    padding: 1.25rem;
+    box-shadow: 0 18px 40px -18px rgb(27 20 17 / 0.45);
+  }
+  .b-h1 {
+    font-size: clamp(2rem, 1.1rem + 2.3vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+  }
+  .b-lead {
+    margin-top: 0.875rem;
+    font-size: 1.125rem;
+    line-height: 1.45;
+  }
+  .b-price {
+    margin-top: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+  .b-price b {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--color-ink);
+  }
+  .b-actions {
+    margin-top: 0.75rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .b-btn {
+    display: flex;
+    height: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .b-ship {
+    margin-top: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+  .b-pack {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 1.25rem;
+    background: var(--color-cream);
+    padding: 0.5rem;
+    box-shadow: 0 18px 40px -18px rgb(27 20 17 / 0.45);
+  }
+  .b-pack-img {
+    width: 6.5rem;
+    border-radius: 0.875rem;
+  }
+  .b-pack-cap {
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+  .b-trust {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+  .b-quote {
+    font-weight: 500;
+    font-style: italic;
+  }
+  .b-quote cite {
+    font-style: normal;
+    font-weight: 700;
+  }
+  .b-night {
+    background: #1b1411;
+    padding-block: 3rem;
+    color: #faf4ed;
+  }
+  .b-h2 {
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 3rem);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+  }
+  .b-facts {
+    margin-top: 0.75rem;
+    font-weight: 700;
+    color: #e2cfc0;
+  }
+  .b-steps {
+    margin-top: 2rem;
+    display: grid;
+    gap: 2rem;
+  }
+  .b-step-img {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    border-radius: 1.25rem;
+    object-fit: cover;
+  }
+  .b-step-title {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.15;
+  }
+  .b-num {
+    display: flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #faf4ed;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1b1411;
+  }
+  .b-step-text {
+    margin-top: 0.5rem;
+    max-width: 24rem;
+    color: #e2cfc0;
+  }
+  .b-more {
+    margin-top: 2.5rem;
+  }
+  .b-link {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media (min-width: 1024px) {
+    .b-wrap {
+      padding-inline: 2rem;
+    }
+    .b-hero {
+      padding-block: 1.25rem 2.5rem;
+    }
+    .b-stage {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: center;
+      column-gap: 2rem;
+      row-gap: 0;
+    }
+    .b-photo {
+      grid-column: 5 / -1;
+      grid-row: 1;
+      height: clamp(27rem, 64vh, 37rem);
+      aspect-ratio: auto;
+      object-position: 62% 50%;
+    }
+    .b-panel {
+      position: relative;
+      z-index: 1;
+      grid-column: 1 / span 6;
+      grid-row: 1;
+      padding: 2.25rem;
+    }
+    .b-pack {
+      position: absolute;
+      right: 3.5rem;
+      bottom: -2.25rem;
+      z-index: 1;
+      width: 21rem;
+    }
+    .b-trust {
+      margin-top: 1.5rem;
+      padding-right: 26rem;
+    }
+    .b-night {
+      padding-block: 5rem;
+    }
+    .b-night-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .b-facts {
+      margin-top: 0;
+      text-align: right;
+    }
+    .b-steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+    }
+    .b-step-img {
+      aspect-ratio: 4 / 5;
+    }
+  }
+</style>

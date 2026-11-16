@@ -8,6 +8,8 @@ Stand: maandag 16 november 2026. Gebouwd op `diagnose.md` en op jouw drie antwoo
 
 ## 1. Kies de kernzin bovenaan de homepage
 
+**Gekozen op 16/11: versie 2.** "Het wijnspel: twee wijnen blind proeven, thuis aan tafel", met jouw zin als eerste zin van de ondertitel.
+
 In elke versie staat "wijnspel" in de H1, en staan de doos met de twee zakjes en de prijs in beeld.
 
 **Versie 1: jouw zin vooraan (mijn aanbeveling)**

@@ -1,6 +1,6 @@
 ---
 name: "Rood wijnspel: Italië of Spanje"
-h1: "Rode wijnspel"
+h1: "Rood wijnspel"
 intro: "Een Italiaanse en een Spaanse rode wijn: twee wijnlanden die iedereen kent, maar wie proeft het verschil? Proef ze één keer blind naast elkaar, en je haalt ze nooit meer door elkaar."
 seoTitle: "Wijnspel Italië of Spanje: rode wijnbox"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Italiaanse tegen een Spaanse rode wijn. Voor 2 tot 6 spelers, zolang de voorraad strekt."

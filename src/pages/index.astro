@@ -15,7 +15,7 @@ import { itemList, webPage } from '@/components/seo/schema';
 // The first screen shows what you buy: the box with the two bottles in their bags.
 import heroPhoto from '@/assets/images/products/packshot-rood-zakjes.jpg';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
-import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
+import giftPhoto from '@/assets/images/site/cadeau-uitpakken.jpg';
 // Drawing under the steps; it also sits on the box sleeve.
 import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
 
@@ -32,7 +32,7 @@ const posts = (await getPosts()).filter((p) => featuredIds.includes(p.id));
 
 const title = 'Wijnspel: proef twee wijnen blind met vrienden | Flavory';
 const description =
-  'Flavory is het wijnspel met twee flessen wijn in de doos: proef ze blind, beantwoord de quizvragen en ontdek wie het verschil proeft. Voor 2 tot 6 spelers.';
+  'Flavory is het wijnspel met twee flessen wijn erbij: proef ze blind, beantwoord de quizvragen en ontdek wie het verschil proeft. Voor 2 tot 6 spelers.';
 
 const hero = await getImage({ src: heroPhoto, width: 900, widths: [360, 540, 720, 900], format: 'webp' });
 const heroSizes = '(min-width: 1024px) 34rem, (min-width: 768px) 46vw, calc(100vw - 2rem)';
@@ -54,24 +54,23 @@ const steps = [
     text: 'Noteer je gok, onthul de flessen en kroon de winnaar.',
   },
 ];
-const audiences = [
+// What a gift buyer wants to know before ordering. The facts come from SITE; the last order day for the
+// season only shows once SITE.giftDeadline is filled in.
+const { minDays, maxDays } = SITE.shipping;
+const gifting = [
   {
-    title: 'Een avond met vrienden',
-    text: 'Zet twee glazen per persoon klaar, de rest doet het spel.',
-    href: '/hoe-werkt-het/',
-    label: 'Zo werkt het',
+    title: 'Rechtstreeks naar de ontvanger',
+    text: 'Vul bij het afrekenen het adres van de ontvanger in. Jij krijgt de bevestiging en het trackingnummer.',
   },
   {
-    title: 'Als cadeau',
-    text: 'Een spel plus twee flessen wijn, leuker dan de zoveelste fles alleen.',
-    href: '/cadeau/',
-    label: 'Zo geef je het cadeau',
+    title: 'Op tijd',
+    text: `Bestel je op een werkdag voor ${SITE.shippingCutoffHour}u, dan vertrekt je pakket dezelfde dag. Levering duurt meestal ${minDays} tot ${maxDays} werkdagen in België en Nederland.${
+      SITE.giftSeason && SITE.giftDeadline ? ` Laatste besteldag voor ${SITE.giftSeason}: ${SITE.giftDeadline}.` : ''
+    }`,
   },
   {
-    title: 'Voor je team of je klanten',
-    text: 'Als relatiegeschenk of teamactiviteit, met een offerte op maat.',
-    href: '/zakelijk/',
-    label: 'Zakelijk bestellen',
+    title: 'Zonder risico',
+    text: SITE.guarantee,
   },
 ];
 ---
@@ -227,32 +226,40 @@ const audiences = [
     </div>
   </section>
 
-  <!-- Voor wie -->
-  <section class="bg-white" aria-labelledby="voorwie-title">
+  <!-- Block 5: giving it as a present. The gift buyer is the main buyer: what they worry about, answered. -->
+  <section id="cadeau" class="scroll-mt-24 bg-white" aria-labelledby="cadeau-title">
     <div class="section-y container-site">
-      <div class="grid items-center gap-8 md:grid-cols-2">
+      <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
         <div>
-          <h2 id="voorwie-title" class="h2">
-            Voor wie is Flavory?
+          <h2 id="cadeau-title" class="h2">
+            Zo geef je het wijnspel cadeau
           </h2>
-          <ul class="mt-5 grid gap-4">
-            {audiences.map((a) => (
-              <li class="rounded-xl bg-blush px-4 py-3">
-                <h3 class="font-sans text-lg font-bold">{a.title}</h3>
-                <p class="mt-1 text-sm">{a.text}</p>
-                <a href={a.href} class="mt-2 inline-block text-sm font-bold underline">
-                  {a.label}
-                </a>
+          <ul class="mt-4 divide-y divide-line">
+            {gifting.map((item) => (
+              <li class="py-4">
+                <h3 class="font-sans text-lg font-bold">{item.title}</h3>
+                <p class="mt-1">{item.text}</p>
               </li>
             ))}
           </ul>
+          <p class="mt-4">
+            <a href="/cadeau/" class="btn-outline">
+              Alles over cadeau geven
+            </a>
+          </p>
+          <p class="mt-4 text-sm">
+            Voor je team of je klanten?{' '}
+            <a href="/zakelijk/" class="font-bold underline">
+              Zakelijk bestellen
+            </a>
+          </p>
         </div>
         <Image
-          src={tablePhoto}
-          alt="Vrienden aan tafel terwijl iemand een fles in een stoffen zakje omhooghoudt"
+          src={giftPhoto}
+          alt="Iemand pakt een Flavory-wijnspel uit het cadeaupapier"
           widths={[480, 720, 960]}
           sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
-          class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
+          class="aspect-[4/3] w-full rounded-[var(--radius-card)] object-cover md:aspect-[5/4]"
         />
       </div>
     </div>

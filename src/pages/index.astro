@@ -143,16 +143,39 @@ const audiences = [
     </div>
   </section>
 
+  <!-- Block 2: what Flavory is, in five plain sentences, next to the drawing that is also on the box. -->
+  <section id="wat-is-flavory" class="section-y scroll-mt-24 bg-white" aria-labelledby="wat-title">
+    <div class="container-site grid items-center gap-8 md:grid-cols-2 md:gap-12">
+      <div>
+        <h2 id="wat-title" class="h2">
+          Wat is Flavory?
+        </h2>
+        <div class="mt-4 grid max-w-xl gap-3 text-lg leading-snug">
+          <p>Flavory is een Belgisch wijnspel: een wijnproeverij thuis, in spelvorm.</p>
+          <p>
+            In het pakket zitten het spel en twee flessen wijn (75 cl), elk in een stoffen zakje met een A of een B.
+          </p>
+          <p>Je schenkt ze blind uit, proeft samen en raadt met de quizvragen welke wijn welke is.</p>
+          <p>Je hebt alleen glazen, een kurkentrekker en 2 tot 6 spelers nodig. Voorkennis van wijn hoeft niet.</p>
+          <p>Goed voor een avond van 60 tot 90 minuten, of als cadeau voor iemand die van wijn houdt.</p>
+        </div>
+      </div>
+      <Image
+        src={sleeveIllustration}
+        alt="Tekening van vier vrienden die samen wijn proeven"
+        widths={[320, 480, 640, 960]}
+        sizes="(min-width: 768px) 34rem, calc(100vw - 2rem)"
+        class="mx-auto h-auto w-full max-w-[34rem]"
+      />
+    </div>
+  </section>
+
   <!-- Zo speel je Flavory -->
-  <section class="section-y bg-white" aria-labelledby="spelen-title">
+  <section class="section-y" aria-labelledby="spelen-title">
     <div class="container-site">
       <h2 id="spelen-title" class="h2 text-center">
         Zo speel je Flavory
       </h2>
-      <p class="mx-auto mt-3 max-w-2xl text-center">
-        Flavory is een Belgisch wijnspel voor 2 tot 6 spelers. Je proeft blind twee meegeleverde wijnen en ontdekt met
-        quizvragen welke welke is. Een spel duurt 60 tot 90 minuten en je hebt geen wijnkennis nodig.
-      </p>
       <div class="mt-6 grid items-center gap-6 md:grid-cols-2 md:gap-10">
         <Image
           src={pouringPhoto}
@@ -178,13 +201,6 @@ const audiences = [
               </li>
             ))}
           </ol>
-          <Image
-            src={sleeveIllustration}
-            alt="Tekening van vier vrienden die samen wijn proeven"
-            widths={[320, 480, 640, 960]}
-            sizes="(min-width: 768px) 30rem, calc(100vw - 2rem)"
-            class="mx-auto mt-4 h-auto w-full max-w-[30rem]"
-          />
         </div>
       </div>
       <p class="mt-6 text-center font-bold">2 tot 6 spelers · 60 tot 90 minuten · geen wijnkennis nodig</p>

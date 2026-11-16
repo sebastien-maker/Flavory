@@ -6,6 +6,12 @@ import { Image } from 'astro:assets';
 import { clearanceProducts, colourChoices, fromPrice, productPath, type Product } from '@/lib/content';
 import Price from '@/components/commerce/Price.astro';
 import { COLOUR_STYLES } from '@/lib/colour-choice';
+import { SITE } from '@/lib/site';
+import PromoBanner from '@/components/ui/PromoBanner.astro';
+
+// Running promotion (SITE.campaign): the band above the cards and a label on each card.
+const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
+const { badge } = SITE.blackFriday;
 
 interface Props {
   /** All products; the cards pick the box per colour that is for sale now. */
@@ -29,6 +35,8 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
   <p class="mt-2 text-center">
     Een wijnproeverij voor één avond: het spel en twee heerlijke, blinde wijnen (2 × 75 cl).
   </p>
+  {/* Running promotion: the discount, until when and what comes after, right above the two cards. */}
+  <PromoBanner class="mx-auto mt-4 mb-0 max-w-md" />
   <ul class="mt-6 grid grid-cols-2 gap-3">
     {choices.map(({ product, style }) => {
       return (
@@ -48,6 +56,7 @@ const clearance = clearanceProducts(products).filter((p) => !choices.some((c) =>
               {product.data.badge && (
                 <span class="badge absolute top-2 left-2 bg-ink text-white">{product.data.badge}</span>
               )}
+              {promo && badge && <span class="bf-badge absolute top-2 right-2">Black Friday {badge}</span>}
             </div>
             <div class="flex flex-1 flex-col px-3 py-3.5 text-center">
               <h3 class="text-[1.5rem] leading-none">{style.title}</h3>

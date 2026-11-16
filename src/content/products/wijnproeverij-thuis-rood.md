@@ -1,7 +1,7 @@
 ---
 name: "Rood wijnspel"
 h1: "Rood wijnspel"
-intro: "Twee rode wijnen in stoffen zakjes A en B, en het spel om ze blind te proeven. Kies Merlot of Cabernet Sauvignon, of Italië of Spanje zolang de voorraad strekt."
+intro: "Twee rode wijnen, blind geproefd met vrienden of familie: Merlot of Cabernet Sauvignon, in Standaard of Premium. Italië of Spanje zolang de voorraad strekt."
 seoTitle: "Rood wijnspel: Merlot of Cabernet Sauvignon?"
 seoDescription: "Rood wijnspel met twee flessen wijn: proef blind een Merlot tegen een Cabernet Sauvignon en ontdek het verschil. Voor 2 tot 6 spelers, zonder voorkennis."
 duel: "Merlot of Cabernet Sauvignon"

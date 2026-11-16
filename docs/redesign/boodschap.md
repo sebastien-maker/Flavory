@@ -1,5 +1,7 @@
 # Boodschap: wat de site zegt, en in welke volgorde
 
+> **Achterhaald sinds 16/11, namiddag.** Bart bekeek de herwerkte homepage en verkoos de huidige site. De kop "Het spel dat je wijn leert proeven", de tekst eronder en de opbouw van de pagina blijven dus zoals ze live staan. Deze branch voegt alleen de Black Friday-laag toe (zie de beschrijving van de pull request). Wat hieronder staat, is het denkwerk van die ochtend en geen opdracht meer.
+
 Stand: maandag 16 november 2026. Gebouwd op `diagnose.md` en op jouw drie antwoorden:
 
 1. Het eerste scherm is voor de **cadeaukoper**.

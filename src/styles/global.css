@@ -162,51 +162,49 @@
   .h1 {
     font-size: var(--text-h1);
   }
-  /* Headline of the home page: a long sentence, so one step smaller on a phone, and one step larger than
-     the 36 px ceiling on a wide screen, where 36 px looks lost (docs/design-richtlijnen.md). */
-  .h1-hero {
-    font-size: var(--text-h2);
+  /* Promotion banner (the home page hero, the product page): dark, with a pulsing red dot. The pulse stops
+     with prefers-reduced-motion (base layer). */
+  .bf-banner {
+    @apply mb-3 flex items-center gap-3 rounded-xl bg-ink px-2.5 py-2.5 text-white md:mb-4 md:px-3;
   }
-  @media (min-width: 48rem) {
-    .h1-hero {
-      font-size: var(--text-h1);
+  /* The discount in large figures at the start of the band; it beats softly, the only movement on the page. */
+  .bf-figure {
+    @apply shrink-0 rounded-lg bg-brand px-2 py-2 text-[1.375rem] leading-none font-bold text-white md:px-2.5 md:text-[1.75rem];
+    animation: bf-beat 1.6s ease-in-out infinite;
+  }
+  @keyframes bf-beat {
+    50% {
+      scale: 1.08;
     }
   }
-  @media (min-width: 64rem) {
-    .h1-hero {
-      font-size: 3rem;
-      line-height: 1.08;
+  .bf-dot {
+    @apply size-3 shrink-0 rounded-full bg-brand;
+    animation: bf-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes bf-pulse {
+    50% {
+      opacity: 0.35;
+      scale: 0.7;
     }
   }
-  /* The box in the first screen of the home page. On a phone the whole packshot fits in a low band, so the
-     price and the button stay in view; from md up it is a square next to the text. */
-  .hero-box {
-    aspect-ratio: 16 / 10;
-    width: 100%;
-    border-radius: var(--radius-card);
-    background: #fbf2e9;
-    object-fit: contain;
-  }
-  @media (min-width: 48rem) {
-    .hero-box {
-      aspect-ratio: 1;
+  @media (prefers-reduced-motion: reduce) {
+    .bf-dot,
+    .bf-figure {
+      animation: none;
     }
   }
-  /* The Black Friday drawing, stuck on the top left corner of the box photo like a sticker. */
+  /* Small label with the discount on a box card or next to a price. */
+  .bf-badge {
+    @apply rounded-full bg-brand px-2.5 py-1 text-sm leading-none font-bold text-white;
+  }
+  /* The Black Friday drawing, stuck on the top left corner of the hero photo like a sticker. */
   .bf-sticker {
     position: absolute;
-    top: -0.5rem;
-    left: -0.25rem;
-    width: 30%;
+    top: -0.75rem;
+    left: -0.5rem;
+    width: 32%;
     height: auto;
     rotate: -8deg;
-  }
-  @media (min-width: 48rem) {
-    .bf-sticker {
-      top: -1rem;
-      left: -1rem;
-      width: 38%;
-    }
   }
   .h2 {
     font-size: var(--text-h2);
@@ -324,14 +322,6 @@
   }
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;
-  }
-  /* Box card on the home page (BoxShelf.astro): photo, price and the buttons. The photo is always a whole
-     square: small next to the name on a phone, so three cards stay short, and full width from md up. */
-  .box-card {
-    @apply flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-white;
-  }
-  .box-card-img {
-    @apply size-28 shrink-0 rounded-xl object-cover md:aspect-square md:h-auto md:w-full md:rounded-none;
   }
   /* Price before the discount, next to the sale price (Price.astro and lib/commerce/price.ts). */
   .price-old {

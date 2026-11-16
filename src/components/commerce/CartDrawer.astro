@@ -427,8 +427,10 @@ const contact = SITE.email
   reprice();
 </script>
 
-<style>
-  dialog[open] {
+<!-- Global on purpose: a scoped style adds a data attribute to every element of the drawer, on every page
+     (about 1 KB of HTML). The selectors below only match the drawer. -->
+<style is:global>
+  #cart-drawer[open] {
     animation: slide-in 0.25s ease-out;
   }
   .checkout-wait {

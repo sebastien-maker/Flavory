@@ -73,9 +73,11 @@ import { SITE } from '@/lib/site';
 </div>
 
 <style is:global>
-  /* The sticky buy bar on a product page (ProductPage.astro) stays visible: the banner sits above it. */
-  body:has([data-sticky-buy]:not([hidden])) #consent-banner {
-    bottom: 5rem;
+  /* The sticky buy bar on a product page (ProductPage.astro, below md) stays visible above the banner. */
+  @media (width < 48rem) {
+    body:has([data-sticky-buy]:not([hidden])) #consent-banner {
+      bottom: 5rem;
+    }
   }
 </style>
 

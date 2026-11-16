@@ -14,6 +14,8 @@ import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 // The first screen shows what you buy: the box with the two bottles in their bags.
 import heroPhoto from '@/assets/images/products/packshot-rood-zakjes.jpg';
+// The Black Friday drawing of the 2025 campaign, laid over the corner of the box like a sticker.
+import bfDrawing from '@/assets/images/site/black-friday-2025-20-procent.webp';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import giftPhoto from '@/assets/images/site/cadeau-uitpakken.jpg';
 // Drawing under the steps; it also sits on the box sleeve.
@@ -95,18 +97,32 @@ const gifting = [
     <h1 class="h1-hero md:col-start-1 md:row-start-1 md:self-end">
       Het wijnspel: twee wijnen blind proeven, thuis aan tafel
     </h1>
-    <img
-      src={hero.src}
-      srcset={hero.srcSet.attribute}
-      sizes={heroSizes}
-      width={hero.attributes.width}
-      height={hero.attributes.height}
-      alt="Rood wijnspel: de doos met twee flessen wijn in stoffen zakjes A en B"
-      fetchpriority="high"
-      loading="eager"
-      decoding="async"
-      class="hero-box md:col-start-2 md:row-span-2 md:row-start-1 md:self-center"
-    />
+    <div class="relative md:col-start-2 md:row-span-2 md:row-start-1 md:self-center">
+      <img
+        src={hero.src}
+        srcset={hero.srcSet.attribute}
+        sizes={heroSizes}
+        width={hero.attributes.width}
+        height={hero.attributes.height}
+        alt="Rood wijnspel: de doos met twee flessen wijn in stoffen zakjes A en B"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        class="hero-box"
+      />
+      {
+        promo && SITE.blackFriday.drawing === '20' && (
+          <Image
+            src={bfDrawing}
+            alt="Black Friday bij Flavory: vrienden klinken met een glas wijn, op hun bordje staat min 20 procent"
+            widths={[160, 240, 480]}
+            sizes="(min-width: 768px) 13rem, 7rem"
+            loading="eager"
+            class="bf-sticker"
+          />
+        )
+      }
+    </div>
     <div class="flex flex-col md:col-start-1 md:row-start-2 md:self-start">
       <p class="order-4 mt-5 text-lg leading-snug md:order-1 md:mt-0 md:text-xl">
         Het leukste cadeau voor iedereen die van wijn houdt. Met twee flessen wijn (75 cl) erbij, voor een avond met 2

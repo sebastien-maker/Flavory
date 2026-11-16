@@ -192,6 +192,22 @@
       aspect-ratio: 1;
     }
   }
+  /* The Black Friday drawing, stuck on the top left corner of the box photo like a sticker. */
+  .bf-sticker {
+    position: absolute;
+    top: -0.5rem;
+    left: -0.25rem;
+    width: 30%;
+    height: auto;
+    rotate: -8deg;
+  }
+  @media (min-width: 48rem) {
+    .bf-sticker {
+      top: -1rem;
+      left: -1rem;
+      width: 38%;
+    }
+  }
   .h2 {
     font-size: var(--text-h2);
   }
@@ -309,13 +325,13 @@
   .badge {
     @apply rounded-full px-2.5 py-1 text-xs font-bold;
   }
-  /* Box card on the home page (BoxShelf.astro): photo, price and the buttons. On a phone the photo is a
-     low band so three cards stay short; from md up it is a square. */
+  /* Box card on the home page (BoxShelf.astro): photo, price and the buttons. The photo is always a whole
+     square: small next to the name on a phone, so three cards stay short, and full width from md up. */
   .box-card {
     @apply flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-white;
   }
   .box-card-img {
-    @apply aspect-[16/10] w-full bg-[#fbf2e9] object-contain md:aspect-square;
+    @apply size-28 shrink-0 rounded-xl object-cover md:aspect-square md:h-auto md:w-full md:rounded-none;
   }
   /* Price before the discount, next to the sale price (Price.astro and lib/commerce/price.ts). */
   .price-old {

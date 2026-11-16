@@ -8,6 +8,15 @@ import Price from './Price.astro';
 import { productPath, variantName, type Product } from '@/lib/content';
 import { COLOUR_STYLES, colourOf } from '@/lib/colour-choice';
 import { FORMULAS, PREMIUM_MARK, SITE, shippingLine } from '@/lib/site';
+// The cards show the box on its own, whole and centred. The packshots with the two bags are cut off at the
+// right edge of the photo itself, so they never sit well in a small square.
+import whiteBox from '@/assets/images/products/wijnproeverij-thuis-wit/01-box.webp';
+import redBox from '@/assets/images/products/wijnproeverij-thuis-rood/01-box.webp';
+
+const BOX_PHOTOS: Record<string, ImageMetadata> = {
+  'wijnproeverij-thuis-wit:druiven': whiteBox,
+  'wijnproeverij-thuis-rood:druiven': redBox,
+};
 
 interface Props {
   /** All products; a card is made for every duel that is, or was, for sale. */
@@ -34,7 +43,10 @@ const boxes = await Promise.all(
           duel,
           standard: variants.find((v) => v.formula === 'Standaard'),
           premium: variants.find((v) => v.formula === 'Premium'),
-          image: product.data.images.find((img) => img.group === group) ?? product.data.images[0]!,
+          // The box photo of the duel; a duel without one (Italië of Spanje) uses its photo from the CMS.
+          image:
+            BOX_PHOTOS[`${product.id}:${group}`] ??
+            (product.data.images.find((img) => img.group === group) ?? product.data.images[0]!).src,
           // The CMS text of the duel says when it is leftover stock; the card repeats that as a label.
           limited: /zolang de voorraad strekt/i.test(lead),
         };
@@ -45,7 +57,7 @@ const boxes = await Promise.all(
     .map(async (box) => ({
       ...box,
       style: COLOUR_STYLES[box.colour],
-      thumb: (await getImage({ src: box.image.src, width: 96, height: 96, fit: 'cover', format: 'webp' })).src,
+      thumb: (await getImage({ src: box.image, width: 96, height: 96, fit: 'cover', format: 'webp' })).src,
     })),
 );
 ---
@@ -69,29 +81,33 @@ const boxes = await Promise.all(
         const options = [standard, premium].filter((v) => v !== undefined);
         return (
           <li class="box-card">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              width={480}
-              height={480}
-              widths={[240, 360, 480, 720]}
-              sizes="(min-width: 768px) 22rem, 28rem"
-              class="box-card-img"
-            />
-            <div class="flex flex-1 flex-col p-4">
-              <p class:list={['text-sm font-bold', style.line]}>
-                {style.title}
-                {limited && <span class="text-muted"> · zolang de voorraad strekt</span>}
-              </p>
-              <h3 class="mt-1 text-xl leading-tight">
-                <a href={url} class="hover:underline">
-                  {duel}?
-                </a>
-              </h3>
-              <p class="mt-2 text-sm">
-                Het spel en twee {colour === 'Wit' ? 'witte' : 'rode'} wijnen (75 cl) in zakjes A en B.
-              </p>
-              <div class="pt-4">
+            <div class="flex items-center gap-3 p-3 md:block md:p-0">
+              <Image
+                src={image}
+                alt={`Doos van het ${colour === 'Wit' ? 'witte' : 'rode'} wijnspel ${duel}`}
+                width={480}
+                height={480}
+                widths={[112, 224, 360, 480, 720]}
+                sizes="(min-width: 768px) 22rem, 7rem"
+                class="box-card-img"
+              />
+              <div class="min-w-0 md:px-4 md:pt-4">
+                <p class:list={['text-sm font-bold', style.line]}>
+                  {style.title}
+                  {limited && <span class="text-muted"> · zolang de voorraad strekt</span>}
+                </p>
+                <h3 class="mt-1 text-xl leading-tight">
+                  <a href={url} class="hover:underline">
+                    {duel}?
+                  </a>
+                </h3>
+                <p class="mt-2 text-sm">
+                  Het spel en twee {colour === 'Wit' ? 'witte' : 'rode'} wijnen (75 cl) in zakjes A en B.
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-1 flex-col px-3 pb-3 md:px-4 md:pb-4">
+              <div class="md:pt-4">
                 {options.map((v) => {
                   const isPremium = v.formula === 'Premium';
                   return (

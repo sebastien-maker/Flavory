@@ -72,6 +72,9 @@ export const SITE = {
     endDate: 'zondag 22 november' as string,
     // The same moment for the countdown: the end of that day, Brussels time. Empty: no countdown.
     endsAt: '2026-11-22T23:59:59+01:00' as string,
+    // The Black Friday drawing on the home page (the friends with their signs, from the 2025 campaign).
+    // '20' is the drawing whose sign says "-20%": only while the discount is 20%. Empty: no drawing.
+    drawing: '20' as '' | '20',
   },
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',

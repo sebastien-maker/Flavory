@@ -7,10 +7,13 @@ import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import RatingBadge from '@/components/ui/RatingBadge.astro';
+import ShippingCutoff from '@/components/ui/ShippingCutoff.astro';
+import Price from '@/components/commerce/Price.astro';
 import { fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
-import { SITE, formatPrice } from '@/lib/site';
+import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
-import heroPhoto from '@/assets/images/site/hero-proeven.jpg';
+// The first screen shows what you buy: the box with the two bottles in their bags.
+import heroPhoto from '@/assets/images/products/packshot-rood-zakjes.jpg';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import pouringPhoto from '@/assets/images/site/inschenken.jpg';
 import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
@@ -20,6 +23,10 @@ import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
 const lowestPrice = Math.min(...products.map(fromPrice));
+// Only set while WooCommerce has a sale price: the price before the discount, shown struck through.
+const lowestRegular = products.flatMap((p) => p.data.variants).find((v) => v.price === lowestPrice)?.regularPrice;
+// Running promotion (SITE.campaign): the offer sits right under the headline and the button names it.
+const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
 const posts = (await getPosts()).filter((p) => featuredIds.includes(p.id));
@@ -29,7 +36,7 @@ const description =
   'Flavory is het wijnspel met twee flessen wijn in de doos: proef ze blind, beantwoord de quizvragen en ontdek wie het verschil proeft. Voor 2 tot 6 spelers.';
 
 const hero = await getImage({ src: heroPhoto, width: 900, widths: [360, 540, 720, 900], format: 'webp' });
-const heroSizes = '(min-width: 768px) 28rem, calc(100vw - 2rem)';
+const heroSizes = '(min-width: 1024px) 34rem, (min-width: 768px) 46vw, calc(100vw - 2rem)';
 // Three steps, with the drawings that also sit on the box.
 const steps = [
   {
@@ -84,36 +91,56 @@ const audiences = [
     ),
   ]}
 >
-  <!-- Hero -->
-  <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
-    <div>
-      <h1 class="h1">Het spel dat je wijn leert proeven</h1>
-      <p class="mt-3 text-lg leading-snug md:text-xl">
-        Je wijnproeverij thuis in één pakket: twee flessen wijn zonder etiket en een wijnspel voor vrienden of familie.
-        Proef blind en raad welke wijn welke is. Geen voorkennis nodig.
-      </p>
-      <div class="mt-5">
-        <a href="#kies-je-box" class="btn-primary">
-          Kies je box
-        </a>
-      </div>
-      <p class="mt-3 text-sm">
-        Vanaf <strong>{formatPrice(lowestPrice)}</strong> voor 2 tot 6 spelers, incl. 2 flessen wijn
-      </p>
-      <RatingBadge class="mt-2" />
-    </div>
+  <!-- Block 1: what it is, the offer, the box, the price and one button. On a phone the box comes right
+       after the headline, so it is in the first screen; from md up it stands next to the text. -->
+  <section class="container-site grid gap-x-10 gap-y-4 pt-4 pb-8 md:grid-cols-2 md:py-12">
+    <h1 class="h1-hero md:col-start-1 md:row-start-1 md:self-end">
+      Het wijnspel: twee wijnen blind proeven, thuis aan tafel
+    </h1>
     <img
       src={hero.src}
       srcset={hero.srcSet.attribute}
       sizes={heroSizes}
       width={hero.attributes.width}
       height={hero.attributes.height}
-      alt="Twee vrouwen proeven witte wijn aan tafel, met een fles in een stoffen zakje ervoor"
+      alt="Rood wijnspel: de doos met twee flessen wijn in stoffen zakjes A en B"
       fetchpriority="high"
       loading="eager"
       decoding="async"
-      class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover"
+      class="hero-box md:col-start-2 md:row-span-2 md:row-start-1 md:self-center"
     />
+    <div class="flex flex-col md:col-start-1 md:row-start-2 md:self-start">
+      <p class="order-4 mt-5 text-lg leading-snug md:order-1 md:mt-0 md:text-xl">
+        Het leukste cadeau voor iedereen die van wijn houdt. Met twee flessen wijn (75 cl) erbij, voor een avond met 2
+        tot 6 spelers.
+      </p>
+      {
+        promo && (
+          <p class="order-1 text-xl leading-tight font-bold text-brand md:order-2 md:mt-5">
+            {promo}
+            {SITE.blackFriday.endDate && (
+              <span class="mt-1 block text-base text-ink">Tot en met {SITE.blackFriday.endDate}.</span>
+            )}
+          </p>
+        )
+      }
+      <p class="order-2 mt-3 text-sm md:order-3">
+        Vanaf{' '}
+        <strong class="text-xl">
+          <Price price={lowestPrice} regularPrice={lowestRegular} />
+        </strong>
+      </p>
+      <div class="order-3 mt-3 md:order-4">
+        <a href="#kies-je-box" class="btn-primary">
+          {promo ? 'Bestel met korting' : 'Kies je box'}
+        </a>
+      </div>
+      <div class="order-5 mt-4 grid gap-1 text-sm">
+        <ShippingCutoff class="font-bold" />
+        <p>Gratis verzending vanaf {SITE.shipping.freeFromBoxes} boxen</p>
+        <RatingBadge class="mt-1" />
+      </div>
+    </div>
   </section>
 
   <!-- Zo speel je Flavory -->

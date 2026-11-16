@@ -61,14 +61,17 @@ export const SITE = {
   // form of the Black Friday list (Netlify Forms, "black-friday-lijst"). The announcement bar does not change.
   // 'blackfriday' switches /black-friday/ to the running promotion and links the announcement bar to it.
   // The sale prices themselves are set in WooCommerce.
-  campaign: 'blackfriday-soon' as '' | 'blackfriday-soon' | 'blackfriday',
-  // Fill in together with campaign = 'blackfriday'.
+  campaign: 'blackfriday' as '' | 'blackfriday-soon' | 'blackfriday',
+  // Fill in together with campaign = 'blackfriday'. When the discount changes (a new step of the promotion),
+  // change these three values together with the sale prices in WooCommerce.
   blackFriday: {
     // The promotion in one sentence, for example 'Black Friday: het wijnspel met 20% korting'.
     // This is the only place where the discount is named.
-    offer: '' as string,
-    // Last day of the promotion, for example 'maandag 30 november'.
-    endDate: '' as string,
+    offer: 'Black Friday: 20% korting op het wijnspel' as string,
+    // Last day of this discount in words, for example 'maandag 30 november'.
+    endDate: 'zondag 22 november' as string,
+    // The same moment for the countdown: the end of that day, Brussels time. Empty: no countdown.
+    endsAt: '2026-11-22T23:59:59+01:00' as string,
   },
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',

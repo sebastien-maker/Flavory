@@ -1,0 +1,44 @@
+---
+// Time left until a real end moment. The HTML carries the end date in words, so it reads right without
+// JavaScript; the script swaps it for "nog 2 dagen en 5 uur" and keeps that current. The clock never
+// restarts: once the moment has passed the words stay. Both texts fit on one line, so nothing shifts.
+interface Props {
+  /** ISO moment with offset, e.g. '2026-11-22T23:59:59+01:00'. */
+  endsAt: string;
+  /** Shown without JavaScript and after the end, e.g. 'tot en met zondag 22 november'. */
+  fallback: string;
+  class?: string;
+}
+
+const { endsAt, fallback, class: className } = Astro.props;
+---
+
+<span class:list={['whitespace-nowrap', className]} data-countdown={endsAt}>{fallback}</span>
+
+<script>
+  const elements = [...document.querySelectorAll<HTMLElement>('[data-countdown]')];
+  const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+  function timeLeft(ms: number): string | undefined {
+    if (ms <= 0) return undefined;
+    const minutes = Math.floor(ms / 60_000);
+    const days = Math.floor(minutes / 1440);
+    const hours = Math.floor((minutes % 1440) / 60);
+    if (days > 0) return `nog ${count(days, 'dag', 'dagen')} en ${hours} uur`;
+    if (hours > 0) return `nog ${hours} uur en ${minutes % 60} min`;
+    return `nog ${count(Math.max(minutes, 1), 'minuut', 'minuten')}`;
+  }
+
+  function update() {
+    for (const el of elements) {
+      const end = Date.parse(el.dataset.countdown ?? '');
+      const text = Number.isNaN(end) ? undefined : timeLeft(end - Date.now());
+      if (text && el.textContent !== text) el.textContent = text;
+    }
+  }
+
+  if (elements.length > 0) {
+    update();
+    setInterval(update, 30_000);
+  }
+</script>

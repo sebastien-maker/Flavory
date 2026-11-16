@@ -162,6 +162,36 @@
   .h1 {
     font-size: var(--text-h1);
   }
+  /* Headline of the home page: a long sentence, so one step smaller on a phone, and one step larger than
+     the 36 px ceiling on a wide screen, where 36 px looks lost (docs/design-richtlijnen.md). */
+  .h1-hero {
+    font-size: var(--text-h2);
+  }
+  @media (min-width: 48rem) {
+    .h1-hero {
+      font-size: var(--text-h1);
+    }
+  }
+  @media (min-width: 64rem) {
+    .h1-hero {
+      font-size: 3rem;
+      line-height: 1.08;
+    }
+  }
+  /* The box in the first screen of the home page. On a phone the whole packshot fits in a low band, so the
+     price and the button stay in view; from md up it is a square next to the text. */
+  .hero-box {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+    border-radius: var(--radius-card);
+    background: #fbf2e9;
+    object-fit: contain;
+  }
+  @media (min-width: 48rem) {
+    .hero-box {
+      aspect-ratio: 1;
+    }
+  }
   .h2 {
     font-size: var(--text-h2);
   }

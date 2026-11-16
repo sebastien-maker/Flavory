@@ -162,15 +162,20 @@
   .h1 {
     font-size: var(--text-h1);
   }
-  /* Promotion banner (the home page hero, the product page): dark, with a pulsing red dot. The pulse stops
-     with prefers-reduced-motion (base layer). */
+  /* Promotion band (PromoBanner.astro): black, with the discount in a red block. */
   .bf-banner {
-    @apply mb-3 flex items-center gap-3 rounded-xl bg-ink px-2.5 py-2.5 text-white md:mb-4 md:px-3;
+    @apply mb-3 flex items-center gap-3 rounded-xl bg-ink p-2.5 text-white md:mb-4 md:gap-4 md:p-3.5;
   }
-  /* The discount in large figures at the start of the band; it beats softly, the only movement on the page. */
+  /* "NU" above the discount in large figures; the block beats softly, the only movement on the page. */
   .bf-figure {
-    @apply shrink-0 rounded-lg bg-brand px-2 py-2 text-[1.375rem] leading-none font-bold text-white md:px-2.5 md:text-[1.75rem];
+    @apply shrink-0 rounded-lg bg-brand px-2 py-1.5 text-center text-[1.75rem] leading-none font-bold text-white md:px-3.5 md:py-2.5 md:text-[2.25rem];
     animation: bf-beat 1.6s ease-in-out infinite;
+  }
+  .bf-now {
+    @apply mb-1 block text-sm leading-none md:text-lg md:leading-none;
+  }
+  .bf-title {
+    @apply block text-lg leading-tight md:text-[1.375rem];
   }
   @keyframes bf-beat {
     50% {

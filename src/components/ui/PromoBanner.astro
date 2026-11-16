@@ -1,7 +1,7 @@
 ---
-// The running promotion (SITE.campaign) as one compact black band: the discount in large figures, what it is,
-// until when and what comes after. Used above the headline on the home page, right above the buy button on a
-// product page and on /black-friday/. Renders nothing when no promotion runs.
+// The running promotion (SITE.campaign) as one black band: "NU" and the discount in large figures, what it is,
+// until when and what comes after. Used above the headline on the home page, above the box cards, right above
+// the buy button on a product page and on /black-friday/. Renders nothing when no promotion runs.
 import { SITE } from '@/lib/site';
 import Countdown from '@/components/ui/Countdown.astro';
 
@@ -23,16 +23,23 @@ const extra = compact ? 'max-md:hidden' : undefined;
 {
   active && (
     <Tag href={href} class:list={['bf-banner', className]}>
-      {badge ? <strong class="bf-figure">{badge}</strong> : <span class="bf-dot" aria-hidden="true" />}
+      {badge ? (
+        <strong class="bf-figure">
+          <span class="bf-now">NU</span>
+          {badge}
+        </strong>
+      ) : (
+        <span class="bf-dot" aria-hidden="true" />
+      )}
       <span class="min-w-0">
-        <strong class="block leading-tight">{badge ? 'Black Friday-korting' : offer}</strong>
+        <strong class="bf-title">{badge ? 'Black Friday-korting' : offer}</strong>
         {endDate && (
-          <span class="mt-0.5 block text-sm">
+          <span class="mt-0.5 block text-sm text-balance md:text-base">
             Tot en met {endDate}{after && <span class={extra}>. {after}</span>}
           </span>
         )}
         {endsAt && (
-          <span class:list={['block min-h-5 text-sm font-bold first-letter:uppercase', extra]}>
+          <span class:list={['block min-h-5 text-sm font-bold first-letter:uppercase md:min-h-6 md:text-base', extra]}>
             <Countdown endsAt={endsAt} fallback="" />
           </span>
         )}

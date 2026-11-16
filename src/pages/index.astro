@@ -15,7 +15,6 @@ import { itemList, webPage } from '@/components/seo/schema';
 // The first screen shows what you buy: the box with the two bottles in their bags.
 import heroPhoto from '@/assets/images/products/packshot-rood-zakjes.jpg';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
-import pouringPhoto from '@/assets/images/site/inschenken.jpg';
 import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
 // Drawing under the steps; it also sits on the box sleeve.
 import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
@@ -177,38 +176,47 @@ const audiences = [
     </div>
   </section>
 
-  <!-- Zo speel je Flavory -->
-  <section class="section-y" aria-labelledby="spelen-title">
+  <!-- Block 4: how it works. The clip of an evening next to three steps, each with its drawing from the box. -->
+  <section id="hoe-werkt-het" class="section-y scroll-mt-24" aria-labelledby="spelen-title">
     <div class="container-site">
       <h2 id="spelen-title" class="h2 text-center">
-        Zo speel je Flavory
+        Een wijnproeverij thuis, in drie stappen
       </h2>
       <div class="mt-6 grid items-center gap-6 md:grid-cols-2 md:gap-10">
-        <Image
-          src={pouringPhoto}
-          alt="Wijn wordt blind ingeschonken uit een fles in een stoffen zakje"
-          widths={[480, 720, 960]}
-          sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
-          class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
+        <!-- Mood clip, only loaded once it scrolls into view. -->
+        <LazyVideo
+          src="/media/flavory-avond-vrienden.mp4"
+          poster={clipPoster}
+          label="Sfeerbeelden: vrienden proeven samen wijn aan een tafel met kaarsen"
+          class="aspect-video w-full rounded-[var(--radius-card)] object-cover"
         />
-        <div>
-          <ol class="divide-y divide-line">
-            {steps.map((step, i) => (
-              <li class="flex items-center gap-4 py-3">
-                <span class="step-number" aria-hidden="true">
-                  {i + 1}
-                </span>
-                <div class="min-w-0">
-                  <p class="font-bold">
-                    <span class="sr-only">Stap {i + 1}: </span>
-                    {step.title}
-                  </p>
-                  <p class="mt-1 text-sm text-muted">{step.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <ol class="divide-y divide-line">
+          {steps.map((step, i) => (
+            <li class="flex items-center gap-4 py-4">
+              {/* The drawings carry their own white step number (of the six-step set); on a white tile,
+                  cropped from the right, only the drawing shows. */}
+              <img
+                src={step.img}
+                alt=""
+                width="400"
+                height="344"
+                loading="lazy"
+                decoding="async"
+                class="size-24 shrink-0 rounded-2xl bg-white object-cover object-right p-2 md:size-28"
+              />
+              <div class="min-w-0">
+                <p class="flex items-center gap-2 text-lg font-bold">
+                  <span class="step-number" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <span class="sr-only">Stap {i + 1}: </span>
+                  {step.title}
+                </p>
+                <p class="mt-1 text-muted">{step.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
       <p class="mt-6 text-center font-bold">2 tot 6 spelers · 60 tot 90 minuten · geen wijnkennis nodig</p>
       <p class="mt-4 text-center">
@@ -247,13 +255,6 @@ const audiences = [
           class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
         />
       </div>
-      <!-- Mood clip, only loaded once it scrolls into view. -->
-      <LazyVideo
-        src="/media/flavory-avond-vrienden.mp4"
-        poster={clipPoster}
-        label="Sfeerbeelden: vrienden proeven samen wijn aan een tafel met kaarsen"
-        class="mt-8 aspect-video w-full rounded-[var(--radius-card)] object-cover"
-      />
     </div>
   </section>
 

@@ -3,7 +3,9 @@ import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Faq from '@/components/ui/Faq.astro';
-import ColorChoice from '@/components/commerce/ColorChoice.astro';
+import BoxShelf from '@/components/commerce/BoxShelf.astro';
+import Countdown from '@/components/ui/Countdown.astro';
+import ShippingCutoff from '@/components/ui/ShippingCutoff.astro';
 import { fromPrice, getProducts, mainProducts } from '@/lib/content';
 import { SITE, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
@@ -20,12 +22,14 @@ const description =
 
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
+// Running promotion (SITE.campaign): the offer and the time left stand in the first screen.
+const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
 const lowestPrice = Math.min(...products.map(fromPrice));
 const playersMin = Math.min(...products.map((p) => p.data.playersMin));
 const playersMax = Math.max(...products.map((p) => p.data.playersMax));
 
 // Short answer at the top of the page: the sentence AI answers and Google snippets can quote as is.
-const shortAnswer = `Het wijnspel van Flavory is een origineel wijncadeau voor wie alles al heeft. In de doos zitten twee flessen wijn (75 cl) die je blind proeft, en een spel met quizvragen voor ${playersMin} tot ${playersMax} spelers. Je geeft geen fles, maar een avond samen, vanaf ${formatPrice(lowestPrice)}.`;
+const shortAnswer = `Het wijnspel van Flavory is een origineel wijncadeau voor wie alles al heeft. In het pakket zitten twee flessen wijn (75 cl) die je blind proeft, en een spel met quizvragen voor ${playersMin} tot ${playersMax} spelers. Je geeft geen fles, maar een avond samen, vanaf ${formatPrice(lowestPrice)}.`;
 
 // How the game compares to the gifts people usually consider. Keep it fair: no claims about other brands.
 const comparison = [
@@ -141,17 +145,37 @@ const faq = [
   <!-- Hero -->
   <section class="container-site grid items-center gap-6 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
     <div>
-      <h1 class="h1">Wijnbox cadeau: een wijnproeverij om samen te openen</h1>
+      <h1 class="h1">Wijnbox cadeau: het leukste cadeau voor wie van wijn houdt</h1>
       <p class="mt-3 text-lg">
-        Het wijnspel met twee flessen wijn van 75 cl erbij. De ontvanger nodigt vrienden uit, proeft blind en ontdekt
-        wie het verschil raadt.
+        Je geeft geen fles, maar een avond: het wijnspel met twee flessen wijn (75 cl) erbij. De ontvanger nodigt
+        vrienden uit, proeft blind en raadt welke wijn welke is.
       </p>
+      {
+        promo && (
+          <p class="mt-3 leading-tight font-bold text-brand">
+            {promo}
+            {SITE.blackFriday.endDate && (
+              <span class="mt-1 block text-sm text-ink first-letter:uppercase">
+                {SITE.blackFriday.endsAt ? (
+                  <Countdown endsAt={SITE.blackFriday.endsAt} fallback={`tot en met ${SITE.blackFriday.endDate}`} />
+                ) : (
+                  `tot en met ${SITE.blackFriday.endDate}`
+                )}
+              </span>
+            )}
+          </p>
+        )
+      }
       <div class="mt-5">
         <a href="#boxen" class="btn-primary">
-          Bekijk de boxen
+          {promo ? 'Bestel met korting' : 'Kies je box'}
         </a>
       </div>
-      <p class="mt-3 text-sm">{shippingLine()}</p>
+      <ShippingCutoff class="mt-3 text-sm font-bold" />
+      <p class="mt-1 text-sm">
+        Gratis verzending vanaf {SITE.shipping.freeFromBoxes} boxen. Voor één box betaal je{' '}
+        {formatPrice(SITE.shipping.rate)} in België en Nederland.
+      </p>
     </div>
     <Image
       src={giftImage}
@@ -162,6 +186,16 @@ const faq = [
       loading="eager"
       fetchpriority="high"
     />
+  </section>
+
+  <!-- De boxen: right under the first screen, each with its price and a button that puts it into the cart. -->
+  <section id="boxen" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
+    <div class="container-site">
+      <BoxShelf products={allProducts} />
+      <p class="mt-4 text-center text-sm">
+        Twijfel je? Wit is de veiligste keuze: Chardonnay en Sauvignon Blanc kent bijna iedereen.
+      </p>
+    </div>
   </section>
 
   <!-- Drie redenen -->
@@ -182,15 +216,8 @@ const faq = [
     </div>
   </section>
 
-  <!-- De boxen -->
-  <section id="boxen" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
-    <div class="container-site">
-      <ColorChoice products={allProducts} class="mx-auto" />
-    </div>
-  </section>
-
   <!-- Levering, met het seizoensblok alleen als er een seizoen ingesteld staat -->
-  <section class="section-y bg-white" aria-labelledby="levering-title">
+  <section class="section-y" aria-labelledby="levering-title">
     <div class="container-site max-w-3xl">
       <h2 id="levering-title" class="h2">
         Rechtstreeks naar de ontvanger

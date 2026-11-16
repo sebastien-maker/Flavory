@@ -21,9 +21,12 @@ const BOX_PHOTOS: Record<string, ImageMetadata> = {
 interface Props {
   /** All products; a card is made for every duel that is, or was, for sale. */
   products: Product[];
+  heading?: string;
+  /** The cards stand in the first screen (/shop/): load their photos at once. */
+  eager?: boolean;
 }
 
-const { products } = Astro.props;
+const { products, heading = 'Kies je box', eager = false } = Astro.props;
 const colourOrder = { Wit: 0, Rood: 1 } as const;
 const soldOutLabel = 'Tijdelijk uitverkocht';
 const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
@@ -63,7 +66,7 @@ const boxes = await Promise.all(
 ---
 
 <div>
-  <h2 id="boxen-title" class="h2 text-center">Kies je box</h2>
+  <h2 id="boxen-title" class="h2 text-center">{heading}</h2>
   <p class="mx-auto mt-2 max-w-2xl text-center">Elke box is één avond: het spel en twee flessen wijn (75 cl).</p>
   {
     promo && (
@@ -89,6 +92,7 @@ const boxes = await Promise.all(
                 height={480}
                 widths={[112, 224, 360, 480, 720]}
                 sizes="(min-width: 768px) 22rem, 7rem"
+                loading={eager ? 'eager' : 'lazy'}
                 class="box-card-img"
               />
               <div class="min-w-0 md:px-4 md:pt-4">

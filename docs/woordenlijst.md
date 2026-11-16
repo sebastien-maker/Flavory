@@ -34,7 +34,9 @@ Deze afspraken gelden voor elke tekst op flavory.wine: pagina's, productteksten,
 
 ## Altijd vermelden
 
-Dat de twee flessen wijn (75 cl) in de doos zitten.
+Dat er twee flessen wijn (75 cl) bij zitten. Schrijf **"met twee flessen wijn erbij"** of "in het pakket", niet "in de doos" (Bart, 16 november 2026): de koper krijgt de speldoos en twee flessen in zakjes A en B, samen in één pakket. "In elke box" mag, want een box is het hele product.
+
+In oudere blogs staat nog "in de doos zitten twee flessen": pas dat aan wanneer je zo'n tekst bewerkt.
 
 ## Feiten komen uit één bron
 

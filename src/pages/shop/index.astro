@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ColorChoice from '@/components/commerce/ColorChoice.astro';
+import BoxShelf from '@/components/commerce/BoxShelf.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import HowItWorks from '@/components/sections/HowItWorks.astro';
 import Reviews from '@/components/sections/Reviews.astro';
@@ -44,7 +44,9 @@ const description =
       </a>
       .
     </p>
-    <ColorChoice products={products} eager class="mt-10" />
+    <div class="mt-10">
+      <BoxShelf products={products} eager />
+    </div>
   </section>
 
   <section class="section-y container-site grid gap-10 md:grid-cols-2">

@@ -8,7 +8,7 @@ import Newsletter from '@/components/sections/Newsletter.astro';
 import BlackFridayList from '@/components/sections/BlackFridayList.astro';
 import PromoBanner from '@/components/ui/PromoBanner.astro';
 import { getProducts, mainProducts } from '@/lib/content';
-import { SITE, shippingLine } from '@/lib/site';
+import { SITE, freeShippingLine, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
 
@@ -143,7 +143,7 @@ const faq = over
           </a>
         </div>
       )}
-      <p class="mt-3 text-sm">{shippingLine()}</p>
+      <p class="mt-3 text-sm">{freeShippingLine()}</p>
     </div>
     <Image
       src={giftImage}

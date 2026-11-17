@@ -172,9 +172,12 @@ export const FORMULAS = {
 // Small star next to "Premium" on tiles and cards: a touch more shine, nothing louder.
 export const PREMIUM_MARK = '✦';
 
-/** One line about shipping, used in the cart, on product pages and in the shipping page intro. */
+/** One line about shipping with the rate, for answers to questions about cost and delivery. */
 export const shippingLine = () =>
   `Verzending ${formatPrice(SITE.shipping.rate)} in België en Nederland, gratis vanaf ${SITE.shipping.freeFromBoxes} boxen.`;
+
+/** The short line under a button: free shipping first. The rate for one box stands on the product page and in the cart. */
+export const freeShippingLine = () => `Gratis verzending vanaf ${SITE.shipping.freeFromBoxes} boxen in België en Nederland.`;
 
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(value);

@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Faq from '@/components/ui/Faq.astro';
 import ColorChoice from '@/components/commerce/ColorChoice.astro';
 import { fromPrice, getProducts, mainProducts } from '@/lib/content';
-import { SITE, formatPrice, pricePerPerson, shippingLine } from '@/lib/site';
+import { SITE, formatPrice, freeShippingLine, pricePerPerson, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
 import giftImage from '@/assets/images/site/cadeau-uitpakken.jpg';
 
@@ -151,7 +151,7 @@ const faq = [
           Bekijk de boxen
         </a>
       </div>
-      <p class="mt-3 text-sm">{shippingLine()}</p>
+      <p class="mt-3 text-sm">{freeShippingLine()}</p>
     </div>
     <Image
       src={giftImage}

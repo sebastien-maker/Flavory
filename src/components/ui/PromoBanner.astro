@@ -1,0 +1,49 @@
+---
+// The running promotion (SITE.campaign) as one black band: "NU" and the discount in large figures, what it is,
+// until when and what comes after. Used above the headline on the home page, above the box cards, right above
+// the buy button on a product page and on /black-friday/. Renders nothing when no promotion runs.
+import { SITE } from '@/lib/site';
+import Countdown from '@/components/ui/Countdown.astro';
+
+interface Props {
+  /** Makes the whole band a link, for example to /black-friday/. */
+  href?: string;
+  /** On a phone only the discount and the end date show, so the band stays two lines high. */
+  compact?: boolean;
+  class?: string;
+}
+
+const { href, compact = false, class: className } = Astro.props;
+const active = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
+const { offer, endDate, endsAt, badge, after } = SITE.blackFriday;
+const Tag = href ? 'a' : 'div';
+const extra = compact ? 'max-md:hidden' : undefined;
+---
+
+{
+  active && (
+    <Tag href={href} class:list={['bf-banner', className]}>
+      {badge ? (
+        <strong class="bf-figure">
+          <span class="bf-now">NU</span>
+          {badge}
+        </strong>
+      ) : (
+        <span class="bf-dot" aria-hidden="true" />
+      )}
+      <span class="min-w-0">
+        <strong class="bf-title">{badge ? 'Black Friday-korting' : offer}</strong>
+        {endDate && (
+          <span class="mt-0.5 block text-sm text-balance md:text-base">
+            Tot en met {endDate}{after && <span class={extra}>. {after}</span>}
+          </span>
+        )}
+        {endsAt && (
+          <span class:list={['block min-h-5 text-sm font-bold first-letter:uppercase md:min-h-6 md:text-base', extra]}>
+            <Countdown endsAt={endsAt} fallback="" />
+          </span>
+        )}
+      </span>
+    </Tag>
+  )
+}

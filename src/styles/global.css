@@ -162,6 +162,63 @@
   .h1 {
     font-size: var(--text-h1);
   }
+  /* Promotion band (PromoBanner.astro): black, with the discount in a red block. */
+  .bf-banner {
+    @apply mb-3 flex items-center gap-3 rounded-xl bg-ink p-2.5 text-white md:mb-4 md:gap-4 md:p-3.5;
+  }
+  /* "NU" above the discount in large figures; the block beats softly, the only movement on the page. */
+  .bf-figure {
+    @apply shrink-0 rounded-lg bg-brand px-2 py-1.5 text-center text-[1.75rem] leading-none font-bold text-white md:px-3.5 md:py-2.5 md:text-[2.25rem];
+    animation: bf-beat 1.8s ease-in-out infinite;
+  }
+  .bf-now {
+    @apply mb-1 block text-sm leading-none md:text-lg md:leading-none;
+  }
+  .bf-title {
+    @apply block text-lg leading-tight md:text-[1.375rem];
+  }
+  /* A heartbeat: two quick beats, then a rest. */
+  @keyframes bf-beat {
+    0%,
+    24%,
+    52%,
+    100% {
+      scale: 1;
+    }
+    12%,
+    36% {
+      scale: 1.15;
+    }
+  }
+  .bf-dot {
+    @apply size-3 shrink-0 rounded-full bg-brand;
+    animation: bf-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes bf-pulse {
+    50% {
+      opacity: 0.35;
+      scale: 0.7;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bf-dot,
+    .bf-figure {
+      animation: none;
+    }
+  }
+  /* Small label with the discount on a box card or next to a price. */
+  .bf-badge {
+    @apply rounded-full bg-brand px-2.5 py-1 text-sm leading-none font-bold text-white;
+  }
+  /* The Black Friday drawing, stuck on the top left corner of the hero photo like a sticker. */
+  .bf-sticker {
+    position: absolute;
+    top: -0.75rem;
+    left: -0.5rem;
+    width: 32%;
+    height: auto;
+    rotate: -8deg;
+  }
   .h2 {
     font-size: var(--text-h2);
   }
@@ -180,6 +237,10 @@
   }
   .nav-pill-shop {
     @apply border-brand bg-brand text-white hover:border-brand-dark hover:bg-brand-dark;
+  }
+  /* The page you are on: its pill is filled, so a click in the menu visibly lands. Shop is always filled. */
+  .nav-pill[aria-current='page']:not(.nav-pill-shop) {
+    @apply bg-ink text-white;
   }
   .icon-circle {
     @apply flex size-10 items-center justify-center rounded-full bg-ink text-white transition-colors hover:bg-brand;
@@ -282,6 +343,10 @@
   /* Price before the discount, next to the sale price (Price.astro and lib/commerce/price.ts). */
   .price-old {
     @apply mr-1.5 font-normal text-muted;
+  }
+  /* On an option tile the regular price stands above the sale price, so the explanation keeps its width. */
+  .variant-tile .price-old {
+    @apply mr-0 block text-sm;
   }
   .payments > li {
     @apply rounded bg-white p-0.5;

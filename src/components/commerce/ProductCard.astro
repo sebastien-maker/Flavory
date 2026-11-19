@@ -3,7 +3,11 @@ import { Image } from 'astro:assets';
 import type { Product } from '@/lib/content';
 import { isAvailable, productPath } from '@/lib/content';
 import Price from './Price.astro';
-import { PREMIUM_MARK } from '@/lib/site';
+import { PREMIUM_MARK, SITE } from '@/lib/site';
+
+// Running promotion (SITE.campaign): a label with the discount on the photo.
+const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
+const { badge } = SITE.blackFriday;
 
 interface Props {
   product: Product;
@@ -16,8 +20,11 @@ const { data } = product;
 const url = productPath(product.id);
 const soldOut = !isAvailable(product);
 const cover = data.images[0]!;
-// One line per formula, so you see the price and the stock of both before you click.
-const options = data.variants.map((v) => ({
+// One line per formula, so you see the price and the stock of both before you click. A box with a second duel
+// (leftover stock) would list "Standaard" twice: the card shows the main duel, unless only the other can be bought.
+const mainDuel = data.variants.filter((v) => v.duel === data.duel);
+const listed = mainDuel.some((v) => v.available) ? mainDuel : data.variants;
+const options = listed.map((v) => ({
   formula: v.formula,
   price: v.price,
   regularPrice: v.regularPrice,
@@ -42,6 +49,7 @@ const options = data.variants.map((v) => ({
       {data.badge && <span class="badge bg-ink text-white">{data.badge}</span>}
       {soldOut && <span class="badge bg-white ring-1 ring-line">Uitverkocht</span>}
     </div>
+    {promo && badge && !soldOut && <span class="bf-badge absolute top-2 right-2">Black Friday {badge}</span>}
   </div>
   <div class="mt-4 flex flex-1 flex-col">
     <Heading class="font-display text-xl text-brand">

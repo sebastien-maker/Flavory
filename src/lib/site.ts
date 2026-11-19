@@ -61,14 +61,24 @@ export const SITE = {
   // form of the Black Friday list (Netlify Forms, "black-friday-lijst"). The announcement bar does not change.
   // 'blackfriday' switches /black-friday/ to the running promotion and links the announcement bar to it.
   // The sale prices themselves are set in WooCommerce.
-  campaign: 'blackfriday-soon' as '' | 'blackfriday-soon' | 'blackfriday',
-  // Fill in together with campaign = 'blackfriday'.
+  campaign: 'blackfriday' as '' | 'blackfriday-soon' | 'blackfriday',
+  // Fill in together with campaign = 'blackfriday'. When the discount changes (a new step of the promotion),
+  // change these three values together with the sale prices in WooCommerce.
   blackFriday: {
     // The promotion in one sentence, for example 'Black Friday: het wijnspel met 20% korting'.
     // This is the only place where the discount is named.
-    offer: '' as string,
-    // Last day of the promotion, for example 'maandag 30 november'.
-    endDate: '' as string,
+    offer: 'Black Friday: 20% korting op het wijnspel' as string,
+    // Last day of this discount in words, for example 'maandag 30 november'.
+    endDate: 'zondag 22 november' as string,
+    // The same moment for the countdown: the end of that day, Brussels time. Empty: no countdown.
+    endsAt: '2026-11-22T23:59:59+01:00' as string,
+    // Short label on the box cards, for example '-20%'. Empty: no label.
+    badge: '-20%' as string,
+    // What happens after endDate, in one sentence. Empty: nothing is said about it.
+    after: 'Daarna wordt de korting kleiner.' as string,
+    // The Black Friday drawing on the home page (the friends with their signs, from the 2025 campaign).
+    // '20' is the drawing whose sign says "-20%": only while the discount is 20%. Empty: no drawing.
+    drawing: '20' as '' | '20',
   },
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',
@@ -162,9 +172,12 @@ export const FORMULAS = {
 // Small star next to "Premium" on tiles and cards: a touch more shine, nothing louder.
 export const PREMIUM_MARK = '✦';
 
-/** One line about shipping, used in the cart, on product pages and in the shipping page intro. */
+/** One line about shipping with the rate, for answers to questions about cost and delivery. */
 export const shippingLine = () =>
   `Verzending ${formatPrice(SITE.shipping.rate)} in België en Nederland, gratis vanaf ${SITE.shipping.freeFromBoxes} boxen.`;
+
+/** The short line under a button: free shipping first. The rate for one box stands on the product page and in the cart. */
+export const freeShippingLine = () => `Gratis verzending vanaf ${SITE.shipping.freeFromBoxes} boxen in België en Nederland.`;
 
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(value);

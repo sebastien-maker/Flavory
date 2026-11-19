@@ -65,3 +65,15 @@ Buiten die keuze blijft rood de enige accentkleur.
 ## Bewegende elementen
 
 - Geen horizontale carrousels op mobiel. Enige uitzondering: de productgalerij.
+
+## Tijdelijke actie (Black Friday)
+
+Geldt alleen zolang `SITE.campaign` in `src/lib/site.ts` op `blackfriday` staat. Zonder actie ziet de site eruit zoals hierboven.
+
+- De balk bovenaan is zwart met witte, vette tekst, met "Gratis verzending vanaf 2 boxen" eerst. Tijdens een actie staat de actie ernaast als link, vanaf tablet met de tijd die nog rest.
+- De actieband (`PromoBanner.astro`, zwart met witte tekst) staat op vier plaatsen: boven de kop op de homepage, boven de twee kaarten bij "Kies je box", vlak boven de koopknop op de productpagina en bovenaan `/black-friday/`. Hij toont de korting in grote cijfers, tot wanneer ze geldt en wat daarna gebeurt.
+- Het cijfer van de korting klopt zacht. Dat is de enige beweging, en ze staat stil voor wie "minder beweging" instelde.
+- Op de kaarten van de boxen staat een rood label met de korting (`.bf-badge`).
+- De tekening van de Black Friday-actie van 2025 ligt als sticker op de hoek van de hero-foto. Dat is de enige uitzondering op "geen tekst in afbeeldingen", en alleen zolang de korting klopt met het bordje op de tekening (`SITE.blackFriday.drawing`).
+- De aftelklok telt af naar een echt eindmoment en begint nooit opnieuw. De einddatum staat ook in woorden in de HTML.
+- Een doorstreepte prijs komt altijd uit WooCommerce, nooit uit de code.

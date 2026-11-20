@@ -78,6 +78,9 @@ import { SITE } from '@/lib/site';
     body:has([data-sticky-buy]:not([hidden])) #consent-banner {
       bottom: 5rem;
     }
+    body:has([data-sticky-buy][data-promo]:not([hidden])) #consent-banner {
+      bottom: 7rem;
+    }
   }
 </style>
 

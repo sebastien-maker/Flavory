@@ -166,10 +166,9 @@
   .bf-banner {
     @apply mb-3 flex items-center gap-3 rounded-xl bg-ink p-2.5 text-white md:mb-4 md:gap-4 md:p-3.5;
   }
-  /* "NU" above the discount in large figures; the block beats softly, the only movement on the page. */
+  /* "NU" above the discount in large figures. It stands still: the clock is the only thing that moves. */
   .bf-figure {
     @apply shrink-0 rounded-lg bg-brand px-2 py-1.5 text-center text-[1.75rem] leading-none font-bold text-white md:px-3.5 md:py-2.5 md:text-[2.25rem];
-    animation: bf-beat 1.8s ease-in-out infinite;
   }
   .bf-now {
     @apply mb-1 block text-sm leading-none md:text-lg md:leading-none;
@@ -177,47 +176,128 @@
   .bf-title {
     @apply block text-lg leading-tight md:text-[1.375rem];
   }
-  /* A heartbeat: two quick beats, then a rest. */
-  @keyframes bf-beat {
-    0%,
-    24%,
-    52%,
-    100% {
-      scale: 1;
-    }
-    12%,
-    36% {
-      scale: 1.15;
-    }
-  }
   .bf-dot {
     @apply size-3 shrink-0 rounded-full bg-brand;
-    animation: bf-pulse 1.2s ease-in-out infinite;
-  }
-  @keyframes bf-pulse {
-    50% {
-      opacity: 0.35;
-      scale: 0.7;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .bf-dot,
-    .bf-figure {
-      animation: none;
-    }
   }
   /* Small label with the discount on a box card or next to a price. */
   .bf-badge {
     @apply rounded-full bg-brand px-2.5 py-1 text-sm leading-none font-bold text-white;
   }
-  /* The Black Friday drawing, stuck on the top left corner of the hero photo like a sticker. */
-  .bf-sticker {
-    position: absolute;
-    top: -0.75rem;
-    left: -0.5rem;
-    width: 32%;
-    height: auto;
-    rotate: -8deg;
+  /* Dark zone of a running promotion: the hero of the home page and /black-friday/, and the title zone on a
+     product page. White text; red only as the block behind the discount and on the buy button. */
+  .bf-dark {
+    @apply bg-ink text-white;
+  }
+  .bf-dark .price-old,
+  .bf-dark .bf-soft {
+    color: rgb(255 255 255 / 0.7);
+  }
+  /* One line above the headline: the discount in a red block, then what it is and how long it lasts. */
+  .bf-eyebrow {
+    @apply flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm leading-tight font-bold;
+  }
+  .bf-pct {
+    @apply rounded-md bg-brand px-2 py-1 text-base leading-none font-bold text-white;
+  }
+  /* What you save, next to the price. */
+  .bf-save {
+    @apply rounded-full border border-current px-2.5 py-1 text-sm leading-none font-bold;
+  }
+  /* Countdown in blocks (CountdownClock.astro). The space is reserved, so nothing shifts when the figures
+     arrive; without JavaScript the blocks stay hidden and the end date in words says it all. */
+  .bf-clock {
+    @apply mt-3 grid max-w-xs grid-cols-4 gap-2;
+  }
+  .bf-clock:not([data-ready]) {
+    visibility: hidden;
+  }
+  .bf-clock > li {
+    @apply rounded-xl bg-white/10 py-1.5 text-center text-sm leading-none;
+  }
+  .bf-clock b {
+    @apply mb-1 block text-[1.75rem] leading-none;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Header on a page that opens with a dark zone: black to the top of the screen. */
+  .header-dark {
+    @apply border-white/15 bg-ink text-white;
+  }
+  .nav-pill.nav-pill-dark {
+    @apply border-white text-white hover:bg-white hover:text-ink;
+  }
+  /* Box card in a hero (BoxPick.astro): photo, name, price and one button. */
+  .box-pick {
+    @apply relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] bg-white text-ink;
+  }
+  /* The product without background: it stands free on the card, with a shadow under it. */
+  .box-pick-img {
+    @apply aspect-square w-full object-contain p-2;
+    filter: drop-shadow(0 0.5rem 0.75rem rgb(0 0 0 / 0.18));
+  }
+  /* In a dark zone the card is dark too: a thin light line around it and a soft glow in the colour of the
+     wine behind the product. */
+  .bf-dark .box-pick {
+    color: white;
+    background:
+      radial-gradient(85% 55% at 50% 30%, var(--pick-glow), transparent 72%),
+      #111;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+  }
+  .bf-dark .box-pick-img {
+    filter: drop-shadow(0 0.75rem 1rem rgb(0 0 0 / 0.6));
+  }
+  .pick-red {
+    --pick-glow: rgb(214 0 33 / 0.34);
+  }
+  .pick-white {
+    --pick-glow: rgb(143 213 228 / 0.26);
+  }
+  /* Product page, buy box. On a phone the title zone and the buy button form one block, right under the
+     photo; from md up the button stands under the options (ProductPage.astro). */
+  .buy-head {
+    @apply rounded-t-[var(--radius-card)] px-5 pt-4 pb-4 md:rounded-[var(--radius-card)] md:p-6;
+  }
+  .buy-cta {
+    @apply order-1 -mt-px rounded-b-[var(--radius-card)] px-5 pb-5 md:order-2 md:mt-4 md:rounded-none md:bg-transparent md:p-0;
+  }
+  .buy-options {
+    @apply order-2 mt-6 md:order-1;
+  }
+  .buy-proof {
+    @apply order-3 mt-4;
+  }
+  /* The price in the title zone: large, with the regular price struck through and what you save. */
+  .buy-price {
+    @apply mt-3 flex flex-wrap items-center gap-x-3 gap-y-2;
+  }
+  .buy-price > strong {
+    @apply text-[2.25rem] leading-none;
+  }
+  .buy-price > .price-old {
+    @apply mr-0 text-lg;
+  }
+  /* Photo in the product gallery: lower on a phone, so the price and the buy button come sooner. */
+  .gallery-img {
+    @apply aspect-[5/4] w-full object-cover md:aspect-square;
+  }
+  /* Inside an option tile, and the frame around the tiles of one duel. */
+  .tile-main {
+    @apply flex items-center gap-3;
+  }
+  .tile-name {
+    @apply block font-bold;
+  }
+  .tile-note {
+    @apply block text-sm text-muted;
+  }
+  .tile-price {
+    @apply ml-auto max-w-[45%] text-right font-bold;
+  }
+  .duel-box {
+    @apply mt-3 rounded-xl border border-line p-3;
+  }
+  .duel-box > p {
+    @apply mb-2.5 leading-tight;
   }
   .h2 {
     font-size: var(--text-h2);

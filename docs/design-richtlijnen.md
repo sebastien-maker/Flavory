@@ -71,9 +71,19 @@ Buiten die keuze blijft rood de enige accentkleur.
 Geldt alleen zolang `SITE.campaign` in `src/lib/site.ts` op `blackfriday` staat. Zonder actie ziet de site eruit zoals hierboven.
 
 - De balk bovenaan is zwart met witte, vette tekst, met "Gratis verzending vanaf 2 boxen" eerst. Tijdens een actie staat de actie ernaast als link, vanaf tablet met de tijd die nog rest.
-- De actieband (`PromoBanner.astro`, zwart met witte tekst) staat op vier plaatsen: boven de kop op de homepage, boven de twee kaarten bij "Kies je box", vlak boven de koopknop op de productpagina en bovenaan `/black-friday/`. Hij toont de korting in grote cijfers, tot wanneer ze geldt en wat daarna gebeurt.
-- Het cijfer van de korting klopt zacht. Dat is de enige beweging, en ze staat stil voor wie "minder beweging" instelde.
+- Drie zones worden zwart met witte tekst (`.bf-dark`): de hero van de homepage, de hero van `/black-friday/` en de titelzone op de productpagina. Op de homepage en `/black-friday/` is ook de header zwart, met het witte logo. Dat is de enige uitzondering op "achtergronden zijn crème en wit". De rest van de pagina blijft licht, zodat de actie leest als een tijdelijke laag.
+- In een zwarte zone is rood alleen het blokje achter de korting (`.bf-pct`) en de koopknop. Rode tekst op zwart haalt het contrast niet.
+- Boven de kop staat één regel: de korting in een rood blokje, "Black Friday" en de tijd die nog rest.
+- De aftelklok in blokken (`CountdownClock.astro`) staat op de productpagina en op `/black-friday/`. Ze telt af naar een echt eindmoment en begint nooit opnieuw. De einddatum staat ook in woorden in de HTML. De klok is de enige beweging op de pagina.
+- Op de productpagina staat bij de prijs wat je bespaart. Dat bedrag wordt berekend uit de twee prijzen van WooCommerce.
 - Op de kaarten van de boxen staat een rood label met de korting (`.bf-badge`).
-- De tekening van de Black Friday-actie van 2025 ligt als sticker op de hoek van de hero-foto. Dat is de enige uitzondering op "geen tekst in afbeeldingen", en alleen zolang de korting klopt met het bordje op de tekening (`SITE.blackFriday.drawing`).
-- De aftelklok telt af naar een echt eindmoment en begint nooit opnieuw. De einddatum staat ook in woorden in de HTML.
+- De keuzekaarten in een zwarte zone zijn zelf donker. Het product staat er vrij op, zonder beige vlak (`packshot-rood-vrij.webp` en `packshot-wit-vrij.webp`), met een zachte gloed in de kleur van de wijn. Een foto met een lichte achtergrond hoort niet op zwart.
+- De actieband (`PromoBanner.astro`, zwart met witte tekst) staat nog boven de twee kaarten bij "Kies je box". Het cijfer staat stil.
 - Een doorstreepte prijs komt altijd uit WooCommerce, nooit uit de code.
+- Geen valse schaarste: geen voorraadtellers, geen klok die herbegint, geen "laatste kans" zolang er nog een stap van de actie volgt.
+
+## De weg naar een box
+
+- De twee keuzekaarten Wit en Rood staan in de hero van de homepage (`BoxPick.astro`), ook zonder actie. Eén tik van de homepage naar een productpagina.
+- Op `/black-friday/` legt de knop op de kaart de Standaard-box meteen in het winkelmandje. Een tekstlink eronder gaat naar de productpagina.
+- Op de productpagina staan titel, prijs en koopknop op mobiel als één blok vlak onder de foto. De eerste box die te koop is, is vooraf gekozen. Vanaf tablet staat de knop onder de opties.

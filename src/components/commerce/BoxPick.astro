@@ -1,6 +1,8 @@
 ---
 // The two boxes as cards inside a hero: one tap from the top of the page to a box. Red and white side by side,
 // also on a phone. The colour of the button follows the wine (docs/design-richtlijnen.md).
+// The product stands free on the card (a packshot without background). During a promotion the hero is dark
+// and so are the cards, with a soft glow in the colour of the wine behind the product.
 // With `quickAdd` the button puts the cheapest box you can buy straight into the cart (the same form the
 // product page uses, see CartDrawer.astro) and a text link leads to the product page.
 import { Image, getImage } from 'astro:assets';
@@ -55,23 +57,23 @@ const cards = await Promise.all(
 
 <ul id={id} class:list={['grid grid-cols-2 gap-3', className]}>
   {cards.map(({ product, style, url, price, regularPrice, add }) => (
-    <li class="box-pick">
+    <li class:list={['box-pick', style.glow]}>
       <a href={url} class="relative block" tabindex={add ? undefined : -1} aria-hidden={add ? undefined : 'true'}>
         <Image
-          src={style.image}
+          src={style.cutout}
           alt={add ? style.alt : ''}
           width={480}
           height={480}
           widths={[240, 360, 720]}
           sizes="(min-width: 768px) 17rem, 45vw"
-          class="aspect-square w-full object-cover"
+          class="box-pick-img"
           loading="eager"
         />
         {promo && badge && <span class="bf-badge absolute top-2 left-2">{badge}</span>}
       </a>
-      <div class="flex flex-1 flex-col px-3 pt-3 pb-3.5 text-center">
+      <div class="flex flex-1 flex-col px-3 pb-3.5 text-center">
         <h3 class="text-[1.375rem] leading-none">{style.title}</h3>
-        <p class:list={['mt-1.5 text-sm leading-tight italic', style.line]}>
+        <p class:list={['mt-1.5 text-sm leading-tight italic', promo ? 'bf-soft' : style.line]}>
           {product.data.duel}?
         </p>
         <p class="mt-2 mb-3 font-bold">

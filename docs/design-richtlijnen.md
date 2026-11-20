@@ -77,6 +77,7 @@ Geldt alleen zolang `SITE.campaign` in `src/lib/site.ts` op `blackfriday` staat.
 - De aftelklok in blokken (`CountdownClock.astro`) staat op de productpagina en op `/black-friday/`. Ze telt af naar een echt eindmoment en begint nooit opnieuw. De einddatum staat ook in woorden in de HTML. De klok is de enige beweging op de pagina.
 - Op de productpagina staat bij de prijs wat je bespaart. Dat bedrag wordt berekend uit de twee prijzen van WooCommerce.
 - Op de kaarten van de boxen staat een rood label met de korting (`.bf-badge`).
+- De keuzekaarten in een zwarte zone zijn zelf donker. Het product staat er vrij op, zonder beige vlak (`packshot-rood-vrij.webp` en `packshot-wit-vrij.webp`), met een zachte gloed in de kleur van de wijn. Een foto met een lichte achtergrond hoort niet op zwart.
 - De actieband (`PromoBanner.astro`, zwart met witte tekst) staat nog boven de twee kaarten bij "Kies je box". Het cijfer staat stil.
 - Een doorstreepte prijs komt altijd uit WooCommerce, nooit uit de code.
 - Geen valse schaarste: geen voorraadtellers, geen klok die herbegint, geen "laatste kans" zolang er nog een stap van de actie volgt.

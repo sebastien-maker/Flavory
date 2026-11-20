@@ -9,9 +9,10 @@ const notice = SITE.checkoutNotice;
 const campaign = !notice && SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
 const { endDate, endsAt } = SITE.blackFriday;
 const path = Astro.url.pathname;
-// On a phone the home page and /black-friday/ leave the promotion to the band under their header, so the bar
-// stays one line there.
-const promoClass = path === '/' || path === '/black-friday/' ? 'hidden md:inline-flex' : 'inline-flex';
+// On a phone the home page, /black-friday/ and the shop pages show the promotion in the page itself, right
+// under the header, so the bar stays one line there and the buy button stands higher.
+const promoClass =
+  path === '/' || path === '/black-friday/' || path.startsWith('/shop/') ? 'hidden md:inline-flex' : 'inline-flex';
 // The restock message only shows on the homepage and the shop pages.
 const restock = !notice && !campaign && (path === '/' || path.startsWith('/shop/')) && SITE.restock;
 ---

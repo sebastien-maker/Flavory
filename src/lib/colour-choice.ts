@@ -14,6 +14,8 @@ export const COLOUR_STYLES = {
     button: 'bg-wine-white text-ink hover:bg-wine-white-dark',
     /** Tinted zone behind the title on the product page. */
     zone: 'bg-wine-white-tint',
+    /** The same tint behind the buy button, on a phone only (there it stands inside the title zone). */
+    zoneCta: 'max-md:bg-wine-white-tint',
     /** Accent colour of the chosen option on the product page (CSS custom properties). */
     tiles: 'theme-white',
   },
@@ -25,6 +27,7 @@ export const COLOUR_STYLES = {
     line: 'text-wine-red-text',
     button: 'bg-brand text-white hover:bg-brand-dark',
     zone: 'bg-blush',
+    zoneCta: 'max-md:bg-blush',
     tiles: 'theme-red',
   },
 } as const;

@@ -76,9 +76,6 @@ export const SITE = {
     badge: '-20%' as string,
     // What happens after endDate, in one sentence. Empty: nothing is said about it.
     after: 'Daarna wordt de korting kleiner.' as string,
-    // The Black Friday drawing on the home page (the friends with their signs, from the 2025 campaign).
-    // '20' is the drawing whose sign says "-20%": only while the discount is 20%. Empty: no drawing.
-    drawing: '20' as '' | '20',
   },
   ageNotice: 'Wijn: enkel voor 16+ (België) en 18+ (Nederland)',
   gtmId: 'GTM-MPJ8DPDM',

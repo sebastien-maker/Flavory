@@ -2,36 +2,29 @@
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ColorChoice from '@/components/commerce/ColorChoice.astro';
+import BoxPick from '@/components/commerce/BoxPick.astro';
 import Reviews from '@/components/sections/Reviews.astro';
-import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
 import RatingBadge from '@/components/ui/RatingBadge.astro';
-import Price from '@/components/commerce/Price.astro';
-import PromoBanner from '@/components/ui/PromoBanner.astro';
-import { colourChoices, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
-import { COLOUR_STYLES } from '@/lib/colour-choice';
+import Countdown from '@/components/ui/Countdown.astro';
+import { getProducts, getPosts, mainProducts, postPath, productPath } from '@/lib/content';
 import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 import heroPhoto from '@/assets/images/site/hero-proeven.jpg';
-// The Black Friday drawing of the 2025 campaign, laid over the corner of the hero photo like a sticker.
-import bfDrawing from '@/assets/images/site/black-friday-2025-20-procent.webp';
+// During a promotion the hero is dark: a photo by candlelight fits it better than the daylight one.
+import darkHeroPhoto from '@/assets/images/site/hero-zakjes.jpg';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import pouringPhoto from '@/assets/images/site/inschenken.jpg';
-import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
 // Drawing under the steps; it also sits on the box sleeve.
 import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
 
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
-const lowestPrice = Math.min(...products.map(fromPrice));
-// The two small box photos next to the button in the hero: white and red, as in "Kies je box".
-const boxes = colourChoices(allProducts).map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }));
-// Only set while WooCommerce has a sale price: the price before the discount, shown struck through.
-const lowestRegular = products.flatMap((p) => p.data.variants).find((v) => v.price === lowestPrice)?.regularPrice;
-// Running promotion (SITE.campaign): the campaign drawing on the hero photo. The band above the headline is
-// PromoBanner, which checks the campaign itself.
-const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
+// Running promotion (SITE.campaign): the hero turns dark, with one line above the headline that names the
+// discount and how long it lasts. Without a promotion the hero is the light one, with the same two box cards.
+const promo = SITE.campaign === 'blackfriday' && !!SITE.blackFriday.offer;
+const { badge, endDate, endsAt } = SITE.blackFriday;
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
 const posts = (await getPosts()).filter((p) => featuredIds.includes(p.id));
@@ -40,7 +33,15 @@ const title = 'Wijnspel: proef twee wijnen blind met vrienden | Flavory';
 const description =
   'Flavory is het wijnspel met twee flessen wijn erbij: proef ze blind, beantwoord de quizvragen en ontdek wie het verschil proeft. Voor 2 tot 6 spelers.';
 
-const hero = await getImage({ src: heroPhoto, width: 900, widths: [360, 540, 720, 900], format: 'webp' });
+const hero = await getImage({
+  src: promo ? darkHeroPhoto : heroPhoto,
+  width: 900,
+  widths: [360, 540, 720, 900],
+  format: 'webp',
+});
+const heroAlt = promo
+  ? 'Een man houdt lachend twee flessen wijn in stoffen zakjes A en B omhoog, bij kaarslicht'
+  : 'Twee vrouwen proeven witte wijn aan tafel, met een fles in een stoffen zakje ervoor';
 const heroSizes = '(min-width: 768px) 28rem, calc(100vw - 2rem)';
 // Three steps, with the drawings that also sit on the box.
 const steps = [
@@ -87,7 +88,8 @@ const audiences = [
   isHome
   description={description}
   path="/"
-  preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes }}
+  darkHeader={promo}
+  preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes, media: '(min-width: 48rem)' }}
   schema={[
     webPage({ path: '/', title, description }),
     itemList(
@@ -96,72 +98,46 @@ const audiences = [
     ),
   ]}
 >
-  <!-- Hero. During a promotion (SITE.campaign) a banner with the offer stands above the headline, the price
-       shows the sale price next to the struck-through regular one, and the campaign drawing sits on the photo. -->
-  <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
-    <div>
-      <PromoBanner href="/black-friday/" compact />
-      <h1 class="h1">Het spel dat je wijn leert proeven</h1>
-      <p class="mt-3 text-lg leading-snug md:text-xl">
-        Je wijnproeverij thuis in één pakket: twee flessen wijn zonder etiket en een wijnspel voor vrienden of familie.
-        Proef blind en raad welke wijn welke is. Geen voorkennis nodig.
-      </p>
-      <!-- Next to the button: a small photo of the white and the red box, each with its two blind bottles, so you
-           see at once what it is. Each photo leads to its box. -->
-      <div class="mt-5 flex items-center gap-3">
-        <a href="#kies-je-box" class="btn-primary mr-1">
-          Kies je box
-        </a>
-        {
-          boxes.map(({ product, style }) => (
-            <a href={productPath(product.id)} class="shrink-0">
-              <Image
-                src={style.image}
-                alt={style.alt}
-                width={160}
-                height={160}
-                widths={[80, 160, 240]}
-                sizes="4rem"
-                loading="eager"
-                class="size-16 rounded-xl object-cover"
-              />
-            </a>
-          ))
-        }
+  <!-- Hero. The two box cards stand in the hero itself: one tap from here to a box. During a promotion
+       (SITE.campaign) the zone is dark and one line above the headline names the discount and the time left.
+       On a phone the photo comes after the cards (the headline is the LCP there); from md up it stands beside
+       them and is preloaded. -->
+  <section class:list={[promo && 'bf-dark']}>
+    <div class="container-site grid items-center gap-6 pt-4 pb-10 md:grid-cols-2 md:gap-10 md:py-12">
+      <div>
+        {promo && (
+          <a href="/black-friday/" class="bf-eyebrow mb-3">
+            {badge && <strong class="bf-pct">{badge}</strong>}
+            <span>Black Friday</span>
+            {endDate && (
+              <span class="bf-soft font-normal">
+                <Countdown endsAt={endsAt} fallback={`tot en met ${endDate}`} />
+              </span>
+            )}
+          </a>
+        )}
+        <h1 class="h1">Het spel dat je wijn leert proeven</h1>
+        <p class="mt-3 md:text-lg">
+          Twee flessen wijn zonder etiket en een wijnspel. Proef blind en raad welke wijn welke is.
+        </p>
+        <h2 class="sr-only">Kies rood of wit</h2>
+        <BoxPick products={allProducts} class="mt-5" />
+        <p class="mt-4 text-sm">
+          Je wijnproeverij thuis in één pakket, voor 2 tot 6 spelers. {SITE.announcement}.
+        </p>
+        <RatingBadge class="mt-2" />
       </div>
-      <p class="mt-3 text-sm">
-        Vanaf{' '}
-        <strong>
-          <Price price={lowestPrice} regularPrice={lowestRegular} />
-        </strong>{' '}
-        voor 2 tot 6 spelers, incl. 2 flessen wijn
-      </p>
-      <RatingBadge class="mt-2" />
-    </div>
-    <div class="relative">
       <img
         src={hero.src}
         srcset={hero.srcSet.attribute}
         sizes={heroSizes}
         width={hero.attributes.width}
         height={hero.attributes.height}
-        alt="Twee vrouwen proeven witte wijn aan tafel, met een fles in een stoffen zakje ervoor"
-        fetchpriority="high"
-        loading="eager"
+        alt={heroAlt}
+        loading="lazy"
         decoding="async"
-        class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover"
+        class="aspect-[4/3] w-full rounded-[var(--radius-card)] object-cover object-[center_25%] md:aspect-[4/5]"
       />
-      {
-        promo && SITE.blackFriday.drawing === '20' && (
-          <Image
-            src={bfDrawing}
-            alt="Black Friday bij Flavory: vrienden klinken met een glas wijn, op hun bordje staat min 20 procent"
-            widths={[160, 240, 480]}
-            sizes="(min-width: 768px) 10rem, 7rem"
-            class="bf-sticker"
-          />
-        )
-      }
     </div>
   </section>
 
@@ -205,7 +181,7 @@ const audiences = [
             alt="Tekening van vier vrienden die samen wijn proeven"
             widths={[320, 480, 640, 960]}
             sizes="(min-width: 768px) 30rem, calc(100vw - 2rem)"
-            class="mx-auto mt-4 h-auto w-full max-w-[30rem]"
+            class="mx-auto mt-4 hidden h-auto w-full max-w-[30rem] md:block"
           />
         </div>
       </div>
@@ -218,74 +194,60 @@ const audiences = [
     </div>
   </section>
 
-  <!-- Kies je box -->
+  <Reviews heading="Spelers aan het woord" authors={['ingrid', 'nele', 'charlotte']} note={SITE.guarantee} />
+
+  <!-- Voor wie -->
+  <section class="section-y bg-white" aria-labelledby="voorwie-title">
+    <div class="container-site">
+      <h2 id="voorwie-title" class="h2 text-center">
+        Voor wie is Flavory?
+      </h2>
+      <ul class="mt-6 grid gap-3 md:grid-cols-3">
+        {audiences.map((a) => (
+          <li class="rounded-[var(--radius-card)] bg-cream p-5">
+            <h3 class="font-sans text-lg font-bold">{a.title}</h3>
+            <p class="mt-1 text-sm">{a.text}</p>
+            <a href={a.href} class="mt-2 inline-flex min-h-11 items-center text-sm font-bold underline">
+              {a.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <!-- Mood clip, only loaded once it scrolls into view. -->
+      <LazyVideo
+        src="/media/flavory-avond-vrienden.mp4"
+        poster={clipPoster}
+        label="Sfeerbeelden: vrienden proeven samen wijn aan een tafel met kaarsen"
+        class="mt-6 aspect-video w-full rounded-[var(--radius-card)] object-cover"
+      />
+    </div>
+  </section>
+
+  <!-- Kies je box: the same choice once more, for who read the whole page first -->
   <section id="kies-je-box" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
     <div class="container-site">
       <ColorChoice products={allProducts} class="mx-auto" />
     </div>
   </section>
 
-  <!-- Voor wie -->
-  <section class="bg-white" aria-labelledby="voorwie-title">
-    <div class="section-y container-site">
-      <div class="grid items-center gap-8 md:grid-cols-2">
-        <div>
-          <h2 id="voorwie-title" class="h2">
-            Voor wie is Flavory?
-          </h2>
-          <ul class="mt-5 grid gap-4">
-            {audiences.map((a) => (
-              <li class="rounded-xl bg-blush px-4 py-3">
-                <h3 class="font-sans text-lg font-bold">{a.title}</h3>
-                <p class="mt-1 text-sm">{a.text}</p>
-                <a href={a.href} class="mt-2 inline-block text-sm font-bold underline">
-                  {a.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <Image
-          src={tablePhoto}
-          alt="Vrienden aan tafel terwijl iemand een fles in een stoffen zakje omhooghoudt"
-          widths={[480, 720, 960]}
-          sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
-          class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
-        />
-      </div>
-      <!-- Mood clip, only loaded once it scrolls into view. -->
-      <LazyVideo
-        src="/media/flavory-avond-vrienden.mp4"
-        poster={clipPoster}
-        label="Sfeerbeelden: vrienden proeven samen wijn aan een tafel met kaarsen"
-        class="mt-8 aspect-video w-full rounded-[var(--radius-card)] object-cover"
-      />
-    </div>
-  </section>
-
-  <Reviews heading="Spelers aan het woord" authors={['ingrid', 'nele', 'charlotte']} note={SITE.guarantee} />
-
-  <!-- Blog -->
-  <section class="section-y bg-white" aria-labelledby="blog-title">
-    <div class="container-site">
-      <h2 id="blog-title" class="h2 text-center">
-        Meer weten over wijn?
-      </h2>
-      <p class="mx-auto mt-2 max-w-2xl text-center">Lees onze blogs over proeven, druiven en wijn aan tafel.</p>
-      <ul class="mt-6 grid gap-4 md:grid-cols-3">
-        {posts.map((post) => (
-          <li>
-            <PostCard post={post} compact />
-          </li>
-        ))}
-      </ul>
-      <p class="mt-6 text-center">
-        <a href="/blog/" class="btn-outline">
-          Alle blogberichten
-        </a>
-      </p>
-    </div>
-  </section>
+  <!-- Blog: three text links to the strongest articles, no cards -->
+  <div class="container-site pt-10 md:pt-16">
+    <p class="font-bold">Meer weten over wijn?</p>
+    <ul class="mt-2 divide-y divide-line">
+      {posts.map((post) => (
+        <li>
+          <a href={postPath(post.id)} class="flex min-h-12 items-center py-2 underline">
+            {post.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-3">
+      <a href="/blog/" class="text-sm font-bold underline">
+        Alle blogberichten
+      </a>
+    </p>
+  </div>
 
   <Newsletter heading="Proeftips en nieuwe duels in je mailbox" />
 </BaseLayout>

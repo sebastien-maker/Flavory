@@ -28,7 +28,7 @@ import { FORMULAS, PREMIUM_MARK, SITE, absoluteUrl, formatPrice, pricePerPerson 
 import { COLOUR_STYLES, colourOf } from '@/lib/colour-choice';
 import { breadcrumbs, faqPage, product as productSchema, webPage } from '@/components/seo/schema';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
-import PromoBanner from '@/components/ui/PromoBanner.astro';
+import CountdownClock from '@/components/ui/CountdownClock.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
 import whitePoster from '@/assets/images/site/flavory-avond-wit-poster.jpg';
 
@@ -171,6 +171,10 @@ const DUEL_HINTS: Record<string, string> = {
 // The page follows the colour of the wine: title zone, chosen option and buy button.
 const colour = colourOf(data.category.id);
 const theme = COLOUR_STYLES[colour];
+// Running promotion (SITE.campaign): the title zone turns dark and shows what you save and the time left.
+const promo = SITE.campaign === 'blackfriday' && !!SITE.blackFriday.offer && available;
+const { badge, endDate, endsAt, after } = SITE.blackFriday;
+const saving = (v: typeof initial) => (v?.regularPrice && v.regularPrice > v.price ? v.regularPrice - v.price : 0);
 // Chose the wrong colour? The other colour's box, as on the home page.
 const other = colourChoices(await getProducts()).find((c) => c.label !== colour);
 // Comparison article about the two wines in this box, when there is one.
@@ -215,7 +219,7 @@ const schemaImages = await Promise.all(
 >
   <Breadcrumbs items={crumbs} />
 
-  <section class="container-site grid gap-6 py-4 md:grid-cols-2 md:gap-8 md:py-10 lg:gap-12">
+  <section class="container-site grid gap-4 py-4 md:grid-cols-2 md:gap-8 md:py-10 lg:gap-12">
     {/* Gallery: CSS scroll-snap; thumbnails on larger screens, swipe on mobile */}
     <div class="min-w-0" data-gallery>
       <div class="relative">
@@ -232,7 +236,7 @@ const schemaImages = await Promise.all(
                   src={clip.src}
                   poster={clip.poster}
                   label={clip.label}
-                  class="aspect-square h-auto w-full object-cover"
+                  class="gallery-img h-auto"
                 />
               ) : (
                 <img
@@ -245,7 +249,7 @@ const schemaImages = await Promise.all(
                   loading={i === 0 ? 'eager' : 'lazy'}
                   fetchpriority={i === 0 ? 'high' : undefined}
                   decoding="async"
-                  class="aspect-square w-full object-cover"
+                  class="gallery-img"
                 />
               )}
             </li>
@@ -326,37 +330,81 @@ const schemaImages = await Promise.all(
       </ul>
     </div>
 
-    {/* Buy box: name, option list, price and button come first (mobile first) */}
-    <div>
-      <div class:list={['rounded-[var(--radius-card)] p-5 md:p-6', theme.zone]}>
-        {data.badge && <p class="badge mb-2 inline-block bg-ink text-white">{data.badge}</p>}
+    {/* Buy box. On a phone: title, price and buy button as one block right under the photo (the first option
+        that can be bought is preselected), then the options. From md up the button stands under the options.
+        The order is set with CSS (order-*), so there is one button and one form. */}
+    <form
+      data-add-to-cart
+      data-variant-form
+      data-sold-out-label={soldOutLabel}
+      id="bestellen"
+      class:list={['flex min-w-0 scroll-mt-28 flex-col', theme.tiles]}
+      method="post"
+      action="#"
+    >
+      <input type="hidden" name="handle" value={initial ? `${product.id}:${initial.id}` : ''} />
+      <input type="hidden" name="name" value={initial ? variantName(product, initial) : ''} />
+      <input type="hidden" name="price" value={initial?.price ?? ''} />
+      <input type="hidden" name="regular_price" value={initial?.regularPrice ?? ''} />
+      <input type="hidden" name="image" value={cover.thumb.src} />
+      <input type="hidden" name="url" value={path} />
+      <input type="hidden" name="quantity" value="1" />
+      <input type="hidden" name="woo_id" value={initial?.wooId ?? ''} />
+
+      <div class:list={['buy-head', promo ? 'bf-dark' : theme.zone]}>
+        {promo && (
+          <p class="bf-eyebrow mb-3">
+            {badge && <strong class="bf-pct">{badge}</strong>}
+            <span>Black Friday-korting</span>
+          </p>
+        )}
+        {data.badge && (
+          <p class:list={['badge mb-2 inline-block', promo ? 'bg-white text-ink' : 'bg-ink text-white']}>{data.badge}</p>
+        )}
         <h1 class="h2">{h1}</h1>
-        {duels.length === 1 && <p class:list={['mt-1 text-lg italic', theme.line]}>{data.duel}</p>}
-        {data.intro && <p class="mt-3">{data.intro}</p>}
+        {duels.length === 1 && (
+          <p class:list={['mt-1 text-lg italic', promo ? 'bf-soft' : theme.line]}>{data.duel}</p>
+        )}
+        {initial && (
+          <p class="buy-price">
+            <strong data-deal-price>{formatPrice(initial.price)}</strong>
+            <s class="price-old" data-deal-old hidden={!saving(initial)}>
+              <span class="sr-only">Gewone prijs: </span>
+              <span data-deal-old-value>{formatPrice(initial.regularPrice ?? initial.price)}</span>
+            </s>
+            <span class="bf-save" data-deal-save hidden={!saving(initial)}>
+              Je bespaart <span data-deal-save-value>{formatPrice(saving(initial))}</span>
+            </span>
+          </p>
+        )}
+        {promo && endsAt && <CountdownClock endsAt={endsAt} />}
+        {promo && endDate && (
+          <p class="bf-soft mt-3 text-sm">
+            Tot en met {endDate}.{after && <span class="max-md:hidden"> {after}</span>}
+          </p>
+        )}
       </div>
 
-      <form
-        data-add-to-cart
-        data-variant-form
-        data-sold-out-label={soldOutLabel}
-        id="bestellen"
-        class:list={['mt-6 scroll-mt-28', theme.tiles]}
-        method="post"
-        action="#"
-      >
-        <input type="hidden" name="handle" value={initial ? `${product.id}:${initial.id}` : ''} />
-        <input type="hidden" name="name" value={initial ? variantName(product, initial) : ''} />
-        <input type="hidden" name="price" value={initial?.price ?? ''} />
-        <input type="hidden" name="regular_price" value={initial?.regularPrice ?? ''} />
-        <input type="hidden" name="image" value={cover.thumb.src} />
-        <input type="hidden" name="url" value={path} />
-        <input type="hidden" name="quantity" value="1" />
-        <input type="hidden" name="woo_id" value={initial?.wooId ?? ''} />
+      <div class:list={['buy-cta', promo ? 'max-md:bg-ink' : theme.zoneCta]}>
+        <button
+          type="submit"
+          class:list={['btn w-full', available ? theme.button : 'bg-line text-muted']}
+          data-buy-button
+          disabled={!available}
+        >
+          {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : soldOutLabel}
+        </button>
+      </div>
 
+      <div class="buy-options">
         <fieldset disabled={!available}>
           <legend class="text-sm font-bold">
             Je box
-            {openDuels.length > 1 && <span class="font-normal text-muted"> · kies je duel en je versie</span>}
+            {openDuels.length > 1 ? (
+              <span class="font-normal text-muted"> · kies je duel en je versie</span>
+            ) : (
+              buyable.length > 1 && <span class="font-normal text-muted"> · kies je versie</span>
+            )}
           </legend>
           {tileGroups.map((group, groupIndex) => {
             const tiles = (
@@ -385,10 +433,10 @@ const schemaImages = await Promise.all(
                       data-woo-id={v.wooId}
                       data-coming-soon={isComingSoon(v) ? '' : undefined}
                     />
-                    <span class="flex items-center gap-3">
+                    <span class="tile-main">
                       <span class="tile-dot" aria-hidden="true" />
                       <span>
-                        <span class="block font-bold">
+                        <span class="tile-name">
                           {v.formula}
                           {v.formula === 'Premium' && (
                             <span class="premium-mark" aria-hidden="true">
@@ -396,10 +444,10 @@ const schemaImages = await Promise.all(
                             </span>
                           )}
                         </span>
-                        <span class="block text-sm text-muted">{FORMULAS[v.formula]}</span>
+                        <span class="tile-note">{FORMULAS[v.formula]}</span>
                       </span>
                     </span>
-                    <span class="ml-auto max-w-[45%] text-right font-bold" data-tile-price>
+                    <span class="tile-price" data-tile-price>
                       {v.available ? (
                         <Price price={v.price} regularPrice={v.regularPrice} />
                       ) : isComingSoon(v) ? (
@@ -423,11 +471,11 @@ const schemaImages = await Promise.all(
               // More than one duel on this page: each duel is its own framed block with a number, its name and
               // one short line, so the two choices read as two choices. The long story of a duel stays under
               // "Wat je proeft". Leftover stock keeps its short label.
-              <div class="mt-3 rounded-xl border border-line p-3">
-                <p class="mb-2.5 leading-tight">
-                  <span class="block text-sm font-bold text-muted">Duel {groupIndex + 1}</span>
+              <div class="duel-box">
+                <p>
+                  <span class="tile-note font-bold">Duel {groupIndex + 1}</span>
                   <strong class:list={['text-lg', theme.line]}>{group.name}</strong>
-                  <span class="block text-sm text-muted">
+                  <span class="tile-note">
                     {DUEL_HINTS[group.variants[0]?.group ?? ''] ?? 'Twee wijnen, blind naast elkaar'}
                     {group.lead && /zolang de voorraad strekt/i.test(group.lead) && ', zolang de voorraad strekt'}
                   </span>
@@ -449,19 +497,10 @@ const schemaImages = await Promise.all(
           </p>
         )}
         {data.stockNote && <p class="mt-3 text-sm text-muted">{data.stockNote}</p>}
+      </div>
 
-        {/* Running promotion: what the discount is, until when and what comes after, right above the button. */}
-        <PromoBanner class="mt-4 mb-0" />
-
-        <button
-          type="submit"
-          class:list={['btn mt-4 w-full', available ? theme.button : 'bg-line text-muted']}
-          data-buy-button
-          disabled={!available}
-        >
-          {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : soldOutLabel}
-        </button>
-        <p class="mt-3 text-sm">
+      <div class="buy-proof">
+        <p class="text-sm">
           <RatingBadge />
           {featured && (
             <span class="mt-1 block">
@@ -474,18 +513,30 @@ const schemaImages = await Promise.all(
           {SITE.shipping.freeFromBoxes} boxen. Niet tevreden? Geld terug. Levering {SITE.shipping.minDays} à{' '}
           {SITE.shipping.maxDays} werkdagen.
         </p>
+        {data.intro && <p class="mt-3">{data.intro}</p>}
         <p class="mt-3 text-xs text-muted">{SITE.ageNotice}</p>
-      </form>
-    </div>
+      </div>
+    </form>
   </section>
 
-  <!-- Sticky buy bar on mobile, shown whenever the real button is out of view: adds the chosen box straight away -->
+  <!-- Sticky buy bar on mobile, shown whenever the real button is out of view: adds the chosen box straight away.
+       During a promotion it is dark and one line above the button names the discount and its last day. -->
   {available && initial && (
     <div
-      class="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-cream/95 p-3 backdrop-blur md:hidden"
+      class:list={[
+        'fixed inset-x-0 bottom-0 z-30 border-t p-3 backdrop-blur md:hidden',
+        promo ? 'border-white/15 bg-ink/95 text-white' : 'border-line bg-cream/95',
+      ]}
       data-sticky-buy
+      data-promo={promo ? '' : undefined}
       hidden
     >
+      {promo && (
+        <p class="mb-2 flex items-center justify-center gap-2 text-sm leading-none font-bold">
+          {badge && <span class="bf-pct text-sm">{badge}</span>}
+          <span>Black Friday{endDate && <span class="font-normal"> tot en met {endDate}</span>}</span>
+        </p>
+      )}
       <button type="button" class:list={['btn min-h-11 w-full py-2', theme.button]} data-sticky-button>
         In winkelmandje · {formatPrice(initial.price)}
       </button>
@@ -641,6 +692,9 @@ const schemaImages = await Promise.all(
     body:has([data-sticky-buy]:not([hidden])) {
       padding-bottom: 4.5rem;
     }
+    body:has([data-sticky-buy][data-promo]:not([hidden])) {
+      padding-bottom: 6.5rem;
+    }
   }
 </style>
 
@@ -691,6 +745,10 @@ const schemaImages = await Promise.all(
   const perPerson = document.querySelector<HTMLElement>('[data-price-per-person]');
   const players = Number(perPerson?.dataset.players);
   const stickyButton = document.querySelector<HTMLButtonElement>('[data-sticky-button]');
+  // The price row in the title zone: the price, the struck-through regular price and what you save.
+  const dealPrice = form?.querySelector<HTMLElement>('[data-deal-price]');
+  const dealOld = form?.querySelector<HTMLElement>('[data-deal-old]');
+  const dealSave = form?.querySelector<HTMLElement>('[data-deal-save]');
 
   const setField = (name: string, value: string) => {
     const input = form?.elements.namedItem(name);
@@ -710,6 +768,15 @@ const schemaImages = await Promise.all(
     if (perPerson && players) perPerson.textContent = pricePerPerson(price, players);
     button.textContent = `In winkelmandje · ${formatPrice(price)}`;
     if (stickyButton) stickyButton.textContent = button.textContent;
+    const onSale = !!regularPrice && regularPrice > price;
+    if (dealPrice) dealPrice.textContent = formatPrice(price);
+    if (dealOld && dealSave) {
+      dealOld.hidden = dealSave.hidden = !onSale;
+      if (onSale) {
+        dealOld.querySelector('[data-deal-old-value]')!.textContent = formatPrice(regularPrice);
+        dealSave.querySelector('[data-deal-save-value]')!.textContent = formatPrice(regularPrice - price);
+      }
+    }
     for (const block of document.querySelectorAll<HTMLElement>('[data-description]')) {
       block.hidden = block.dataset.description !== option.dataset.group;
     }

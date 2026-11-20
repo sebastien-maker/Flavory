@@ -1,0 +1,48 @@
+---
+// Time left until a real end moment, in four blocks: days, hours, minutes and seconds. Like Countdown.astro
+// it counts down to one fixed moment and never restarts; once that moment has passed the blocks disappear.
+// The end date in words stands next to it in the HTML (the caller writes it), so the page reads right
+// without JavaScript. The figures are decoration for a screen reader: it gets the words.
+interface Props {
+  /** ISO moment with offset, e.g. '2026-11-22T23:59:59+01:00'. */
+  endsAt: string;
+  class?: string;
+}
+
+const { endsAt, class: className } = Astro.props;
+const units = ['dagen', 'uur', 'min', 'sec'];
+---
+
+<ol class:list={['bf-clock', className]} data-clock={endsAt} aria-hidden="true">
+  {units.map((unit) => (
+    <li>
+      <b>00</b> {unit}
+    </li>
+  ))}
+</ol>
+
+<script>
+  const clocks = [...document.querySelectorAll<HTMLElement>('[data-clock]')];
+
+  function tick() {
+    for (const clock of clocks) {
+      const left = Date.parse(clock.dataset.clock ?? '') - Date.now();
+      if (Number.isNaN(left) || left <= 0) {
+        clock.hidden = true;
+        continue;
+      }
+      const seconds = Math.floor(left / 1000);
+      const parts = [Math.floor(seconds / 86_400), Math.floor(seconds / 3600) % 24, Math.floor(seconds / 60) % 60, seconds % 60];
+      clock.querySelectorAll('b').forEach((el, i) => {
+        const text = String(parts[i]).padStart(2, '0');
+        if (el.textContent !== text) el.textContent = text;
+      });
+      clock.dataset.ready = '';
+    }
+  }
+
+  if (clocks.length > 0) {
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>

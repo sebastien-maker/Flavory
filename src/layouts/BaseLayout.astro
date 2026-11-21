@@ -10,10 +10,20 @@ import ConsentBanner from '@/components/layout/ConsentBanner.astro';
 
 type Props = ComponentProps<typeof SeoHead> & {
   /** Preload the LCP image (rule 5). */
-  preloadImage?: { src: string; srcset?: string | undefined; sizes?: string | undefined } | undefined;
+  preloadImage?:
+    | {
+        src: string;
+        srcset?: string | undefined;
+        sizes?: string | undefined;
+        /** Only preload where the image is the LCP element, e.g. '(min-width: 48rem)'. */
+        media?: string | undefined;
+      }
+    | undefined;
+  /** The page opens with a dark zone: black header and black browser bar (running promotion). */
+  darkHeader?: boolean;
 };
 
-const { preloadImage, ...seo } = Astro.props;
+const { preloadImage, darkHeader = false, ...seo } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,7 +31,7 @@ const { preloadImage, ...seo } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#d60021" />
+    <meta name="theme-color" content={darkHeader ? '#000000' : '#d60021'} />
     <meta name="format-detection" content="telephone=no" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -36,6 +46,7 @@ const { preloadImage, ...seo } = Astro.props;
         href={preloadImage.src}
         imagesrcset={preloadImage.srcset}
         imagesizes={preloadImage.sizes}
+        media={preloadImage.media}
         fetchpriority="high"
       />
     )}
@@ -49,7 +60,7 @@ const { preloadImage, ...seo } = Astro.props;
       Naar de inhoud
     </a>
     <AnnouncementBar />
-    <Header />
+    <Header dark={darkHeader} />
     <main id="main" class="flex-1">
       <slot />
     </main>

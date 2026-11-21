@@ -18,7 +18,7 @@ const score = String(SITE.rating.value).replace('.', ',');
   href={SITE.rating.url}
   rel="noopener"
   target="_blank"
-  class:list={['inline-flex flex-wrap items-center gap-2 text-sm text-ink hover:underline', className]}
+  class:list={['inline-flex flex-wrap items-center gap-2 text-sm text-inherit hover:underline', className]}
 >
   <Stars rating={SITE.rating.value} class="text-lg" />
   <span>

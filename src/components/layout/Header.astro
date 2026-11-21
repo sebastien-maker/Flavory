@@ -2,15 +2,28 @@
 import { NAV } from '@/lib/site';
 import CartIcon from '@/assets/icons/cart.svg';
 
+interface Props {
+  /** The page opens with a dark zone (running promotion): the header is black too, with the white logo. */
+  dark?: boolean;
+}
+
+const { dark = false } = Astro.props;
 const current = Astro.url.pathname;
+// Round buttons (cart, menu): black line on cream, white line on black.
+const ring = dark ? 'border-white text-white hover:bg-white hover:text-ink' : 'border-ink text-ink hover:bg-ink hover:text-white';
 const isActive = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
 ---
 
-<header class="relative sticky top-0 z-40 border-b border-transparent bg-cream/95 backdrop-blur supports-[backdrop-filter]:bg-cream/80">
+<header
+  class:list={[
+    'relative sticky top-0 z-40 border-b backdrop-blur',
+    dark ? 'header-dark' : 'border-transparent bg-cream/95 supports-[backdrop-filter]:bg-cream/80',
+  ]}
+>
   <div class="container-site flex h-14 items-center justify-between gap-4 md:h-24">
     <a href="/" class="shrink-0">
       <img
-        src="/images/logo.svg"
+        src={dark ? '/images/logo-white.svg' : '/images/logo.svg'}
         alt="Flavory, naar de homepage"
         width="182"
         height="56"
@@ -24,7 +37,7 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
           <li>
             <a
               href={item.href}
-              class:list={['nav-pill', item.href === '/shop/' && 'nav-pill-shop']}
+              class:list={['nav-pill', item.href === '/shop/' ? 'nav-pill-shop' : dark && 'nav-pill-dark']}
               aria-current={isActive(item.href) ? 'page' : undefined}
             >
               {item.label}
@@ -38,7 +51,7 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
       <button
         type="button"
         data-cart-open
-        class="relative flex size-10 items-center justify-center rounded-full border-2 border-ink text-ink transition-colors hover:bg-ink hover:text-white md:size-12"
+        class:list={['relative flex size-11 items-center justify-center rounded-full border-2 transition-colors md:size-12', ring]}
         aria-label="Winkelmandje openen"
       >
         <CartIcon class="size-6 fill-current md:size-7" aria-hidden="true" />
@@ -51,7 +64,10 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
 
       <details class="group md:hidden">
         <summary
-          class="flex size-10 cursor-pointer list-none items-center justify-center rounded-full border-2 border-ink [&::-webkit-details-marker]:hidden"
+          class:list={[
+            'flex size-11 cursor-pointer list-none items-center justify-center rounded-full border-2 [&::-webkit-details-marker]:hidden',
+            dark ? 'border-white' : 'border-ink',
+          ]}
           aria-label="Menu"
         >
           <svg class="size-5 group-open:hidden" viewBox="0 0 20 20" aria-hidden="true">
@@ -63,7 +79,7 @@ const isActive = (href: string) => (href === '/' ? current === '/' : current.sta
         </summary>
         <nav
           aria-label="Mobiel menu"
-          class="absolute inset-x-0 top-full border-t border-line bg-cream px-4 pt-4 pb-8 shadow-lg"
+          class="absolute inset-x-0 top-full border-t border-line bg-cream px-4 pt-4 pb-8 text-ink shadow-lg"
         >
           <ul class="flex flex-col gap-3">
             {NAV.map((item) => (

@@ -71,7 +71,10 @@ Buiten die keuze blijft rood de enige accentkleur.
 Geldt alleen zolang `SITE.campaign` in `src/lib/site.ts` op `blackfriday` staat. Zonder actie ziet de site eruit zoals hierboven.
 
 - De balk bovenaan is zwart met witte, vette tekst, met "Gratis verzending vanaf 2 boxen" eerst. Tijdens een actie staat de actie ernaast als link, vanaf tablet met de tijd die nog rest.
-- De actieband (`PromoBanner.astro`, zwart met witte tekst) staat op vier plaatsen: boven de kop op de homepage, boven de twee kaarten bij "Kies je box", vlak boven de koopknop op de productpagina en bovenaan `/black-friday/`. Hij toont de korting in grote cijfers, tot wanneer ze geldt en wat daarna gebeurt.
+- De actieband (`PromoBanner.astro`, zwart met witte tekst) staat op drie plaatsen: boven de kop op de homepage, boven de twee kaarten bij "Kies je box" en vlak boven de koopknop op de productpagina. Hij toont de korting in grote cijfers, tot wanneer ze geldt en wat daarna gebeurt.
+- `/black-friday/` opent met een zwarte zone met witte tekst (`.bf-dark`), en de header is daar ook zwart met het witte logo. Dat is de enige uitzondering op "achtergronden zijn crème en wit". In die zone is rood alleen het blokje achter de korting (`.bf-pct`) en de koopknop: rode tekst op zwart haalt het contrast niet.
+- In die zone staan de twee boxen op het eerste scherm van een telefoon, met prijs en koopknop (`BoxPick.astro`). De knop legt de Standaard-box meteen in het winkelmandje, een tekstlink eronder gaat naar de productpagina. De kaarten zijn donker, het product staat er vrij op (`packshot-rood-vrij.webp` en `packshot-wit-vrij.webp`).
+- De aftelklok in blokken (`CountdownClock.astro`) staat alleen op `/black-friday/`.
 - Het cijfer van de korting klopt zacht. Dat is de enige beweging, en ze staat stil voor wie "minder beweging" instelde.
 - Op de kaarten van de boxen staat een rood label met de korting (`.bf-badge`).
 - De tekening van de Black Friday-actie van 2025 ligt als sticker op de hoek van de hero-foto. Dat is de enige uitzondering op "geen tekst in afbeeldingen", en alleen zolang de korting klopt met het bordje op de tekening (`SITE.blackFriday.drawing`).

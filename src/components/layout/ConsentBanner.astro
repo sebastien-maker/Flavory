@@ -35,13 +35,14 @@ import { SITE } from '@/lib/site';
   <p id="consent-title" class="font-display text-lg max-sm:sr-only">
     Cookies, maar dan met mate
   </p>
-  <p class="text-sm sm:mt-2">
+  <!-- On a phone the banner stays two lines, so it covers as little of the first screen as possible. -->
+  <p class="text-sm leading-snug sm:mt-2 sm:leading-normal">
     <span class="max-sm:hidden">We gebruiken noodzakelijke cookies om de site te laten werken.</span> Met jouw
     toestemming gebruiken we <span class="max-sm:hidden">ook</span> analytische en marketingcookies<span class="max-sm:hidden"
       >{' '}om de site te verbeteren en relevante advertenties te tonen</span
-    >. Meer info in ons{' '}
+    >. <span class="max-sm:hidden">Meer info in ons{' '}</span>
     <a href="/privacybeleid/" class="text-brand underline">
-      privacybeleid
+      <span class="sm:hidden">Privacybeleid</span><span class="max-sm:hidden">privacybeleid</span>
     </a><span class="sm:hidden"
       >{' '}of <button type="button" data-consent-more class="underline">kies zelf</button></span
     >.

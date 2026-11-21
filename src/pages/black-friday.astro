@@ -6,7 +6,9 @@ import Faq from '@/components/ui/Faq.astro';
 import ProductCard from '@/components/commerce/ProductCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import BlackFridayList from '@/components/sections/BlackFridayList.astro';
-import PromoBanner from '@/components/ui/PromoBanner.astro';
+import BoxPick from '@/components/commerce/BoxPick.astro';
+import CountdownClock from '@/components/ui/CountdownClock.astro';
+import RatingBadge from '@/components/ui/RatingBadge.astro';
 import { getProducts, mainProducts } from '@/lib/content';
 import { SITE, freeShippingLine, shippingLine } from '@/lib/site';
 import { breadcrumbs, faqPage, webPage } from '@/components/seo/schema';
@@ -25,11 +27,12 @@ const description =
   'Black Friday bij Flavory: het wijnspel met twee flessen wijn (75 cl) met korting. Nu kopen, met kerst geven. Geleverd in België en Nederland.';
 
 // The cards show the sale price from WooCommerce next to the struck-through regular price.
-const products = mainProducts(await getProducts());
+const allProducts = await getProducts();
+const products = mainProducts(allProducts);
 const active = SITE.campaign === 'blackfriday';
 // Before the promotion: no price, no percentage, only the promise to the list.
 const soon = SITE.campaign === 'blackfriday-soon';
-const { offer, endDate, after } = SITE.blackFriday;
+const { offer, endDate, endsAt, badge, after } = SITE.blackFriday;
 const over = !active && !soon;
 
 // Black Friday is the day after the fourth Thursday of November. Computed at build time, so the date in the
@@ -92,88 +95,122 @@ const faq = over
   title={title}
   description={description}
   path={path}
+  darkHeader={active}
   schema={[
     webPage({ path, title, description, type: 'CollectionPage' }),
     ...(faq.length ? [faqPage(path, faq)] : []),
     breadcrumbs(crumbs),
   ]}
 >
-  <Breadcrumbs items={crumbs} />
-
-  <section class="container-site grid items-center gap-6 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
-    <div>
-      <h1 class="h1">Black Friday bij Flavory</h1>
-      {active ? (
-        <>
-          <PromoBanner class="mt-4 mb-0" />
-          <p class="mt-4 text-lg">
-            In elke box zitten het wijnspel en twee flessen wijn van 75 cl, voor een avond blind proeven met 2 tot 6
-            spelers.
+  {active ? (
+    // Running promotion: a dark zone with the discount, the time left and the two boxes, which go straight
+    // into the cart from here. The breadcrumb trail follows under it, so the black runs up to the header.
+    <>
+      <section class="bf-dark" aria-labelledby="boxen-title">
+        <div class="container-site max-w-3xl pt-4 pb-10 md:py-12">
+          <h1 class="text-[1.75rem] leading-tight md:text-[2.25rem]">Black Friday bij Flavory</h1>
+          <p class="mt-2 leading-snug md:mt-3">
+            {badge && <strong class="bf-pct mr-2 inline-block">{badge}</strong>} op het wijnspel, met twee flessen wijn (75 cl) erbij
           </p>
-        </>
-      ) : soon ? (
-        <>
-          <p class="mt-3 text-lg font-bold">Black Friday komt eraan: {bfLabel}</p>
-          <p class="mt-3 text-lg">
-            Op Black Friday krijgt het wijnspel met twee flessen wijn (75&nbsp;cl) een actieprijs. Zet je op de Black
-            Friday-lijst: wij sturen je de Black Friday-prijs als eerste, een dag voor iedereen.
+          {endsAt && <CountdownClock endsAt={endsAt} />}
+          <h2 id="boxen-title" class="sr-only">
+            De twee boxen met actieprijs
+          </h2>
+          <BoxPick products={allProducts} quickAdd id="boxen" class="mt-3 scroll-mt-24 md:mt-5" />
+          {endDate && (
+            <p class="mt-4 text-sm font-bold">
+              Tot en met {endDate}.{after && ` ${after}`}
+            </p>
+          )}
+          <p class="mt-2 text-sm">
+            Voor een avond blind proeven met {playersMin} tot {playersMax} spelers. {freeShippingLine()} {SITE.guarantee}
           </p>
-        </>
-      ) : (
-        <p class="mt-3 text-lg">
-          De Black Friday-actie is voorbij. Het wijnspel met twee flessen wijn van 75 cl koop je het hele jaar aan de
-          gewone prijs.
-        </p>
-      )}
-      {soon ? (
-        <>
-          <div class="mt-5">
-            <BlackFridayList source="black-friday" />
-          </div>
-          <p class="mt-4">
-            <a href="#boxen" class="font-bold text-brand underline">
-              Bekijk de boxen
-            </a>
-          </p>
-        </>
-      ) : (
-        <div class="mt-5">
-          <a href="#boxen" class="btn-primary">
-            Bekijk de boxen
-          </a>
+          <RatingBadge class="mt-2" />
         </div>
-      )}
-      <p class="mt-3 text-sm">{freeShippingLine()}</p>
-    </div>
-    <Image
-      src={giftImage}
-      alt="Iemand pakt een Flavory-wijnspel uit het cadeaupapier"
-      widths={[360, 540, 720]}
-      sizes="(min-width: 768px) 24rem, calc(100vw - 2rem)"
-      class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover md:max-w-sm"
-      loading="eager"
-      fetchpriority="high"
-    />
-  </section>
+      </section>
+      <Breadcrumbs items={crumbs} />
+    </>
+  ) : (
+    <>
+      <Breadcrumbs items={crumbs} />
 
-  <section id="boxen" class="section-y scroll-mt-24 bg-white" aria-labelledby="boxen-title">
-    <div class="container-site">
-      <h2 id="boxen-title" class="h2 text-center">
-        {active ? 'De twee boxen met actieprijs' : 'De twee boxen aan de gewone prijs'}
-      </h2>
-      <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
-        {products.map((product) => (
-          <li>
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+      <section class="container-site grid items-center gap-6 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
+        <div>
+          <h1 class="h1">Black Friday bij Flavory</h1>
+          {soon ? (
+            <>
+              <p class="mt-3 text-lg font-bold">Black Friday komt eraan: {bfLabel}</p>
+              <p class="mt-3 text-lg">
+                Op Black Friday krijgt het wijnspel met twee flessen wijn (75&nbsp;cl) een actieprijs. Zet je op de
+                Black Friday-lijst: wij sturen je de Black Friday-prijs als eerste, een dag voor iedereen.
+              </p>
+            </>
+          ) : (
+            <p class="mt-3 text-lg">
+              De Black Friday-actie is voorbij. Het wijnspel met twee flessen wijn van 75 cl koop je het hele jaar aan
+              de gewone prijs.
+            </p>
+          )}
+          {soon ? (
+            <>
+              <div class="mt-5">
+                <BlackFridayList source="black-friday" />
+              </div>
+              <p class="mt-4">
+                <a href="#boxen" class="font-bold text-brand underline">
+                  Bekijk de boxen
+                </a>
+              </p>
+            </>
+          ) : (
+            <div class="mt-5">
+              <a href="#boxen" class="btn-primary">
+                Bekijk de boxen
+              </a>
+            </div>
+          )}
+          <p class="mt-3 text-sm">{freeShippingLine()}</p>
+        </div>
+        <Image
+          src={giftImage}
+          alt="Iemand pakt een Flavory-wijnspel uit het cadeaupapier"
+          widths={[360, 540, 720]}
+          sizes="(min-width: 768px) 24rem, calc(100vw - 2rem)"
+          class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover md:max-w-sm"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </section>
+
+      <section id="boxen" class="section-y scroll-mt-24 bg-white" aria-labelledby="boxen-title">
+        <div class="container-site">
+          <h2 id="boxen-title" class="h2 text-center">
+            De twee boxen aan de gewone prijs
+          </h2>
+          <ul class="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
+            {products.map((product) => (
+              <li>
+                <ProductCard product={product} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </>
+  )}
 
   {!over ? (
     <section class="section-y" aria-labelledby="kerst-title">
       <div class="container-site max-w-3xl">
+        {active && (
+          <Image
+            src={giftImage}
+            alt="Iemand pakt een Flavory-wijnspel uit het cadeaupapier"
+            widths={[360, 540, 720, 1080]}
+            sizes="(min-width: 768px) 45rem, calc(100vw - 2rem)"
+            class="mb-6 aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
+          />
+        )}
         <h2 id="kerst-title" class="h2">
           {active ? 'Nu kopen, met kerst geven' : 'Op Black Friday kopen, met kerst geven'}
         </h2>

@@ -219,6 +219,69 @@
     height: auto;
     rotate: -8deg;
   }
+  /* Dark zone of a running promotion: the hero of /black-friday/. White text; red only as the block behind
+     the discount and on the buy button. */
+  .bf-dark {
+    @apply bg-ink text-white;
+  }
+  .bf-dark .price-old,
+  .bf-dark .bf-soft {
+    color: rgb(255 255 255 / 0.7);
+  }
+  .bf-pct {
+    @apply rounded-md bg-brand px-2 py-1 text-base leading-none font-bold text-white;
+  }
+  /* Countdown in blocks (CountdownClock.astro). The space is reserved, so nothing shifts when the figures
+     arrive; without JavaScript the blocks stay hidden and the end date in words says it all. Low on a phone,
+     so the boxes and their buy buttons stay on the first screen. */
+  .bf-clock {
+    @apply mt-3 grid grid-cols-4 gap-2 md:max-w-xs;
+  }
+  .bf-clock:not([data-ready]) {
+    visibility: hidden;
+  }
+  .bf-clock > li {
+    @apply rounded-lg bg-white/10 py-1.5 text-center text-sm leading-none whitespace-nowrap md:rounded-xl;
+  }
+  .bf-clock b {
+    @apply mr-1 text-lg leading-none md:mr-0 md:mb-1 md:block md:text-[1.75rem];
+    font-variant-numeric: tabular-nums;
+  }
+  /* Header on a page that opens with a dark zone: black to the top of the screen. */
+  .header-dark {
+    @apply border-white/15 bg-ink text-white;
+  }
+  .nav-pill.nav-pill-dark {
+    @apply border-white text-white hover:bg-white hover:text-ink;
+  }
+  /* Box card in a hero (BoxPick.astro): photo, name, price and one button. */
+  .box-pick {
+    @apply relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] bg-white text-ink;
+  }
+  /* The product without background: it stands free on the card, with a shadow under it. Lower on a phone,
+     so the price and the button come sooner. */
+  .box-pick-img {
+    @apply aspect-[4/3] w-full object-contain p-2 md:aspect-square;
+    filter: drop-shadow(0 0.5rem 0.75rem rgb(0 0 0 / 0.18));
+  }
+  /* In a dark zone the card is dark too: a thin light line around it and a soft glow in the colour of the
+     wine behind the product. */
+  .bf-dark .box-pick {
+    color: white;
+    background:
+      radial-gradient(85% 55% at 50% 30%, var(--pick-glow), transparent 72%),
+      #111;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14);
+  }
+  .bf-dark .box-pick-img {
+    filter: drop-shadow(0 0.75rem 1rem rgb(0 0 0 / 0.6));
+  }
+  .pick-red {
+    --pick-glow: rgb(214 0 33 / 0.34);
+  }
+  .pick-white {
+    --pick-glow: rgb(143 213 228 / 0.26);
+  }
   .h2 {
     font-size: var(--text-h2);
   }

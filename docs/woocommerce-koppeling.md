@@ -38,6 +38,12 @@ Na de lancering stuurt de plugin elke pagina op `www.flavory.wine` die niet bij 
 - **Installeren:** het bestand vervangen in `wp-content/mu-plugins/` (FTP of bestandsbeheer van Combell). Een merge op GitHub zet dit bestand **niet** op de server.
 - **Nakijken na installatie:** `curl -sI "https://www.flavory.wine/quiz?utm_source=test&ref=abc"` geeft `Location: https://flavory.wine/quiz?utm_source=test&ref=abc` en `X-Redirect-By: Flavory`; `https://www.flavory.wine/shop/afrekenen/` en `https://www.flavory.wine/wp-json/wc/store/v1/products` werken zoals voordien.
 
+### Fonts van de kassa
+
+De kassa op `www.flavory.wine` vraagt haar vier fonts nog op het oude adres: `https://flavory.wine/wp-content/uploads/...` (TheSans Bold, Montserrat Medium, Medium Italic en Bold). Die bestanden staan daarom ook in deze repo, onder `public/wp-content/uploads/`, en `netlify.toml` stuurt er de header `Access-Control-Allow-Origin: https://www.flavory.wine` bij mee. Zonder die header weigert de browser het font en toont de kassa een vervangfont.
+
+Dit is een overbrugging. De echte oplossing zit in WordPress: de fonts daar laten verwijzen naar `www.flavory.wine`. Is dat gebeurd, dan mogen de map `public/wp-content/` en de regel in `netlify.toml` weg.
+
 ## Stap 4: testen
 
 - Bestel naar een Belgisch en een Nederlands adres, met Bancontact en iDEAL. Gebruik een kortingscode van 100% of de testmodus van de betaalprovider.

@@ -31,6 +31,12 @@ import LazyVideo from '@/components/ui/LazyVideo.astro';
 import PromoBanner from '@/components/ui/PromoBanner.astro';
 import redPoster from '@/assets/images/site/flavory-avond-rood-poster.jpg';
 import whitePoster from '@/assets/images/site/flavory-avond-wit-poster.jpg';
+import redPour from '@/assets/images/site/inschenken.jpg';
+import redTaste from '@/assets/images/products/wijnproeverij-thuis-rood/01b-flessen-in-zakjes.jpg';
+import redReveal from '@/assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg';
+import whitePour from '@/assets/images/products/wijnproeverij-thuis-wit/04-inschenken.jpg';
+import whiteTaste from '@/assets/images/products/wijnproeverij-thuis-wit/03-witte-wijn-proeven.jpg';
+import whiteReveal from '@/assets/images/site/onthulling.jpg';
 
 interface Props {
   product: Product;
@@ -145,14 +151,46 @@ const clip =
         label: 'Sfeerbeelden: vrienden spelen Flavory met witte wijn en klinken aan tafel',
       };
 const clipThumb = await getImage({ src: clip.poster, width: 96, height: 96, fit: 'cover', format: 'webp' });
+// The game in three steps, on the photos right after the box: visitors flip through the gallery and rarely
+// scroll down to "Zo werkt het". The step is real text over the photo (never text inside the image file), so
+// it stays readable for search engines and screen readers. One photo per step, per wine colour.
+const stepPhotos =
+  data.category.id === 'rode-wijn'
+    ? [
+        { src: redPour, alt: 'Rode wijn wordt ingeschonken uit een fles in een stoffen zakje' },
+        { src: redTaste, alt: 'Flessen in zakjes A en B naast twee glazen rode wijn' },
+        { src: redReveal, alt: 'Vrienden halen de fles rode wijn uit het zakje' },
+      ]
+    : data.category.id === 'witte-wijn'
+      ? [
+          { src: whitePour, alt: 'Witte wijn wordt ingeschonken uit een anonieme fles' },
+          { src: whiteTaste, alt: 'Twee glazen witte wijn op het proefformulier' },
+          { src: whiteReveal, alt: 'Een speelster haalt de fles witte wijn uit het zakje' },
+        ]
+      : [];
+const stepSlides = await Promise.all(
+  stepPhotos.map(async (photo, i) => ({
+    kind: 'image' as const,
+    alt: photo.alt,
+    label: photo.alt,
+    step: { number: i + 1, ...SHORT_STEPS[i]! },
+    main: await getImage({ src: photo.src, width: 720, height: 720, fit: 'cover', widths: [480, 960], format: 'webp' }),
+    thumb: await getImage({ src: photo.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
+  })),
+);
+// A photo that carries a step is not shown a second time further in the gallery.
+const stepSources = new Set(stepPhotos.map((photo) => photo.src.src));
+const otherPhotos = gallery.slice(1).filter((_, i) => !stepSources.has(images[i + 1]!.src.src));
 const slides = [
-  { kind: 'image' as const, label: cover.alt, ...cover },
+  { kind: 'image' as const, label: cover.alt, step: undefined, ...cover },
+  ...stepSlides,
   { kind: 'video' as const, label: clip.label, thumb: clipThumb },
-  ...gallery.slice(1).map((img) => ({ kind: 'image' as const, label: img.alt, ...img })),
+  ...otherPhotos.map((img) => ({ kind: 'image' as const, label: img.alt, step: undefined, ...img })),
 ];
 // Short name for the dot and the thumbnail of a slide. The slide itself carries the full description, so a
 // screen reader does not hear it three times (and the page stays inside the HTML budget).
-const slideName = (slide: (typeof slides)[number], i: number) => (slide.kind === 'video' ? 'Filmpje' : `Foto ${i + 1}`);
+const slideName = (slide: (typeof slides)[number], i: number) =>
+  slide.kind === 'video' ? 'Filmpje' : slide.step ? `Stap ${slide.step.number}: ${slide.step.title}` : `Foto ${i + 1}`;
 
 // First paragraph stays visible; the rest sits behind "Lees meer" (still in the HTML for search engines).
 const descriptions = data.descriptions.map((d) => {
@@ -226,7 +264,7 @@ const schemaImages = await Promise.all(
           aria-label="Productfoto's"
         >
           {slides.map((slide, i) => (
-            <li class="w-full shrink-0 snap-center" id={`foto-${i + 1}`}>
+            <li id={`foto-${i + 1}`}>
               {slide.kind === 'video' ? (
                 <LazyVideo
                   src={clip.src}
@@ -245,8 +283,19 @@ const schemaImages = await Promise.all(
                   loading={i === 0 ? 'eager' : 'lazy'}
                   fetchpriority={i === 0 ? 'high' : undefined}
                   decoding="async"
-                  class="aspect-square w-full object-cover"
                 />
+              )}
+              {slide.kind === 'image' && slide.step && (
+                <div class="gallery-step">
+                  <p>
+                    <span class="step-number" aria-hidden="true">
+                      {slide.step.number}
+                    </span>
+                    Stap {slide.step.number} van {stepSlides.length}
+                  </p>
+                  <p>{slide.step.title}</p>
+                  <p>{slide.step.text}</p>
+                </div>
               )}
             </li>
           ))}
@@ -309,8 +358,6 @@ const schemaImages = await Promise.all(
                 height="64"
                 alt=""
                 loading="lazy"
-                decoding="async"
-                class="size-16 object-cover"
               />
               {slide.kind === 'video' && (
                 <span class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
@@ -532,6 +579,10 @@ const schemaImages = await Promise.all(
       <h2 id="spelen-title" class="h2">
         Zo speel je
       </h2>
+      {stepSlides.length > 0 ? (
+        // The three steps stand on the photos at the top; here one line names them again.
+        <p class="mt-4">{SHORT_STEPS.map((step) => step.title).join(', ')}. Je ziet de drie stappen bij de foto's bovenaan.</p>
+      ) : (
       <ol class="mt-4 divide-y divide-line">
         {SHORT_STEPS.map((step, i) => (
           <li class="flex items-center gap-4 py-3">
@@ -548,6 +599,7 @@ const schemaImages = await Promise.all(
           </li>
         ))}
       </ol>
+      )}
       <p class="mt-4">
         <a href="/hoe-werkt-het/" class="font-bold text-brand underline">
           De spelregels in 6 stappen

@@ -53,6 +53,7 @@ Buiten die keuze blijft rood de enige accentkleur.
 - Foto's van echte mensen en van de dozen dragen het verhaal.
 - Illustraties alleen als klein accent.
 - Geen tekst in afbeeldingen.
+- In de productgalerij dragen de drie foto's na de doos elk één spelstap (`.gallery-step`): witte tekst op een donkere verloop onderaan de foto. Dat is echte tekst boven de foto, geen tekst in het beeldbestand, dus de regel hierboven blijft gelden.
 
 ## Iconen
 

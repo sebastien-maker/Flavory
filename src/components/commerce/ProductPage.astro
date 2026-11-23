@@ -581,7 +581,7 @@ const schemaImages = await Promise.all(
       </h2>
       {stepSlides.length > 0 ? (
         // The three steps stand on the photos at the top; here one line names them again.
-        <p class="mt-4">{SHORT_STEPS.map((step) => step.title).join(', ')}. Je ziet de drie stappen bij de foto's bovenaan.</p>
+        <p class="mt-4">{SHORT_STEPS.map((step, i) => (i === 0 ? step.title : step.title.charAt(0).toLowerCase() + step.title.slice(1))).join(', ')}. Je ziet de drie stappen bij de foto's bovenaan.</p>
       ) : (
       <ol class="mt-4 divide-y divide-line">
         {SHORT_STEPS.map((step, i) => (

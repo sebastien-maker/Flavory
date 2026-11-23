@@ -76,9 +76,11 @@ const options = listed.map((v) => ({
       ))}
     </dl>
     <div class="mt-auto pt-4">
+      {/* Not positioned: the link overlay of the title (after:inset-0) must stay on top, or a tap on this
+          button lands on the span and goes nowhere. */}
       <span
         class:list={[
-          'btn relative w-full min-h-10 py-2',
+          'btn w-full min-h-10 py-2',
           soldOut ? 'bg-line text-muted' : 'bg-brand text-white group-hover:bg-brand-dark',
         ]}
         aria-hidden="true"

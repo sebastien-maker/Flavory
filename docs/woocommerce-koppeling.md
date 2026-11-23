@@ -38,6 +38,19 @@ Na de lancering stuurt de plugin elke pagina op `www.flavory.wine` die niet bij 
 - **Installeren:** het bestand vervangen in `wp-content/mu-plugins/` (FTP of bestandsbeheer van Combell). Een merge op GitHub zet dit bestand **niet** op de server.
 - **Nakijken na installatie:** `curl -sI "https://www.flavory.wine/quiz?utm_source=test&ref=abc"` geeft `Location: https://flavory.wine/quiz?utm_source=test&ref=abc` en `X-Redirect-By: Flavory`; `https://www.flavory.wine/shop/afrekenen/` en `https://www.flavory.wine/wp-json/wc/store/v1/products` werken zoals voordien.
 
+### Rechtstreeks naar de kassa (versie 1.5.0)
+
+Tot versie 1.4.0 kostte de overdracht van het winkelmandje twee volledige starts van WordPress na elkaar: eerst `/?flavory_cart=...` (mandje vullen, doorverwijzen), dan de kassapagina. Gemeten op 23 november 2026: 1,7 tot 3,0 s voor de eerste stap en 2,6 tot 2,9 s voor de tweede.
+
+- **Vanaf versie 1.5.0** wijst de link van de site naar de kassa zelf: `https://www.flavory.wine/shop/afrekenen/?flavory_cart=15718:1`. De plugin vult het mandje en laat de kassa in dezelfde aanvraag laden. Een scriptje haalt `?flavory_cart=...` daarna uit de adresbalk.
+- **De oude link blijft werken.** `/?flavory_cart=...` vult het mandje en verwijst door, zoals voorheen. Een oudere plugin op de server behandelt de nieuwe link ook: hij vult het mandje en verwijst door naar de kassa. De volgorde van installeren en mergen is dus veilig in beide richtingen.
+- **Installeren:** het bestand vervangen in `wp-content/mu-plugins/` (FTP of bestandsbeheer van Combell). Bewaar eerst een kopie van het oude bestand. Een fout in een must-use plugin legt de kassa plat; staat de kassa na het uploaden niet meer op, zet dan meteen het oude bestand terug.
+- **Nakijken na installatie:**
+  1. `curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" "https://www.flavory.wine/shop/afrekenen/?flavory_cart=15718:1"` geeft `200` zonder doorverwijzing (met de oude plugin: `302` naar `/shop/afrekenen/`).
+  2. Open dezelfde link in een browser: de kassa toont één rode Standaard-box met de juiste prijs, en in de adresbalk staat alleen `/shop/afrekenen/`.
+  3. De oude link `https://www.flavory.wine/?flavory_cart=15718:1` verwijst nog door naar de kassa.
+  4. Plaats één testbestelling tot aan de betaalpagina van Mollie.
+
 ### Fonts van de kassa
 
 De kassa op `www.flavory.wine` vraagt haar vier fonts nog op het oude adres: `https://flavory.wine/wp-content/uploads/...` (TheSans Bold, Montserrat Medium, Medium Italic en Bold). Die bestanden staan daarom ook in deze repo, onder `public/wp-content/uploads/`, en `netlify.toml` stuurt er de header `Access-Control-Allow-Origin: https://www.flavory.wine` bij mee. Zonder die header weigert de browser het font en toont de kassa een vervangfont.

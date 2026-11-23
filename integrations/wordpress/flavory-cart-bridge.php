@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Flavory cart bridge
- * Description: Neemt het winkelmandje van de nieuwe flavory.wine over in WooCommerce en stuurt door naar de checkout. Link: /?flavory_cart=13647:1,19757:2
- * Version: 1.4.0
+ * Description: Neemt het winkelmandje van de nieuwe flavory.wine over in WooCommerce en toont de checkout. Link: /shop/afrekenen/?flavory_cart=13647:1,19757:2
+ * Version: 1.5.0
  * Requires Plugins: woocommerce
  *
  * Installeren: dit bestand in wp-content/mu-plugins/ zetten (dan staat het altijd aan), of als gewone plugin uploaden.
@@ -73,9 +73,43 @@ add_action('wp_loaded', function () {
         WC()->cart->apply_coupon(wc_format_coupon_code(wp_unslash($_GET['coupon'])));
     }
 
+    // Vanaf versie 1.5.0: wijst de link al naar de kassa (/shop/afrekenen/?flavory_cart=...), dan laadt de kassa
+    // in deze zelfde aanvraag, zonder doorverwijzing. Dat scheelt een volledige start van WordPress (ongeveer 2 s).
+    // De oude link (/?flavory_cart=...) blijft werken en verwijst door zoals voorheen.
+    if (!WC()->cart->is_empty() && flavory_request_is_checkout()) {
+        if (function_exists('wc_nocache_headers')) {
+            wc_nocache_headers();
+        }
+        add_action('wp_head', 'flavory_clean_checkout_url', 1);
+        return;
+    }
+
     wp_safe_redirect(WC()->cart->is_empty() ? FLAVORY_SHOP_URL : wc_get_checkout_url());
     exit;
 }, 20);
+
+/**
+ * Is deze aanvraag de kassapagina zelf (niet "bestelling ontvangen" of "betalen", die een langer pad hebben)?
+ * Op wp_loaded kent WordPress de pagina nog niet, dus vergelijken we het pad met dat van de kassa.
+ */
+function flavory_request_is_checkout(): bool
+{
+    if (!function_exists('wc_get_checkout_url')) {
+        return false;
+    }
+    $checkout = untrailingslashit((string) wp_parse_url(wc_get_checkout_url(), PHP_URL_PATH));
+    $current = untrailingslashit((string) (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/'));
+    return $checkout !== '' && $checkout === $current;
+}
+
+/**
+ * Haalt ?flavory_cart=... uit de adresbalk zodra de kassa laadt. Zo vult vernieuwen het winkelmandje niet
+ * opnieuw, en zien de meetscripts een schone kassa-URL.
+ */
+function flavory_clean_checkout_url(): void
+{
+    echo "<script>try{history.replaceState(null,'',location.pathname)}catch(e){}</script>\n";
+}
 
 // De nieuwe site staat op een ander (sub)domein: toelaten als doorverwijsdoel.
 add_filter('allowed_redirect_hosts', function ($hosts) {

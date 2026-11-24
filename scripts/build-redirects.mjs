@@ -213,6 +213,9 @@ const RULES = [
   // WordPress leftovers
   ['/feed/', '/blog/'],
   ['/blog/feed/', '/blog/'],
+  // The old sitemap addresses (Yoast and WordPress core); www sends them here since Yoast is off.
+  ['/sitemap_index.xml', '/sitemap-index.xml'],
+  ['/wp-sitemap.xml', '/sitemap-index.xml'],
   ['/wp-login.php', `${CHECKOUT}/wp-login.php`],
   ['/wp-admin/*', `${CHECKOUT}/wp-admin/:splat`],
 ];

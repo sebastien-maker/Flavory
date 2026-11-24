@@ -158,5 +158,7 @@
 /en/*                                                                                                          /  301
 /feed/                                                                                                         /blog/  301
 /blog/feed/                                                                                                    /blog/  301
+/sitemap_index.xml                                                                                             /sitemap-index.xml  301
+/wp-sitemap.xml                                                                                                /sitemap-index.xml  301
 /wp-login.php                                                                                                  https://www.flavory.wine/wp-login.php  301
 /wp-admin/*                                                                                                    https://www.flavory.wine/wp-admin/:splat  301

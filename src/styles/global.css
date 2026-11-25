@@ -159,6 +159,85 @@
   .btn-outline {
     @apply btn border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-white;
   }
+  /* Home hero (preview, after realmadhoney.eu): dark and warm. On a phone the photo stands on top and fades
+     into black, the text follows; from a tablet the photo fills the right 60% and fades to the left. */
+  .hero-dark {
+    @apply relative overflow-hidden bg-ink text-white;
+  }
+  .hero-photo {
+    @apply relative aspect-[4/3] w-full md:absolute md:inset-y-0 md:right-0 md:aspect-auto md:w-[60%];
+  }
+  .hero-photo img {
+    @apply size-full object-cover object-[45%_center];
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, var(--color-ink));
+  }
+  @media (width >= 48rem) {
+    .hero-photo::after {
+      background: linear-gradient(to right, var(--color-ink), transparent 45%);
+    }
+  }
+  .hero-copy {
+    @apply relative -mt-10 pb-12 md:mt-0 md:flex md:min-h-[38rem] md:flex-col md:justify-center md:py-16;
+  }
+  .hero-copy > * {
+    @apply md:max-w-[34rem];
+  }
+  .hero-rating {
+    @apply inline-flex items-center gap-2 text-sm hover:underline;
+  }
+  .hero-promo {
+    @apply mt-4 flex w-fit items-center gap-3 rounded-full bg-white/10 py-1.5 pr-4 pl-1.5 text-sm font-bold ring-1 ring-white/25 hover:bg-white/20;
+  }
+  .hero-title {
+    @apply mt-4 font-display text-[2.25rem] leading-[1.05] md:text-[3.5rem];
+  }
+  .hero-lead {
+    @apply mt-4 text-lg leading-snug text-white/85;
+  }
+  .hero-buy {
+    @apply mt-6 flex flex-wrap items-center gap-x-5 gap-y-2;
+  }
+  .hero-dark .price-old {
+    color: rgb(255 255 255 / 0.7);
+  }
+  /* "Meest gekozen" on the option tile people pick most (product page). */
+  .tile-tag {
+    @apply ml-2 inline-block rounded-full bg-ink px-2 py-0.5 align-middle text-sm leading-none font-bold text-white;
+  }
+  /* Order bump right above the buy button: tick the other colour, shipping becomes free. */
+  .order-bump {
+    @apply mt-4 flex cursor-pointer items-start gap-3 rounded-xl border-2 border-dashed border-ink/40 bg-white p-3 text-sm has-[:checked]:border-solid has-[:checked]:border-ink;
+  }
+  .order-bump input {
+    @apply mt-0.5 size-5 shrink-0 accent-ink;
+  }
+  /* Three promises with a line icon (UspList.astro). The icon is a mask, so it takes the text colour. */
+  .usps {
+    @apply grid gap-2.5 text-base;
+  }
+  .usps li {
+    @apply flex items-center gap-3;
+  }
+  .usp-icon {
+    @apply size-6 shrink-0;
+    background: currentColor;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+  }
+  .i-fles {
+    --icon: url('/images/icons/fles.svg');
+  }
+  .i-spelers {
+    --icon: url('/images/icons/spelers.svg');
+  }
+  .i-garantie {
+    --icon: url('/images/icons/garantie.svg');
+  }
   /* The duo button (DuoButton.astro): red and white together. Classes here, not in the markup: the product page
      is close to its HTML budget. */
   .duo {

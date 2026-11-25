@@ -6,16 +6,13 @@ import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
-import RatingBadge from '@/components/ui/RatingBadge.astro';
+import Stars from '@/components/ui/Stars.astro';
+import UspList from '@/components/ui/UspList.astro';
 import Price from '@/components/commerce/Price.astro';
-import PromoBanner from '@/components/ui/PromoBanner.astro';
-import { colourChoices, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
-import { COLOUR_STYLES } from '@/lib/colour-choice';
+import { fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
 import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
-import heroPhoto from '@/assets/images/site/hero-proeven.jpg';
-// The Black Friday drawing of the 2025 campaign, laid over the corner of the hero photo like a sticker.
-import bfDrawing from '@/assets/images/site/black-friday-2025-20-procent.webp';
+import heroPhoto from '@/assets/images/site/aan-tafel.jpg';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import pouringPhoto from '@/assets/images/site/inschenken.jpg';
 import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
@@ -25,12 +22,9 @@ import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
 const lowestPrice = Math.min(...products.map(fromPrice));
-// The two small box photos next to the button in the hero: white and red, as in "Kies je box".
-const boxes = colourChoices(allProducts).map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }));
 // Only set while WooCommerce has a sale price: the price before the discount, shown struck through.
 const lowestRegular = products.flatMap((p) => p.data.variants).find((v) => v.price === lowestPrice)?.regularPrice;
-// Running promotion (SITE.campaign): the campaign drawing on the hero photo. The band above the headline is
-// PromoBanner, which checks the campaign itself.
+// Running promotion (SITE.campaign): a small pill with the discount above the headline.
 const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
@@ -40,8 +34,12 @@ const title = 'Wijnspel: proef twee wijnen blind met vrienden | Flavory';
 const description =
   'Flavory is het wijnspel met twee flessen wijn erbij: proef ze blind, beantwoord de quizvragen en ontdek wie het verschil proeft. Voor 2 tot 6 spelers.';
 
-const hero = await getImage({ src: heroPhoto, width: 900, widths: [360, 540, 720, 900], format: 'webp' });
-const heroSizes = '(min-width: 768px) 28rem, calc(100vw - 2rem)';
+const hero = await getImage({ src: heroPhoto, width: 1600, widths: [480, 720, 960, 1280, 1600], format: 'webp' });
+// Full width on a phone, the right 60% of the screen from a tablet on.
+const heroSizes = '(min-width: 768px) 60vw, 100vw';
+const score = String(SITE.rating.value).replace('.', ',');
+const playersMin = Math.min(...products.map((p) => p.data.playersMin));
+const playersMax = Math.max(...products.map((p) => p.data.playersMax));
 // Three steps, with the drawings that also sit on the box.
 const steps = [
   {
@@ -85,6 +83,7 @@ const audiences = [
 <BaseLayout
   title={title}
   isHome
+  darkHeader
   description={description}
   path="/"
   preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes }}
@@ -96,72 +95,50 @@ const audiences = [
     ),
   ]}
 >
-  <!-- Hero. During a promotion (SITE.campaign) a banner with the offer stands above the headline, the price
-       shows the sale price next to the struck-through regular one, and the campaign drawing sits on the photo. -->
-  <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
-    <div>
-      <PromoBanner href="/black-friday/" compact />
-      <h1 class="h1">Het spel dat je wijn leert proeven</h1>
-      <p class="mt-3 text-lg leading-snug md:text-xl">
-        Je wijnproeverij thuis in één pakket: twee flessen wijn zonder etiket en een wijnspel voor vrienden of familie.
-        Proef blind en raad welke wijn welke is. Geen voorkennis nodig.
-      </p>
-      <!-- Next to the button: a small photo of the white and the red box, each with its two blind bottles, so you
-           see at once what it is. Each photo leads to its box. -->
-      <div class="mt-5 flex items-center gap-3">
-        <a href="#kies-je-box" class="btn-primary mr-1">
-          Kies je box
-        </a>
-        {
-          boxes.map(({ product, style }) => (
-            <a href={productPath(product.id)} class="shrink-0">
-              <Image
-                src={style.image}
-                alt={style.alt}
-                width={160}
-                height={160}
-                widths={[80, 160, 240]}
-                sizes="4rem"
-                loading="eager"
-                class="size-16 rounded-xl object-cover"
-              />
-            </a>
-          ))
-        }
-      </div>
-      <p class="mt-3 text-sm">
-        Vanaf{' '}
-        <strong>
-          <Price price={lowestPrice} regularPrice={lowestRegular} />
-        </strong>{' '}
-        voor 2 tot 6 spelers, incl. 2 flessen wijn
-      </p>
-      <RatingBadge class="mt-2" />
-    </div>
-    <div class="relative">
+  <!-- Hero, after the premium look of realmadhoney.eu (preview, 25 Nov 2026): a dark, warm photo of the game at
+       the table, the rating above the headline, one button with the price next to it and three promises under it.
+       During a promotion a small pill with the discount stands above the headline. -->
+  <section class="hero-dark" aria-labelledby="hero-title">
+    <div class="hero-photo">
       <img
         src={hero.src}
         srcset={hero.srcSet.attribute}
         sizes={heroSizes}
         width={hero.attributes.width}
         height={hero.attributes.height}
-        alt="Twee vrouwen proeven witte wijn aan tafel, met een fles in een stoffen zakje ervoor"
+        alt="Aan tafel houdt een vrouw fles A in zijn stoffen zakje omhoog, de anderen raden welke wijn erin zit"
         fetchpriority="high"
         loading="eager"
         decoding="async"
-        class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover"
       />
+    </div>
+    <div class="container-site hero-copy">
+      <a href="#reviews-title" class="hero-rating">
+        <Stars rating={SITE.rating.value} />
+        <span><strong>{score}/5</strong> uit {SITE.rating.count} reviews op Google</span>
+      </a>
       {
-        promo && SITE.blackFriday.drawing === '20' && (
-          <Image
-            src={bfDrawing}
-            alt="Black Friday bij Flavory: vrienden klinken met een glas wijn, op hun bordje staat min 20 procent"
-            widths={[160, 240, 480]}
-            sizes="(min-width: 768px) 10rem, 7rem"
-            class="bf-sticker"
-          />
+        promo && (
+          <a href="/black-friday/" class="hero-promo">
+            {SITE.blackFriday.badge && <strong class="bf-pct">{SITE.blackFriday.badge}</strong>}
+            <span>Black Friday · {SITE.blackFriday.hurry || SITE.blackFriday.offer}</span>
+          </a>
         )
       }
+      <h1 id="hero-title" class="hero-title">Het spel dat je wijn leert proeven</h1>
+      <p class="hero-lead">
+        Twee flessen wijn zonder etiket, een spel en je vrienden aan tafel. Proef blind en raad welke wijn welke is.
+      </p>
+      <div class="hero-buy">
+        <a href="#kies-je-box" class="btn-primary">Kies je box</a>
+        <span>
+          vanaf{' '}
+          <strong>
+            <Price price={lowestPrice} regularPrice={lowestRegular} />
+          </strong>
+        </span>
+      </div>
+      <UspList playersMin={playersMin} playersMax={playersMax} class="mt-6" />
     </div>
   </section>
 

@@ -39,7 +39,7 @@ import redReveal from '@/assets/images/products/wijnproeverij-thuis-rood/03-onth
 import whitePour from '@/assets/images/products/wijnproeverij-thuis-wit/04-inschenken.jpg';
 import whiteTaste from '@/assets/images/products/wijnproeverij-thuis-wit/03-witte-wijn-proeven.jpg';
 import whiteReveal from '@/assets/images/site/onthulling.jpg';
-import redBoxNight from '@/assets/images/products/wijnproeverij-thuis-rood/03-premium-doos.jpg';
+import redBoxNight from '@/assets/images/products/wijnproeverij-thuis-rood/00-doos-op-kist.jpg';
 import whiteLead from '@/assets/images/products/wijnproeverij-thuis-wit/01b-flessen-in-zakjes.jpg';
 
 interface Props {
@@ -197,12 +197,12 @@ const stepSlides = await Promise.all(
     thumb: await getImage({ src: photo.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
   })),
 );
-// The first photo sets the mood (preview, after realmadhoney.eu): red shows the box by night, white the two
+// The first photo sets the mood (preview, after realmadhoney.eu): red shows the whole box on a crate by night (shoot Nov 2024, 4D1B1126), white the two
 // bottles in their bags A and B by candlelight. The packshot follows right after it, so one swipe shows what is in the box; the cart, the share
 // image and the schema keep the packshot.
 const leadPhoto =
   data.category.id === 'rode-wijn'
-    ? { src: redBoxNight, alt: 'De doos van het rode wijnspel op een houten kist, met lichtjes in de avond erachter' }
+    ? { src: redBoxNight, alt: 'De doos van het rode wijnspel op een houten kist in de tuin, bij avond' }
     : data.category.id === 'witte-wijn'
       ? { src: whiteLead, alt: 'Een speler houdt lachend de twee flessen in zakjes A en B omhoog, bij kaarslicht' }
       : undefined;

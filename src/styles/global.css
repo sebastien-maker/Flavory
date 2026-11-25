@@ -216,6 +216,16 @@
   .order-bump input {
     @apply mt-0.5 size-5 shrink-0 accent-ink;
   }
+  /* First photo of a product page on a stage: the box cut free on dark, warm wood-brown with a glow in the colour of
+     the wine (.pick-red / .pick-white set --pick-glow). */
+  [data-gallery-track] > li.slide-stage {
+    background:
+      radial-gradient(circle at 50% 58%, var(--pick-glow), transparent 60%),
+      linear-gradient(160deg, #2b211c, #0e0b0a);
+  }
+  [data-gallery-track] > li.slide-stage > img {
+    @apply object-contain p-[9%];
+  }
   /* Three promises with a line icon (UspList.astro). The icon is a mask, so it takes the text colour. */
   .usps {
     @apply grid gap-2.5 text-base;

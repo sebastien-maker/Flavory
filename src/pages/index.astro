@@ -9,7 +9,8 @@ import LazyVideo from '@/components/ui/LazyVideo.astro';
 import Stars from '@/components/ui/Stars.astro';
 import UspList from '@/components/ui/UspList.astro';
 import Price from '@/components/commerce/Price.astro';
-import { fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
+import { colourChoices, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
+import { COLOUR_STYLES } from '@/lib/colour-choice';
 import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
 import heroPhoto from '@/assets/images/site/aan-tafel.jpg';
@@ -22,6 +23,8 @@ import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
 const lowestPrice = Math.min(...products.map(fromPrice));
+// The two buttons in the hero: white and red, each straight to its product page.
+const boxes = colourChoices(allProducts).map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }));
 // Only set while WooCommerce has a sale price: the price before the discount, shown struck through.
 const lowestRegular = products.flatMap((p) => p.data.variants).find((v) => v.price === lowestPrice)?.regularPrice;
 // Running promotion (SITE.campaign): a small pill with the discount above the headline.
@@ -129,15 +132,24 @@ const audiences = [
       <p class="hero-lead">
         Twee flessen wijn zonder etiket, een spel en je vrienden aan tafel. Proef blind en raad welke wijn welke is.
       </p>
+      <!-- Two buttons, white and red, straight to the product page (Sébastien, 25 Nov 2026). The colour of a button
+           follows the wine, the one exception to "one primary button" in docs/design-richtlijnen.md. -->
       <div class="hero-buy">
-        <a href="#kies-je-box" class="btn-primary">Kies je box</a>
-        <span>
-          vanaf{' '}
-          <strong>
-            <Price price={lowestPrice} regularPrice={lowestRegular} />
-          </strong>
-        </span>
+        {
+          boxes.map(({ product, style }) => (
+            <a href={productPath(product.id)} class:list={['btn', style.button]}>
+              {style.cta}
+            </a>
+          ))
+        }
       </div>
+      <p class="mt-3 text-sm">
+        vanaf{' '}
+        <strong>
+          <Price price={lowestPrice} regularPrice={lowestRegular} />
+        </strong>{' '}
+        met twee flessen wijn erbij
+      </p>
       <UspList playersMin={playersMin} playersMax={playersMax} class="mt-6" />
     </div>
   </section>

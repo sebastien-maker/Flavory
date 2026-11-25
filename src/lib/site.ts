@@ -69,9 +69,9 @@ export const SITE = {
     // This is the only place where the discount is named.
     offer: 'Black Friday: 20% korting op het wijnspel' as string,
     // Last day of this discount in words, for example 'maandag 30 november'.
-    endDate: 'dinsdag 24 november' as string,
+    endDate: 'zondag 29 november' as string,
     // The same moment for the countdown: the end of that day, Brussels time. Empty: no countdown.
-    endsAt: '2026-11-24T23:59:59+01:00' as string,
+    endsAt: '2026-11-29T23:59:59+01:00' as string,
     // Short label on the box cards, for example '-20%'. Empty: no label.
     badge: '-20%' as string,
     // What happens after endDate, in one sentence. Empty: nothing is said about it.

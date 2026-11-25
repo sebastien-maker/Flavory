@@ -165,7 +165,7 @@
     @apply relative overflow-hidden bg-ink text-white;
   }
   .hero-photo {
-    @apply relative aspect-[4/3] w-full md:absolute md:inset-y-0 md:right-0 md:aspect-auto md:w-[60%];
+    @apply relative aspect-[16/10] w-full md:absolute md:inset-y-0 md:right-0 md:aspect-auto md:w-[60%];
   }
   .hero-photo img {
     @apply size-full object-cover object-[45%_center];
@@ -199,8 +199,9 @@
   .hero-sub {
     @apply mt-3 block font-sans text-[1.375rem] leading-tight font-bold text-white/90;
   }
+  /* On a phone the second line of the title says it all, so the buttons stay on the first screen. */
   .hero-lead {
-    @apply mt-4 text-lg leading-snug text-white/85;
+    @apply mt-4 text-lg leading-snug text-white/85 max-md:hidden;
   }
   .hero-buy {
     @apply mt-6 grid grid-cols-2 gap-3 md:flex md:gap-4;

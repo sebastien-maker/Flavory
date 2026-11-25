@@ -223,6 +223,37 @@
   .order-bump input {
     @apply mt-0.5 size-5 shrink-0 accent-ink;
   }
+  /* Small label above a section title (home page preview). */
+  .eyebrow {
+    @apply text-sm font-bold tracking-[0.12em] text-muted uppercase;
+  }
+  .bf-dark .eyebrow {
+    @apply text-white/70;
+  }
+  /* Photo cards with the text on a dark fade at the bottom: the steps and the audiences on the home page. */
+  .step-cards,
+  .audience-cards {
+    @apply mt-8 grid gap-4 md:grid-cols-3 md:gap-6;
+  }
+  .step-card,
+  .audience-card {
+    @apply relative overflow-hidden rounded-[var(--radius-card)] bg-ink text-white;
+  }
+  .step-card-img,
+  .audience-card-img {
+    @apply aspect-[4/3] w-full object-cover md:aspect-[4/5];
+  }
+  .step-card-text,
+  .audience-card-text {
+    @apply absolute inset-x-0 bottom-0 p-5 pt-16;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.85), rgb(0 0 0 / 0.55) 55%, transparent);
+  }
+  .step-card-number {
+    @apply mb-2 flex size-9 items-center justify-center rounded-full bg-brand font-bold text-white;
+  }
+  .audience-card a {
+    @apply text-white;
+  }
   /* Three promises with a line icon (UspList.astro). The icon is a mask, so it takes the text colour. */
   .usps {
     @apply grid gap-2.5 text-base;

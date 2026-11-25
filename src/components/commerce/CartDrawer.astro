@@ -443,6 +443,16 @@ const contact = SITE.email
       },
       Number(data.get('quantity') ?? 1),
     );
+    // Order bump on the product page: the box of the other colour, from the same file as the cart offer.
+    const bump = data.get('bump');
+    if (typeof bump === 'string' && bump) {
+      void upsellItems().then((items: Upsell[]) => {
+        const item = items.find((u) => u.product === bump);
+        if (!item || cart.lines().some((l) => l.handle === item.handle)) return;
+        track('bump_added', { product: bump });
+        addLine(item);
+      });
+    }
   });
 
   // Duo button (DuoButton.astro): the red and the white Standaard box together, so shipping is free. Adds only

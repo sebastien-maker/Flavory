@@ -1,0 +1,31 @@
+---
+// Three promises with a line icon each: what is in the box, who can play, the guarantee. Used under the hero
+// button on the home page and under the title of a product page. The icons are CSS masks in the text colour
+// (global.css, .usp-icon), so they work on the dark hero and on cream alike and cost no HTML.
+// Facts come from one source (docs/woordenlijst.md): SITE.guarantee and the player counts of the products.
+import { SITE } from '@/lib/site';
+
+interface Props {
+  playersMin: number;
+  playersMax: number;
+  class?: string;
+}
+
+const { playersMin, playersMax, class: className } = Astro.props;
+const items = [
+  { icon: 'i-fles', text: 'Twee flessen wijn (75 cl) erbij' },
+  { icon: 'i-spelers', text: `${playersMin} tot ${playersMax} spelers, geen wijnkennis nodig` },
+  { icon: 'i-garantie', text: SITE.guarantee },
+];
+---
+
+<ul class:list={['usps', className]}>
+  {
+    items.map(({ icon, text }) => (
+      <li>
+        <span class:list={['usp-icon', icon]} aria-hidden="true" />
+        {text}
+      </li>
+    ))
+  }
+</ul>

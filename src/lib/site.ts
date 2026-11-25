@@ -9,7 +9,8 @@ export const SITE = {
   email: 'info@flavory.wine',
   vatId: 'BE0757810421',
   foundingDate: '2021',
-  // Number of customers for 'Flavory in het kort', for example 'meer dan 2.000'. Empty: the row is left out.
+  // Number of customers for 'Flavory in het kort' and the hero line on the home page ("al meer dan 2.000 klanten"),
+  // for example 'meer dan 2.000'. Only a real number. Empty: both are left out.
   customers: '' as string,
   address: {
     street: 'Broedersstraat 15',

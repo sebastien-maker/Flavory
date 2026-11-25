@@ -6,16 +6,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 import Stars from '@/components/ui/Stars.astro';
 import Countdown from '@/components/ui/Countdown.astro';
-import DuoButton from './DuoButton.astro';
+import UspList from '@/components/ui/UspList.astro';
 import Faq from '@/components/ui/Faq.astro';
-import PaymentIcons from './PaymentIcons.astro';
 import Price from './Price.astro';
 import { SHORT_STEPS } from '@/lib/steps';
 import Reviews from '@/components/sections/Reviews.astro';
+import Compare from '@/components/sections/Compare.astro';
 import {
   availableVariants,
   colourChoices,
-  fromPrice,
   getProducts,
   getReviews,
   postPath,
@@ -39,6 +38,10 @@ import redReveal from '@/assets/images/products/wijnproeverij-thuis-rood/03-onth
 import whitePour from '@/assets/images/products/wijnproeverij-thuis-wit/04-inschenken.jpg';
 import whiteTaste from '@/assets/images/products/wijnproeverij-thuis-wit/03-witte-wijn-proeven.jpg';
 import whiteReveal from '@/assets/images/site/onthulling.jpg';
+import redBoxNight from '@/assets/images/products/wijnproeverij-thuis-rood/00-doos-op-kist.jpg';
+import whiteLead from '@/assets/images/products/wijnproeverij-thuis-wit/00-doos.jpg';
+import redContents from '@/assets/images/products/wijnproeverij-thuis-rood/05-inhoud.jpg';
+import whiteContents from '@/assets/images/products/wijnproeverij-thuis-wit/05-inhoud.jpg';
 
 interface Props {
   product: Product;
@@ -55,7 +58,6 @@ const buyable = variants.filter((v) => v.available);
 const available = buyable.length > 0;
 // A sold-out main box comes back; leftover stock (clearance) does not.
 const soldOutLabel = data.clearance ? 'Tijdelijk uitverkocht' : 'Binnenkort weer verkrijgbaar';
-const minPrice = fromPrice(product);
 // The first option that can be bought is preselected, so the buy button works straight away.
 const initial = buyable[0];
 // One box is one evening; the FAQ entry about playing again comes first on every product page.
@@ -107,9 +109,19 @@ const name = partial ? title : data.name;
 const featured = (await getEntry('reviews', 'nele'))?.data;
 const score = String(SITE.rating.value).replace('.', ',');
 // The discount label and the time left under the title, only while the promotion runs and the box is on sale.
-const { badge, endsAt, endDate, hurry } = SITE.blackFriday;
+const { endsAt, endDate, hurry } = SITE.blackFriday;
 const onSale =
   SITE.campaign === 'blackfriday' && !!initial?.regularPrice && initial.regularPrice > initial.price;
+// Order bump above the button (after realmadhoney.eu): the Standaard box of the other colour, which also makes
+// shipping free. The cart script adds it from /cart-upsell.json when the box is ticked.
+const bump = colourChoices(await getProducts())
+  .filter((c) => c.product.id !== product.id)
+  .flatMap(({ label, product: other }) => {
+    const v = other.data.variants.find((x) => x.formula === 'Standaard' && x.available && !x.comingSoon);
+    return v ? [{ colour: label.toLowerCase(), product: other.id, price: v.price }] : [];
+  })[0];
+// The tile people choose most (PostHog, 20-25 Nov 2026: the Standaard box of the main duel).
+const popular = buyable.find((v) => v.formula === 'Standaard')?.id;
 // When the standard box is sold out, point to the box that is still in stock (leftover stock).
 const standardSoldOut = variants.some((v) => v.formula === 'Standaard' && !v.available);
 const alternative = standardSoldOut
@@ -185,12 +197,33 @@ const stepSlides = await Promise.all(
     thumb: await getImage({ src: photo.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
   })),
 );
+// The first photo is a product shot of the box (preview, after realmadhoney.eu): red the whole box on a crate by night
+// (shoot Nov 2024, 4D1B1126), white the box on a teal background. The first step of the game always comes second, then the
+// other steps and the packshot. The cart, the share image and the schema keep the packshot.
+const leadPhoto =
+  data.category.id === 'rode-wijn'
+    ? { src: redBoxNight, alt: 'De doos van het rode wijnspel op een houten kist in de tuin, bij avond' }
+    : data.category.id === 'witte-wijn'
+      ? { src: whiteLead, alt: 'De doos van het witte wijnspel Chardonnay of Sauvignon Blanc' }
+      : undefined;
 // A photo that carries a step is not shown a second time further in the gallery.
 const stepSources = new Set(stepPhotos.map((photo) => photo.src.src));
-const otherPhotos = gallery.slice(1).filter((_, i) => !stepSources.has(images[i + 1]!.src.src));
+const otherPhotos = gallery.slice(1).filter((_, i) => {
+  const src = images[i + 1]!.src.src;
+  return !stepSources.has(src) && src !== leadPhoto?.src.src;
+});
+const lead = leadPhoto && {
+  kind: 'image' as const,
+  alt: leadPhoto.alt,
+  label: leadPhoto.alt,
+  step: undefined,
+  main: await getImage({ src: leadPhoto.src, width: 720, height: 720, fit: 'cover', widths: [480, 960], format: 'webp' }),
+  thumb: await getImage({ src: leadPhoto.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
+};
 const slides = [
+  ...(lead ? [lead, ...stepSlides] : []),
   { kind: 'image' as const, label: cover.alt, step: undefined, ...cover },
-  ...stepSlides,
+  ...(lead ? [] : stepSlides),
   { kind: 'video' as const, label: clip.label, thumb: clipThumb },
   ...otherPhotos.map((img) => ({ kind: 'image' as const, label: img.alt, step: undefined, ...img })),
 ];
@@ -208,6 +241,11 @@ const descriptions = data.descriptions.map((d) => {
     more: marked.parse(rest.join('\n\n'), { async: false }),
   };
 });
+// Everything in the box laid out, under "Wat zit erin" (the product photos of Nov 2024).
+const contentsPhoto =
+  data.category.id === 'rode-wijn' ? redContents : data.category.id === 'witte-wijn' ? whiteContents : undefined;
+// The duel a tile belongs to: its group (druiven, landen), which also picks the description under "De wijnen".
+const duelKey = (v: (typeof variants)[number]) => v.group ?? v.duel;
 // One short line under the name of a duel, when the page offers more than one duel.
 const DUEL_HINTS: Record<string, string> = {
   druiven: 'Twee druiven naast elkaar',
@@ -236,7 +274,7 @@ const schemaImages = await Promise.all(
   type="product"
   image={images[0]!.src}
   imageAlt={cover.alt}
-  preloadImage={{ src: cover.main.src, srcset: cover.main.srcSet.attribute, sizes: gallerySizes }}
+  preloadImage={{ src: (lead ?? cover).main.src, srcset: (lead ?? cover).main.srcSet.attribute, sizes: gallerySizes }}
   schema={[
     webPage({ path, title: h1, description: data.seoDescription, type: 'ItemPage' }),
     productSchema({
@@ -284,8 +322,8 @@ const schemaImages = await Promise.all(
                   src={slide.main.src}
                   srcset={slide.main.srcSet.attribute}
                   sizes={gallerySizes}
-                  width="720"
-                  height="720"
+                  width={slide.main.attributes.width ?? 720}
+                  height={slide.main.attributes.height ?? 720}
                   alt={slide.alt}
                   loading={i === 0 ? 'eager' : 'lazy'}
                   fetchpriority={i === 0 ? 'high' : undefined}
@@ -392,9 +430,21 @@ const schemaImages = await Promise.all(
             <span data-title-price>
               <Price price={initial.price} regularPrice={initial.regularPrice} />
             </span>
-            {onSale && badge && <span class="bf-badge">{badge}</span>}
+            {onSale && (
+              <span class="bf-badge" data-saving>
+                Je bespaart {formatPrice((initial.regularPrice ?? 0) - initial.price)}
+              </span>
+            )}
             {onSale && endsAt && <Countdown endsAt={endsAt} fallback={`tot en met ${endDate}`} />}
             {onSale && !endsAt && hurry && <span>{hurry}</span>}
+          </p>
+        )}
+        {initial && (
+          <p class="text-sm">
+            <span data-price-per-person data-players={data.playersMax}>
+              {pricePerPerson(initial.price, data.playersMax)}
+            </span>{' '}
+            per persoon met {data.playersMax} spelers
           </p>
         )}
         <a href="#reviews-title" class="title-rating">
@@ -402,6 +452,7 @@ const schemaImages = await Promise.all(
           <span><strong>{score}/5</strong> op {SITE.rating.source}</span>
         </a>
         {data.intro && <p class="mt-3">{data.intro}</p>}
+        <UspList playersMin={data.playersMin} playersMax={data.playersMax} class="mt-4" />
       </div>
 
       <form
@@ -427,7 +478,28 @@ const schemaImages = await Promise.all(
             Je box
             {openDuels.length > 1 && <span class="font-normal text-muted"> · kies je duel en je versie</span>}
           </legend>
-          {tileGroups.map((group, groupIndex) => {
+          {openDuels.length > 1 && (
+            <div class="duel-tiles">
+              {openDuels.map((d, i) => (
+                <label class="duel-tile">
+                  <input
+                    type="radio"
+                    name="duel"
+                    value={duelKey(d.variants[0]!)}
+                    checked={!!initial && duelKey(d.variants[0]!) === duelKey(initial)}
+                    class="sr-only"
+                  />
+                  <small>Duel {i + 1}</small>
+                  <strong>{d.name}</strong>
+                  <small>
+                    {DUEL_HINTS[d.variants[0]?.group ?? ''] ?? 'Twee wijnen, blind naast elkaar'}
+                    {d.lead && /zolang de voorraad strekt/i.test(d.lead) && ', zolang de voorraad strekt'}
+                  </small>
+                </label>
+              ))}
+            </div>
+          )}
+          {tileGroups.map((group) => {
             const tiles = (
               <div class="grid gap-2.5">
                 {group.variants.map((v) => (
@@ -459,6 +531,7 @@ const schemaImages = await Promise.all(
                       <span>
                         <span class="block font-bold">
                           {v.formula}
+                          {v.id === popular && <span class="tile-tag">Meest gekozen</span>}
                           {v.formula === 'Premium' && (
                             <span class="premium-mark" aria-hidden="true">
                               {PREMIUM_MARK}
@@ -489,18 +562,9 @@ const schemaImages = await Promise.all(
                 <div class="mt-2">{tiles}</div>
               </details>
             ) : group.name ? (
-              // More than one duel on this page: each duel is its own framed block with a number, its name and
-              // one short line, so the two choices read as two choices. The long story of a duel stays under
-              // "Wat je proeft". Leftover stock keeps its short label.
-              <div class="mt-3 rounded-xl border border-line p-3">
-                <p class="mb-2.5 leading-tight">
-                  <span class="block text-sm font-bold text-muted">Duel {groupIndex + 1}</span>
-                  <strong class:list={['text-lg', theme.line]}>{group.name}</strong>
-                  <span class="block text-sm text-muted">
-                    {DUEL_HINTS[group.variants[0]?.group ?? ''] ?? 'Twee wijnen, blind naast elkaar'}
-                    {group.lead && /zolang de voorraad strekt/i.test(group.lead) && ', zolang de voorraad strekt'}
-                  </span>
-                </p>
+              // More than one duel on this page: the duels stand as tiles side by side (above), and only the boxes
+              // of the chosen duel show here. The script switches them; the long story of a duel is under "De wijnen".
+              <div class="mt-3" data-duel={duelKey(group.variants[0]!)} hidden={duelKey(group.variants[0]!) !== (initial && duelKey(initial))}>
                 {tiles}
               </div>
             ) : (
@@ -522,6 +586,17 @@ const schemaImages = await Promise.all(
         {/* Running promotion: what the discount is, until when and what comes after, right above the button. */}
         <PromoBanner class="mt-4 mb-0" />
 
+        {bump && (
+          <label class="order-bump">
+            <input type="checkbox" name="bump" value={bump.product} data-price={bump.price} />
+            <span>
+              <strong class="block">Gratis verzending? Neem er {bump.colour} bij.</strong>{' '}
+              Met 1 box betaal je {formatPrice(SITE.shipping.rate)} verzending. Vink aan voor het {bump.colour}e wijnspel
+              ({formatPrice(bump.price)}) en je verzending is gratis.
+            </span>
+          </label>
+        )}
+
         <button
           type="submit"
           class:list={['btn mt-4 w-full', available ? theme.button : 'bg-line text-muted']}
@@ -530,19 +605,80 @@ const schemaImages = await Promise.all(
         >
           {initial ? `In winkelmandje · ${formatPrice(initial.price)}` : soldOutLabel}
         </button>
-        <DuoButton class="mt-3" />
         {featured && (
           <p class="mt-3 text-sm">
             <em>“{featured.title}”</em> · {featured.author}
           </p>
         )}
         <p class="mt-3 text-sm">
-          Inclusief 2 flessen wijn (75 cl). Verzending {formatPrice(SITE.shipping.rate)}, gratis vanaf{' '}
-          {SITE.shipping.freeFromBoxes} boxen. Niet tevreden? Geld terug. Levering {SITE.shipping.minDays} à{' '}
-          {SITE.shipping.maxDays} werkdagen.
+          Verzending {formatPrice(SITE.shipping.rate)}, gratis vanaf {SITE.shipping.freeFromBoxes} boxen. Levering{' '}
+          {SITE.shipping.minDays} à {SITE.shipping.maxDays} werkdagen.
         </p>
         <p class="mt-3 text-xs text-muted">{SITE.ageNotice}</p>
       </form>
+
+      <!-- The details under the button, one open at a time (after realmadhoney.eu). The text is in the HTML, so
+           search engines read it while it is closed. -->
+      <div class="pdp-more">
+        <details name="meer">
+          <summary><h2>De wijnen</h2></summary>
+          {descriptions.map((d, i) => (
+            <div data-description={d.group} hidden={initial ? d.group !== initial.group : i !== 0}>
+              <div class="prose-flavory" set:html={d.intro} />
+              <div class="prose-flavory" set:html={d.more} />
+            </div>
+          ))}
+        </details>
+        <details name="meer">
+          <summary><h2>Wat zit erin</h2></summary>
+          <div>
+            {contentsPhoto && (
+              <Image
+                src={contentsPhoto}
+                alt="Alles uit de doos naast elkaar: de doos, infobrochures, proefformulieren, rolkaarten en twee stoffen zakjes"
+                widths={[480, 720]}
+                sizes="(min-width: 768px) 36rem, 100vw"
+                class="h-auto w-full rounded-xl"
+              />
+            )}
+            <ul class="checklist space-y-1.5">
+              {data.boxContents.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </details>
+        <details name="meer">
+          <summary><h2>Zo speel je</h2></summary>
+          <div>
+            <p>
+              {SHORT_STEPS.map((step, i) => (i === 0 ? step.title : step.title.charAt(0).toLowerCase() + step.title.slice(1))).join(', ')}.
+              Een avond duurt 60 tot 90 minuten. Daarna ken je de antwoorden, dus elke box speel je één keer. Zin in nog
+              een avond? Kies een ander duel.
+            </p>
+            {buyable.length > 1 && (
+              <p>Het spel is in beide boxen hetzelfde. Standaard of Premium: in allebei zitten wijnen die we zelf graag drinken.</p>
+            )}
+            <p>
+              <a href="/hoe-werkt-het/" class="font-bold text-brand underline">De spelregels in 6 stappen</a>
+            </p>
+          </div>
+        </details>
+        <details name="meer">
+          <summary><h2>Verzending en retour</h2></summary>
+          <div>
+            <p>
+              Verzending {formatPrice(SITE.shipping.rate)} in België en Nederland, gratis vanaf {SITE.shipping.freeFromBoxes}{' '}
+              boxen. Besteld voor {SITE.shippingCutoffHour}u op een werkdag, dan vertrekt je pakket dezelfde dag. Levering{' '}
+              {SITE.shipping.minDays} à {SITE.shipping.maxDays} werkdagen.
+            </p>
+            <p>{SITE.guarantee} {SITE.guaranteeDetails}</p>
+            <p>
+              <a href="/verzending-en-retour/" class="font-bold text-brand underline">Alles over verzending en retour</a>
+            </p>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -560,89 +696,8 @@ const schemaImages = await Promise.all(
     </div>
   )}
 
-  <!-- 2. Wat je proeft -->
-  <section class="section-y bg-white" aria-labelledby="proeven-title">
-    <div class="container-site max-w-3xl">
-      <h2 id="proeven-title" class="h2">
-        Wat je proeft
-      </h2>
-      {descriptions.map((d, i) => (
-        <div data-description={d.group} hidden={initial ? d.group !== initial.group : i !== 0}>
-          <div class="prose-flavory mt-4" set:html={d.intro} />
-          <details class="group mt-2">
-            <summary class="cursor-pointer list-none font-bold text-brand underline group-open:hidden">
-              Lees meer
-            </summary>
-            <div class="prose-flavory" set:html={d.more} />
-          </details>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- 3. Wat zit erin -->
-  <section class="section-y" aria-labelledby="inhoud-title">
-    <div class="container-site max-w-3xl">
-      <h2 id="inhoud-title" class="h2">
-        Wat zit erin
-      </h2>
-      <ul class="checklist mt-4 space-y-1.5">
-        {data.boxContents.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- 4. Zo speel je -->
-  <section class="section-y bg-white" aria-labelledby="spelen-title">
-    <div class="container-site max-w-3xl">
-      <h2 id="spelen-title" class="h2">
-        Zo speel je
-      </h2>
-      {stepSlides.length > 0 ? (
-        // The three steps stand on the photos at the top; here one line names them again.
-        <p class="mt-4">{SHORT_STEPS.map((step, i) => (i === 0 ? step.title : step.title.charAt(0).toLowerCase() + step.title.slice(1))).join(', ')}. Je ziet de drie stappen bij de foto's bovenaan.</p>
-      ) : (
-      <ol class="mt-4 divide-y divide-line">
-        {SHORT_STEPS.map((step, i) => (
-          <li class="flex items-center gap-4 py-3">
-            <span class="step-number" aria-hidden="true">
-              {i + 1}
-            </span>
-            <div class="min-w-0">
-              <p class="font-bold">
-                <span class="sr-only">Stap {i + 1}: </span>
-                {step.title}
-              </p>
-              <p class="mt-1 text-sm text-muted">{step.text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      )}
-      <p class="mt-4">
-        <a href="/hoe-werkt-het/" class="font-bold text-brand underline">
-          De spelregels in 6 stappen
-        </a>
-      </p>
-      {/* Moved out of the buy box, which now holds only the choice, the promotion, the button and the proof. */}
-      <p class="mt-6 text-sm text-muted">
-        Eén avond wijnproeverij thuis voor {data.playersMin} tot {data.playersMax} personen, vanaf{' '}
-        <span data-price-per-person data-players={data.playersMax}>
-          {pricePerPerson(initial?.price ?? minPrice, data.playersMax)}
-        </span>{' '}
-        per persoon. Een avond duurt 60 tot 90 minuten. Daarna ken je de antwoorden, dus elke box speel je één keer.
-        Zin in nog een avond? Kies een ander duel.
-      </p>
-      {buyable.length > 1 && (
-        <p class="mt-3 text-sm text-muted">
-          Het spel is in beide boxen hetzelfde. Standaard of Premium: in allebei zitten wijnen die we zelf graag
-          drinken.
-        </p>
-      )}
-    </div>
-  </section>
+  <!-- 2. Wijnspel, fles wijn of wijncursus -->
+  <Compare />
 
   <!-- 5. Reviews -->
   <Reviews limit={3} />
@@ -674,7 +729,6 @@ const schemaImages = await Promise.all(
         </a>
         .
       </p>
-      <PaymentIcons class="mt-6" />
       {comparison && (
         <p class="mt-4">
           <a href={postPath(comparison.id)} class="font-bold text-brand underline">
@@ -768,12 +822,15 @@ const schemaImages = await Promise.all(
   const form = document.querySelector<HTMLFormElement>('[data-variant-form]');
   const radios = [...(form?.querySelectorAll<HTMLInputElement>('input[name="variant"]') ?? [])];
   const button = form?.querySelector<HTMLButtonElement>('[data-buy-button]');
-  // The price per person stands further down the page, under "Zo speel je".
+  // The price per person under the price.
   const perPerson = document.querySelector<HTMLElement>('[data-price-per-person]');
   const players = Number(perPerson?.dataset.players);
   const stickyButton = document.querySelector<HTMLButtonElement>('[data-sticky-button]');
-  // The price under the title (first screen of a phone).
+  // The price under the title (first screen of a phone) and what the discount saves.
   const titlePrice = document.querySelector<HTMLElement>('[data-title-price]');
+  const saving = document.querySelector<HTMLElement>('[data-saving]');
+  // Order bump: the box of the other colour, ticked or not. Its price counts in the buttons.
+  const bumpBox = form?.querySelector<HTMLInputElement>('input[name="bump"]');
 
   const setField = (name: string, value: string) => {
     const input = form?.elements.namedItem(name);
@@ -791,17 +848,41 @@ const schemaImages = await Promise.all(
     setField('regular_price', regularPrice ? String(regularPrice) : '');
     setField('woo_id', option.dataset.wooId ?? '');
     if (perPerson && players) perPerson.textContent = pricePerPerson(price, players);
-    button.textContent = `In winkelmandje · ${formatPrice(price)}`;
+    const total = price + (bumpBox?.checked ? Number(bumpBox.dataset.price) || 0 : 0);
+    button.textContent = `In winkelmandje · ${formatPrice(total)}`;
     if (titlePrice) renderPrice(titlePrice, price, regularPrice);
+    if (saving) {
+      saving.hidden = !regularPrice || regularPrice <= price;
+      if (regularPrice) saving.textContent = `Je bespaart ${formatPrice(regularPrice - price)}`;
+    }
     // The sticky bar is what a phone shows first: during a promotion it carries the struck-through price too.
     if (stickyButton) {
       const label = document.createElement('span');
-      renderPrice(label, price, regularPrice);
+      if (total === price) renderPrice(label, price, regularPrice);
+      else label.textContent = formatPrice(total);
       stickyButton.replaceChildren('In winkelmandje · ', label);
     }
     for (const block of document.querySelectorAll<HTMLElement>('[data-description]')) {
       block.hidden = block.dataset.description !== option.dataset.group;
     }
+    // Two duels: the tile of the chosen box's duel is ticked and only its boxes show.
+    const duelBlock = option.closest<HTMLElement>('[data-duel]');
+    if (duelBlock) {
+      for (const block of form.querySelectorAll<HTMLElement>('[data-duel]')) block.hidden = block !== duelBlock;
+      const tile = form.querySelector<HTMLInputElement>(`input[name="duel"][value="${duelBlock.dataset.duel}"]`);
+      if (tile) tile.checked = true;
+    }
+  }
+
+  // A duel tile picks the first box of that duel that can be bought; applyChoice then follows (form change).
+  for (const tile of form?.querySelectorAll<HTMLInputElement>('input[name="duel"]') ?? []) {
+    tile.addEventListener('change', () => {
+      const first = form?.querySelector<HTMLInputElement>(`[data-duel="${tile.value}"] input[name="variant"]:not(:disabled)`);
+      if (first) {
+        first.checked = true;
+        trackEvent('variant_selected', optionProperties(first));
+      }
+    });
   }
 
   // Live stock can leave every option unbuyable, or make one buyable again: the button, the fieldset and the

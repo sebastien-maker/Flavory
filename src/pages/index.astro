@@ -1,36 +1,39 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ColorChoice from '@/components/commerce/ColorChoice.astro';
 import Reviews from '@/components/sections/Reviews.astro';
 import PostCard from '@/components/blog/PostCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import LazyVideo from '@/components/ui/LazyVideo.astro';
-import RatingBadge from '@/components/ui/RatingBadge.astro';
+import Stars from '@/components/ui/Stars.astro';
+import UspList from '@/components/ui/UspList.astro';
 import Price from '@/components/commerce/Price.astro';
-import PromoBanner from '@/components/ui/PromoBanner.astro';
 import { colourChoices, fromPrice, getProducts, getPosts, mainProducts, productPath } from '@/lib/content';
 import { COLOUR_STYLES } from '@/lib/colour-choice';
 import { SITE } from '@/lib/site';
 import { itemList, webPage } from '@/components/seo/schema';
-import heroPhoto from '@/assets/images/site/hero-proeven.jpg';
-// The Black Friday drawing of the 2025 campaign, laid over the corner of the hero photo like a sticker.
-import bfDrawing from '@/assets/images/site/black-friday-2025-20-procent.webp';
+import heroPhoto from '@/assets/images/site/aan-tafel.jpg';
 import clipPoster from '@/assets/images/site/flavory-avond-vrienden-poster.jpg';
 import pouringPhoto from '@/assets/images/site/inschenken.jpg';
-import tablePhoto from '@/assets/images/site/aan-tafel.jpg';
-// Drawing under the steps; it also sits on the box sleeve.
-import sleeveIllustration from '@/assets/images/site/sleeve-illustratie.webp';
-
+import bagsPhoto from '@/assets/images/site/flessen-in-zakjes.jpg';
+import revealPhoto from '@/assets/images/products/wijnproeverij-thuis-rood/03-onthulling.jpg';
+import eveningPhoto from '@/assets/images/site/avond-aan-tafel.jpg';
+import giftPhoto from '@/assets/images/site/cadeau-uitpakken.jpg';
+import teamPhoto from '@/assets/images/site/hero-proeverij.jpg';
+import BoxPick from '@/components/commerce/BoxPick.astro';
+import DuoButton from '@/components/commerce/DuoButton.astro';
+import Compare from '@/components/sections/Compare.astro';
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
 const lowestPrice = Math.min(...products.map(fromPrice));
-// The two small box photos next to the button in the hero: white and red, as in "Kies je box".
-const boxes = colourChoices(allProducts).map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }));
+// The two buttons in the hero: white and red, each straight to its product page.
+const boxes = colourChoices(allProducts)
+  .map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }))
+  // Red left, white right (Sébastien, 25 Nov 2026).
+  .sort((a, b) => (a.label === 'Rood' ? -1 : b.label === 'Rood' ? 1 : 0));
 // Only set while WooCommerce has a sale price: the price before the discount, shown struck through.
 const lowestRegular = products.flatMap((p) => p.data.variants).find((v) => v.price === lowestPrice)?.regularPrice;
-// Running promotion (SITE.campaign): the campaign drawing on the hero photo. The band above the headline is
-// PromoBanner, which checks the campaign itself.
+// Running promotion (SITE.campaign): a small pill with the discount above the headline.
 const promo = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
 // Pillar-first: the three strongest evergreen articles (SITE-STRUCTURE §5).
 const featuredIds = ['blind-wijn-proeven', 'wijnproeverij-thuis-flavory', 'welke-wijn-bij-welk-gerecht-spiekbriefje'];
@@ -40,40 +43,53 @@ const title = 'Wijnspel: proef twee wijnen blind met vrienden | Flavory';
 const description =
   'Flavory is het wijnspel met twee flessen wijn erbij: proef ze blind, beantwoord de quizvragen en ontdek wie het verschil proeft. Voor 2 tot 6 spelers.';
 
-const hero = await getImage({ src: heroPhoto, width: 900, widths: [360, 540, 720, 900], format: 'webp' });
-const heroSizes = '(min-width: 768px) 28rem, calc(100vw - 2rem)';
-// Three steps, with the drawings that also sit on the box.
+const hero = await getImage({ src: heroPhoto, width: 1600, widths: [480, 720, 960, 1280, 1600], format: 'webp' });
+// Full width on a phone, the right 60% of the screen from a tablet on.
+const heroSizes = '(min-width: 768px) 60vw, 100vw';
+const score = String(SITE.rating.value).replace('.', ',');
+const playersMin = Math.min(...products.map((p) => p.data.playersMin));
+const playersMax = Math.max(...products.map((p) => p.data.playersMax));
+// Three steps, each with a big photo (preview, after realmadhoney.eu).
 const steps = [
   {
-    img: '/images/steps/stap-2.svg',
+    photo: pouringPhoto,
+    alt: 'Wijn wordt blind ingeschonken uit een fles in een stoffen zakje, bij kaarslicht',
     title: 'Schenk blind in',
-    text: 'De twee flessen zitten in stoffen zakjes. Niemand weet welke wijn in fles A of B zit.',
+    text: 'De flessen zitten in zakjes A en B. Niemand weet welke wijn waar zit.',
   },
   {
-    img: '/images/steps/stap-3.svg',
+    photo: bagsPhoto,
+    alt: 'Twee flessen in zakjes A en B naast glazen rode wijn op het speelbord',
     title: 'Proef en speel',
-    text: 'Kijk, ruik en proef, en verzamel tips met de quizvragen.',
+    text: 'Kijk, ruik en proef. De quizvragen geven je tips.',
   },
   {
-    img: '/images/steps/stap-5.svg',
-    title: 'Ontmasker de wijnen',
-    text: 'Noteer je gok, onthul de flessen en kroon de winnaar.',
+    photo: revealPhoto,
+    alt: 'Aan tafel haalt een speelster de fles uit zakje A, de anderen kijken mee',
+    title: 'Onthul de winnaar',
+    text: 'Noteer je gok, haal de flessen uit de zakjes en kroon wie het juist had.',
   },
 ];
 const audiences = [
   {
+    photo: eveningPhoto,
+    alt: 'Vrienden aan tafel bij het haardvuur met een fles in een zakje',
     title: 'Een avond met vrienden',
     text: 'Zet twee glazen per persoon klaar, de rest doet het spel.',
     href: '/hoe-werkt-het/',
     label: 'Zo werkt het',
   },
   {
+    photo: giftPhoto,
+    alt: 'Iemand pakt een Flavory-doos uit het cadeaupapier',
     title: 'Als cadeau',
     text: 'Een spel plus twee flessen wijn, leuker dan de zoveelste fles alleen.',
     href: '/cadeau/',
     label: 'Zo geef je het cadeau',
   },
   {
+    photo: teamPhoto,
+    alt: 'Glazen rode wijn boven de proefformulieren van het spel',
     title: 'Voor je team of je klanten',
     text: 'Als relatiegeschenk of teamactiviteit, met een offerte op maat.',
     href: '/zakelijk/',
@@ -85,6 +101,7 @@ const audiences = [
 <BaseLayout
   title={title}
   isHome
+  darkHeader
   description={description}
   path="/"
   preloadImage={{ src: hero.src, srcset: hero.srcSet.attribute, sizes: heroSizes }}
@@ -96,164 +113,159 @@ const audiences = [
     ),
   ]}
 >
-  <!-- Hero. During a promotion (SITE.campaign) a banner with the offer stands above the headline, the price
-       shows the sale price next to the struck-through regular one, and the campaign drawing sits on the photo. -->
-  <section class="container-site grid items-center gap-5 pt-4 pb-8 md:grid-cols-2 md:gap-10 md:py-12">
-    <div>
-      <PromoBanner href="/black-friday/" compact />
-      <h1 class="h1">Het spel dat je wijn leert proeven</h1>
-      <p class="mt-3 text-lg leading-snug md:text-xl">
-        Je wijnproeverij thuis in één pakket: twee flessen wijn zonder etiket en een wijnspel voor vrienden of familie.
-        Proef blind en raad welke wijn welke is. Geen voorkennis nodig.
-      </p>
-      <!-- Next to the button: a small photo of the white and the red box, each with its two blind bottles, so you
-           see at once what it is. Each photo leads to its box. -->
-      <div class="mt-5 flex items-center gap-3">
-        <a href="#kies-je-box" class="btn-primary mr-1">
-          Kies je box
-        </a>
-        {
-          boxes.map(({ product, style }) => (
-            <a href={productPath(product.id)} class="shrink-0">
-              <Image
-                src={style.image}
-                alt={style.alt}
-                width={160}
-                height={160}
-                widths={[80, 160, 240]}
-                sizes="4rem"
-                loading="eager"
-                class="size-16 rounded-xl object-cover"
-              />
-            </a>
-          ))
-        }
-      </div>
-      <p class="mt-3 text-sm">
-        Vanaf{' '}
-        <strong>
-          <Price price={lowestPrice} regularPrice={lowestRegular} />
-        </strong>{' '}
-        voor 2 tot 6 spelers, incl. 2 flessen wijn
-      </p>
-      <RatingBadge class="mt-2" />
-    </div>
-    <div class="relative">
+  <!-- Hero, after the premium look of realmadhoney.eu (preview, 25 Nov 2026): a dark, warm photo of the game at
+       the table, the rating above the headline, one button with the price next to it and three promises under it.
+       During a promotion a small pill with the discount stands above the headline. -->
+  <section class="hero-dark" aria-labelledby="hero-title">
+    <div class="hero-photo">
       <img
         src={hero.src}
         srcset={hero.srcSet.attribute}
         sizes={heroSizes}
         width={hero.attributes.width}
         height={hero.attributes.height}
-        alt="Twee vrouwen proeven witte wijn aan tafel, met een fles in een stoffen zakje ervoor"
+        alt="Aan tafel houdt een vrouw fles A in zijn stoffen zakje omhoog, de anderen raden welke wijn erin zit"
         fetchpriority="high"
         loading="eager"
         decoding="async"
-        class="aspect-[4/5] w-full rounded-[var(--radius-card)] object-cover"
       />
+    </div>
+    <div class="container-site hero-copy">
+      <a href="#reviews-title" class="hero-rating">
+        <Stars rating={SITE.rating.value} />
+        <span>
+          <strong>{score}/5</strong> uit {SITE.rating.count} reviews op Google{SITE.customers && ` · al ${SITE.customers} klanten`}
+        </span>
+      </a>
       {
-        promo && SITE.blackFriday.drawing === '20' && (
-          <Image
-            src={bfDrawing}
-            alt="Black Friday bij Flavory: vrienden klinken met een glas wijn, op hun bordje staat min 20 procent"
-            widths={[160, 240, 480]}
-            sizes="(min-width: 768px) 10rem, 7rem"
-            class="bf-sticker"
-          />
+        promo && (
+          <a href="/black-friday/" class="hero-promo">
+            {SITE.blackFriday.badge && <strong class="bf-pct">{SITE.blackFriday.badge}</strong>}
+            <span>{SITE.blackFriday.hurry || SITE.blackFriday.offer}</span>
+          </a>
         )
       }
+      <!-- The game in six words (Sébastien, 25 Nov 2026); the second line names the product and both reasons to buy it. -->
+      <h1 id="hero-title" class="hero-title">
+        <span class="block">Twee wijnen.</span>
+        <span class="block">Geen etiket.</span>
+        <span class="block">Eén winnaar.</span>
+        <span class="hero-sub">Het wijnspel voor je volgende avond, of als cadeau</span>
+      </h1>
+      <p class="hero-lead">
+        Twee flessen wijn zonder etiket, een spel en je vrienden aan tafel. Proef blind en raad welke wijn welke is.
+      </p>
+      <!-- Two buttons, white and red, straight to the product page (Sébastien, 25 Nov 2026). The colour of a button
+           follows the wine, the one exception to "one primary button" in docs/design-richtlijnen.md. -->
+      <div class="hero-buy">
+        {
+          boxes.map(({ product, style }) => (
+            <a href={productPath(product.id)} class:list={['btn', style.button]}>
+              {style.cta}
+            </a>
+          ))
+        }
+      </div>
+      <p class="mt-3 text-sm">
+        vanaf{' '}
+        <strong>
+          <Price price={lowestPrice} regularPrice={lowestRegular} />
+        </strong>{' '}
+        met twee flessen wijn erbij
+      </p>
+      <UspList playersMin={playersMin} playersMax={playersMax} class="mt-6" />
     </div>
   </section>
 
-  <!-- Zo speel je Flavory -->
-  <section class="section-y bg-white" aria-labelledby="spelen-title">
+  <!-- Zo werkt het: the game in three big photos (preview, after realmadhoney.eu), each step a number, a title and
+       one sentence. The facts line and the rules link follow. -->
+  <section class="section-y bg-cream" aria-labelledby="spelen-title">
     <div class="container-site">
-      <h2 id="spelen-title" class="h2 text-center">
-        Zo speel je Flavory
-      </h2>
+      <p class="eyebrow text-center">Zo werkt het</p>
+      <h2 id="spelen-title" class="h2 mt-2 text-center">Proef blind. Raad. Onthul.</h2>
       <p class="mx-auto mt-3 max-w-2xl text-center">
-        Flavory is een Belgisch wijnspel voor 2 tot 6 spelers. Je proeft blind twee meegeleverde wijnen en ontdekt met
-        quizvragen welke welke is. Een spel duurt 60 tot 90 minuten en je hebt geen wijnkennis nodig.
+        Flavory is een Belgisch wijnspel voor {playersMin} tot {playersMax} spelers. Je proeft twee meegeleverde wijnen
+        blind en ontdekt met quizvragen welke welke is. Geen wijnkennis nodig.
       </p>
-      <div class="mt-6 grid items-center gap-6 md:grid-cols-2 md:gap-10">
-        <Image
-          src={pouringPhoto}
-          alt="Wijn wordt blind ingeschonken uit een fles in een stoffen zakje"
-          widths={[480, 720, 960]}
-          sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
-          class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
-        />
-        <div>
-          <ol class="divide-y divide-line">
-            {steps.map((step, i) => (
-              <li class="flex items-center gap-4 py-3">
-                <span class="step-number" aria-hidden="true">
+      <ol class="step-cards">
+        {
+          steps.map((step, i) => (
+            <li class="step-card">
+              <Image
+                src={step.photo}
+                alt={step.alt}
+                widths={[360, 540, 720]}
+                sizes="(min-width: 768px) 30vw, calc(100vw - 2rem)"
+                class="step-card-img"
+              />
+              <div class="step-card-text">
+                <span class="step-card-number" aria-hidden="true">
                   {i + 1}
                 </span>
-                <div class="min-w-0">
-                  <p class="font-bold">
-                    <span class="sr-only">Stap {i + 1}: </span>
-                    {step.title}
-                  </p>
-                  <p class="mt-1 text-sm text-muted">{step.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <Image
-            src={sleeveIllustration}
-            alt="Tekening van vier vrienden die samen wijn proeven"
-            widths={[320, 480, 640, 960]}
-            sizes="(min-width: 768px) 30rem, calc(100vw - 2rem)"
-            class="mx-auto mt-4 h-auto w-full max-w-[30rem]"
-          />
-        </div>
-      </div>
-      <p class="mt-6 text-center font-bold">2 tot 6 spelers · 60 tot 90 minuten · geen wijnkennis nodig</p>
+                <h3 class="text-[1.375rem] leading-tight font-bold">
+                  <span class="sr-only">Stap {i + 1}: </span>
+                  {step.title}
+                </h3>
+                <p class="mt-1 text-white/85">{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="mt-8 text-center font-bold">
+        {playersMin} tot {playersMax} spelers · 60 tot 90 minuten · geen wijnkennis nodig
+      </p>
       <p class="mt-4 text-center">
-        <a href="/hoe-werkt-het/" class="btn-outline">
-          De spelregels in 6 stappen
-        </a>
+        <a href="/hoe-werkt-het/" class="btn-outline">De spelregels in 6 stappen</a>
       </p>
     </div>
   </section>
 
-  <!-- Kies je box -->
-  <section id="kies-je-box" class="section-y scroll-mt-24 bg-blush" aria-labelledby="boxen-title">
-    <div class="container-site">
-      <ColorChoice products={allProducts} class="mx-auto" />
+  <!-- Why the game and not a bottle or a course: the comparison table, right before the choice. -->
+  <Compare />
+
+  <!-- Kies je box: dark, the two boxes cut free with a glow, straight into the cart. Red and white together for free
+       shipping, and the three promises under it. -->
+  <section id="kies-je-box" class="bf-dark section-y scroll-mt-24" aria-labelledby="boxen-title">
+    <div class="container-site max-w-3xl">
+      <p class="eyebrow text-center text-white/70">Kies je duel</p>
+      <h2 id="boxen-title" class="h2 mt-2 text-center">Rood of wit? Of allebei.</h2>
+      <p class="mx-auto mt-3 max-w-xl text-center text-white/85">
+        Elke box heeft twee flessen wijn (75 cl) in zakjes A en B en alles om het spel te spelen.
+      </p>
+      <BoxPick products={allProducts} quickAdd class="mt-6" />
+      <DuoButton dark class="mt-3" />
+      <UspList playersMin={playersMin} playersMax={playersMax} class="mx-auto mt-6 w-fit" />
     </div>
   </section>
 
-  <!-- Voor wie -->
+  <!-- Voor wie: three photo cards, each to its page. The mood clip follows, only loaded when it scrolls into view. -->
   <section class="bg-white" aria-labelledby="voorwie-title">
     <div class="section-y container-site">
-      <div class="grid items-center gap-8 md:grid-cols-2">
-        <div>
-          <h2 id="voorwie-title" class="h2">
-            Voor wie is Flavory?
-          </h2>
-          <ul class="mt-5 grid gap-4">
-            {audiences.map((a) => (
-              <li class="rounded-xl bg-blush px-4 py-3">
-                <h3 class="font-sans text-lg font-bold">{a.title}</h3>
-                <p class="mt-1 text-sm">{a.text}</p>
-                <a href={a.href} class="mt-2 inline-block text-sm font-bold underline">
+      <p class="eyebrow text-center">Voor wie</p>
+      <h2 id="voorwie-title" class="h2 mt-2 text-center">Voor je avond, als cadeau of voor je team</h2>
+      <ul class="audience-cards">
+        {
+          audiences.map((a) => (
+            <li class="audience-card">
+              <Image
+                src={a.photo}
+                alt={a.alt}
+                widths={[360, 540, 720]}
+                sizes="(min-width: 768px) 30vw, calc(100vw - 2rem)"
+                class="audience-card-img"
+              />
+              <div class="audience-card-text">
+                <h3 class="text-[1.375rem] leading-tight font-bold">{a.title}</h3>
+                <p class="mt-1 text-white/85">{a.text}</p>
+                <a href={a.href} class="mt-3 inline-block font-bold underline after:absolute after:inset-0">
                   {a.label}
                 </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <Image
-          src={tablePhoto}
-          alt="Vrienden aan tafel terwijl iemand een fles in een stoffen zakje omhooghoudt"
-          widths={[480, 720, 960]}
-          sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
-          class="aspect-[16/10] w-full rounded-[var(--radius-card)] object-cover"
-        />
-      </div>
-      <!-- Mood clip, only loaded once it scrolls into view. -->
+              </div>
+            </li>
+          ))
+        }
+      </ul>
       <LazyVideo
         src="/media/flavory-avond-vrienden.mp4"
         poster={clipPoster}

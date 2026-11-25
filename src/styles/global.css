@@ -159,6 +159,218 @@
   .btn-outline {
     @apply btn border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-white;
   }
+  /* Home hero (preview, after realmadhoney.eu): dark and warm. On a phone the photo stands on top and fades
+     into black, the text follows; from a tablet the photo fills the right 60% and fades to the left. */
+  .hero-dark {
+    @apply relative overflow-hidden bg-ink text-white;
+  }
+  .hero-photo {
+    @apply relative aspect-[16/10] w-full md:absolute md:inset-y-0 md:right-0 md:aspect-auto md:w-[60%];
+  }
+  .hero-photo img {
+    @apply size-full object-cover object-[45%_center];
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, var(--color-ink));
+  }
+  @media (width >= 48rem) {
+    .hero-photo::after {
+      background: linear-gradient(to right, var(--color-ink), transparent 45%);
+    }
+  }
+  .hero-copy {
+    @apply relative -mt-10 pb-12 md:mt-0 md:flex md:min-h-[38rem] md:flex-col md:justify-center md:py-16;
+  }
+  .hero-copy > * {
+    @apply md:max-w-[34rem];
+  }
+  .hero-rating {
+    @apply inline-flex items-center gap-2 text-sm hover:underline;
+  }
+  .hero-promo {
+    @apply mt-4 flex w-fit items-center gap-3 rounded-full bg-white/10 py-1.5 pr-4 pl-1.5 text-sm font-bold ring-1 ring-white/25 hover:bg-white/20;
+  }
+  .hero-title {
+    @apply mt-4 font-display text-[2.25rem] leading-[1.05] md:text-[3.5rem];
+  }
+  .hero-sub {
+    @apply mt-3 block font-sans text-[1.375rem] leading-tight font-bold text-white/90;
+  }
+  /* On a phone the second line of the title says it all, so the buttons stay on the first screen. */
+  .hero-lead {
+    @apply mt-4 text-lg leading-snug text-white/85 max-md:hidden;
+  }
+  .hero-buy {
+    @apply mt-6 grid grid-cols-2 gap-3 md:flex md:gap-4;
+  }
+  .hero-buy .btn {
+    @apply md:min-w-44;
+  }
+  .hero-dark .price-old {
+    color: rgb(255 255 255 / 0.7);
+  }
+  /* "Meest gekozen" on the option tile people pick most (product page). */
+  .tile-tag {
+    @apply ml-2 inline-block rounded-full bg-ink px-2 py-0.5 align-middle text-sm leading-none font-bold text-white;
+  }
+  /* Order bump right above the buy button: tick the other colour, shipping becomes free. */
+  .order-bump {
+    @apply mt-4 flex cursor-pointer items-start gap-3 rounded-xl border-2 border-dashed border-ink/40 bg-white p-3 text-sm has-[:checked]:border-solid has-[:checked]:border-ink;
+  }
+  .order-bump input {
+    @apply mt-0.5 size-5 shrink-0 accent-ink;
+  }
+  /* Small label above a section title (home page preview). */
+  .eyebrow {
+    @apply text-sm font-bold tracking-[0.12em] text-muted uppercase;
+  }
+  .bf-dark .eyebrow {
+    @apply text-white/70;
+  }
+  /* The wine game next to a bottle and a wine course (Compare.astro): the Flavory column stands out. */
+  .compare {
+    @apply mt-6 w-full table-fixed border-separate border-spacing-0 text-left text-sm md:text-base;
+  }
+  .compare tr > :first-child {
+    @apply w-[40%];
+  }
+  .compare th,
+  .compare td {
+    @apply border-b border-line px-2 py-3;
+  }
+  .compare thead th {
+    @apply text-center font-bold hyphens-auto;
+  }
+  .compare tbody th {
+    @apply font-normal;
+  }
+  .compare tr > :nth-child(2) {
+    @apply bg-blush;
+  }
+  .compare thead tr > :nth-child(2) {
+    @apply rounded-t-xl text-brand;
+  }
+  .compare tbody tr:last-child > * {
+    @apply border-b-0;
+  }
+  .compare tbody tr:last-child > :nth-child(2) {
+    @apply rounded-b-xl;
+  }
+  .compare td {
+    @apply text-center;
+  }
+  .compare tbody td::before {
+    content: '';
+    @apply inline-block size-6 align-middle;
+    background: currentColor;
+    -webkit-mask: var(--mark) center / contain no-repeat;
+    mask: var(--mark) center / contain no-repeat;
+  }
+  .compare .yes {
+    --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .compare tr > .yes:nth-child(2) {
+    @apply text-brand;
+  }
+  .compare .no {
+    @apply text-muted;
+    --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M6 6l8 8M14 6l-8 8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+  /* Product page: duel tiles side by side, then the boxes of the chosen duel. */
+  .duel-tiles {
+    @apply mt-3 grid grid-cols-2 gap-2.5;
+  }
+  .duel-tile {
+    @apply flex cursor-pointer flex-col rounded-xl border border-line bg-white p-3 text-sm leading-snug transition-colors hover:border-ink;
+    @apply has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink;
+  }
+  .duel-tile:has(:checked) {
+    border-color: var(--tile-accent);
+    background: var(--tile-bg);
+    box-shadow: inset 0 0 0 1px var(--tile-accent);
+  }
+  .duel-tile strong {
+    @apply text-base;
+    color: var(--tile-accent);
+  }
+  .duel-tile small {
+    @apply text-sm text-muted;
+  }
+  /* Product page: the details under the buy button, one open at a time. */
+  .pdp-more {
+    @apply mt-6 border-t border-line;
+  }
+  .pdp-more details {
+    @apply border-b border-line;
+  }
+  .pdp-more summary {
+    @apply flex cursor-pointer list-none items-center justify-between py-4;
+  }
+  .pdp-more summary::-webkit-details-marker {
+    display: none;
+  }
+  .pdp-more summary::after {
+    content: '+';
+    @apply text-2xl leading-none font-bold text-brand;
+  }
+  .pdp-more details[open] summary::after {
+    content: '−';
+  }
+  .pdp-more h2 {
+    @apply font-display text-[1.375rem] font-bold;
+  }
+  .pdp-more details > div {
+    @apply space-y-3 pb-5;
+  }
+  /* Photo cards with the text on a dark fade at the bottom: the steps and the audiences on the home page. */
+  .step-cards,
+  .audience-cards {
+    @apply mt-8 grid gap-4 md:grid-cols-3 md:gap-6;
+  }
+  .step-card,
+  .audience-card {
+    @apply relative overflow-hidden rounded-[var(--radius-card)] bg-ink text-white;
+  }
+  .step-card-img,
+  .audience-card-img {
+    @apply aspect-[4/3] w-full object-cover md:aspect-[4/5];
+  }
+  .step-card-text,
+  .audience-card-text {
+    @apply absolute inset-x-0 bottom-0 p-5 pt-16;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.85), rgb(0 0 0 / 0.55) 55%, transparent);
+  }
+  .step-card-number {
+    @apply mb-2 flex size-9 items-center justify-center rounded-full bg-brand font-bold text-white;
+  }
+  .audience-card a {
+    @apply text-white;
+  }
+  /* Three promises with a line icon (UspList.astro). The icon is a mask, so it takes the text colour. */
+  .usps {
+    @apply grid gap-2.5 text-base;
+  }
+  .usps li {
+    @apply flex items-center gap-3;
+  }
+  .usp-icon {
+    @apply size-6 shrink-0;
+    background: currentColor;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+    mask: var(--icon) center / contain no-repeat;
+  }
+  .i-fles {
+    --icon: url('/images/icons/fles.svg');
+  }
+  .i-spelers {
+    --icon: url('/images/icons/spelers.svg');
+  }
+  .i-garantie {
+    --icon: url('/images/icons/garantie.svg');
+  }
   /* The duo button (DuoButton.astro): red and white together. Classes here, not in the markup: the product page
      is close to its HTML budget. */
   .duo {

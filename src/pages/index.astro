@@ -22,6 +22,7 @@ import giftPhoto from '@/assets/images/site/cadeau-uitpakken.jpg';
 import teamPhoto from '@/assets/images/site/hero-proeverij.jpg';
 import BoxPick from '@/components/commerce/BoxPick.astro';
 import DuoButton from '@/components/commerce/DuoButton.astro';
+import Compare from '@/components/sections/Compare.astro';
 const allProducts = await getProducts();
 const products = mainProducts(allProducts);
 const lowestPrice = Math.min(...products.map(fromPrice));
@@ -132,7 +133,9 @@ const audiences = [
     <div class="container-site hero-copy">
       <a href="#reviews-title" class="hero-rating">
         <Stars rating={SITE.rating.value} />
-        <span><strong>{score}/5</strong> uit {SITE.rating.count} reviews op Google</span>
+        <span>
+          <strong>{score}/5</strong> uit {SITE.rating.count} reviews op Google{SITE.customers && ` · al ${SITE.customers} klanten`}
+        </span>
       </a>
       {
         promo && (
@@ -217,6 +220,9 @@ const audiences = [
       </p>
     </div>
   </section>
+
+  <!-- Why the game and not a bottle or a course: the comparison table, right before the choice. -->
+  <Compare />
 
   <!-- Kies je box: dark, the two boxes cut free with a glow, straight into the cart. Red and white together for free
        shipping, and the three promises under it. -->

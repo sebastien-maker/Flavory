@@ -40,7 +40,7 @@ import whitePour from '@/assets/images/products/wijnproeverij-thuis-wit/04-insch
 import whiteTaste from '@/assets/images/products/wijnproeverij-thuis-wit/03-witte-wijn-proeven.jpg';
 import whiteReveal from '@/assets/images/site/onthulling.jpg';
 import redBoxNight from '@/assets/images/products/wijnproeverij-thuis-rood/00-doos-op-kist.jpg';
-import whiteLead from '@/assets/images/products/wijnproeverij-thuis-wit/01b-flessen-in-zakjes.jpg';
+import whiteLead from '@/assets/images/products/wijnproeverij-thuis-wit/00-doos.jpg';
 
 interface Props {
   product: Product;
@@ -197,14 +197,14 @@ const stepSlides = await Promise.all(
     thumb: await getImage({ src: photo.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
   })),
 );
-// The first photo sets the mood (preview, after realmadhoney.eu): red shows the whole box on a crate by night (shoot Nov 2024, 4D1B1126), white the two
-// bottles in their bags A and B by candlelight. The packshot follows right after it, so one swipe shows what is in the box; the cart, the share
-// image and the schema keep the packshot.
+// The first photo is a product shot of the box (preview, after realmadhoney.eu): red the whole box on a crate by night
+// (shoot Nov 2024, 4D1B1126), white the box on a teal background. The first step of the game always comes second, then the
+// other steps and the packshot. The cart, the share image and the schema keep the packshot.
 const leadPhoto =
   data.category.id === 'rode-wijn'
     ? { src: redBoxNight, alt: 'De doos van het rode wijnspel op een houten kist in de tuin, bij avond' }
     : data.category.id === 'witte-wijn'
-      ? { src: whiteLead, alt: 'Een speler houdt lachend de twee flessen in zakjes A en B omhoog, bij kaarslicht' }
+      ? { src: whiteLead, alt: 'De doos van het witte wijnspel Chardonnay of Sauvignon Blanc' }
       : undefined;
 // A photo that carries a step is not shown a second time further in the gallery.
 const stepSources = new Set(stepPhotos.map((photo) => photo.src.src));
@@ -221,9 +221,9 @@ const lead = leadPhoto && {
   thumb: await getImage({ src: leadPhoto.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
 };
 const slides = [
-  ...(lead ? [lead] : []),
+  ...(lead ? [lead, ...stepSlides] : []),
   { kind: 'image' as const, label: cover.alt, step: undefined, ...cover },
-  ...stepSlides,
+  ...(lead ? [] : stepSlides),
   { kind: 'video' as const, label: clip.label, thumb: clipThumb },
   ...otherPhotos.map((img) => ({ kind: 'image' as const, label: img.alt, step: undefined, ...img })),
 ];

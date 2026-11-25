@@ -245,7 +245,7 @@
     @apply font-normal;
   }
   .compare tr > :nth-child(2) {
-    @apply w-[18%] bg-blush;
+    @apply w-[17%] bg-blush;
   }
   .compare thead tr > :nth-child(2) {
     @apply rounded-t-xl text-brand;
@@ -257,9 +257,9 @@
     @apply rounded-b-xl;
   }
   .compare td {
-    @apply w-[18%] text-center;
+    @apply w-[17%] text-center;
   }
-  .compare td::before {
+  .compare tbody td::before {
     content: '';
     @apply inline-block size-6 align-middle;
     background: currentColor;

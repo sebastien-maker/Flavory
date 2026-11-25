@@ -1,0 +1,34 @@
+---
+// One tap for both colours: the Standaard box of red and of white together, which also makes shipping free.
+// The button carries no product data: the cart script (CartDrawer.astro) takes the two boxes from
+// /cart-upsell.json, the same small file the offer in the cart uses, and adds the ones not in the cart yet.
+// Renders nothing unless both boxes can be bought. Only the sale total: the box cards and tiles near it show the
+// discount, and the product page is close to its HTML budget.
+import { colourChoices, getProducts } from '@/lib/content';
+import { formatPrice } from '@/lib/site';
+
+interface Props {
+  /** White outline on the dark Black Friday zone. */
+  dark?: boolean;
+  class?: string;
+}
+
+const { dark = false, class: className } = Astro.props;
+const boxes = colourChoices(await getProducts()).flatMap(({ product }) => {
+  const v = product.data.variants.find((x) => x.formula === 'Standaard' && x.available && !x.comingSoon);
+  return v ? [v] : [];
+});
+const total = formatPrice(boxes.reduce((sum, v) => sum + v.price, 0));
+const classes = ['duo', dark && 'duo-dark', className];
+---
+
+{
+  boxes.length === 2 && (
+    <button type="button" data-add-duo class:list={classes}>
+      <span>
+        Rood én wit samen · {total}
+        <small>verzending gratis</small>
+      </span>
+    </button>
+  )
+}

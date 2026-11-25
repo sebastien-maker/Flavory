@@ -159,6 +159,35 @@
   .btn-outline {
     @apply btn border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-white;
   }
+  /* The duo button (DuoButton.astro): red and white together. Classes here, not in the markup: the product page
+     is close to its HTML budget. */
+  .duo {
+    @apply btn w-full border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-white;
+  }
+  .duo small {
+    @apply block text-sm font-normal;
+  }
+  /* Price, discount and time left under the title of a product page, then the rating (first screen of a phone). */
+  .title-price {
+    @apply mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm;
+  }
+  .title-price [data-title-price] {
+    @apply text-lg font-bold;
+  }
+  .title-rating {
+    @apply mt-1 inline-flex gap-2 text-sm hover:underline;
+  }
+  /* The duo button on the dark Black Friday zone. */
+  .duo-dark {
+    @apply border-white text-white hover:bg-white hover:text-ink;
+  }
+  /* A struck-through price inside a button keeps the colour of the button text: grey fails the contrast. */
+  .btn .price-old,
+  .btn-primary .price-old,
+  .duo .price-old,
+  [data-sticky-button] .price-old {
+    color: inherit;
+  }
   .h1 {
     font-size: var(--text-h1);
   }

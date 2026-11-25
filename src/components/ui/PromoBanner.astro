@@ -15,7 +15,7 @@ interface Props {
 
 const { href, compact = false, class: className } = Astro.props;
 const active = SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
-const { offer, endDate, endsAt, badge, after } = SITE.blackFriday;
+const { offer, endDate, endsAt, badge, after, hurry } = SITE.blackFriday;
 const Tag = href ? 'a' : 'div';
 const extra = compact ? 'max-md:hidden' : undefined;
 ---
@@ -33,6 +33,7 @@ const extra = compact ? 'max-md:hidden' : undefined;
       )}
       <span class="min-w-0">
         <strong class="bf-title">{badge ? 'Black Friday-korting' : offer}</strong>
+        {!endDate && hurry && <span class="mt-0.5 block text-sm text-balance md:text-base">{hurry}</span>}
         {endDate && (
           <span class="mt-0.5 block text-sm text-balance md:text-base">
             Tot en met {endDate}{after && <span class={extra}>. {after}</span>}

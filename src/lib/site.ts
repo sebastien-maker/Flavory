@@ -68,14 +68,17 @@ export const SITE = {
     // The promotion in one sentence, for example 'Black Friday: het wijnspel met 20% korting'.
     // This is the only place where the discount is named.
     offer: 'Black Friday: 20% korting op het wijnspel' as string,
-    // Last day of this discount in words, for example 'maandag 30 november'.
-    endDate: 'dinsdag 24 november' as string,
+    // Last day of this discount in words, for example 'maandag 30 november'. Empty: no date anywhere, and
+    // `hurry` stands where the date would be (Sébastien, 25 Nov 2026: no dates on the site or in the ads).
+    endDate: '' as string,
     // The same moment for the countdown: the end of that day, Brussels time. Empty: no countdown.
-    endsAt: '2026-11-24T23:59:59+01:00' as string,
+    endsAt: '' as string,
+    // Without an end date: one urgent sentence that names no date. It must stay true, so no stock claims.
+    hurry: 'Alleen tijdens Black Friday, dus niet voor lang.' as string,
     // Short label on the box cards, for example '-20%'. Empty: no label.
     badge: '-20%' as string,
     // What happens after endDate, in one sentence. Empty: nothing is said about it.
-    after: 'Daarna wordt de korting kleiner.' as string,
+    after: '' as string,
     // The Black Friday drawing on the home page (the friends with their signs, from the 2025 campaign).
     // '20' is the drawing whose sign says "-20%": only while the discount is 20%. Empty: no drawing.
     drawing: '20' as '' | '20',

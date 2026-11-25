@@ -9,7 +9,7 @@ interface Props {
 const { rating, class: className, label = `${String(rating).replace('.', ',')} van 5 sterren` } = Astro.props;
 ---
 
-<span class:list={['stars', className]} style={`--pct:${(rating / 5) * 100}%`} role="img" aria-label={label}></span>
+<span class:list={['stars', className]} style={`--pct:${Math.round(rating * 200) / 10}%`} role="img" aria-label={label}></span>
 
 <style is:global>
   .stars {

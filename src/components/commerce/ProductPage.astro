@@ -107,7 +107,7 @@ const name = partial ? title : data.name;
 const featured = (await getEntry('reviews', 'nele'))?.data;
 const score = String(SITE.rating.value).replace('.', ',');
 // The discount label and the time left under the title, only while the promotion runs and the box is on sale.
-const { badge, endsAt, endDate } = SITE.blackFriday;
+const { badge, endsAt, endDate, hurry } = SITE.blackFriday;
 const onSale =
   SITE.campaign === 'blackfriday' && !!initial?.regularPrice && initial.regularPrice > initial.price;
 // When the standard box is sold out, point to the box that is still in stock (leftover stock).
@@ -394,6 +394,7 @@ const schemaImages = await Promise.all(
             </span>
             {onSale && badge && <span class="bf-badge">{badge}</span>}
             {onSale && endsAt && <Countdown endsAt={endsAt} fallback={`tot en met ${endDate}`} />}
+            {onSale && !endsAt && hurry && <span>{hurry}</span>}
           </p>
         )}
         <a href="#reviews-title" class="title-rating">

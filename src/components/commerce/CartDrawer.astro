@@ -4,7 +4,7 @@ import Countdown from '@/components/ui/Countdown.astro';
 
 // Running promotion (SITE.campaign): the offer and the time left stand at the top of the cart.
 const promo = !SITE.checkoutNotice && SITE.campaign === 'blackfriday' && SITE.blackFriday.offer;
-const { endDate, endsAt } = SITE.blackFriday;
+const { endDate, endsAt, hurry } = SITE.blackFriday;
 // Fallback when online checkout is unavailable. Without an e-mail address the link would be empty,
 // so we point to the contact page instead.
 const contact = SITE.email
@@ -37,6 +37,7 @@ const contact = SITE.email
     {promo && (
       <p class="bg-ink px-5 py-2 text-sm font-bold text-white">
         {promo}
+        {!endDate && hurry && <span class="block font-normal">{hurry}</span>}
         {endDate && (
           <span class="block font-normal first-letter:uppercase">
             {endsAt ? <Countdown endsAt={endsAt} fallback={`tot en met ${endDate}`} /> : `tot en met ${endDate}`}

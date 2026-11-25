@@ -7,6 +7,7 @@ import ProductCard from '@/components/commerce/ProductCard.astro';
 import Newsletter from '@/components/sections/Newsletter.astro';
 import BlackFridayList from '@/components/sections/BlackFridayList.astro';
 import BoxPick from '@/components/commerce/BoxPick.astro';
+import DuoButton from '@/components/commerce/DuoButton.astro';
 import CountdownClock from '@/components/ui/CountdownClock.astro';
 import RatingBadge from '@/components/ui/RatingBadge.astro';
 import { getProducts, mainProducts } from '@/lib/content';
@@ -110,13 +111,15 @@ const faq = over
         <div class="container-site max-w-3xl pt-4 pb-10 md:py-12">
           <h1 class="text-[1.75rem] leading-tight md:text-[2.25rem]">Black Friday bij Flavory</h1>
           <p class="mt-2 leading-snug md:mt-3">
-            {badge && <strong class="bf-pct mr-2 inline-block">{badge}</strong>} op het wijnspel, met twee flessen wijn (75 cl) erbij
+            {badge && <strong class="bf-pct mr-2 inline-block">{badge}</strong>} op het wijnspel: je proeft twee wijnen blind
+            met vrienden en raadt welke welke is. Met twee flessen wijn (75 cl) erbij.
           </p>
           {endsAt && <CountdownClock endsAt={endsAt} />}
           <h2 id="boxen-title" class="sr-only">
             De twee boxen met actieprijs
           </h2>
           <BoxPick products={allProducts} quickAdd id="boxen" class="mt-3 scroll-mt-24 md:mt-5" />
+          <DuoButton dark class="mt-3" />
           {endDate && (
             <p class="mt-4 text-sm font-bold">
               Tot en met {endDate}.{after && ` ${after}`}

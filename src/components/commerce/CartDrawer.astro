@@ -83,6 +83,8 @@ const contact = SITE.email
       <button type="button" data-cart-checkout class="btn-primary mt-4 w-full">
         Afrekenen
       </button>
+      {/* Rating, guarantee, delivery time and payment logos: filled by the script, so no page carries the HTML. */}
+      <div data-cart-trust class="mt-3 text-sm"></div>
       {/* Shown from the click on 'Afrekenen' until the WooCommerce checkout has loaded (that takes seconds). */}
       <div data-checkout-wait hidden class="checkout-wait" role="status" aria-live="polite">
         <svg class="checkout-glass" viewBox="0 0 64 96" aria-hidden="true">
@@ -231,13 +233,20 @@ const contact = SITE.email
     $('[data-cart-footer]').hidden = count === 0;
     linesEl.hidden = count === 0;
     const toGo = SITE.shipping.freeFromBoxes - count;
+    // At exactly the threshold, say what one box less costs: people with an old box still in the cart tapped
+    // "−" and paid shipping (PostHog, 20-25 Nov 2026).
+    const oneLess =
+      toGo === 0 && count > 1
+        ? ` Met ${count - 1} ${count - 1 === 1 ? 'box' : 'boxen'} betaal je ${formatPrice(SITE.shipping.rate)} verzending.`
+        : '';
     $('[data-cart-progress]').textContent =
-      count === 0 ? '' : toGo > 0 ? `Nog ${toGo} box en je verzending is gratis!` : 'Je verzending is gratis!';
+      count === 0 ? '' : toGo > 0 ? `Nog ${toGo} box en je verzending is gratis!` : `Je verzending is gratis!${oneLess}`;
     $('[data-cart-progress]').hidden = count === 0;
     // Shipping: the real amount, or free once the cart reaches the threshold.
     $('[data-cart-shipping]').textContent = toGo > 0 ? formatPrice(SITE.shipping.rate) : 'Gratis';
     $('[data-cart-subtotal]').textContent = formatPrice(lines.reduce((s, l) => s + l.price * l.quantity, 0));
     renderUpsell(lines, count);
+    if (count > 0) renderTrust();
 
     linesEl.replaceChildren(
       ...lines.map((line) => {
@@ -293,15 +302,26 @@ const contact = SITE.email
       .catch(() => {});
   };
 
-  // The offer for the cart, at most once per page view, with live price and stock: the cart never offers a
-  // sold-out box or an old price. A failed request just means no offer.
+  // The two Standaard boxes (/cart-upsell.json, built with the WooCommerce prices of the last build). Fetched
+  // once per page view, early on pages where a box can be added, so the offer and the duo button need no wait.
+  let upsellFile: Promise<Upsell[]> | undefined;
+  const upsellItems = () =>
+    (upsellFile ??= fetch('/cart-upsell.json')
+      .then((res) => (res.ok ? res.json() : []))
+      .catch(() => []));
+
+  // The offer for the cart. It shows at once with the prices of the build: waiting for WordPress took 3 to 5
+  // seconds, and most buyers tap "Afrekenen" within 5 seconds of adding a box (PostHog, 20-25 Nov 2026).
+  // Live price and stock follow in the background, so the cart never keeps a sold-out box or an old price.
+  // A failed request just means no offer, or the build prices.
   let upsellsRequested = false;
   const loadUpsells = () => {
     if (upsellsRequested || !upsellEl) return;
     upsellsRequested = true;
-    fetch('/cart-upsell.json')
-      .then((res) => (res.ok ? res.json() : []))
+    upsellItems()
       .then(async (items: Upsell[]) => {
+        upsells = items;
+        render(cart.lines());
         const ids = items.flatMap((u) => (u.wooId ? [u.wooId] : []));
         const res = ids.length > 0 ? await fetch(`${WOO_API_PROXY}${storeProductsPath(ids)}`) : undefined;
         const stock = parseStoreProducts(res?.ok ? await res.json() : []);
@@ -312,11 +332,51 @@ const contact = SITE.email
           item.regularPrice = live.regularPrice;
           item.buyable = live.buyable;
         }
-        upsells = items;
         render(cart.lines());
       })
       .catch(() => {});
   };
+
+  // Rating, guarantee, delivery time and payment logos under "Afrekenen", once.
+  const trustEl = $('[data-cart-trust]');
+  function renderTrust() {
+    if (trustEl.childElementCount > 0) return;
+    const score = String(SITE.rating.value).replace('.', ',');
+    const rating = document.createElement('p');
+    const stars = document.createElement('span');
+    stars.className = 'text-star';
+    stars.setAttribute('aria-hidden', 'true');
+    stars.textContent = '★★★★★';
+    const bold = document.createElement('strong');
+    bold.textContent = `${score}/5`;
+    rating.append(stars, ' ', bold, ` op ${SITE.rating.source}`);
+    const promise = document.createElement('p');
+    promise.className = 'mt-1';
+    promise.textContent = `${SITE.guarantee} Levering in ${SITE.shipping.minDays} à ${SITE.shipping.maxDays} werkdagen.`;
+    const logos = document.createElement('ul');
+    logos.className = 'payments mt-2 flex flex-wrap items-center gap-1.5';
+    logos.setAttribute('aria-label', 'Betaalmethodes');
+    for (const [file, label] of [
+      ['bancontact', 'Bancontact'],
+      ['ideal', 'iDEAL'],
+      ['applepay', 'Apple Pay'],
+      ['visa', 'Visa'],
+      ['mastercard', 'Mastercard'],
+      ['paypal', 'PayPal'],
+      ['klarna', 'Klarna'],
+    ]) {
+      const img = document.createElement('img');
+      img.src = `/images/payments/${file}.svg`;
+      img.alt = label!;
+      img.width = 32;
+      img.height = 24;
+      img.decoding = 'async';
+      const li = document.createElement('li');
+      li.append(img);
+      logos.append(li);
+    }
+    trustEl.replaceChildren(rating, promise, logos);
+  }
 
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
@@ -383,6 +443,30 @@ const contact = SITE.email
       Number(data.get('quantity') ?? 1),
     );
   });
+
+  // Duo button (DuoButton.astro): the red and the white Standaard box together, so shipping is free. Adds only
+  // the colours not in the cart yet; with both already there it just opens the cart.
+  document.addEventListener('click', (e) => {
+    const duo = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-add-duo]');
+    if (!duo) return;
+    duo.disabled = true;
+    upsellItems()
+      .then((items: Upsell[]) => {
+        const inCart = new Set(cart.lines().map((l) => l.handle.split(':')[0]));
+        const missing = items.filter((u) => !inCart.has(u.product));
+        track('duo_clicked', { page: location.pathname, added: missing.length });
+        for (const item of missing) addLine(item);
+        if (missing.length === 0 && !dialog.open) dialog.showModal();
+      })
+      .finally(() => (duo.disabled = false));
+  });
+
+  // Fetch the two boxes early where a box can be added or the cart already holds one.
+  if (document.querySelector('form[data-add-to-cart], [data-add-duo]') || cart.count() > 0) {
+    const early = () => void upsellItems();
+    if ('requestIdleCallback' in window) requestIdleCallback(early, { timeout: 3000 });
+    else setTimeout(early, 1500);
+  }
 
   const checkoutButton = $<HTMLButtonElement>('[data-cart-checkout]');
   const wait = $('[data-checkout-wait]');

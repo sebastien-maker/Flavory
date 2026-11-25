@@ -24,7 +24,10 @@ const allProducts = await getProducts();
 const products = mainProducts(allProducts);
 const lowestPrice = Math.min(...products.map(fromPrice));
 // The two buttons in the hero: white and red, each straight to its product page.
-const boxes = colourChoices(allProducts).map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }));
+const boxes = colourChoices(allProducts)
+  .map((choice) => ({ ...choice, style: COLOUR_STYLES[choice.label] }))
+  // Red left, white right (Sébastien, 25 Nov 2026).
+  .sort((a, b) => (a.label === 'Rood' ? -1 : b.label === 'Rood' ? 1 : 0));
 // Only set while WooCommerce has a sale price: the price before the discount, shown struck through.
 const lowestRegular = products.flatMap((p) => p.data.variants).find((v) => v.price === lowestPrice)?.regularPrice;
 // Running promotion (SITE.campaign): a small pill with the discount above the headline.
@@ -130,7 +133,9 @@ const audiences = [
       }
       <!-- The game in six words (Sébastien, 25 Nov 2026); the second line names the product and both reasons to buy it. -->
       <h1 id="hero-title" class="hero-title">
-        Twee wijnen. Geen etiket. Eén winnaar.
+        <span class="block">Twee wijnen.</span>
+        <span class="block">Geen etiket.</span>
+        <span class="block">Eén winnaar.</span>
         <span class="hero-sub">Het wijnspel voor je volgende avond, of als cadeau</span>
       </h1>
       <p class="hero-lead">

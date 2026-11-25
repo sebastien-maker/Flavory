@@ -39,6 +39,8 @@ import redReveal from '@/assets/images/products/wijnproeverij-thuis-rood/03-onth
 import whitePour from '@/assets/images/products/wijnproeverij-thuis-wit/04-inschenken.jpg';
 import whiteTaste from '@/assets/images/products/wijnproeverij-thuis-wit/03-witte-wijn-proeven.jpg';
 import whiteReveal from '@/assets/images/site/onthulling.jpg';
+import redTasting from '@/assets/images/site/hero-proeverij.jpg';
+import whiteLead from '@/assets/images/products/wijnproeverij-thuis-wit/01b-flessen-in-zakjes.jpg';
 
 interface Props {
   product: Product;
@@ -175,7 +177,7 @@ const stepPhotos =
   data.category.id === 'rode-wijn'
     ? [
         { src: redPour, alt: 'Rode wijn wordt ingeschonken uit een fles in een stoffen zakje' },
-        { src: redTaste, alt: 'Flessen in zakjes A en B naast twee glazen rode wijn' },
+        { src: redTasting, alt: 'Spelers proeven rode wijn boven het proefformulier' },
         { src: redReveal, alt: 'Vrienden halen de fles rode wijn uit het zakje' },
       ]
     : data.category.id === 'witte-wijn'
@@ -197,17 +199,30 @@ const stepSlides = await Promise.all(
 );
 // A photo that carries a step is not shown a second time further in the gallery.
 const stepSources = new Set(stepPhotos.map((photo) => photo.src.src));
-const otherPhotos = gallery.slice(1).filter((_, i) => !stepSources.has(images[i + 1]!.src.src));
-// The first photo on a stage (preview, after realmadhoney.eu): the box cut free on a dark, warm background with a
-// glow in the colour of the wine, like the box cards on /black-friday/. Only while the main duel can be bought,
-// because the cut-out shows that box; the cart, the share image and the schema keep the packshot.
-const stageColour = data.category.id === 'rode-wijn' || data.category.id === 'witte-wijn' ? colourOf(data.category.id) : undefined;
-const stage =
-  stageColour && !partial
-    ? await getImage({ src: COLOUR_STYLES[stageColour].cutout, width: 720, widths: [480, 720, 960], format: 'webp' })
-    : undefined;
+const otherPhotos = gallery.slice(1).filter((_, i) => {
+  const src = images[i + 1]!.src.src;
+  return !stepSources.has(src) && src !== leadPhoto?.src.src;
+});
+// The first photo sets the mood (preview, after realmadhoney.eu): the two bottles in their bags A and B by
+// candlelight. The packshot follows right after it, so one swipe shows what is in the box; the cart, the share
+// image and the schema keep the packshot.
+const leadPhoto =
+  data.category.id === 'rode-wijn'
+    ? { src: redTaste, alt: 'Twee flessen in stoffen zakjes A en B naast twee glazen rode wijn, bij kaarslicht' }
+    : data.category.id === 'witte-wijn'
+      ? { src: whiteLead, alt: 'Een speler houdt lachend de twee flessen in zakjes A en B omhoog, bij kaarslicht' }
+      : undefined;
+const lead = leadPhoto && {
+  kind: 'image' as const,
+  alt: leadPhoto.alt,
+  label: leadPhoto.alt,
+  step: undefined,
+  main: await getImage({ src: leadPhoto.src, width: 720, height: 720, fit: 'cover', widths: [480, 960], format: 'webp' }),
+  thumb: await getImage({ src: leadPhoto.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
+};
 const slides = [
-  { kind: 'image' as const, label: cover.alt, step: undefined, ...cover, ...(stage ? { main: stage } : {}) },
+  ...(lead ? [lead] : []),
+  { kind: 'image' as const, label: cover.alt, step: undefined, ...cover },
   ...stepSlides,
   { kind: 'video' as const, label: clip.label, thumb: clipThumb },
   ...otherPhotos.map((img) => ({ kind: 'image' as const, label: img.alt, step: undefined, ...img })),
@@ -254,7 +269,7 @@ const schemaImages = await Promise.all(
   type="product"
   image={images[0]!.src}
   imageAlt={cover.alt}
-  preloadImage={{ src: cover.main.src, srcset: cover.main.srcSet.attribute, sizes: gallerySizes }}
+  preloadImage={{ src: (lead ?? cover).main.src, srcset: (lead ?? cover).main.srcSet.attribute, sizes: gallerySizes }}
   schema={[
     webPage({ path, title: h1, description: data.seoDescription, type: 'ItemPage' }),
     productSchema({
@@ -289,7 +304,7 @@ const schemaImages = await Promise.all(
           aria-label="Productfoto's"
         >
           {slides.map((slide, i) => (
-            <li id={`foto-${i + 1}`} class:list={[i === 0 && stage && `slide-stage ${COLOUR_STYLES[stageColour!].glow}`]}>
+            <li id={`foto-${i + 1}`}>
               {slide.kind === 'video' ? (
                 <LazyVideo
                   src={clip.src}

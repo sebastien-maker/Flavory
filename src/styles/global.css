@@ -232,20 +232,23 @@
   }
   /* The wine game next to a bottle and a wine course (Compare.astro): the Flavory column stands out. */
   .compare {
-    @apply mt-6 w-full border-separate border-spacing-0 text-left text-sm md:text-base;
+    @apply mt-6 w-full table-fixed border-separate border-spacing-0 text-left text-sm md:text-base;
+  }
+  .compare tr > :first-child {
+    @apply w-[40%];
   }
   .compare th,
   .compare td {
     @apply border-b border-line px-2 py-3;
   }
   .compare thead th {
-    @apply text-center font-bold;
+    @apply text-center font-bold hyphens-auto;
   }
   .compare tbody th {
     @apply font-normal;
   }
   .compare tr > :nth-child(2) {
-    @apply w-[17%] bg-blush;
+    @apply bg-blush;
   }
   .compare thead tr > :nth-child(2) {
     @apply rounded-t-xl text-brand;
@@ -257,7 +260,7 @@
     @apply rounded-b-xl;
   }
   .compare td {
-    @apply w-[17%] text-center;
+    @apply text-center;
   }
   .compare tbody td::before {
     content: '';

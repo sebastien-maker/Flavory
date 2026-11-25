@@ -111,9 +111,10 @@ const faq = over
         <div class="container-site max-w-3xl pt-4 pb-10 md:py-12">
           <h1 class="text-[1.75rem] leading-tight md:text-[2.25rem]">Black Friday bij Flavory</h1>
           <p class="mt-2 leading-snug md:mt-3">
-            {badge && <strong class="bf-pct mr-2 inline-block">{badge}</strong>} op het wijnspel: je proeft twee wijnen blind
-            met vrienden en raadt welke welke is. Met twee flessen wijn (75 cl) erbij.
+            {badge && <strong class="bf-pct mr-2 inline-block">{badge}</strong>} op het wijnspel, het kerstcadeau waar de hele
+            tafel aan meedoet: twee wijnen blind proeven en raden welke welke is. Met twee flessen wijn (75 cl) erbij.
           </p>
+          <RatingBadge showCount class="mt-2" />
           {endsAt && <CountdownClock endsAt={endsAt} />}
           <h2 id="boxen-title" class="sr-only">
             De twee boxen met actieprijs
@@ -128,7 +129,6 @@ const faq = over
           <p class="mt-2 text-sm">
             Voor een avond blind proeven met {playersMin} tot {playersMax} spelers. {freeShippingLine()} {SITE.guarantee}
           </p>
-          <RatingBadge class="mt-2" />
         </div>
       </section>
       <Breadcrumbs items={crumbs} />

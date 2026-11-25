@@ -196,6 +196,9 @@
   .hero-title {
     @apply mt-4 font-display text-[2.25rem] leading-[1.05] md:text-[3.5rem];
   }
+  .hero-sub {
+    @apply mt-3 block font-sans text-[1.375rem] leading-tight font-bold text-white/90;
+  }
   .hero-lead {
     @apply mt-4 text-lg leading-snug text-white/85;
   }

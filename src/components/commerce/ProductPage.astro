@@ -39,7 +39,7 @@ import redReveal from '@/assets/images/products/wijnproeverij-thuis-rood/03-onth
 import whitePour from '@/assets/images/products/wijnproeverij-thuis-wit/04-inschenken.jpg';
 import whiteTaste from '@/assets/images/products/wijnproeverij-thuis-wit/03-witte-wijn-proeven.jpg';
 import whiteReveal from '@/assets/images/site/onthulling.jpg';
-import redTasting from '@/assets/images/site/hero-proeverij.jpg';
+import redBoxNight from '@/assets/images/products/wijnproeverij-thuis-rood/03-premium-doos.jpg';
 import whiteLead from '@/assets/images/products/wijnproeverij-thuis-wit/01b-flessen-in-zakjes.jpg';
 
 interface Props {
@@ -177,7 +177,7 @@ const stepPhotos =
   data.category.id === 'rode-wijn'
     ? [
         { src: redPour, alt: 'Rode wijn wordt ingeschonken uit een fles in een stoffen zakje' },
-        { src: redTasting, alt: 'Spelers proeven rode wijn boven het proefformulier' },
+        { src: redTaste, alt: 'Flessen in zakjes A en B naast twee glazen rode wijn' },
         { src: redReveal, alt: 'Vrienden halen de fles rode wijn uit het zakje' },
       ]
     : data.category.id === 'witte-wijn'
@@ -197,21 +197,21 @@ const stepSlides = await Promise.all(
     thumb: await getImage({ src: photo.src, width: 96, height: 96, fit: 'cover', format: 'webp' }),
   })),
 );
+// The first photo sets the mood (preview, after realmadhoney.eu): red shows the box by night, white the two
+// bottles in their bags A and B by candlelight. The packshot follows right after it, so one swipe shows what is in the box; the cart, the share
+// image and the schema keep the packshot.
+const leadPhoto =
+  data.category.id === 'rode-wijn'
+    ? { src: redBoxNight, alt: 'De doos van het rode wijnspel op een houten kist, met lichtjes in de avond erachter' }
+    : data.category.id === 'witte-wijn'
+      ? { src: whiteLead, alt: 'Een speler houdt lachend de twee flessen in zakjes A en B omhoog, bij kaarslicht' }
+      : undefined;
 // A photo that carries a step is not shown a second time further in the gallery.
 const stepSources = new Set(stepPhotos.map((photo) => photo.src.src));
 const otherPhotos = gallery.slice(1).filter((_, i) => {
   const src = images[i + 1]!.src.src;
   return !stepSources.has(src) && src !== leadPhoto?.src.src;
 });
-// The first photo sets the mood (preview, after realmadhoney.eu): the two bottles in their bags A and B by
-// candlelight. The packshot follows right after it, so one swipe shows what is in the box; the cart, the share
-// image and the schema keep the packshot.
-const leadPhoto =
-  data.category.id === 'rode-wijn'
-    ? { src: redTaste, alt: 'Twee flessen in stoffen zakjes A en B naast twee glazen rode wijn, bij kaarslicht' }
-    : data.category.id === 'witte-wijn'
-      ? { src: whiteLead, alt: 'Een speler houdt lachend de twee flessen in zakjes A en B omhoog, bij kaarslicht' }
-      : undefined;
 const lead = leadPhoto && {
   kind: 'image' as const,
   alt: leadPhoto.alt,
@@ -565,7 +565,9 @@ const schemaImages = await Promise.all(
           <label class="order-bump">
             <input type="checkbox" name="bump" value={bump.product} data-price={bump.price} />
             <span>
-              <strong>Neem er {bump.colour} bij</strong> voor {formatPrice(bump.price)}: je verzending is gratis
+              <strong class="block">Gratis verzending? Neem er {bump.colour} bij.</strong>{' '}
+              Met 1 box betaal je {formatPrice(SITE.shipping.rate)} verzending. Vink aan voor het {bump.colour}e wijnspel
+              ({formatPrice(bump.price)}) en je verzending is gratis.
             </span>
           </label>
         )}
